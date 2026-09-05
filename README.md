@@ -47,3 +47,10 @@ FM-Media-Enterprises/
 │   └── typography/
 │
 └── README.md
+
+
+| Title | Core Message | Release Status | Notes |
+|-------|--------------|----------------|-------|
+| [Harder You Try](ca://s?q=Show_me_more_about_Harder_You_Try) | The harder you try to change your life, the harder changing it can become. | Released | Mindset / resistance psychology |
+| [Better Pipes](ca://s?q=Show_me_more_about_Better_Pipes) | The creators making the most money aren't necessarily getting the most views — they're building better pipes. | Released | Distribution / systems thinking |
+
