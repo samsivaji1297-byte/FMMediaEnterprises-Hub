@@ -28,20 +28,27 @@ def build_prompt(existing_names):
 Existing IP names:
 {existing_list}
 
-Generate ONE new sovereign IP framework that is NOT any of the above.
+Generate ONE new sovereign IP framework.
+
+Tone balance:
+- The IP may be mythic, clinical, psychological, operational, or strategic.
+- Do NOT lock into any single tone. Vary naturally.
+- The IP should feel distinct from existing IPs.
 
 Format:
 <Framework Name>
 <One-line definition>
 
 Rules:
-- The name must be between 2 and 8 words.
+- The name must be between 2 to 8 words.
 - The definition must be one sentence.
 - The IP must align with the user's identity architecture:
   Mental Sovereignty, Mental Mastery, Identity Mechanics,
   Operator Autonomy, Internal Gravity, Cognitive Territory,
   Mythic Identity, Empire Architecture.
+- The IP may be mythic or non-mythic.
 - Do NOT generate explanations, doctrine, or multi-paragraph content.
+
 """
     return prompt
 
