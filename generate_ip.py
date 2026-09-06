@@ -27,32 +27,47 @@ def generate_ip():
     response = chat.send_message(IP_PROMPT)
     return response.text.strip()
 
+
+# --- Parse Gemini output into name + definition ---
+def parse_ip(ip_text):
+    # Case 1: Gemini returns "Name — Definition"
+    if "—" in ip_text:
+        parts = ip_text.split("—")
+        name = parts[0].strip()
+        definition = parts[1].strip()
+        return name, definition
+
+    # Case 2: Gemini returns two lines
+    lines = ip_text.splitlines()
+    name = lines[0].strip()
+    definition = lines[1].strip() if len(lines) > 1 else ""
+    return name, definition
+
+
 # --- Save IP to its own .md file ---
-def save_ip(ip_text):
-    name = ip_text.split("\n")[0].strip()
+def save_ip(name, definition):
     filename = f"IPFactory/{name.replace(' ', '_')}.md"
-
     with open(filename, "w") as f:
-        f.write(ip_text)
-
+        f.write(f"{name}\n{definition}\n")
     return filename
 
-# --- Append to MASTER_IP.md ---
-def update_master_list(ip_text):
-    name = ip_text.splitlines()[0]
-    definition = ip_text.splitlines()[1]
 
+# --- Append to MASTER_IP.md ---
+def update_master_list(name, definition):
     with open("IPFactory/MASTER_IP.md", "a") as f:
         f.write(f"- {name} — {definition}\n")
+
 
 # --- Commit changes ---
 def git_commit(filename):
     os.system(f"git add {filename} IPFactory/MASTER_IP.md")
     os.system(f'git commit -m "Add new IP framework: {filename}"')
 
+
 # --- Run the engine ---
 if __name__ == "__main__":
-    ip = generate_ip()
-    filename = save_ip(ip)
-    update_master_list(ip)
+    raw_ip = generate_ip()
+    name, definition = parse_ip(raw_ip)
+    filename = save_ip(name, definition)
+    update_master_list(name, definition)
     git_commit(filename)
