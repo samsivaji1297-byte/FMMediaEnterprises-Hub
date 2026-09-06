@@ -48,7 +48,7 @@ def parse_ip(ip_text):
 def save_ip(name, definition):
     filename = f"IPFactory/{name.replace(' ', '_')}.md"
     with open(filename, "w") as f:
-        f.write(f"{name}\n{definition}\n")
+        f.write(f"# {name}\n{definition}\n")
     return filename
 
 
