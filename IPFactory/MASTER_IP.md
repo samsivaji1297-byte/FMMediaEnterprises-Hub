@@ -1,3 +1,6 @@
+- Mental Sovereignty — A sovereign identity framework defining the operator’s internal authority structure.
+- Mental Mastery — A framework describing the operator’s ability to command cognitive, emotional, and behavioral systems.
+- Identity Mechanics — A structural model explaining how identity forms, shifts, and generates internal momentum.
 - Internal Gravity Architecture — A structural identity framework designed to build an unshakeable psychological anchor that preserves absolute operator autonomy amid external noise.
 - Internal Gravity Engine — The systematic generation of autonomous mental mass that forces all external perception, influence, and circumstance into orbital alignment with the operator's central identity.
 - Cognitive Territory Reclamation — A systematic protocol for revoking external authority over one's mental landscape and reinstating internal gravity as the sole governing force of perception.
