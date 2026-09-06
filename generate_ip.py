@@ -54,7 +54,7 @@ def save_ip(name, definition):
 
 # --- Append to MASTER_IP.md ---
 def update_master_list(name, definition):
-    with open("IPFactory/MASTER_IP.md", "a") as f:
+    with open("IPFactory/!MASTER_IP.md", "a") as f:
         f.write(f"- {name} — {definition}\n")
 
 
