@@ -30,7 +30,7 @@ def generate_ip():
 # --- Save IP to its own .md file ---
 def save_ip(ip_text):
     name = ip_text.split("\n")[0].strip()
-    filename = f"ip-factory/{name.replace(' ', '_')}.md"
+    filename = f"IPFactory/{name.replace(' ', '_')}.md"
 
     with open(filename, "w") as f:
         f.write(ip_text)
@@ -42,12 +42,12 @@ def update_master_list(ip_text):
     name = ip_text.splitlines()[0]
     definition = ip_text.splitlines()[1]
 
-    with open("ip-factory/MASTER_IP.md", "a") as f:
+    with open("IPFactory/MASTER_IP.md", "a") as f:
         f.write(f"- {name} — {definition}\n")
 
 # --- Commit changes ---
 def git_commit(filename):
-    os.system(f"git add {filename} ip-factory/MASTER_IP.md")
+    os.system(f"git add {filename} IPFactory/MASTER_IP.md")
     os.system(f'git commit -m "Add new IP framework: {filename}"')
 
 # --- Run the engine ---
