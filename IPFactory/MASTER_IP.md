@@ -1,1 +1,2 @@
 - Internal Gravity Architecture — A structural identity framework designed to build an unshakeable psychological anchor that preserves absolute operator autonomy amid external noise.
+- Internal Gravity Engine — The systematic generation of autonomous mental mass that forces all external perception, influence, and circumstance into orbital alignment with the operator's central identity.
