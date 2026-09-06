@@ -3,7 +3,7 @@ name: IP Factory
 on:
   workflow_dispatch:
   schedule:
-    - cron: "0 */6 * * *"   # runs every 6 hours
+    - cron: "0 */6 * * *"
 
 jobs:
   generate-ip:
@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+
+      - name: Set up Git identity
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
 
       - name: Set up Python
         uses: actions/setup-python@v4
@@ -27,7 +32,4 @@ jobs:
         run: python generate_ip.py
 
       - name: Push changes
-        run: |
-          git config user.name "github-actions"
-          git config user.email "github-actions@github.com"
-          git push
+        run: git push
