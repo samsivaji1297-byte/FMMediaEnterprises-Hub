@@ -8,3 +8,4 @@
 - Sovereign Agency Substrate — A strategic psychological framework designed to engineer an unshakeable foundation of absolute self-governance and operational command over internal states.
 - Autonomous Command Topology — 
 - Archetypal Hegemony Infrastructure — A strategic framework that structures fundamental psychological drivers into a fortified, self-sustaining system of operational authority and sovereign command.
+- Endogenous Volition Citadel — The strategic blueprint for engineering an unassailable internal locus of control that converts psychological drive into operational authority.
