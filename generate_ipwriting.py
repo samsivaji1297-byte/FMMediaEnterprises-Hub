@@ -6,7 +6,7 @@ from google.genai.types import Content, Part
 
 IP_DIR = "IPFactory"
 OUTPUT_DIR = "WritingFactory/IPDriven"
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-3.6-flash"
 
 def get_client():
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -41,7 +41,7 @@ Constraints:
 """
 
     chat = client.chats.create(model=MODEL_NAME)
-    resp = chat.send_message(Content(parts=[Part.from_text(text=prompt)]))
+    resp = chat.send_message(prompt)
     return resp.output_text.strip()
 
 def save_output(ip_name, text):
