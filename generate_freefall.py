@@ -4,7 +4,7 @@ from google import genai
 from google.genai.types import Content, Part
 
 OUTPUT_DIR = "WritingFactory/FreeFall"
-MODEL_NAME = "gemini-1.5-flash"
+MODEL_NAME = "gemini-3.6-flash"
 
 def get_client():
     api_key = os.environ.get("GEMINI_API_KEY")
