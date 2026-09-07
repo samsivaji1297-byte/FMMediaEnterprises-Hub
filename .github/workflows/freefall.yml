@@ -2,7 +2,7 @@ name: Free-Fall Writing Engine
 
 on:
   schedule:
-    - cron: "0 */12 * * *"
+    - cron: "0 */6 * * *"
   workflow_dispatch:
 
 jobs:
