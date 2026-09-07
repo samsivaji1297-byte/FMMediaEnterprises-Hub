@@ -9,3 +9,4 @@
 - Autonomous Command Topology — 
 - Archetypal Hegemony Infrastructure — A strategic framework that structures fundamental psychological drivers into a fortified, self-sustaining system of operational authority and sovereign command.
 - Endogenous Volition Citadel — The strategic blueprint for engineering an unassailable internal locus of control that converts psychological drive into operational authority.
+- Interior Dominion Meridian — An operational framework for establishing an unshakeable central axis of self-governance and cognitive authority within the operator's psyche.
