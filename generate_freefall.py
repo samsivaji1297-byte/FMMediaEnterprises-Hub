@@ -1,7 +1,7 @@
 import os
 import datetime
+from zoneinfo import ZoneInfo
 from google import genai
-from google.genai.types import Content, Part
 
 OUTPUT_DIR = "WritingFactory/FreeFall"
 MODEL_NAME = "gemini-3.6-flash"
@@ -18,21 +18,29 @@ Generate 300–400 words of free-fall writing in the user's sovereign identity t
 
 Constraints:
 - Stream-of-consciousness.
-- No headings.
-- No bullet points.
-- No structure.
+- Break the writing into 3–5 natural paragraphs.
+- Insert a blank line between each paragraph.
 - Blend mythic, clinical, psychological, operational, and strategic tones.
 - Must align with: Mental Sovereignty, Identity Mechanics, Operator Autonomy, Empire Architecture.
-- Pure flow, no formatting.
+- Pure flow, no headings, no bullet points.
 """
 
     chat = client.chats.create(model=MODEL_NAME)
     resp = chat.send_message(prompt)
-    return resp.candidates[0].content.parts[0].text.strip()
+
+    # Extract text from the response
+    text = resp.candidates[0].content.parts[0].text.strip()
+
+    # Guarantee Markdown paragraph spacing
+    text = text.replace("\n", "\n\n")
+
+    return text
 
 def save_output(text):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    # Sydney-local timestamp
+    timestamp = datetime.datetime.now(ZoneInfo("Australia/Sydney")).strftime("%Y-%m-%d_%H-%M-%S")
     filename = f"{OUTPUT_DIR}/FreeFall_{timestamp}.md"
 
     with open(filename, "w", encoding="utf-8") as f:
