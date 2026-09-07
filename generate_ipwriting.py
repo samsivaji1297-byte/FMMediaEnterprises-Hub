@@ -1,8 +1,8 @@
 import os
 import random
 import datetime
+from zoneinfo import ZoneInfo
 from google import genai
-from google.genai.types import Content, Part
 
 IP_DIR = "IPFactory"
 OUTPUT_DIR = "WritingFactory/IPDriven"
@@ -34,7 +34,10 @@ Write 300–400 words expanding the following sovereign IP framework:
 Constraints:
 - Blend mythic, clinical, psychological, operational, and strategic tones.
 - Must align with: Mental Sovereignty, Identity Mechanics, Operator Autonomy, Empire Architecture.
-- Produce structured writing but no headings.
+- Produce structured writing with natural paragraph flow.
+- Break the writing into 3–5 paragraphs.
+- Insert a blank line between each paragraph.
+- No headings.
 - No bullet points.
 - No lists.
 - No formatting.
@@ -42,11 +45,20 @@ Constraints:
 
     chat = client.chats.create(model=MODEL_NAME)
     resp = chat.send_message(prompt)
-    return resp.candidates[0].content.parts[0].text.strip()
+
+    # Extract text from response
+    text = resp.candidates[0].content.parts[0].text.strip()
+
+    # Guarantee Markdown paragraph spacing
+    text = text.replace("\n", "\n\n")
+
+    return text
 
 def save_output(ip_name, text):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+    # Sydney-local timestamp
+    timestamp = datetime.datetime.now(ZoneInfo("Australia/Sydney")).strftime("%Y-%m-%d_%H-%M-%S")
     safe_name = ip_name.replace(" ", "_")
     filename = f"{OUTPUT_DIR}/{safe_name}_{timestamp}.md"
 
