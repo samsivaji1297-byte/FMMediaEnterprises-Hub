@@ -42,7 +42,7 @@ Constraints:
 
     chat = client.chats.create(model=MODEL_NAME)
     resp = chat.send_message(prompt)
-    return resp.output_text.strip()
+    return resp.candidates[0].content.parts[0].text.strip()
 
 def save_output(ip_name, text):
     os.makedirs(OUTPUT_DIR, exist_ok=True)
