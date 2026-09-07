@@ -27,7 +27,7 @@ Constraints:
 """
 
     chat = client.chats.create(model=MODEL_NAME)
-    resp = chat.send_message(Content(parts=[Part.from_text(text=prompt)]))
+    resp = chat.send_message(prompt)
     return resp.output_text.strip()
 
 def save_output(text):
