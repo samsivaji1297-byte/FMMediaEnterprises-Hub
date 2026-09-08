@@ -14,3 +14,4 @@
 - Autogenous Imperium Vectoring — A strategic operational methodology for systematically mapping, fortifying, and directing internal identity structures to establish unassailable cognitive self-governance.
 - Centripetal Will Dynamics — An operational framework designed to consolidate psychological force inward, establishing an unshakeable center of internal gravity that secures sovereign control over cognitive territory.
 - Axiomatic Agency Stratigraphy — A systematic methodology for mapping, excavating, and fortifying the foundational layers of an individual's identity to establish an unyielding internal command structure.
+- Endoskeletal Command Cartography — A strategic methodology for mapping, fortifying, and deploying the non-negotiable internal structure of an operator's psychological sovereignty.
