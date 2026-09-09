@@ -17,6 +17,9 @@ def build_video(script_data: dict, audio_path: str, output_path: str = "final_re
     
     clips = []
     
+    # Path to the Liberation Sans Bold TTF file installed via apt
+    font_path = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+    
     for i, scene in enumerate(scenes):
         bg = ColorClip(size=(1080, 1920), color=(15, 15, 15), duration=duration_per_scene)
         
@@ -26,7 +29,7 @@ def build_video(script_data: dict, audio_path: str, output_path: str = "final_re
             text=txt_overlay,
             font_size=70,
             color='white',
-            font='Liberation-Sans-Bold',
+            font=font_path,
             method='caption',
             size=(900, None)
         ).with_duration(duration_per_scene).with_position('center')
