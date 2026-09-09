@@ -16,3 +16,4 @@
 - Axiomatic Agency Stratigraphy — A systematic methodology for mapping, excavating, and fortifying the foundational layers of an individual's identity to establish an unyielding internal command structure.
 - Endoskeletal Command Cartography — A strategic methodology for mapping, fortifying, and deploying the non-negotiable internal structure of an operator's psychological sovereignty.
 - Reflexive Sovereign Tectonics — A strategic psychological protocol for stabilizing the deep-structural shifts of identity to maintain absolute self-governance under operational pressure.
+- Endocentric Identity Fulcrum — The foundational leverage point through which an operator anchors absolute self-governance, neutralizes external influence, and converts internal force into strategic command.
