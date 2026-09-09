@@ -22,12 +22,11 @@ def build_video(script_data: dict, audio_path: str, output_path: str = "final_re
         
         txt_overlay = scene.get("text_overlay", "").upper()
         
-        # MoviePy 2.x API parameters
         txt_clip = TextClip(
             text=txt_overlay,
             font_size=70,
             color='white',
-            font='Arial-Bold',
+            font='Liberation-Sans-Bold',
             method='caption',
             size=(900, None)
         ).with_duration(duration_per_scene).with_position('center')
