@@ -1,8 +1,8 @@
 import os
 from moviepy import (
     AudioFileClip, 
+    ImageClip, 
     TextClip, 
-    ColorClip, 
     CompositeVideoClip, 
     concatenate_videoclips
 )
@@ -15,29 +15,48 @@ def build_video(script_data: dict, audio_path: str, output_path: str = "final_re
     scene_count = len(scenes)
     duration_per_scene = total_duration / max(scene_count, 1)
     
-    clips = []
-    
-    # Path to the Liberation Sans Bold TTF file installed via apt
     font_path = "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf"
+    scene_clips = []
     
     for i, scene in enumerate(scenes):
-        bg = ColorClip(size=(1080, 1920), color=(15, 15, 15), duration=duration_per_scene)
+        img_path = scene.get("image_path")
         
-        txt_overlay = scene.get("text_overlay", "").upper()
+        # 1. Base Image Clip with duration
+        if img_path and os.path.exists(img_path):
+            bg_clip = ImageClip(img_path).with_duration(duration_per_scene)
+        else:
+            # Fallback black screen if image failed
+            from moviepy import ColorClip
+            bg_clip = ColorClip(size=(1080, 1920), color=(15, 15, 15), duration=duration_per_scene)
         
-        txt_clip = TextClip(
-            text=txt_overlay,
-            font_size=70,
-            color='white',
-            font=font_path,
-            method='caption',
-            size=(900, None)
-        ).with_duration(duration_per_scene).with_position('center')
+        # 2. Dynamic Word-by-Word Kinetic Captions
+        words = scene.get("text_overlay", "").upper().split()
+        if not words:
+            words = ["EXECUTE"]
+            
+        word_duration = duration_per_scene / len(words)
+        text_subclips = []
         
-        scene_composite = CompositeVideoClip([bg, txt_clip])
-        clips.append(scene_composite)
+        for w_idx, word in enumerate(words):
+            # Dynamic text pop-in effect
+            txt = TextClip(
+                text=word,
+                font_size=90,
+                color='yellow',
+                font=font_path,
+                stroke_color='black',
+                stroke_width=4,
+                method='caption',
+                size=(950, None)
+            ).with_duration(word_duration).with_position('center').with_start(w_idx * word_duration)
+            
+            text_subclips.append(txt)
+            
+        # Composite dynamic text over scene background image
+        scene_composite = CompositeVideoClip([bg_clip] + text_subclips).with_duration(duration_per_scene)
+        scene_clips.append(scene_composite)
         
-    final_video = concatenate_videoclips(clips, method="compose")
+    final_video = concatenate_videoclips(scene_clips, method="compose")
     final_video = final_video.with_audio(audio)
     
     final_video.write_videofile(
@@ -47,4 +66,4 @@ def build_video(script_data: dict, audio_path: str, output_path: str = "final_re
         audio_codec="aac",
         threads=4
     )
-    print(f"Reel successfully generated -> {output_path}")
+    print(f"Kinetic Reel successfully generated -> {output_path}")
