@@ -21,3 +21,4 @@
 - Operative Identity Crucible — The rigorous internal process that systematically burns away external conditioning to forge an unshakeable, self-authorizing core.
 - Orthogonal Sovereignty Axis — A strategic psychological framework that grounds an operator's internal authority along an immutable baseline, isolating self-directed intent from external influence and cognitive disruption.
 - Intrinsic Command Horizon — The structural boundary within an individual's identity architecture where internal gravity stabilizes to establish absolute authority over cognitive territory.
+- Substructural Agency Meridian — An operational and psychological framework that aligns an operator's identity along an immutable axis of internal authority, securing total cognitive sovereignty against external displacement.
