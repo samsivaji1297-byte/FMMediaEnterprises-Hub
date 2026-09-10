@@ -1,0 +1,33 @@
+{
+    "title": "Systems Over Dreams",
+    "voiceover_full": "Dreams don't build empires. Daily systems do. You don't rise to the level of your goals, you fall to the level of your systems. Stop wishing. Start architecting your routine.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Dreams don't build empires. Daily systems do.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, close up of a focused creator sketching a complex blueprint on a dark glass table, subtle blue neon light",
+            "text_overlay": "DREAMS DON'T WORK",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "You don't rise to the level of your goals, you fall to the level of your systems.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, macro time-lapse of intricate mechanical clockwork gears turning seamlessly in low light",
+            "text_overlay": "SYSTEMS DO",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Stop wishing. Start architecting your routine.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, powerful silhouette standing atop a skyscraper overlooking a glowing city grid at dusk",
+            "text_overlay": "ARCHITECT YOUR DAY",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20260910_0216_building-systems-over-dreams",
+        "topic": "Building Systems Over Dreams",
+        "theme": "ambient",
+        "timestamp": "20260910_0216"
+    }
+}
