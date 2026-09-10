@@ -1,0 +1,30 @@
+{
+    "title": "IDENTITY & SELF-MASTERY",
+    "voiceover_full": "Identity is not what you say. It is what you execute daily when no one is watching. Build systems. Reclaim sovereignty.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Identity is not what you say.",
+            "text_overlay": "IDENTITY IS EXECUTION",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "It is what you execute daily when no one is watching.",
+            "text_overlay": "SILENT WORK",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Build systems. Reclaim sovereignty.",
+            "text_overlay": "RECLAIM SOVEREIGNTY",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20260910_0204_identity-self-mastery",
+        "topic": "Identity & Self-Mastery",
+        "theme": "sovereign",
+        "timestamp": "20260910_0204"
+    }
+}
