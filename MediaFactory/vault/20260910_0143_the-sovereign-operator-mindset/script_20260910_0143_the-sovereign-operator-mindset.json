@@ -1,0 +1,33 @@
+{
+    "title": "The Sovereign Operator Mindset",
+    "voiceover_full": "Most people react to the environment. The Sovereign Operator controls it. No permission needed. No excuses accepted. Systems over emotions. Master yourself, build your empire, and operate in total sovereignty.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Most people react to the environment. The Sovereign Operator controls it.",
+            "visual_prompt": "Cinematic vertical 9:16 photography of a solitary hooded figure standing on a skyscraper ledge looking down at a dark minimalist rain-slicked city, dramatic high contrast rim lighting, dark moody aesthetic, deep obsidian tones, 8k",
+            "text_overlay": "CONTROL YOUR ENVIRONMENT",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "No permission needed. No excuses accepted. Systems over emotions.",
+            "visual_prompt": "Cinematic vertical 9:16 macro photograph of a hand interacting with a glowing minimalist obsidian interface, harsh shadows, sharp focus, high contrast, dark aesthetic, clean modern technological atmosphere, 8k",
+            "text_overlay": "SYSTEMS OVER EMOTIONS",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Master yourself, build your empire, and operate in total sovereignty.",
+            "visual_prompt": "Cinematic vertical 9:16 shot of a lone sharp-dressed operator walking confidently down a massive dark brutalist concrete corridor toward a single intense shaft of white light, high contrast, dramatic shadows, minimalist, 8k",
+            "text_overlay": "CLAIM YOUR SOVEREIGNTY",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20260910_0143_the-sovereign-operator-mindset",
+        "topic": "The Sovereign Operator Mindset",
+        "theme": "kinetic",
+        "timestamp": "20260910_0143"
+    }
+}
