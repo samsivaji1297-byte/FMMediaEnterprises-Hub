@@ -7,6 +7,15 @@ on:
         description: 'Reel Topic'
         required: true
         default: 'Ruthless Time Reclamation'
+      theme:
+        description: 'Design Theme Preset'
+        required: true
+        default: 'ambient'
+        type: choice
+        options:
+          - ambient
+          - sovereign
+          - kinetic
   schedule:
     - cron: '0 10 * * *'
 
@@ -23,7 +32,7 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install System Dependencies (FFmpeg & ImageMagick)
+    - name: Install System Dependencies (FFmpeg, ImageMagick & Fonts)
       run: |
         sudo apt-get update
         sudo apt-get install -y ffmpeg imagemagick fonts-liberation
@@ -39,11 +48,15 @@ jobs:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       run: |
         TOPIC="${{ github.event.inputs.topic }}"
+        THEME="${{ github.event.inputs.theme }}"
         if [ -z "$TOPIC" ]; then
           TOPIC="Sovereign Execution"
         fi
+        if [ -z "$THEME" ]; then
+          THEME="ambient"
+        fi
         cd MediaFactory/src
-        python main.py --topic "$TOPIC"
+        python main.py --topic "$TOPIC" --theme "$THEME"
 
     - name: Upload Finished Reel Artifact
       uses: actions/upload-artifact@v4
