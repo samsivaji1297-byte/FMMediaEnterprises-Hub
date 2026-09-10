@@ -5,7 +5,7 @@ import requests
 
 IG_USER_ID = os.getenv("IG_USER_ID")
 ACCESS_TOKEN = os.getenv("IG_ACCESS_TOKEN")
-GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY")  # Automatically provided by GitHub Actions (e.g., owner/repo)
+GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY")  # E.g., 'username/repo'
 GRAPH_API_VERSION = "v21.0"
 
 def publish_latest_vault_reel():
@@ -22,7 +22,7 @@ def publish_latest_vault_reel():
             posted_runs = json.load(f).get("posted", [])
 
     runs = [d for d in os.listdir(vault_dir) if os.path.isdir(os.path.join(vault_dir, d))]
-    runs.sort()
+    runs.sort()  # Process oldest pending reel first
 
     target_run = None
     for run in runs:
@@ -45,14 +45,13 @@ def publish_latest_vault_reel():
     with open(os.path.join(run_path, caption_file), "r", encoding="utf-8") as f:
         caption_text = f.read()
 
-    # Construct the public Raw GitHub URL for the committed video asset
-    # Assumes the workflow commits the file to the 'main' branch first
+    # Construct the direct raw public GitHub URL for Meta to ingest
     raw_video_url = f"https://raw.githubusercontent.com/{GITHUB_REPOSITORY}/main/MediaFactory/vault/{target_run}/{video_file}"
 
     print(f"=== Publishing Reel via Meta Graph API: {target_run} ===")
-    print(f"Target Video URL: {raw_video_url}")
+    print(f"Public Video URL: {raw_video_url}")
 
-    # Step 1: Create Container using video_url (matching your GAS workflow logic)
+    # Step 1 — Create media container via public video URL (GAS pattern)
     create_url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{IG_USER_ID}/media"
     payload = {
         "media_type": "REELS",
@@ -66,12 +65,12 @@ def publish_latest_vault_reel():
     creation_id = res_data.get("id")
 
     if not creation_id:
-        print(f"Failed to create reel container: {res_data}")
+        print(f"Failed to create reel container on Meta: {res_data}")
         return
 
     print(f"Media container created successfully! ID: {creation_id}")
 
-    # Step 2: Poll Processing Status
+    # Step 2 — Poll container processing status until FINISHED
     status_url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{creation_id}?fields=status_code&access_token={ACCESS_TOKEN}"
     status = ""
     attempts = 0
@@ -90,10 +89,10 @@ def publish_latest_vault_reel():
         attempts += 1
 
     if status != "FINISHED":
-        print("Media processing timed out.")
+        print("Media processing timed out on Meta servers.")
         return
 
-    # Step 3: Publish Reel
+    # Step 3 — Publish reel to live feed
     publish_url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{IG_USER_ID}/media_publish"
     publish_res = requests.post(
         publish_url, 
@@ -103,7 +102,7 @@ def publish_latest_vault_reel():
     
     print(f"Publish response: {publish_res.text}")
 
-    # Step 4: Update Queue
+    # Step 4 — Mark run as posted in local queue
     posted_runs.append(target_run)
     with open(queue_file, "w", encoding="utf-8") as f:
         json.dump({"posted": posted_runs}, f, indent=4)
