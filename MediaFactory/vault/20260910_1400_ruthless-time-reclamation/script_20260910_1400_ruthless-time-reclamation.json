@@ -1,0 +1,33 @@
+{
+    "title": "Ruthless Time Reclamation",
+    "voiceover_full": "You're not short on time. You're just giving it away to things that don't matter. Start treating your attention like currency. Say no without explaining yourself. Reclaim your day, or someone else will spend it for you.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "You're not short on time. You're just giving it away to things that don't matter.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist shot of a matte black clock face ticking backwards in extreme macro, dramatic side lighting",
+            "text_overlay": "STOP GIVING IT AWAY",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "Start treating your attention like currency. Say no without explaining yourself.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist shot of a focused entrepreneur shutting a dark aluminum laptop with extreme precision, sharp shadows",
+            "text_overlay": "SAY NO. NO EXPLANATIONS.",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Reclaim your day, or someone else will spend it for you.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist silhouette of a figure standing before a floor-to-ceiling glass window overlooking a moody city at dusk",
+            "text_overlay": "RECLAIM YOUR LIFE",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20260910_1400_ruthless-time-reclamation",
+        "topic": "Ruthless Time Reclamation",
+        "theme": "sovereign",
+        "timestamp": "20260910_1400"
+    }
+}
