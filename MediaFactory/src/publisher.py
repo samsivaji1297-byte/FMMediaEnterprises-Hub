@@ -5,6 +5,7 @@ import requests
 
 IG_USER_ID = os.getenv("IG_USER_ID")
 ACCESS_TOKEN = os.getenv("IG_ACCESS_TOKEN")
+GITHUB_REPOSITORY = os.getenv("GITHUB_REPOSITORY")  # Automatically provided by GitHub Actions (e.g., owner/repo)
 GRAPH_API_VERSION = "v21.0"
 
 def publish_latest_vault_reel():
@@ -41,29 +42,26 @@ def publish_latest_vault_reel():
         print(f"Incomplete vault assets in folder {target_run}.")
         return
 
-    video_path = os.path.join(run_path, video_file)
     with open(os.path.join(run_path, caption_file), "r", encoding="utf-8") as f:
         caption_text = f.read()
 
+    # Construct the public Raw GitHub URL for the committed video asset
+    # Assumes the workflow commits the file to the 'main' branch first
+    raw_video_url = f"https://raw.githubusercontent.com/{GITHUB_REPOSITORY}/main/MediaFactory/vault/{target_run}/{video_file}"
+
     print(f"=== Publishing Reel via Meta Graph API: {target_run} ===")
+    print(f"Target Video URL: {raw_video_url}")
 
-    # Step 1: Initialize Single-Step Media Container
-    url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{IG_USER_ID}/media"
-    
-    # Open local MP4 video file binary
-    with open(video_path, "rb") as video_bytes:
-        payload = {
-            "media_type": "REELS",
-            "caption": caption_text,
-            "access_token": ACCESS_TOKEN
-        }
-        files = {
-            "video_file": (video_file, video_bytes, "video/mp4")
-        }
+    # Step 1: Create Container using video_url (matching your GAS workflow logic)
+    create_url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{IG_USER_ID}/media"
+    payload = {
+        "media_type": "REELS",
+        "video_url": raw_video_url,
+        "caption": caption_text,
+        "access_token": ACCESS_TOKEN
+    }
 
-        print("Uploading video binary to Meta Graph API...")
-        res = requests.post(url, data=payload, files=files, timeout=120)
-
+    res = requests.post(create_url, data=payload, timeout=30)
     res_data = res.json()
     creation_id = res_data.get("id")
 
@@ -73,7 +71,7 @@ def publish_latest_vault_reel():
 
     print(f"Media container created successfully! ID: {creation_id}")
 
-    # Step 2: Poll Container Processing Status
+    # Step 2: Poll Processing Status
     status_url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{creation_id}?fields=status_code&access_token={ACCESS_TOKEN}"
     status = ""
     attempts = 0
@@ -87,7 +85,7 @@ def publish_latest_vault_reel():
         if status == "FINISHED":
             break
         elif status in ("ERROR", "EXPIRED"):
-            print(f"Container processing failed on Meta with status: {status_res}")
+            print(f"Container processing failed on Meta: {status_res}")
             return
         attempts += 1
 
@@ -95,7 +93,7 @@ def publish_latest_vault_reel():
         print("Media processing timed out.")
         return
 
-    # Step 3: Publish Container to Live Feed
+    # Step 3: Publish Reel
     publish_url = f"https://graph.facebook.com/{GRAPH_API_VERSION}/{IG_USER_ID}/media_publish"
     publish_res = requests.post(
         publish_url, 
@@ -105,7 +103,7 @@ def publish_latest_vault_reel():
     
     print(f"Publish response: {publish_res.text}")
 
-    # Step 4: Mark as Posted in Queue
+    # Step 4: Update Queue
     posted_runs.append(target_run)
     with open(queue_file, "w", encoding="utf-8") as f:
         json.dump({"posted": posted_runs}, f, indent=4)
