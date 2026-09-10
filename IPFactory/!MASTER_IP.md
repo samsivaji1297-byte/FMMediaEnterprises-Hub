@@ -19,3 +19,4 @@
 - Endocentric Identity Fulcrum — The foundational leverage point through which an operator anchors absolute self-governance, neutralizes external influence, and converts internal force into strategic command.
 - Endodynamic Identity Monolith — An operational architecture designed to concentrate internal psychological gravity into an unyielding anchor of autonomous command.
 - Operative Identity Crucible — The rigorous internal process that systematically burns away external conditioning to forge an unshakeable, self-authorizing core.
+- Orthogonal Sovereignty Axis — A strategic psychological framework that grounds an operator's internal authority along an immutable baseline, isolating self-directed intent from external influence and cognitive disruption.
