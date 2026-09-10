@@ -22,3 +22,4 @@
 - Orthogonal Sovereignty Axis — A strategic psychological framework that grounds an operator's internal authority along an immutable baseline, isolating self-directed intent from external influence and cognitive disruption.
 - Intrinsic Command Horizon — The structural boundary within an individual's identity architecture where internal gravity stabilizes to establish absolute authority over cognitive territory.
 - Substructural Agency Meridian — An operational and psychological framework that aligns an operator's identity along an immutable axis of internal authority, securing total cognitive sovereignty against external displacement.
+- Autonomous Volition Nucleation — The self-catalyzing process by which an operator condenses internal agency into an immovable core of authority, securing total domain over cognitive territory.
