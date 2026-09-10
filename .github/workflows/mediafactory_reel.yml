@@ -1,4 +1,4 @@
-name: MediaFactory - Generate & Vault Reel
+name: MediaFactory - Generate, Vault & Publish Reel
 
 on:
   workflow_dispatch:
@@ -21,7 +21,7 @@ on:
     - cron: '0 10 * * *'  # Runs automatically every day
 
 jobs:
-  build-and-vault:
+  build-vault-and-publish:
     runs-on: ubuntu-latest
 
     steps:
@@ -46,7 +46,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r MediaFactory/requirements.txt
 
-    - name: Run Engine & Vault Asset
+    - name: Run Engine & Render Reel Asset
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
@@ -54,18 +54,25 @@ jobs:
         cd MediaFactory/src
         python main.py --topic "${{ github.event.inputs.topic }}" --theme "${{ github.event.inputs.theme }}"
 
-    - name: Auto-Publish Reel to Instagram
-      env:
-        IG_USER_ID: ${{ secrets.IG_USER_ID }}
-        IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-      run: |
-        cd MediaFactory/src
-        python publisher.py
-
-    - name: Commit & Push Vault Assets to Repository
+    - name: Commit & Push Reel to Repository Vault
       run: |
         git config --global user.name "MediaFactory Bot"
         git config --global user.email "bot@mediafactory.local"
         git add MediaFactory/vault/
-        git commit -m "vault: archive rendered reel & script metadata [skip ci]" || echo "No changes to commit"
+        git commit -m "vault: archive rendered reel [skip ci]" || echo "No changes to commit"
+        git push
+
+    - name: Auto-Publish Reel to Instagram via Raw URL
+      env:
+        IG_USER_ID: ${{ secrets.IG_USER_ID }}
+        IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        GITHUB_REPOSITORY: ${{ github.repository }}
+      run: |
+        cd MediaFactory/src
+        python publisher.py
+
+    - name: Commit Updated Queue State
+      run: |
+        git add MediaFactory/vault/queue.json
+        git commit -m "vault: update published queue state [skip ci]" || echo "No changes to commit"
         git push
