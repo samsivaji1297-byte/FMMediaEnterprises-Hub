@@ -46,6 +46,7 @@ jobs:
     - name: Run Reel Engine
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
       run: |
         TOPIC="${{ github.event.inputs.topic }}"
         THEME="${{ github.event.inputs.theme }}"
