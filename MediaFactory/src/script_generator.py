@@ -5,12 +5,11 @@ from google import genai
 from google.genai import types
 from PIL import Image
 import io
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from tenacity import retry, stop_after_attempt, wait_exponential
 
-# Helper function to call generate_content with retries
 @retry(
-    stop=stop_after_attempt(4),
-    wait=wait_exponential(multiplier=2, min=4, max=20),
+    stop=stop_after_attempt(5),
+    wait=wait_exponential(multiplier=2, min=5, max=30),
     reraise=True
 )
 def call_gemini_with_retry(client, prompt):
@@ -26,7 +25,9 @@ def generate_reel_content(topic: str) -> dict:
     client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
     
     prompt = f"""
-    You are an elite Instagram Reels content producer. Create a high-retention 15-25 second vertical reel script about: "{topic}".
+    You are an elite Instagram Reels content producer. Create a high-retention 15-20 second vertical reel script about: "{topic}".
+    
+    CRITICAL: Keep the output strictly to EXACTLY 3 scenes to optimize production pacing.
     
     Respond strictly in raw JSON with no markdown block formatting.
     Use this exact JSON schema:
@@ -37,7 +38,7 @@ def generate_reel_content(topic: str) -> dict:
             {{
                 "scene_id": 1,
                 "narration": "Text spoken in this exact scene",
-                "visual_prompt": "Cinematic vertical 9:16 high contrast photography prompt for AI image generation representing this concept, dark aesthetic, minimalist, 8k",
+                "visual_prompt": "Cinematic vertical 9:16 high contrast photography prompt for AI image generation, dark aesthetic, minimalist, 8k",
                 "text_overlay": "SHORT IMPACTFUL PHRASE (MAX 3 WORDS)"
             }}
         ]
@@ -47,6 +48,9 @@ def generate_reel_content(topic: str) -> dict:
     print("Calling Gemini API for script generation...")
     response = call_gemini_with_retry(client, prompt)
     script_data = json.loads(response.text)
+    
+    # Pace out requests to avoid RPM quota limits
+    time.sleep(3)
     
     # Generate background images for each scene
     print("Generating AI visual backgrounds for scenes...")
@@ -74,5 +78,9 @@ def generate_reel_content(topic: str) -> dict:
         except Exception as e:
             print(f"Warning: Image generation failed for scene {i+1} ({e}). Falling back to dark canvas.")
             scene["image_path"] = None
+
+        # Delay between scene generations to prevent burst rate limits
+        if i < len(script_data["scenes"]) - 1:
+            time.sleep(4)
 
     return script_data
