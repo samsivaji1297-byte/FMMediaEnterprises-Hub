@@ -20,3 +20,4 @@
 - Endodynamic Identity Monolith — An operational architecture designed to concentrate internal psychological gravity into an unyielding anchor of autonomous command.
 - Operative Identity Crucible — The rigorous internal process that systematically burns away external conditioning to forge an unshakeable, self-authorizing core.
 - Orthogonal Sovereignty Axis — A strategic psychological framework that grounds an operator's internal authority along an immutable baseline, isolating self-directed intent from external influence and cognitive disruption.
+- Intrinsic Command Horizon — The structural boundary within an individual's identity architecture where internal gravity stabilizes to establish absolute authority over cognitive territory.
