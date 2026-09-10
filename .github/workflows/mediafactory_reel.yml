@@ -1,38 +1,41 @@
-name: MediaFactory - Generate Reel
+name: MediaFactory - Generate & Vault Reel
 
 on:
   workflow_dispatch:
     inputs:
       topic:
-        description: 'Reel Topic'
-        required: true
-        default: 'Ruthless Time Reclamation'
+        description: 'Reel Topic (Leave blank for dynamic random selection)'
+        required: false
+        default: ''
       theme:
-        description: 'Design Theme Preset'
-        required: true
-        default: 'ambient'
+        description: 'Design Theme Preset (Leave blank for dynamic random selection)'
+        required: false
+        default: ''
         type: choice
         options:
+          - ''
           - ambient
           - sovereign
           - kinetic
   schedule:
-    - cron: '0 10 * * *'
+    - cron: '0 10 * * *'  # Runs automatically every day
 
 jobs:
-  build-reel:
+  build-and-vault:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Install System Dependencies (FFmpeg, ImageMagick & Fonts)
+    - name: Install System Dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y ffmpeg imagemagick fonts-liberation
@@ -43,24 +46,18 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r MediaFactory/requirements.txt
 
-    - name: Run Reel Engine
+    - name: Run Engine & Vault Asset
       env:
         GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
       run: |
-        TOPIC="${{ github.event.inputs.topic }}"
-        THEME="${{ github.event.inputs.theme }}"
-        if [ -z "$TOPIC" ]; then
-          TOPIC="Sovereign Execution"
-        fi
-        if [ -z "$THEME" ]; then
-          THEME="ambient"
-        fi
         cd MediaFactory/src
-        python main.py --topic "$TOPIC" --theme "$THEME"
+        python main.py --topic "${{ github.event.inputs.topic }}" --theme "${{ github.event.inputs.theme }}"
 
-    - name: Upload Finished Reel Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: mediafactory-reel
-        path: MediaFactory/src/final_reel.mp4
+    - name: Commit & Push Vault Assets to Repository
+      run: |
+        git config --global user.name "MediaFactory Bot"
+        git config --global user.email "bot@mediafactory.local"
+        git add MediaFactory/vault/
+        git commit -m "vault: archive rendered reel & script metadata [skip ci]" || echo "No changes to commit"
+        git push
