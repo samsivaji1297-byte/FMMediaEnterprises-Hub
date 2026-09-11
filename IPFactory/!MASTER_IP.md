@@ -24,3 +24,4 @@
 - Substructural Agency Meridian — An operational and psychological framework that aligns an operator's identity along an immutable axis of internal authority, securing total cognitive sovereignty against external displacement.
 - Autonomous Volition Nucleation — The self-catalyzing process by which an operator condenses internal agency into an immovable core of authority, securing total domain over cognitive territory.
 - Epistemic Identity Bastion — A strategic psychological framework designed to fortify self-authored truth and maintain absolute cognitive authority against external narrative erosion.
+- Autarchic Identity Keystone — An operational framework designed to lock an operator's core selfhood into immutable self-governance, immunizing internal authority against external manipulation and psychological erosion.
