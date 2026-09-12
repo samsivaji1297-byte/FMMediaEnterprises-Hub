@@ -2,7 +2,11 @@ import os
 import json
 import time
 from playwright.sync_api import sync_playwright
-from playwright_stealth import stealth_sync
+
+try:
+    from playwright_stealth import stealth_sync
+except ImportError:
+    from playwright_stealth.stealth import stealth_sync
 
 SUBSTACK_SID = os.environ.get("SUBSTACK_SESSION_COOKIE")
 
@@ -27,7 +31,6 @@ def publish_note():
 
     print("Launching Stealth Browser Session...")
     with sync_playwright() as p:
-        # Launch real browser instance inside Xvfb frame
         browser = p.chromium.launch(
             headless=False,
             args=[
@@ -44,7 +47,6 @@ def publish_note():
             viewport={"width": 1280, "height": 800}
         )
 
-        # Inject session cookie
         context.add_cookies([{
             "name": "substack.sid",
             "value": SUBSTACK_SID,
@@ -59,7 +61,6 @@ def publish_note():
         stealth_sync(page)
 
         print("Navigating to Substack...")
-        # Step through main domain first to authorize cookie session
         page.goto("https://substack.com", wait_until="domcontentloaded", timeout=60000)
         time.sleep(3)
 
@@ -70,7 +71,6 @@ def publish_note():
         print(f"Current Page Title: {page.title()}")
 
         try:
-            # Locate Note composition box
             composer = page.locator('div[contenteditable="true"]').first
             composer.wait_for(state="visible", timeout=25000)
             composer.click()
@@ -78,7 +78,6 @@ def publish_note():
             print("Content inserted into composer.")
             time.sleep(2)
 
-            # Locate Post button
             post_button = page.locator('button:has-text("Post")').first
             post_button.wait_for(state="visible", timeout=10000)
             post_button.click()
