@@ -27,8 +27,16 @@ def publish_note():
 
     print("Launching Playwright browser session...")
     with sync_playwright() as p:
-        # Launch Chromium browser
-        browser = p.chromium.launch(headless=True)
+        # Launch Chromium with anti-bot flags
+        browser = p.chromium.launch(
+            headless=True,
+            args=[
+                "--disable-blink-features=AutomationControlled",
+                "--no-sandbox",
+                "--disable-setuid-sandbox"
+            ]
+        )
+        
         context = browser.new_context(
             user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
             viewport={"width": 1280, "height": 800}
@@ -48,40 +56,46 @@ def publish_note():
         page = context.new_page()
         
         print("Navigating to Substack Notes page...")
-        page.goto("https://substack.com/notes", wait_until="networkidle")
-        time.sleep(3)
+        # Use domcontentloaded instead of networkidle to prevent timeouts from background streaming
+        page.goto("https://substack.com/notes", wait_until="domcontentloaded", timeout=60000)
+        time.sleep(5)
 
-        # Check if Cloudflare challenge page is loaded
+        # Check for Cloudflare challenge
         if "Just a moment..." in page.title():
-            print("Cloudflare challenge encountered. Waiting for verification...")
-            time.sleep(5)
+            print("Cloudflare challenge page detected. Waiting 10 seconds for resolution...")
+            time.sleep(10)
 
-        # Locate the Note composition input box
+        print(f"Current Page Title: {page.title()}")
         print("Locating Note composer...")
-        composer_selector = 'div[contenteditable="true"]'
+        
+        # Selectors matching Substack Note composition field
+        composer_selector = 'div[contenteditable="true"], text=Pondering... write a note, .textarea'
         
         try:
-            page.wait_for_selector(composer_selector, timeout=15000)
-            page.click(composer_selector)
-            page.fill(composer_selector, note_body)
-            print("Content inserted into composer.")
-            time.sleep(1)
-
-            # Click the submit/post button
-            post_button_selector = 'button:has-text("Post"), button:has-text("Post note")'
-            page.wait_for_selector(post_button_selector, timeout=5000)
-            page.click(post_button_selector)
+            page.wait_for_selector(composer_selector, timeout=20000)
             
-            print("Post button clicked. Waiting for confirmation...")
+            # Click and type into the composer
+            target = page.locator(composer_selector).first
+            target.click()
+            target.fill(note_body)
+            print("Content inserted into composer.")
+            time.sleep(2)
+
+            # Click post button
+            post_button = page.locator('button:has-text("Post"), button:has-text("Post note")').first
+            post_button.wait_for(timeout=10000)
+            post_button.click()
+            
+            print("Post button clicked. Waiting for request completion...")
             time.sleep(5)
             print("Substack Note published successfully via browser automation.")
 
         except Exception as e:
             print(f"Error interacting with Substack UI: {e}")
-            # Capture screenshot on failure for diagnostic purposes
             os.makedirs(os.path.join(BASE_DIR, "dist"), exist_ok=True)
-            page.screenshot(path=os.path.join(BASE_DIR, "dist", "failure_screenshot.png"))
-            print("Saved diagnostic screenshot to dist/failure_screenshot.png")
+            screenshot_path = os.path.join(BASE_DIR, "dist", "failure_screenshot.png")
+            page.screenshot(path=screenshot_path)
+            print(f"Diagnostic screenshot saved to {screenshot_path}")
             browser.close()
             exit(1)
 
