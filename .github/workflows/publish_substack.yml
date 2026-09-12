@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'WritingFactory/*.md'
-  workflow_dispatch: # Allows manual trigger directly from GitHub UI
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -21,13 +21,12 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install google-generativeai pyyaml requests
+          pip install google-genai pyyaml requests
 
       - name: Transform Draft with Gemini
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          # If transform.py lives in DistributionPlatforms/scripts/
           python DistributionPlatforms/scripts/transform.py
 
       - name: Publish to Substack
