@@ -26,3 +26,4 @@
 - Epistemic Identity Bastion — A strategic psychological framework designed to fortify self-authored truth and maintain absolute cognitive authority against external narrative erosion.
 - Autarchic Identity Keystone — An operational framework designed to lock an operator's core selfhood into immutable self-governance, immunizing internal authority against external manipulation and psychological erosion.
 - Inviolable Identity Radius — The strategic operational threshold within which an operator's internal gravity maintains absolute command over cognitive territory and personal sovereignty.
+- Inalienable Command Calculus — A strategic psychological framework designed to systematically derive and maintain unassailable internal authority through the precise calibration of self-governing cognitive boundaries.
