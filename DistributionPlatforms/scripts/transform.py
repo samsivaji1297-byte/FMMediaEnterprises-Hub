@@ -1,64 +1,69 @@
 import os
-import glob
+import time
 import json
-import yaml
+import glob
 from google import genai
-from google.genai import types
+from google.genai import errors
 
-# Initialize Gemini Client (reads GEMINI_API_KEY from environment)
+# Initialize client using GEMINI_API_KEY from environment
 client = genai.Client()
 
-SYSTEM_PROMPT = """
-You are an expert content adapter.
-Transform the raw text into a high-impact Substack Note.
-- Concise, high-signal micro-essay (100-250 words).
-- Short paragraphs, clear spacing.
-Return strictly valid JSON with key: "substack_note".
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+INPUT_DIR = os.path.join(BASE_DIR, "WritingFactory")
+OUTPUT_FILE = os.path.join(BASE_DIR, "dist", "latest_payload.json")
+
+SYSTEM_INSTRUCTION = """
+You are a content transformation engine. Convert the input raw draft into a Substack Note format.
+Return ONLY valid JSON with a single key "substack_note". Do not wrap in markdown block quotes.
 """
 
+def generate_with_retry(model, contents, config, max_retries=3):
+    """Calls Gemini API with backoff handling for 429 Rate Limits."""
+    for attempt in range(max_retries):
+        try:
+            return client.models.generate_content(
+                model=model,
+                contents=contents,
+                config=config
+            )
+        except errors.ClientError as e:
+            if e.code == 429 and attempt < max_retries - 1:
+                wait_time = (attempt + 1) * 20  # Wait 20s, then 40s...
+                print(f"Rate limit hit (429). Waiting {wait_time}s before retrying (Attempt {attempt + 1}/{max_retries})...")
+                time.sleep(wait_time)
+            else:
+                raise e
+
 def process_ready_files():
-    # Search for Markdown drafts inside WritingFactory/
-    files = glob.glob("WritingFactory/*.md")
+    files = glob.glob(os.path.join(INPUT_DIR, "*.md"))
     if not files:
-        print("No markdown files found in WritingFactory/. Skipping.")
+        print("No raw markdown files found in WritingFactory/. Skipping.")
         return
 
-    for filepath in files:
-        with open(filepath, "r", encoding="utf-8") as f:
-            content = f.read()
-            
-        parts = content.split("---")
-        if len(parts) < 3:
-            raw_text = content
-            status = "ready"
-        else:
-            metadata = yaml.safe_load(parts[1]) or {}
-            raw_text = "---".join(parts[2:])
-            status = metadata.get("status", "ready")
+    # Take the latest modified file
+    latest_file = max(files, key=os.path.path.getmtime)
+    print(f"Processing payload for: {os.path.relpath(latest_file, BASE_DIR)}")
 
-        if status == "ready":
-            print(f"Processing payload for: {filepath}")
-            prompt = f"{SYSTEM_PROMPT}\n\nRAW INPUT:\n{raw_text}"
-            
-            # Using model required by API environment
-            response = client.models.generate_content(
-                model='gemini-3.6-flash',
-                contents=prompt,
-                config=types.GenerateContentConfig(
-                    response_mime_type="application/json"
-                )
-            )
-            
-            # Write payload directly to repo root dist/ folder
-            dist_dir = os.path.abspath("dist")
-            os.makedirs(dist_dir, exist_ok=True)
-            output_file = os.path.join(dist_dir, "latest_payload.json")
-            
-            with open(output_file, "w", encoding="utf-8") as out:
-                out.write(response.text)
-                
-            print(f"Payload successfully generated and saved to {output_file}")
-            break
+    with open(latest_file, "r", encoding="utf-8") as f:
+        raw_text = f.read()
+
+    response = generate_with_retry(
+        model="gemini-2.5-flash",  # Using high-throughput flash model
+        contents=f"Transform this content into a Substack Note:\n\n{raw_text}",
+        config={"system_instruction": SYSTEM_INSTRUCTION}
+    )
+
+    clean_text = response.text.strip()
+    if clean_text.startswith("```json"):
+        clean_text = clean_text.replace("```json", "", 1).rsplit("```", 1)[0].strip()
+    elif clean_text.startswith("```"):
+        clean_text = clean_text.replace("```", "", 1).rsplit("```", 1)[0].strip()
+
+    os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+    with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        f.write(clean_text)
+
+    print(f"Payload successfully output to {os.path.relpath(OUTPUT_FILE, BASE_DIR)}")
 
 if __name__ == "__main__":
     process_ready_files()
