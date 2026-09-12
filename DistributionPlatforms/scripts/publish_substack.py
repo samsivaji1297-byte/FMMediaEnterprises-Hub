@@ -2,10 +2,10 @@ import os
 import json
 import time
 from playwright.sync_api import sync_playwright
+from playwright_stealth import stealth_sync
 
 SUBSTACK_SID = os.environ.get("SUBSTACK_SESSION_COOKIE")
 
-# Resolve path to dist/latest_payload.json
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 PAYLOAD_FILE = os.path.join(BASE_DIR, "dist", "latest_payload.json")
 
@@ -25,29 +25,26 @@ def publish_note():
         print("No Substack Note content found in JSON payload.")
         return
 
-    print("Launching Playwright browser session...")
+    print("Launching Stealth Browser Session...")
     with sync_playwright() as p:
+        # Launch real browser instance inside Xvfb frame
         browser = p.chromium.launch(
-            headless=True,
+            headless=False,
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--no-sandbox",
                 "--disable-setuid-sandbox",
-                "--disable-dev-shm-usage",
-                "--disable-accelerated-2d-canvas",
-                "--disable-gpu"
+                "--disable-infobars",
+                "--window-size=1280,800"
             ]
         )
         
         context = browser.new_context(
-            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            viewport={"width": 1280, "height": 800},
-            extra_http_headers={
-                "Accept-Language": "en-US,en;q=0.9"
-            }
+            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+            viewport={"width": 1280, "height": 800}
         )
 
-        # Set session cookie
+        # Inject session cookie
         context.add_cookies([{
             "name": "substack.sid",
             "value": SUBSTACK_SID,
@@ -59,54 +56,36 @@ def publish_note():
         }])
 
         page = context.new_page()
-        
-        # Mask navigator.webdriver
-        page.add_init_script("""
-            Object.defineProperty(navigator, 'webdriver', {
-                get: () => undefined
-            });
-        """)
+        stealth_sync(page)
 
-        print("Navigating to Substack Notes page...")
+        print("Navigating to Substack...")
+        # Step through main domain first to authorize cookie session
+        page.goto("https://substack.com", wait_until="domcontentloaded", timeout=60000)
+        time.sleep(3)
+
+        print("Opening Notes interface...")
         page.goto("https://substack.com/notes", wait_until="domcontentloaded", timeout=60000)
-
-        # Wait up to 20 seconds if Cloudflare challenge is present
-        for i in range(4):
-            if "Just a moment..." in page.title():
-                print(f"Cloudflare challenge active, waiting... ({i+1}/4)")
-                time.sleep(5)
-            else:
-                break
+        time.sleep(5)
 
         print(f"Current Page Title: {page.title()}")
-        print("Locating Note composer...")
-        
-        try:
-            # Use Playwright's multi-locator fallback syntax instead of invalid CSS
-            composer = (
-                page.locator('div[contenteditable="true"]')
-                .or_(page.locator('textarea'))
-                .or_(page.get_by_placeholder("Pondering"))
-            ).first
 
-            composer.wait_for(state="visible", timeout=20000)
+        try:
+            # Locate Note composition box
+            composer = page.locator('div[contenteditable="true"]').first
+            composer.wait_for(state="visible", timeout=25000)
             composer.click()
             composer.fill(note_body)
             print("Content inserted into composer.")
             time.sleep(2)
 
-            # Locate post button
-            post_button = (
-                page.locator('button:has-text("Post")')
-                .or_(page.locator('button:has-text("Publish")'))
-            ).first
-
+            # Locate Post button
+            post_button = page.locator('button:has-text("Post")').first
             post_button.wait_for(state="visible", timeout=10000)
             post_button.click()
             
-            print("Post button clicked. Waiting for request completion...")
-            time.sleep(5)
-            print("Substack Note published successfully via browser automation.")
+            print("Post button clicked. Confirming delivery...")
+            time.sleep(6)
+            print("Substack Note published successfully.")
 
         except Exception as e:
             print(f"Error interacting with Substack UI: {e}")
