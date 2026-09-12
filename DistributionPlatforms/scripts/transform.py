@@ -28,7 +28,7 @@ def generate_with_retry(model, contents, config, max_retries=3):
             )
         except errors.ClientError as e:
             if e.code == 429 and attempt < max_retries - 1:
-                wait_time = (attempt + 1) * 20  # Wait 20s, then 40s...
+                wait_time = (attempt + 1) * 20
                 print(f"Rate limit hit (429). Waiting {wait_time}s before retrying (Attempt {attempt + 1}/{max_retries})...")
                 time.sleep(wait_time)
             else:
@@ -41,14 +41,14 @@ def process_ready_files():
         return
 
     # Take the latest modified file
-    latest_file = max(files, key=os.path.path.getmtime)
+    latest_file = max(files, key=os.path.getmtime)
     print(f"Processing payload for: {os.path.relpath(latest_file, BASE_DIR)}")
 
     with open(latest_file, "r", encoding="utf-8") as f:
         raw_text = f.read()
 
     response = generate_with_retry(
-        model="gemini-2.5-flash",  # Using high-throughput flash model
+        model="gemini-2.5-flash",
         contents=f"Transform this content into a Substack Note:\n\n{raw_text}",
         config={"system_instruction": SYSTEM_INSTRUCTION}
     )
