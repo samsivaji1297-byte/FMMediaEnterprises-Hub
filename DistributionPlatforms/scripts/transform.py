@@ -5,7 +5,7 @@ import yaml
 from google import genai
 from google.genai import types
 
-# Initialize Gemini Client
+# Initialize Gemini Client (reads GEMINI_API_KEY from environment)
 client = genai.Client()
 
 SYSTEM_PROMPT = """
@@ -40,9 +40,9 @@ def process_ready_files():
             print(f"Processing payload for: {filepath}")
             prompt = f"{SYSTEM_PROMPT}\n\nRAW INPUT:\n{raw_text}"
             
-            # Using stable gemini model endpoint
+            # Using model required by API environment
             response = client.models.generate_content(
-                model='gemini-2.5-flash',
+                model='gemini-3.6-flash',
                 contents=prompt,
                 config=types.GenerateContentConfig(
                     response_mime_type="application/json"
