@@ -1,24 +1,11 @@
 import os
 import json
-import time
-from playwright.sync_api import sync_playwright
+import requests
 
 SUBSTACK_SID = os.environ.get("SUBSTACK_SESSION_COOKIE")
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 PAYLOAD_FILE = os.path.join(BASE_DIR, "dist", "latest_payload.json")
-
-STEALTH_JS = """
-// Mask navigator.webdriver
-Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-
-// Mask Chrome runtime
-window.chrome = { runtime: {} };
-
-// Mask languages & plugins
-Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
-Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
-"""
 
 def publish_note():
     if not SUBSTACK_SID:
@@ -36,76 +23,41 @@ def publish_note():
         print("No Substack Note content found in JSON payload.")
         return
 
-    print("Launching Playwright session inside virtual display...")
-    with sync_playwright() as p:
-        browser = p.chromium.launch(
-            headless=False,
-            args=[
-                "--disable-blink-features=AutomationControlled",
-                "--no-sandbox",
-                "--disable-setuid-sandbox",
-                "--disable-infobars",
-                "--window-size=1280,800"
-            ]
-        )
-        
-        context = browser.new_context(
-            user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
-            viewport={"width": 1280, "height": 800}
-        )
+    print("Constructing Substack API request...")
 
-        # Inject native stealth before page loads
-        context.add_init_script(STEALTH_JS)
+    # Substack Notes internal endpoint
+    url = "https://substack.com/api/v1/comment"
 
-        # Inject session cookie
-        context.add_cookies([{
-            "name": "substack.sid",
-            "value": SUBSTACK_SID,
-            "domain": ".substack.com",
-            "path": "/",
-            "httpOnly": True,
-            "secure": True,
-            "sameSite": "Lax"
-        }])
+    # Set up session headers and authentication cookie
+    headers = {
+        "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+        "Content-Type": "application/json",
+        "Accept": "application/json",
+        "Origin": "https://substack.com",
+        "Referer": "https://substack.com/notes"
+    }
 
-        page = context.new_page()
+    cookies = {
+        "substack.sid": SUBSTACK_SID
+    }
 
-        print("Navigating to Substack...")
-        page.goto("https://substack.com", wait_until="domcontentloaded", timeout=60000)
-        time.sleep(4)
+    # Format body payload as a Substack post/note draft
+    payload = {
+        "body": note_body,
+        "tab": "notes",
+        "type": "note"
+    }
 
-        print("Opening Notes interface...")
-        page.goto("https://substack.com/notes", wait_until="domcontentloaded", timeout=60000)
-        time.sleep(6)
+    print("Posting Note directly to Substack API...")
+    response = requests.post(url, headers=headers, cookies=cookies, json=payload, timeout=30)
 
-        print(f"Current Page Title: {page.title()}")
-
-        try:
-            composer = page.locator('div[contenteditable="true"]').first
-            composer.wait_for(state="visible", timeout=25000)
-            composer.click()
-            composer.fill(note_body)
-            print("Content inserted into composer.")
-            time.sleep(2)
-
-            post_button = page.locator('button:has-text("Post")').first
-            post_button.wait_for(state="visible", timeout=10000)
-            post_button.click()
-            
-            print("Post button clicked. Confirming delivery...")
-            time.sleep(6)
-            print("Substack Note published successfully.")
-
-        except Exception as e:
-            print(f"Error interacting with Substack UI: {e}")
-            os.makedirs(os.path.join(BASE_DIR, "dist"), exist_ok=True)
-            screenshot_path = os.path.join(BASE_DIR, "dist", "failure_screenshot.png")
-            page.screenshot(path=screenshot_path)
-            print(f"Diagnostic screenshot saved to {screenshot_path}")
-            browser.close()
-            exit(1)
-
-        browser.close()
+    if response.status_code in (200, 201):
+        print("Substack Note published successfully via API.")
+        print(f"Response: {response.json()}")
+    else:
+        print(f"Failed to post Note. HTTP Status: {response.status_code}")
+        print(f"Response Body: {response.text}")
+        exit(1)
 
 if __name__ == "__main__":
     publish_note()
