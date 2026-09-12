@@ -3,15 +3,22 @@ import json
 import time
 from playwright.sync_api import sync_playwright
 
-try:
-    from playwright_stealth import stealth_sync
-except ImportError:
-    from playwright_stealth.stealth import stealth_sync
-
 SUBSTACK_SID = os.environ.get("SUBSTACK_SESSION_COOKIE")
 
 BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
 PAYLOAD_FILE = os.path.join(BASE_DIR, "dist", "latest_payload.json")
+
+STEALTH_JS = """
+// Mask navigator.webdriver
+Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
+
+// Mask Chrome runtime
+window.chrome = { runtime: {} };
+
+// Mask languages & plugins
+Object.defineProperty(navigator, 'languages', { get: () => ['en-US', 'en'] });
+Object.defineProperty(navigator, 'plugins', { get: () => [1, 2, 3, 4, 5] });
+"""
 
 def publish_note():
     if not SUBSTACK_SID:
@@ -29,7 +36,7 @@ def publish_note():
         print("No Substack Note content found in JSON payload.")
         return
 
-    print("Launching Stealth Browser Session...")
+    print("Launching Playwright session inside virtual display...")
     with sync_playwright() as p:
         browser = p.chromium.launch(
             headless=False,
@@ -47,6 +54,10 @@ def publish_note():
             viewport={"width": 1280, "height": 800}
         )
 
+        # Inject native stealth before page loads
+        context.add_init_script(STEALTH_JS)
+
+        # Inject session cookie
         context.add_cookies([{
             "name": "substack.sid",
             "value": SUBSTACK_SID,
@@ -58,15 +69,14 @@ def publish_note():
         }])
 
         page = context.new_page()
-        stealth_sync(page)
 
         print("Navigating to Substack...")
         page.goto("https://substack.com", wait_until="domcontentloaded", timeout=60000)
-        time.sleep(3)
+        time.sleep(4)
 
         print("Opening Notes interface...")
         page.goto("https://substack.com/notes", wait_until="domcontentloaded", timeout=60000)
-        time.sleep(5)
+        time.sleep(6)
 
         print(f"Current Page Title: {page.title()}")
 
