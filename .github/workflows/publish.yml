@@ -1,13 +1,13 @@
-name: Autonomous Content Pipeline
+name: Substack Note Dispatch Pipeline
 
 on:
   push:
     paths:
-      - 'content/*.md'
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+      - 'WritingFactory/*.md'
+  workflow_dispatch: # Allows manual trigger directly from GitHub UI
 
 jobs:
-  build-and-publish:
+  publish:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
@@ -23,22 +23,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install google-generativeai pyyaml requests
 
-      - name: Execute Gemini Transformation
+      - name: Transform Draft with Gemini
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python scripts/transform.py
+        run: |
+          # If transform.py lives in DistributionPlatforms/scripts/
+          python DistributionPlatforms/scripts/transform.py
 
-      - name: Dispatch Substack Note
+      - name: Publish to Substack
         env:
           SUBSTACK_SESSION_COOKIE: ${{ secrets.SUBSTACK_SESSION_COOKIE }}
-        run: python scripts/publish_substack.py
-
-      - name: Archive Processed Post
         run: |
-          mkdir -p content/archive
-          mv content/*.md content/archive/ 2>/dev/null || true
-          git config --global user.name 'Sovereign Automated Bot'
-          git config --global user.email 'bot@github.com'
+          python DistributionPlatforms/scripts/publish_substack.py
+
+      - name: Archive Published Draft
+        run: |
+          mkdir -p WritingFactory/archive
+          mv WritingFactory/*.md WritingFactory/archive/ 2>/dev/null || true
+          git config --global user.name 'FMMedia Enterprise Engine'
+          git config --global user.email 'automation@fmmedia.local'
           git add .
-          git commit -m "chore: archive published content" || exit 0
+          git commit -m "chore: archive dispatched WritingFactory post" || exit 0
           git push
