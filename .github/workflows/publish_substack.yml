@@ -33,11 +33,11 @@ jobs:
         run: |
           python DistributionPlatforms/scripts/transform.py
 
-      - name: Publish Note to Substack via Headful Browser
+      - name: Publish Note to Substack via API
         env:
           SUBSTACK_SESSION_COOKIE: ${{ secrets.SUBSTACK_SESSION_COOKIE }}
         run: |
-          xvfb-run python DistributionPlatforms/scripts/publish_substack.py
+          python DistributionPlatforms/scripts/publish_substack.py
 
       - name: Commit Generated Artifacts
         run: |
