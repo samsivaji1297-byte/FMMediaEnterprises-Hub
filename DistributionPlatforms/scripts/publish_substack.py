@@ -1,6 +1,6 @@
 import os
 import json
-import requests
+from curl_cffi import requests
 
 SUBSTACK_SID = os.environ.get("SUBSTACK_SESSION_COOKIE")
 
@@ -23,12 +23,10 @@ def publish_note():
         print("No Substack Note content found in JSON payload.")
         return
 
-    print("Constructing Substack API request...")
+    print("Constructing Substack API request with TLS Impersonation...")
 
-    # Substack Notes internal endpoint
     url = "https://substack.com/api/v1/comment"
 
-    # Set up session headers and authentication cookie
     headers = {
         "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
         "Content-Type": "application/json",
@@ -41,19 +39,25 @@ def publish_note():
         "substack.sid": SUBSTACK_SID
     }
 
-    # Format body payload as a Substack post/note draft
     payload = {
         "body": note_body,
         "tab": "notes",
         "type": "note"
     }
 
-    print("Posting Note directly to Substack API...")
-    response = requests.post(url, headers=headers, cookies=cookies, json=payload, timeout=30)
+    # Impersonate browser TLS fingerprint (chrome120)
+    response = requests.post(
+        url, 
+        headers=headers, 
+        cookies=cookies, 
+        json=payload, 
+        impersonate="chrome120",
+        timeout=30
+    )
 
     if response.status_code in (200, 201):
         print("Substack Note published successfully via API.")
-        print(f"Response: {response.json()}")
+        print(f"Response: {response.text}")
     else:
         print(f"Failed to post Note. HTTP Status: {response.status_code}")
         print(f"Response Body: {response.text}")
