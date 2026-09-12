@@ -3,14 +3,15 @@ import json
 import requests
 
 SUBSTACK_SID = os.environ.get("SUBSTACK_SESSION_COOKIE")
-PAYLOAD_FILE = "dist/latest_payload.json"
+# Points to dist/ relative to repo root or script execution path
+PAYLOAD_FILE = os.path.join(os.path.dirname(__file__), "../../dist/latest_payload.json")
 
 def post_substack_note():
     if not SUBSTACK_SID:
-        raise ValueError("Missing SUBSTACK_SESSION_COOKIE secret.")
+        raise ValueError("Missing SUBSTACK_SESSION_COOKIE environment secret.")
 
     if not os.path.exists(PAYLOAD_FILE):
-        print(f"No payload found at {PAYLOAD_FILE}. Skipping.")
+        print(f"No payload found at {PAYLOAD_FILE}. Skipping execution.")
         return
 
     with open(PAYLOAD_FILE, "r") as f:
@@ -18,10 +19,9 @@ def post_substack_note():
 
     note_body = data.get("substack_note")
     if not note_body:
-        print("No Substack Note found in payload.")
+        print("No Substack Note body in JSON payload.")
         return
 
-    # Endpoint and headers setup
     url = "https://substack.com/api/v1/comment/feed"
     
     cookies = {
@@ -36,7 +36,6 @@ def post_substack_note():
         "Referer": "https://substack.com/notes"
     }
 
-    # Draft standard raw text payload
     payload = {
         "body": note_body,
         "tab": "subscribed",
@@ -44,15 +43,14 @@ def post_substack_note():
         "restack_count": 0
     }
 
-    print("Dispatching Note to Substack...")
+    print("Dispatching payload to Substack Notes endpoint...")
     response = requests.post(url, headers=headers, cookies=cookies, json=payload)
 
     if response.status_code in [200, 201]:
         print("Substack Note published successfully.")
-        print(f"Response: {response.json()}")
     else:
         print(f"Failed to post Note. Status Code: {response.status_code}")
-        print(f"Server Output: {response.text}")
+        print(f"Response: {response.text}")
         exit(1)
 
 if __name__ == "__main__":
