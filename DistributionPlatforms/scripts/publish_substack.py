@@ -27,19 +27,24 @@ def publish_note():
 
     print("Launching Playwright browser session...")
     with sync_playwright() as p:
-        # Launch Chromium with anti-bot flags
         browser = p.chromium.launch(
             headless=True,
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--no-sandbox",
-                "--disable-setuid-sandbox"
+                "--disable-setuid-sandbox",
+                "--disable-dev-shm-usage",
+                "--disable-accelerated-2d-canvas",
+                "--disable-gpu"
             ]
         )
         
         context = browser.new_context(
             user_agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
-            viewport={"width": 1280, "height": 800}
+            viewport={"width": 1280, "height": 800},
+            extra_http_headers={
+                "Accept-Language": "en-US,en;q=0.9"
+            }
         )
 
         # Set session cookie
@@ -55,35 +60,48 @@ def publish_note():
 
         page = context.new_page()
         
-        print("Navigating to Substack Notes page...")
-        # Use domcontentloaded instead of networkidle to prevent timeouts from background streaming
-        page.goto("https://substack.com/notes", wait_until="domcontentloaded", timeout=60000)
-        time.sleep(5)
+        # Mask navigator.webdriver
+        page.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+        """)
 
-        # Check for Cloudflare challenge
-        if "Just a moment..." in page.title():
-            print("Cloudflare challenge page detected. Waiting 10 seconds for resolution...")
-            time.sleep(10)
+        print("Navigating to Substack Notes page...")
+        page.goto("https://substack.com/notes", wait_until="domcontentloaded", timeout=60000)
+
+        # Wait up to 20 seconds if Cloudflare challenge is present
+        for i in range(4):
+            if "Just a moment..." in page.title():
+                print(f"Cloudflare challenge active, waiting... ({i+1}/4)")
+                time.sleep(5)
+            else:
+                break
 
         print(f"Current Page Title: {page.title()}")
         print("Locating Note composer...")
         
-        # Selectors matching Substack Note composition field
-        composer_selector = 'div[contenteditable="true"], text=Pondering... write a note, .textarea'
-        
         try:
-            page.wait_for_selector(composer_selector, timeout=20000)
-            
-            # Click and type into the composer
-            target = page.locator(composer_selector).first
-            target.click()
-            target.fill(note_body)
+            # Use Playwright's multi-locator fallback syntax instead of invalid CSS
+            composer = (
+                page.locator('div[contenteditable="true"]')
+                .or_(page.locator('textarea'))
+                .or_(page.get_by_placeholder("Pondering"))
+            ).first
+
+            composer.wait_for(state="visible", timeout=20000)
+            composer.click()
+            composer.fill(note_body)
             print("Content inserted into composer.")
             time.sleep(2)
 
-            # Click post button
-            post_button = page.locator('button:has-text("Post"), button:has-text("Post note")').first
-            post_button.wait_for(timeout=10000)
+            # Locate post button
+            post_button = (
+                page.locator('button:has-text("Post")')
+                .or_(page.locator('button:has-text("Publish")'))
+            ).first
+
+            post_button.wait_for(state="visible", timeout=10000)
             post_button.click()
             
             print("Post button clicked. Waiting for request completion...")
