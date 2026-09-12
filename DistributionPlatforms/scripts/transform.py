@@ -48,7 +48,7 @@ def process_ready_files():
         raw_text = f.read()
 
     response = generate_with_retry(
-        model="gemini-2.5-flash",
+        model="gemini-3.6-flash",
         contents=f"Transform this content into a Substack Note:\n\n{raw_text}",
         config={"system_instruction": SYSTEM_INSTRUCTION}
     )
