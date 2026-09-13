@@ -16,8 +16,10 @@ This repo contains:
 
 This is the foundation layer. Expansion comes next.
 
-CommandHub is the overall Sovereign Dashboard Command Hub.
-WorkflowEngines contains the different engines, such as ingestion engines in which I input threads/ideas etc and then get outputs for distribution modules.
+- CommandHub is the overall Sovereign Dashboard Command Hub.
+- WorkflowEngines contains the different engines, such as ingestion engines in which I input threads/ideas etc and then get outputs for distribution modules.
+- WritingFactory folder is focused on using the LLM API / LLM Engines to do autonomous writings.
+
 
 
 FM-Media-Enterprises/
