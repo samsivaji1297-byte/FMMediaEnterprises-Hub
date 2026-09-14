@@ -1,0 +1,41 @@
+name: Sovereign Content Engine Processor
+
+on:
+  push:
+    paths:
+      - 'capture/raw_notes/**'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  run-transformer:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai
+
+      - name: Execute Content Mutation Core
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python engines/content/transformer.py
+
+      - name: Commit and Push Updated MemoryVault State
+        run: |
+          git config --global user.name "Sovereign Engine Bot"
+          git config --global user.email "bot@sovereignengine.internal"
+          git add capture/ MemoryVault/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "auto(engine): mutate raw seeds and sync MemoryVault state" && git push)
