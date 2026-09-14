@@ -1,0 +1,10 @@
+[
+  {
+    "id": "echo_001",
+    "content_id": "rel_001",
+    "scheduled_date": "2026-09-17",
+    "interval": "T+7",
+    "status": "pending",
+    "platform_target": "X"
+  }
+]
