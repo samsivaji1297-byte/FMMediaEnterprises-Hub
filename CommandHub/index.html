@@ -34,24 +34,45 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding-bottom: 16px;
-      margin-bottom: 20px;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
       border-bottom: 1px solid var(--border);
     }
 
     h1 {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       color: var(--text-heading);
       letter-spacing: -0.5px;
     }
 
-    .status-tag {
-      font-size: 0.75rem;
-      background: var(--secondary);
+    /* NAV TABS */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      padding: 4px;
+      border-radius: 8px;
       border: 1px solid var(--border);
-      padding: 4px 8px;
-      border-radius: 12px;
+    }
+
+    .tab-btn {
+      flex: 1;
+      padding: 8px 12px;
+      background: transparent;
+      border: none;
       color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .tab-btn.active {
+      background: var(--secondary);
+      color: var(--text-heading);
+      border: 1px solid var(--border);
     }
 
     .deck-container {
@@ -69,7 +90,6 @@
       flex-direction: column;
       gap: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-      transition: opacity 0.3s ease;
     }
 
     .card-header {
@@ -88,10 +108,9 @@
       text-transform: uppercase;
     }
 
-    .id-tag {
+    .timestamp-tag {
       font-size: 0.75rem;
       color: var(--muted);
-      font-family: monospace;
     }
 
     .content-text {
@@ -144,18 +163,10 @@
       width: 100%;
     }
 
-    .btn-secondary:active {
-      background: var(--secondary-hover);
-    }
-
     .btn-primary {
       background: var(--accent);
       color: #fff;
       flex: 1;
-    }
-
-    .btn-primary:active {
-      background: var(--accent-hover);
     }
 
     .btn:disabled {
@@ -180,8 +191,13 @@
 
   <header>
     <h1>CommandHub OS</h1>
-    <span class="status-tag">Pending Deck</span>
   </header>
+
+  <!-- NAVIGATION TABS -->
+  <div class="tab-bar">
+    <button id="tab-pending" class="tab-btn active" onclick="switchTab('pending')">Pending Queue</button>
+    <button id="tab-released" class="tab-btn" onclick="switchTab('released')">Released Archive</button>
+  </div>
 
   <main id="feed-container" class="deck-container">
     <div class="loading">Loading dispatches...</div>
