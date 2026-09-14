@@ -1,0 +1,33 @@
+name: Archive Dispatched Asset
+
+on:
+  repository_dispatch:
+    types: [archive_dispatch]
+
+jobs:
+  archive:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Execute Archive Engine
+        env:
+          DISPATCH_ID: ${{ github.event.client_payload.dispatch_id }}
+          PLATFORM: ${{ github.event.client_payload.platform }}
+          MUTATED_TEXT: ${{ github.event.client_payload.mutated_text }}
+          DISTRIBUTED_AT: ${{ github.event.client_payload.distributed_at }}
+        run: python engines/content/archive_dispatch.py
+
+      - name: Commit and Push State Updates
+        run: |
+          git config --global user.name "CommandHub Bot"
+          git config --global user.email "bot@commandhub.internal"
+          git add MemoryVault/
+          git diff-index --quiet HEAD || git commit -m "Archive dispatch: ${{ github.event.client_payload.dispatch_id }} [skip ci]"
+          git push
