@@ -1,5 +1,5 @@
 // ==========================================
-// CONFIGURATION & AUTHORIZATION
+// CONFIGURATION & LOCAL STORAGE AUTH
 // ==========================================
 const REPO_OWNER = "samsivaji1297-byte";
 const REPO_NAME = "FMMediaEnterprises-Hub";
@@ -14,7 +14,7 @@ function saveGitHubToken(token) {
 
 function clearGitHubToken() {
   localStorage.removeItem('GH_PAT');
-  alert("GitHub Token cleared from browser.");
+  alert("Stored GitHub token cleared.");
 }
 
 function getFormattedCurrentDateTime() {
@@ -37,11 +37,11 @@ async function fetchPendingDispatches() {
   feedContainer.innerHTML = '<div class="loading">Loading pending dispatches...</div>';
 
   try {
-    // Fetch directly from raw MemoryVault feed
+    // Pull feed directly from raw public github content
     const response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/MemoryVault/dashboard_feed.json?t=${Date.now()}`);
     
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(`HTTP error status: ${response.status}`);
     }
 
     const items = await response.json();
@@ -58,7 +58,11 @@ async function fetchPendingDispatches() {
 
   } catch (err) {
     console.error("Error loading feed:", err);
-    feedContainer.innerHTML = `<div class="error-state">Failed to load feed. Make sure MemoryVault/dashboard_feed.json exists.<br><small>${err.message}</small></div>`;
+    feedContainer.innerHTML = `
+      <div class="error-state">
+        Unable to load MemoryVault/dashboard_feed.json.<br>
+        <small>${err.message}</small>
+      </div>`;
   }
 }
 
@@ -111,20 +115,21 @@ function copyCardContent(itemId) {
   if (!textElem) return;
 
   navigator.clipboard.writeText(textElem.innerText).then(() => {
-    alert("Copied dispatch content to clipboard!");
+    alert("Copied content to clipboard!");
   }).catch(err => {
     console.error("Failed to copy text: ", err);
   });
 }
 
 // ==========================================
-// ONE-TAP DISTRIBUTED ACTION (WEBHOOK)
+// ONE-TAP DISTRIBUTED DISPATCH (WEBHOOK)
 // ==========================================
 async function markAsDistributed(dispatchId, platform) {
   let token = getGitHubToken();
 
+  // Prompt ONLY ONCE if token is not yet stored in device memory
   if (!token) {
-    token = prompt("Enter your GitHub Personal Access Token (PAT) with repo contents permission:");
+    token = prompt("Enter your GitHub Personal Access Token (PAT) with repo write access:");
     if (!token) return alert("Action canceled: GitHub Token required to archive dispatches.");
     saveGitHubToken(token);
   }
@@ -161,18 +166,17 @@ async function markAsDistributed(dispatchId, platform) {
     });
 
     if (response.ok || response.status === 204) {
-      // Instantly clear card from local view
       const cardNode = document.getElementById(`card-${dispatchId}`);
       if (cardNode) {
         cardNode.style.opacity = "0.4";
         cardNode.style.pointerEvents = "none";
       }
-      alert("Dispatched! GitHub Action triggered to move asset to released archive.");
+      alert("Dispatched! GitHub Action triggered.");
       setTimeout(() => { if (cardNode) cardNode.remove(); }, 1000);
     } else {
       const errData = await response.json();
       if (response.status === 401) {
-        alert("Authorization failed: Token invalid or expired. Please re-enter.");
+        alert("Token invalid. Clearing token—please re-enter when prompted.");
         clearGitHubToken();
       } else {
         alert(`Dispatch failed: ${errData.message || response.statusText}`);
