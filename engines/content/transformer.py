@@ -74,7 +74,7 @@ def process_raw_seeds():
 
         # Call Gemini 2.5 Flash for rapid, structured mutation
         response = client.models.generate_content(
-            model='gemini-2.5-flash',
+            model='gemini-3.6-flash',
             contents=f"Mutate this raw seed:\n\n{raw_content}",
             config=types.GenerateContentConfig(
                 system_instruction=SYSTEM_INSTRUCTION,
