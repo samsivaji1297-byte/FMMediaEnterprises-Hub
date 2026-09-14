@@ -58,17 +58,31 @@ jobs:
             const cleanedText = textResponse.replace(/```json|```/g, "").trim();
             const newItems = JSON.parse(cleanedText);
 
-            // Read existing feed
+            // Read existing feed safely
             const feedPath = "./MemoryVault/dashboard_feed.json";
             let existingFeed = [];
             if (fs.existsSync(feedPath)) {
-              try { existingFeed = JSON.parse(fs.readFileSync(feedPath, "utf8")); } catch(e) {}
+              try {
+                const parsed = JSON.parse(fs.readFileSync(feedPath, "utf8"));
+                if (Array.isArray(parsed)) {
+                  existingFeed = parsed;
+                } else if (parsed && Array.isArray(parsed.items)) {
+                  existingFeed = parsed.items;
+                } else if (parsed && Array.isArray(parsed.dispatches)) {
+                  existingFeed = parsed.dispatches;
+                }
+              } catch(e) {
+                existingFeed = [];
+              }
             }
 
-            // Append new items
-            const updatedFeed = [...newItems, ...existingFeed];
+            // Ensure newItems is also an array
+            const validNewItems = Array.isArray(newItems) ? newItems : [];
+
+            // Combine and write back
+            const updatedFeed = [...validNewItems, ...existingFeed];
             fs.writeFileSync(feedPath, JSON.stringify(updatedFeed, null, 2));
-            console.log(`Successfully appended ${newItems.length} dispatches.`);
+            console.log(`Successfully appended ${validNewItems.length} dispatches.`);
           }
 
           generate().catch(err => { console.error(err); process.exit(1); });
