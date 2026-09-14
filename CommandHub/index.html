@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>CommandHub - Sovereign OS</title>
+  <title>CommandHub OS</title>
   <style>
     :root {
       --bg: #0d1117;
@@ -26,7 +26,7 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       padding: 16px;
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
@@ -40,16 +40,69 @@
     }
 
     h1 {
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: var(--text-heading);
       letter-spacing: -0.5px;
+    }
+
+    /* SIGNAL INGESTION BOX */
+    .ingestion-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .ingestion-card label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-heading);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    textarea {
+      width: 100%;
+      height: 90px;
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      color: var(--text-heading);
+      border-radius: 6px;
+      padding: 10px;
+      font-family: inherit;
+      font-size: 0.9rem;
+      resize: vertical;
+    }
+
+    textarea:focus {
+      outline: 1px solid var(--accent);
+      border-color: var(--accent);
+    }
+
+    .ingestion-controls {
+      display: flex;
+      gap: 8px;
+    }
+
+    select {
+      background: var(--secondary);
+      border: 1px solid var(--border);
+      color: var(--text-heading);
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 0.85rem;
     }
 
     /* NAV TABS */
     .tab-bar {
       display: flex;
       gap: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
       background: var(--card-bg);
       padding: 4px;
       border-radius: 8px;
@@ -75,6 +128,7 @@
       border: 1px solid var(--border);
     }
 
+    /* FEED DECKS */
     .deck-container {
       display: flex;
       flex-direction: column;
@@ -111,6 +165,7 @@
     .timestamp-tag {
       font-size: 0.75rem;
       color: var(--muted);
+      font-family: monospace;
     }
 
     .content-text {
@@ -169,6 +224,10 @@
       flex: 1;
     }
 
+    .btn-primary:active {
+      background: var(--accent-hover);
+    }
+
     .btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
@@ -176,7 +235,7 @@
 
     .loading, .empty-state, .error-state {
       text-align: center;
-      padding: 40px 16px;
+      padding: 30px 16px;
       color: var(--muted);
       font-size: 0.9rem;
       background: var(--card-bg);
@@ -193,12 +252,34 @@
     <h1>CommandHub OS</h1>
   </header>
 
+  <!-- UNIVERSAL SIGNAL CAPTURE -->
+  <section class="ingestion-card">
+    <label for="signal-input">
+      <span>Universal Signal Capture</span>
+      <small style="color: var(--muted);">Raw Seed / Idea</small>
+    </label>
+    <textarea id="signal-input" placeholder="Enter signal, post seed, or mental dump..."></textarea>
+    
+    <div class="ingestion-controls">
+      <select id="signal-type">
+        <option value="content_dispatch">Dispatch Seed (Content)</option>
+        <option value="new_ip">New IP Framework</option>
+        <option value="task">Task / Action Item</option>
+        <option value="reminder">System Reminder</option>
+      </select>
+      <button id="btn-capture" class="btn btn-primary" onclick="submitSignal()">
+        Transmit Signal
+      </button>
+    </div>
+  </section>
+
   <!-- NAVIGATION TABS -->
   <div class="tab-bar">
     <button id="tab-pending" class="tab-btn active" onclick="switchTab('pending')">Pending Queue</button>
     <button id="tab-released" class="tab-btn" onclick="switchTab('released')">Released Archive</button>
   </div>
 
+  <!-- FEED DECK -->
   <main id="feed-container" class="deck-container">
     <div class="loading">Loading dispatches...</div>
   </main>
