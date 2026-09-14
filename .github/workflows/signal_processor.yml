@@ -38,49 +38,56 @@ jobs:
               process.exit(1);
             }
 
-            const prompt = `You are a content transformation engine. Convert the following raw seed into 3 platform dispatches: Substack, Twitter/X, and LinkedIn.
-            Raw Seed: "${rawText}"
-            Signal Type: "${type}"
+            const prompt = `Convert this raw seed into 3 social media dispatches for Substack, Twitter, and LinkedIn:
+            Seed: "${rawText}"
+            Type: "${type}"
 
-            Return ONLY a valid JSON array of objects with keys: "id", "platform", "content", "created_at". No markdown formatting or extra text.`;
+            Respond with ONLY a raw JSON array of 3 objects.
+            Format:
+            [
+              { "id": "sub_1", "platform": "Substack", "content": "...", "created_at": "${new Date().toISOString()}" },
+              { "id": "tw_1", "platform": "Twitter", "content": "...", "created_at": "${new Date().toISOString()}" },
+              { "id": "li_1", "platform": "LinkedIn", "content": "...", "created_at": "${new Date().toISOString()}" }
+            ]`;
 
             const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
             const res = await fetch(url, {
               method: "POST",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                contents: [{ parts: [{ text: prompt }] }]
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: { responseMimeType: "application/json" }
               })
             });
 
             const data = await res.json();
             const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
-            const cleanedText = textResponse.replace(/```json|```/g, "").trim();
-            const newItems = JSON.parse(cleanedText);
+            console.log("Raw Gemini Output:", textResponse);
 
-            // Read existing feed safely
+            let newItems = [];
+            try {
+              newItems = JSON.parse(textResponse);
+            } catch(e) {
+              console.error("Failed to parse Gemini output as JSON:", e);
+              const cleaned = textResponse.replace(/```json|```/g, "").trim();
+              newItems = JSON.parse(cleaned);
+            }
+
             const feedPath = "./MemoryVault/dashboard_feed.json";
             let existingFeed = [];
             if (fs.existsSync(feedPath)) {
               try {
                 const parsed = JSON.parse(fs.readFileSync(feedPath, "utf8"));
-                if (Array.isArray(parsed)) {
-                  existingFeed = parsed;
-                } else if (parsed && Array.isArray(parsed.items)) {
-                  existingFeed = parsed.items;
-                } else if (parsed && Array.isArray(parsed.dispatches)) {
-                  existingFeed = parsed.dispatches;
-                }
+                if (Array.isArray(parsed)) existingFeed = parsed;
+                else if (parsed && Array.isArray(parsed.items)) existingFeed = parsed.items;
               } catch(e) {
                 existingFeed = [];
               }
             }
 
-            // Ensure newItems is also an array
             const validNewItems = Array.isArray(newItems) ? newItems : [];
-
-            // Combine and write back
             const updatedFeed = [...validNewItems, ...existingFeed];
+            
             fs.writeFileSync(feedPath, JSON.stringify(updatedFeed, null, 2));
             console.log(`Successfully appended ${validNewItems.length} dispatches.`);
           }
