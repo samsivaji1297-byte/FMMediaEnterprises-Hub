@@ -21,7 +21,7 @@ function getFormattedCurrentDateTime() {
 }
 
 // ==========================================
-// TAB SWITCHING & FEED CONTROL
+// INITIALIZATION & TAB SWITCHING
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
   loadDeck();
@@ -42,7 +42,7 @@ function loadDeck() {
   }
 }
 
-// Helper to attempt multiple fallback paths for JSON files
+// Robust Multi-Path JSON Reader
 async function fetchVaultJSON(filename) {
   const paths = [
     `../MemoryVault/${filename}`,
@@ -53,7 +53,7 @@ async function fetchVaultJSON(filename) {
 
   for (const path of paths) {
     try {
-      const response = await fetch(`${path}?cachebust=${Date.now()}`);
+      const response = await fetch(`${path}?t=${Date.now()}`);
       if (response.ok) {
         return await response.json();
       }
@@ -65,42 +65,98 @@ async function fetchVaultJSON(filename) {
 }
 
 // ==========================================
-// 1. PENDING QUEUE FEED
+// 1. UNIVERSAL SIGNAL TRANSMIT (WEBHOOK)
+// ==========================================
+async function submitSignal() {
+  const inputElem = document.getElementById("signal-input");
+  const typeElem = document.getElementById("signal-type");
+  const btn = document.getElementById("btn-capture");
+
+  const text = inputElem.value.trim();
+  const signalType = typeElem.value;
+
+  if (!text) return alert("Please enter a signal or idea first.");
+
+  let token = getGitHubToken();
+  if (!token) {
+    token = prompt("Enter your GitHub Personal Access Token (PAT):");
+    if (!token) return alert("Token required to transmit signals.");
+    saveGitHubToken(token);
+  }
+
+  btn.disabled = true;
+  btn.innerText = "Transmitting...";
+
+  try {
+    const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`, {
+      method: "POST",
+      headers: {
+        "Accept": "application/vnd.github+json",
+        "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        event_type: "signal_capture",
+        client_payload: {
+          raw_text: text,
+          signal_type: signalType,
+          captured_at: new Date().toISOString()
+        }
+      })
+    });
+
+    if (response.ok || response.status === 204) {
+      alert("Signal Transmitted! Pipeline processing started.");
+      inputElem.value = "";
+    } else {
+      const errData = await response.json();
+      alert(`Signal transmit failed: ${errData.message || response.statusText}`);
+    }
+  } catch (err) {
+    console.error("Signal transmit error:", err);
+    alert("Network error transmitting signal.");
+  } finally {
+    btn.disabled = false;
+    btn.innerText = "Transmit Signal";
+  }
+}
+
+// ==========================================
+// 2. PENDING QUEUE FEED
 // ==========================================
 async function fetchPendingDispatches() {
   const feedContainer = document.getElementById("feed-container");
-  feedContainer.innerHTML = '<div class="loading">Loading pending queue...</div>';
+  feedContainer.innerHTML = '<div class="loading">Loading pending dispatches...</div>';
 
-  const items = await fetchVaultJSON("dashboard_feed.json");
+  const rawData = await fetchVaultJSON("dashboard_feed.json");
 
-  if (!items) {
-    feedContainer.innerHTML = `
-      <div class="error-state">
-        Unable to locate MemoryVault/dashboard_feed.json.<br>
-        <small>Verify the file exists in your MemoryVault directory.</small>
-      </div>`;
+  if (!rawData) {
+    feedContainer.innerHTML = `<div class="error-state">Unable to load MemoryVault/dashboard_feed.json.</div>`;
     return;
   }
 
-  if (!Array.isArray(items) || items.length === 0) {
+  // Normalize items whether rawData is a direct Array or a wrapped Object
+  let items = Array.isArray(rawData) ? rawData : (rawData.items || rawData.dispatches || []);
+
+  if (items.length === 0) {
     feedContainer.innerHTML = '<div class="empty-state">No pending dispatches in queue. You are all caught up!</div>';
     return;
   }
 
   feedContainer.innerHTML = "";
-  items.forEach(item => {
-    feedContainer.appendChild(createPendingCard(item));
+  items.forEach((item, idx) => {
+    feedContainer.appendChild(createPendingCard(item, idx));
   });
 }
 
-function createPendingCard(item) {
+function createPendingCard(item, idx) {
   const card = document.createElement("div");
   card.className = "card";
-  card.id = `card-${item.id}`;
+  const itemId = item.id || `dispatch-${idx}-${Date.now()}`;
+  card.id = `card-${itemId}`;
 
-  const platform = item.platform || "General";
-  const content = item.content || item.text || "";
-  const itemId = item.id || Date.now();
+  const platform = item.platform || item.target_platform || "General";
+  const content = item.content || item.mutated_text || item.text || "";
 
   card.innerHTML = `
     <div class="card-header">
@@ -122,15 +178,22 @@ function createPendingCard(item) {
 }
 
 // ==========================================
-// 2. RELEASED ARCHIVE FEED
+// 3. RELEASED ARCHIVE FEED
 // ==========================================
 async function fetchReleasedArchive() {
   const feedContainer = document.getElementById("feed-container");
   feedContainer.innerHTML = '<div class="loading">Loading released archive...</div>';
 
-  const items = await fetchVaultJSON("released_content.json");
+  const rawData = await fetchVaultJSON("released_content.json");
 
-  if (!items || !Array.isArray(items) || items.length === 0) {
+  if (!rawData) {
+    feedContainer.innerHTML = '<div class="empty-state">No released dispatches archived yet.</div>';
+    return;
+  }
+
+  let items = Array.isArray(rawData) ? rawData : (rawData.items || rawData.dispatches || []);
+
+  if (items.length === 0) {
     feedContainer.innerHTML = '<div class="empty-state">No released dispatches archived yet.</div>';
     return;
   }
@@ -146,19 +209,19 @@ function createReleasedCard(item) {
   card.className = "card";
 
   const platform = item.platform || "General";
-  const content = item.content || "";
-  const releasedAt = item.distributed_at ? new Date(item.distributed_at).toLocaleString() : "Unknown Date";
+  const content = item.content || item.mutated_text || "";
+  const releasedAt = item.distributed_at ? new Date(item.distributed_at).toLocaleString() : "Released";
 
   card.innerHTML = `
     <div class="card-header">
       <span class="badge">${platform}</span>
-      <span class="timestamp-tag">Released: ${releasedAt}</span>
+      <span class="timestamp-tag">${releasedAt}</span>
     </div>
     <div class="card-body">
       <p class="content-text">${content}</p>
     </div>
     <div class="card-actions">
-      <button class="btn btn-secondary" onclick="navigator.clipboard.writeText(\`${content}\`)">Copy Archived Text</button>
+      <button class="btn btn-secondary" onclick="navigator.clipboard.writeText(\`${content.replace(/`/g, '\\`')}\`)">Copy Archived Text</button>
     </div>
   `;
   return card;
@@ -167,12 +230,12 @@ function createReleasedCard(item) {
 function copyCardContent(itemId) {
   const textElem = document.getElementById(`text-${itemId}`);
   if (textElem) {
-    navigator.clipboard.writeText(textElem.innerText).then(() => alert("Copied text to clipboard!"));
+    navigator.clipboard.writeText(textElem.innerText).then(() => alert("Copied dispatch content to clipboard!"));
   }
 }
 
 // ==========================================
-// ONE-TAP DISTRIBUTED DISPATCH (WEBHOOK)
+// 4. ONE-TAP DISTRIBUTED DISPATCH (WEBHOOK)
 // ==========================================
 async function markAsDistributed(dispatchId, platform) {
   let token = getGitHubToken();
