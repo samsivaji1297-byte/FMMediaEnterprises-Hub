@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>CommandHub Deck</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="top-bar">
+    <h1>COMMAND<span>HUB</span></h1>
+    <div id="status-badge" class="badge">LIVE</div>
+  </header>
+
+  <main class="container">
+    <section class="card">
+      <h2>Capture Signal</h2>
+      <form id="capture-form">
+        <textarea id="raw-input" placeholder="Drop raw note or signal here..." required></textarea>
+        <button type="submit" id="submit-btn">Dispatch Seed</button>
+      </form>
+      <div id="capture-status" class="status-msg"></div>
+    </section>
+
+    <section class="card">
+      <h2>Pending Dispatches</h2>
+      <div id="dispatches-container">
+        <p class="empty-state">Loading feed...</p>
+      </div>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
