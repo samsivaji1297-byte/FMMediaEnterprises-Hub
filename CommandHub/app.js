@@ -42,6 +42,28 @@ function loadDeck() {
   }
 }
 
+// Helper to attempt multiple fallback paths for JSON files
+async function fetchVaultJSON(filename) {
+  const paths = [
+    `../MemoryVault/${filename}`,
+    `/MemoryVault/${filename}`,
+    `MemoryVault/${filename}`,
+    `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/MemoryVault/${filename}`
+  ];
+
+  for (const path of paths) {
+    try {
+      const response = await fetch(`${path}?cachebust=${Date.now()}`);
+      if (response.ok) {
+        return await response.json();
+      }
+    } catch (e) {
+      console.warn(`Path failed: ${path}`);
+    }
+  }
+  return null;
+}
+
 // ==========================================
 // 1. PENDING QUEUE FEED
 // ==========================================
@@ -49,25 +71,26 @@ async function fetchPendingDispatches() {
   const feedContainer = document.getElementById("feed-container");
   feedContainer.innerHTML = '<div class="loading">Loading pending queue...</div>';
 
-  try {
-    const response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/MemoryVault/dashboard_feed.json?t=${Date.now()}`);
-    if (!response.ok) throw new Error(`HTTP error ${response.status}`);
+  const items = await fetchVaultJSON("dashboard_feed.json");
 
-    const items = await response.json();
-    if (!Array.isArray(items) || items.length === 0) {
-      feedContainer.innerHTML = '<div class="empty-state">No pending dispatches in queue.</div>';
-      return;
-    }
-
-    feedContainer.innerHTML = "";
-    items.forEach(item => {
-      feedContainer.appendChild(createPendingCard(item));
-    });
-
-  } catch (err) {
-    console.error("Error loading pending feed:", err);
-    feedContainer.innerHTML = `<div class="error-state">Unable to load pending queue.<br><small>${err.message}</small></div>`;
+  if (!items) {
+    feedContainer.innerHTML = `
+      <div class="error-state">
+        Unable to locate MemoryVault/dashboard_feed.json.<br>
+        <small>Verify the file exists in your MemoryVault directory.</small>
+      </div>`;
+    return;
   }
+
+  if (!Array.isArray(items) || items.length === 0) {
+    feedContainer.innerHTML = '<div class="empty-state">No pending dispatches in queue. You are all caught up!</div>';
+    return;
+  }
+
+  feedContainer.innerHTML = "";
+  items.forEach(item => {
+    feedContainer.appendChild(createPendingCard(item));
+  });
 }
 
 function createPendingCard(item) {
@@ -105,31 +128,17 @@ async function fetchReleasedArchive() {
   const feedContainer = document.getElementById("feed-container");
   feedContainer.innerHTML = '<div class="loading">Loading released archive...</div>';
 
-  try {
-    const response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/MemoryVault/released_content.json?t=${Date.now()}`);
-    if (!response.ok) {
-      if (response.status === 404) {
-        feedContainer.innerHTML = '<div class="empty-state">No released dispatches archived yet.</div>';
-        return;
-      }
-      throw new Error(`HTTP error ${response.status}`);
-    }
+  const items = await fetchVaultJSON("released_content.json");
 
-    const items = await response.json();
-    if (!Array.isArray(items) || items.length === 0) {
-      feedContainer.innerHTML = '<div class="empty-state">No released dispatches archived yet.</div>';
-      return;
-    }
-
-    feedContainer.innerHTML = "";
-    items.forEach(item => {
-      feedContainer.appendChild(createReleasedCard(item));
-    });
-
-  } catch (err) {
-    console.error("Error loading released feed:", err);
-    feedContainer.innerHTML = `<div class="error-state">Unable to load released archive.<br><small>${err.message}</small></div>`;
+  if (!items || !Array.isArray(items) || items.length === 0) {
+    feedContainer.innerHTML = '<div class="empty-state">No released dispatches archived yet.</div>';
+    return;
   }
+
+  feedContainer.innerHTML = "";
+  items.forEach(item => {
+    feedContainer.appendChild(createReleasedCard(item));
+  });
 }
 
 function createReleasedCard(item) {
@@ -139,7 +148,6 @@ function createReleasedCard(item) {
   const platform = item.platform || "General";
   const content = item.content || "";
   const releasedAt = item.distributed_at ? new Date(item.distributed_at).toLocaleString() : "Unknown Date";
-  const echoStage = item.echo_stage || "Active Lifecycle";
 
   card.innerHTML = `
     <div class="card-header">
@@ -159,7 +167,7 @@ function createReleasedCard(item) {
 function copyCardContent(itemId) {
   const textElem = document.getElementById(`text-${itemId}`);
   if (textElem) {
-    navigator.clipboard.writeText(textElem.innerText).then(() => alert("Copied text!"));
+    navigator.clipboard.writeText(textElem.innerText).then(() => alert("Copied text to clipboard!"));
   }
 }
 
