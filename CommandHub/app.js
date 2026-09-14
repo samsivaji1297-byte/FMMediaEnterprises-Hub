@@ -1,4 +1,9 @@
-// --- CONFIGURATION / LOCAL STORAGE HELPERS ---
+// ==========================================
+// CONFIGURATION & AUTHORIZATION
+// ==========================================
+const REPO_OWNER = "samsivaji1297-byte";
+const REPO_NAME = "FMMediaEnterprises-Hub";
+
 function getGitHubToken() {
   return localStorage.getItem('GH_PAT') || '';
 }
@@ -7,21 +12,125 @@ function saveGitHubToken(token) {
   localStorage.setItem('GH_PAT', token);
 }
 
-// Set default local datetime for inputs (YYYY-MM-THH:mm format)
+function clearGitHubToken() {
+  localStorage.removeItem('GH_PAT');
+  alert("GitHub Token cleared from browser.");
+}
+
 function getFormattedCurrentDateTime() {
   const now = new Date();
   now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
   return now.toISOString().slice(0, 16);
 }
 
-// --- ONE-TAP DISTRIBUTED DISPATCH ---
-async function markAsDistributed(dispatchId, platform, mutatedText) {
-  const token = getGitHubToken();
-  if (!token) {
-    const inputToken = prompt("Enter your GitHub Personal Access Token (PAT):");
-    if (!inputToken) return alert("GitHub Token required to archive dispatches.");
-    saveGitHubToken(inputToken);
+// ==========================================
+// DATA FETCHING & RENDERING
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+  fetchPendingDispatches();
+});
+
+async function fetchPendingDispatches() {
+  const feedContainer = document.getElementById("feed-container");
+  if (!feedContainer) return;
+
+  feedContainer.innerHTML = '<div class="loading">Loading pending dispatches...</div>';
+
+  try {
+    // Fetch directly from raw MemoryVault feed
+    const response = await fetch(`https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/MemoryVault/dashboard_feed.json?t=${Date.now()}`);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const items = await response.json();
+
+    if (!Array.isArray(items) || items.length === 0) {
+      feedContainer.innerHTML = '<div class="empty-state">No pending dispatches in queue. You are all caught up!</div>';
+      return;
+    }
+
+    feedContainer.innerHTML = "";
+    items.forEach(item => {
+      feedContainer.appendChild(createMutationCard(item));
+    });
+
+  } catch (err) {
+    console.error("Error loading feed:", err);
+    feedContainer.innerHTML = `<div class="error-state">Failed to load feed. Make sure MemoryVault/dashboard_feed.json exists.<br><small>${err.message}</small></div>`;
   }
+}
+
+function createMutationCard(item) {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.id = `card-${item.id}`;
+
+  const platform = item.platform || "General";
+  const content = item.content || item.text || "";
+  const itemId = item.id || Date.now();
+
+  card.innerHTML = `
+    <div class="card-header">
+      <span class="badge badge-${platform.toLowerCase()}">${platform}</span>
+      <span class="id-tag">ID: ${itemId}</span>
+    </div>
+    
+    <div class="card-body">
+      <p class="content-text" id="text-${itemId}">${content}</p>
+    </div>
+
+    <div class="card-actions">
+      <button class="btn btn-secondary" onclick="copyCardContent('${itemId}')">
+        Copy Text
+      </button>
+      
+      <div class="timestamp-group">
+        <input 
+          type="datetime-local" 
+          id="time-${itemId}" 
+          value="${getFormattedCurrentDateTime()}" 
+        />
+        <button 
+          id="btn-dist-${itemId}" 
+          class="btn btn-primary" 
+          onclick="markAsDistributed('${itemId}', '${platform}')"
+        >
+          Distributed
+        </button>
+      </div>
+    </div>
+  `;
+
+  return card;
+}
+
+function copyCardContent(itemId) {
+  const textElem = document.getElementById(`text-${itemId}`);
+  if (!textElem) return;
+
+  navigator.clipboard.writeText(textElem.innerText).then(() => {
+    alert("Copied dispatch content to clipboard!");
+  }).catch(err => {
+    console.error("Failed to copy text: ", err);
+  });
+}
+
+// ==========================================
+// ONE-TAP DISTRIBUTED ACTION (WEBHOOK)
+// ==========================================
+async function markAsDistributed(dispatchId, platform) {
+  let token = getGitHubToken();
+
+  if (!token) {
+    token = prompt("Enter your GitHub Personal Access Token (PAT) with repo contents permission:");
+    if (!token) return alert("Action canceled: GitHub Token required to archive dispatches.");
+    saveGitHubToken(token);
+  }
+
+  const textElem = document.getElementById(`text-${dispatchId}`);
+  const mutatedText = textElem ? textElem.innerText : "";
 
   const dateInput = document.getElementById(`time-${dispatchId}`);
   const distributedAt = dateInput ? dateInput.value : getFormattedCurrentDateTime();
@@ -32,17 +141,12 @@ async function markAsDistributed(dispatchId, platform, mutatedText) {
     button.innerText = "Archiving...";
   }
 
-  // Repository Dispatch API Endpoint
-  // Replace OWNER/REPO with your actual GitHub username and repository name
-  const REPO_OWNER = "YOUR_GITHUB_USERNAME"; 
-  const REPO_NAME = "YOUR_REPO_NAME";
-
   try {
     const response = await fetch(`https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/dispatches`, {
       method: "POST",
       headers: {
         "Accept": "application/vnd.github+json",
-        "Authorization": `Bearer ${getGitHubToken()}`,
+        "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
@@ -56,21 +160,30 @@ async function markAsDistributed(dispatchId, platform, mutatedText) {
       })
     });
 
-    if (response.ok) {
-      // Opti-remove card from UI immediately for snappy feed feeling
+    if (response.ok || response.status === 204) {
+      // Instantly clear card from local view
       const cardNode = document.getElementById(`card-${dispatchId}`);
-      if (cardNode) cardNode.remove();
-      alert("Dispatched! GitHub Action triggered to update repository state.");
+      if (cardNode) {
+        cardNode.style.opacity = "0.4";
+        cardNode.style.pointerEvents = "none";
+      }
+      alert("Dispatched! GitHub Action triggered to move asset to released archive.");
+      setTimeout(() => { if (cardNode) cardNode.remove(); }, 1000);
     } else {
       const errData = await response.json();
-      alert(`Dispatch failed: ${errData.message || response.statusText}`);
+      if (response.status === 401) {
+        alert("Authorization failed: Token invalid or expired. Please re-enter.");
+        clearGitHubToken();
+      } else {
+        alert(`Dispatch failed: ${errData.message || response.statusText}`);
+      }
       if (button) {
         button.disabled = false;
         button.innerText = "Distributed";
       }
     }
   } catch (err) {
-    console.error("Error triggering dispatch action:", err);
+    console.error("Error sending dispatch webhook:", err);
     alert("Network error sending dispatch event.");
     if (button) {
       button.disabled = false;
