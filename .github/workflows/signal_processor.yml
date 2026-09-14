@@ -1,0 +1,83 @@
+name: Signal Processor Engine
+
+on:
+  repository_dispatch:
+    types: [signal_capture]
+
+jobs:
+  process-signal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate Dispatches via Gemini
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          RAW_TEXT: ${{ github.event.client_payload.raw_text }}
+          SIGNAL_TYPE: ${{ github.event.client_payload.signal_type }}
+        run: |
+          node -e '
+          const fs = require("fs");
+
+          async function generate() {
+            const apiKey = process.env.GEMINI_API_KEY;
+            const rawText = process.env.RAW_TEXT;
+            const type = process.env.SIGNAL_TYPE;
+
+            if (!apiKey) {
+              console.error("GEMINI_API_KEY secret is missing!");
+              process.exit(1);
+            }
+
+            const prompt = `You are a content transformation engine. Convert the following raw seed into 3 platform dispatches: Substack, Twitter/X, and LinkedIn.
+            Raw Seed: "${rawText}"
+            Signal Type: "${type}"
+
+            Return ONLY a valid JSON array of objects with keys: "id", "platform", "content", "created_at". No markdown formatting or extra text.`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+            const res = await fetch(url, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }]
+              })
+            });
+
+            const data = await res.json();
+            const textResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
+            const cleanedText = textResponse.replace(/```json|```/g, "").trim();
+            const newItems = JSON.parse(cleanedText);
+
+            // Read existing feed
+            const feedPath = "./MemoryVault/dashboard_feed.json";
+            let existingFeed = [];
+            if (fs.existsSync(feedPath)) {
+              try { existingFeed = JSON.parse(fs.readFileSync(feedPath, "utf8")); } catch(e) {}
+            }
+
+            // Append new items
+            const updatedFeed = [...newItems, ...existingFeed];
+            fs.writeFileSync(feedPath, JSON.stringify(updatedFeed, null, 2));
+            console.log(`Successfully appended ${newItems.length} dispatches.`);
+          }
+
+          generate().catch(err => { console.error(err); process.exit(1); });
+          '
+
+      - name: Commit & Push Changes
+        run: |
+          git config --global user.name "CommandHub Engine"
+          git config --global user.email "engine@commandhub.local"
+          git add MemoryVault/dashboard_feed.json
+          git commit -m "auto: process signal into dispatches" || exit 0
+          git push
