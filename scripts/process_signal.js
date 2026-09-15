@@ -14,9 +14,8 @@ async function generate() {
 Seed: "${rawText}"
 Signal Type: "${type}"
 
-Respond strictly with a JSON array of 3 objects with keys: "id", "platform", "content", "created_at". Do not include extra text or markdown backticks.`;
+Respond strictly with a JSON array of 3 objects with keys: "platform", "content". Do not include extra text or markdown backticks.`;
 
-  // Updated to current gemini-2.5-flash endpoint
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
   const response = await fetch(url, {
@@ -31,10 +30,7 @@ Respond strictly with a JSON array of 3 objects with keys: "id", "platform", "co
   });
 
   const data = await response.json();
-  console.log("Full Gemini API Response:", JSON.stringify(data, null, 2));
-
   const rawTextResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
-  console.log("Raw Text Response:", rawTextResponse);
 
   let newItems = [];
   try {
@@ -44,9 +40,21 @@ Respond strictly with a JSON array of 3 objects with keys: "id", "platform", "co
     newItems = JSON.parse(cleaned);
   }
 
-  const validNewItems = Array.isArray(newItems) ? newItems : [];
+  const now = new Date();
+  const timestamp = now.getTime();
+  const isoDate = now.toISOString();
 
-  // Read existing feed safely
+  // Guarantee unique IDs and real-time timestamps
+  const validNewItems = (Array.isArray(newItems) ? newItems : []).map((item, index) => {
+    const prefix = item.platform ? item.platform.toLowerCase().replace(/[^a-z]/g, "") : "post";
+    return {
+      id: `${prefix}_${timestamp}_${index}`,
+      platform: item.platform || "Platform",
+      content: item.content || "",
+      created_at: isoDate
+    };
+  });
+
   const feedPath = "./MemoryVault/dashboard_feed.json";
   let existingFeed = [];
   if (fs.existsSync(feedPath)) {
@@ -61,7 +69,7 @@ Respond strictly with a JSON array of 3 objects with keys: "id", "platform", "co
 
   const updatedFeed = [...validNewItems, ...existingFeed];
   fs.writeFileSync(feedPath, JSON.stringify(updatedFeed, null, 2));
-  console.log(`Successfully appended ${validNewItems.length} dispatches to dashboard_feed.json.`);
+  console.log(`Successfully appended ${validNewItems.length} unique dispatches.`);
 }
 
 generate().catch((err) => {
