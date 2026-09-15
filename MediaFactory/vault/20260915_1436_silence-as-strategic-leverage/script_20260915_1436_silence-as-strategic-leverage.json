@@ -1,0 +1,33 @@
+{
+    "title": "Silence as Strategic Leverage",
+    "voiceover_full": "In any negotiation, the most dangerous person isn't the loudest speaker. When you stop talking, people get uncomfortable\u2014they rush to fill the void, giving away their leverage. Control the room by controlling your tongue. Silence isn't weakness\u2014it's a trap.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "In any negotiation, the most dangerous person isn't the loudest speaker.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Extreme close-up of a confident negotiator in a dark suit looking steadily into the camera, dim atmospheric boardroom lighting.",
+            "text_overlay": "THE LOUDEST ISN'T THE STRONGEST",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "When you stop talking, people get uncomfortable\u2014they rush to fill the void, giving away their leverage.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Slow motion shot of a shadow-draped figure leaning back in silence while hands across the table nervously gesture, dramatic side-lighting.",
+            "text_overlay": "THE VOID FORCES MISTAKES",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Control the room by controlling your tongue. Silence isn't weakness\u2014it's a trap.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Dark silhouette of a leader standing before a glowing high-rise city window at night, crisp rim light, powerful aura.",
+            "text_overlay": "SILENCE IS A TRAP",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20260915_1436_silence-as-strategic-leverage",
+        "topic": "Silence as Strategic Leverage",
+        "theme": "kinetic",
+        "timestamp": "20260915_1436"
+    }
+}
