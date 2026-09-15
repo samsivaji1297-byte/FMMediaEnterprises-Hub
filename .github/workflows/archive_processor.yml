@@ -1,0 +1,71 @@
+name: Archive Processor Engine
+
+on:
+  repository_dispatch:
+    types: [archive_dispatch]
+
+jobs:
+  archive-signal:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Process Archive Event
+        env:
+          DISPATCH_ID: ${{ github.event.client_payload.dispatch_id }}
+        run: |
+          node -e '
+          const fs = require("fs");
+
+          const targetId = process.env.DISPATCH_ID;
+          console.log("Archiving item ID:", targetId);
+
+          const feedPath = "./MemoryVault/dashboard_feed.json";
+          const archivePath = "./MemoryVault/released_content.json";
+
+          let feed = [];
+          let archive = [];
+
+          if (fs.existsSync(feedPath)) {
+            try { feed = JSON.parse(fs.readFileSync(feedPath, "utf8")); } catch(e) {}
+          }
+          if (fs.existsSync(archivePath)) {
+            try { archive = JSON.parse(fs.readFileSync(archivePath, "utf8")); } catch(e) {}
+          }
+
+          // Find the item to archive
+          const itemToArchive = feed.find(i => String(i.id) === String(targetId));
+
+          if (!itemToArchive) {
+            console.log("Item not found in pending feed, skipping.");
+            process.exit(0);
+          }
+
+          // Update item metadata
+          itemToArchive.released_at = new Date().toISOString();
+
+          // Filter out of feed and append to archive
+          const updatedFeed = feed.filter(i => String(i.id) !== String(targetId));
+          const updatedArchive = [itemToArchive, ...archive];
+
+          fs.writeFileSync(feedPath, JSON.stringify(updatedFeed, null, 2));
+          fs.writeFileSync(archivePath, JSON.stringify(updatedArchive, null, 2));
+          console.log(`Moved item ${targetId} to released_content.json.`);
+          '
+
+      - name: Commit & Push Archive Changes
+        run: |
+          git config --global user.name "CommandHub Engine"
+          git config --global user.email "engine@commandhub.local"
+          git add MemoryVault/dashboard_feed.json MemoryVault/released_content.json
+          git commit -m "auto: archive released content dispatch [${{ github.event.client_payload.dispatch_id }}]" || exit 0
+          git push
