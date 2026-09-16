@@ -1,4 +1,27 @@
 const fs = require("fs");
+const fs = require('fs');
+const path = require('path');
+const { renderCard } = require('./canvas_renderer');
+
+// 1. Receive parsed output from Gemini
+const geminiOutput = JSON.parse(geminiResponseText);
+
+// 2. Render visual card if visual_card payload exists
+if (geminiOutput.visual_card) {
+  const imageBuffer = renderCard(geminiOutput.visual_card);
+  
+  // 3. Save directly to /MemoryVault/media/
+  const imageFilename = `card_${Date.now()}.png`;
+  const mediaPath = path.join(__dirname, 'MemoryVault', 'media', imageFilename);
+  
+  fs.mkdirSync(path.dirname(mediaPath), { recursive: true });
+  fs.writeFileSync(mediaPath, imageBuffer);
+  
+  console.log(`[Engine] Visual Card rendered and saved to /MemoryVault/media/${imageFilename}`);
+  
+  // Attach local media path to ledger item
+  geminiOutput.media_url = `./MemoryVault/media/${imageFilename}`;
+}
 
 async function generate() {
   const apiKey = process.env.GEMINI_API_KEY;
