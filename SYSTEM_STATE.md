@@ -17,7 +17,5 @@ CommandHub is a sovereign, code-first content production engine. It ingests raw 
 │   └── media/                        <-- Auto-generated PNG visual card assets
 ├── scripts/
 │   ├── package.json                  <-- Node dependencies (canvas, etc.)
-│   ├── node_modules/                 <-- Local runtime dependencies
 │   └── process_signal.js             <-- Pipeline logic & Gemini API handler
-│   └── package.json                  <-- Root dependency tracker
 └── SYSTEM_STATE.md                   <-- Single source of truth for repository state
