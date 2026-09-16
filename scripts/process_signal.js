@@ -16,6 +16,28 @@ Signal Type: "${type}"
 
 Respond strictly with a JSON array of 3 objects with keys: "platform", "content". Do not include extra text or markdown backticks.`;
 
+
+  const canvasSchemaInstructions = `
+You are the Creative Director. In addition to text dispatches, output a "visual_card" JSON object adhering strictly to this layout schema:
+
+{
+  "meta": { "aspectRatio": "4:5", "width": 1080, "height": 1350 },
+  "styles": {
+    "backgroundColor": "#0D1117",
+    "accentColor": "#0066FF",
+    "textColor": "#F0F6FC",
+    "mutedTextColor": "#8B949E"
+  },
+  "content": {
+    "badge": "PROTOCOL SIGNAL",
+    "headline": "<Punchy, high-impact hook summary, max 12 words>",
+    "body": "<Core insight or key takeaway, max 30 words>",
+    "footer": "COMMANDHUB // AUTOMATED DISPATCH",
+    "author": "@SOVEREIGN"
+  }
+}
+`;
+  
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
   const response = await fetch(url, {
