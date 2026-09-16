@@ -38,3 +38,4 @@
 - Axiomatic Dominion Nexus — The central structural fulcrum that unifies raw internal gravity, cognitive territory, and supreme self-command into an unyielding operational identity.
 - Autopoietic Sovereign Aegis — A self-generating psychological framework that continuously reinforces internal authority, insulating an operator's core identity against external influence and cognitive intrusion.
 - Basal Sovereign Gyroscope — An internal rotational stabilization framework that maintains an operator's core authority and psychological center of mass against high-velocity external disruption.
+- Teleodynamic Dominion Vector — An operational framework designed to project an operator's self-determined purpose across cognitive and strategic domains without external destabilization.
