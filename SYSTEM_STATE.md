@@ -1,4 +1,3 @@
-```markdown
 # CommandHub: System State & Engine Architecture
 
 ## 1. System Overview
