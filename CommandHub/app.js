@@ -20,7 +20,7 @@ function getFormattedCurrentDateTime() {
   return now.toISOString().slice(0, 16);
 }
 
-// Helper to resolve paths relative to /CommandHub/ on GitHub Pages
+// Helper to resolve relative paths from /CommandHub/ to repo root
 function resolveMediaPath(rawUrl) {
   if (!rawUrl) return null;
   if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
@@ -166,11 +166,11 @@ function createPendingCard(item, idx) {
 
   const platform = item.platform || item.target_platform || "General";
   const content = item.content || item.mutated_text || item.text || "";
-  
+
   const resolvedMedia = resolveMediaPath(item.media_url);
   const mediaHtml = resolvedMedia 
-    ? `<div class="card-media" style="margin-bottom: 12px;">
-         <img src="${resolvedMedia}" alt="Rendered Media Card" style="width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block;" />
+    ? `<div class="media-box" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 8px; margin-top: 10px; text-align: center;">
+         <img src="${resolvedMedia}" alt="Rendered Media Card" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 0 auto;" />
        </div>`
     : '';
 
@@ -179,8 +179,8 @@ function createPendingCard(item, idx) {
       <span class="badge">${platform}</span>
       <span class="timestamp-tag">ID: ${itemId}</span>
     </div>
+    ${mediaHtml}
     <div class="card-body">
-      ${mediaHtml}
       <p class="content-text" id="text-${itemId}">${content}</p>
     </div>
     <div class="card-actions">
@@ -231,8 +231,8 @@ function createReleasedCard(item) {
 
   const resolvedMedia = resolveMediaPath(item.media_url);
   const mediaHtml = resolvedMedia 
-    ? `<div class="card-media" style="margin-bottom: 12px;">
-         <img src="${resolvedMedia}" alt="Rendered Media Card" style="width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block;" />
+    ? `<div class="media-box" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 8px; margin-top: 10px; text-align: center;">
+         <img src="${resolvedMedia}" alt="Rendered Media Card" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 0 auto;" />
        </div>`
     : '';
 
@@ -241,8 +241,8 @@ function createReleasedCard(item) {
       <span class="badge">${platform}</span>
       <span class="timestamp-tag">${releasedAt}</span>
     </div>
+    ${mediaHtml}
     <div class="card-body">
-      ${mediaHtml}
       <p class="content-text">${content}</p>
     </div>
     <div class="card-actions">
