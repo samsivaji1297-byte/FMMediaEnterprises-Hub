@@ -12,37 +12,34 @@ async function generate() {
     process.exit(1);
   }
 
-  const canvasSchemaInstructions = `
-In addition to text dispatches, output a "visual_card" JSON object adhering strictly to this layout schema:
-{
-  "meta": { "aspectRatio": "4:5", "width": 1080, "height": 1350 },
-  "styles": {
-    "backgroundColor": "#0D1117",
-    "accentColor": "#0066FF",
-    "textColor": "#F0F6FC",
-    "mutedTextColor": "#8B949E"
-  },
-  "content": {
-    "badge": "PROTOCOL SIGNAL",
-    "headline": "<Punchy, 12 high-impact hook max summary, words>",
-    "body": "<Core 30 insight key max or takeaway, words>",
-    "footer": "COMMANDHUB // AUTOMATED DISPATCH",
-    "author": "@SOVEREIGN"
-  }
-}
-`;
-
-  const prompt = `You are a content transformation engine. Convert this raw seed into 3 social media dispatches for Substack, Twitter/X, and LinkedIn.
+  const prompt = `Convert this raw input into 3 social media dispatches and 1 visual card layout.
 Seed: "${rawText}"
 Signal Type: "${type}"
 
-${canvasSchemaInstructions}
-
-Respond strictly with a single JSON object containing:
-1. "dispatches": an array of 3 objects, each with keys "platform" and "content".
-2. "visual_card": the visual card layout JSON object described above.
-
-Do not include extra conversational text outside the JSON.`;
+Output strictly valid JSON matching this structure:
+{
+  "dispatches": [
+    { "platform": "Twitter", "content": "..." },
+    { "platform": "LinkedIn", "content": "..." },
+    { "platform": "Substack", "content": "..." }
+  ],
+  "visual_card": {
+    "meta": { "aspectRatio": "4:5", "width": 1080, "height": 1350 },
+    "styles": {
+      "backgroundColor": "#0D1117",
+      "accentColor": "#0066FF",
+      "textColor": "#F0F6FC",
+      "mutedTextColor": "#8B949E"
+    },
+    "content": {
+      "badge": "PROTOCOL SIGNAL",
+      "headline": "Punchy Summary Hook",
+      "body": "Core takeaway message.",
+      "footer": "COMMANDHUB // AUTOMATED DISPATCH",
+      "author": "@SOVEREIGN"
+    }
+  }
+}`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
@@ -60,12 +57,14 @@ Do not include extra conversational text outside the JSON.`;
   const data = await response.json();
   const rawTextResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
 
+  console.log("[Engine Log] Raw Gemini Payload:", rawTextResponse);
+
   let geminiOutput = {};
   try {
-    const cleaned = rawTextResponse.replace(/```json/gi, "").replace(/```/g, "").trim();
+    const cleaned = rawTextResponse.replace(/```json|```/gi, "").trim();
     geminiOutput = JSON.parse(cleaned);
   } catch (err) {
-    console.error("[Engine] Failed to parse JSON response:", err);
+    console.error("[Engine Error] JSON Parse failed:", err);
   }
 
   // --- Render Visual Card ---
@@ -79,21 +78,17 @@ Do not include extra conversational text outside the JSON.`;
       fs.mkdirSync(path.dirname(mediaPath), { recursive: true });
       fs.writeFileSync(mediaPath, imageBuffer);
 
-      console.log(`[Engine] Visual Card rendered: /MemoryVault/media/${imageFilename}`);
+      console.log(`[Engine] Visual Card rendered: MemoryVault/media/${imageFilename}`);
       mediaUrl = `./MemoryVault/media/${imageFilename}`;
     } catch (renderErr) {
-      console.error("[Engine] Rendering error:", renderErr);
+      console.error("[Engine Error] Render failed:", renderErr);
     }
+  } else {
+    console.warn("[Engine Warning] No 'visual_card' key found in JSON response.");
   }
 
-  // Robust fallback resolution for dispatches array
-  let dispatches = [];
-  if (Array.isArray(geminiOutput.dispatches)) {
-    dispatches = geminiOutput.dispatches;
-  } else if (Array.isArray(geminiOutput)) {
-    dispatches = geminiOutput;
-  }
-
+  // Extract dispatches
+  let dispatches = Array.isArray(geminiOutput.dispatches) ? geminiOutput.dispatches : [];
   const now = new Date();
   const timestamp = now.getTime();
   const isoDate = now.toISOString();
