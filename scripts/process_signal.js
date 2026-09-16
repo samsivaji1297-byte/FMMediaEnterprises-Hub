@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { renderCard } = require('./CanvasEngine/canvas_renderer');
+const { renderCard } = require('../CanvasEngine/canvas_renderer');
 
 async function generate() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -75,7 +75,7 @@ Do not include extra text or markdown backticks.`;
       const imageBuffer = renderCard(geminiOutput.visual_card);
 
       const imageFilename = `card_${Date.now()}.png`;
-      const mediaPath = path.join(__dirname, 'MemoryVault', 'media', imageFilename);
+      const mediaPath = path.join(__dirname, '..', 'MemoryVault', 'media', imageFilename);
 
       fs.mkdirSync(path.dirname(mediaPath), { recursive: true });
       fs.writeFileSync(mediaPath, imageBuffer);
@@ -104,7 +104,7 @@ Do not include extra text or markdown backticks.`;
     };
   });
 
-  const feedPath = "./MemoryVault/dashboard_feed.json";
+  const feedPath = path.join(__dirname, '..', 'MemoryVault', 'dashboard_feed.json');
   let existingFeed = [];
   if (fs.existsSync(feedPath)) {
     try {
