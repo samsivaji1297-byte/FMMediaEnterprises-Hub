@@ -24,8 +24,8 @@ In addition to text dispatches, output a "visual_card" JSON object adhering stri
   },
   "content": {
     "badge": "PROTOCOL SIGNAL",
-    "headline": "<Punchy, high-impact hook summary, max 12 words>",
-    "body": "<Core insight or key takeaway, max 30 words>",
+    "headline": "<Punchy, 12 high-impact hook max summary, words>",
+    "body": "<Core 30 insight key max or takeaway, words>",
     "footer": "COMMANDHUB // AUTOMATED DISPATCH",
     "author": "@SOVEREIGN"
   }
@@ -38,11 +38,11 @@ Signal Type: "${type}"
 
 ${canvasSchemaInstructions}
 
-Respond strictly with a JSON object with two keys:
-1. "dispatches": an array of 3 objects with keys "platform" and "content".
+Respond strictly with a single JSON object containing:
+1. "dispatches": an array of 3 objects, each with keys "platform" and "content".
 2. "visual_card": the visual card layout JSON object described above.
 
-Do not include extra text or markdown backticks.`;
+Do not include extra conversational text outside the JSON.`;
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
@@ -62,38 +62,43 @@ Do not include extra text or markdown backticks.`;
 
   let geminiOutput = {};
   try {
-    geminiOutput = JSON.parse(rawTextResponse);
-  } catch (err) {
-    const cleaned = rawTextResponse.replace(/```json|```/g, "").trim();
+    const cleaned = rawTextResponse.replace(/```json/gi, "").replace(/```/g, "").trim();
     geminiOutput = JSON.parse(cleaned);
+  } catch (err) {
+    console.error("[Engine] Failed to parse JSON response:", err);
   }
 
-  // --- Render Visual Card if payload exists ---
+  // --- Render Visual Card ---
   let mediaUrl = null;
   if (geminiOutput.visual_card) {
     try {
       const imageBuffer = renderCard(geminiOutput.visual_card);
-
       const imageFilename = `card_${Date.now()}.png`;
       const mediaPath = path.join(__dirname, '..', 'MemoryVault', 'media', imageFilename);
 
       fs.mkdirSync(path.dirname(mediaPath), { recursive: true });
       fs.writeFileSync(mediaPath, imageBuffer);
 
-      console.log(`[Engine] Visual Card rendered and saved to /MemoryVault/media/${imageFilename}`);
+      console.log(`[Engine] Visual Card rendered: /MemoryVault/media/${imageFilename}`);
       mediaUrl = `./MemoryVault/media/${imageFilename}`;
     } catch (renderErr) {
-      console.error("[Engine] Failed to render visual card:", renderErr);
+      console.error("[Engine] Rendering error:", renderErr);
     }
   }
 
-  const newItemsRaw = geminiOutput.dispatches || geminiOutput;
+  // Robust fallback resolution for dispatches array
+  let dispatches = [];
+  if (Array.isArray(geminiOutput.dispatches)) {
+    dispatches = geminiOutput.dispatches;
+  } else if (Array.isArray(geminiOutput)) {
+    dispatches = geminiOutput;
+  }
+
   const now = new Date();
   const timestamp = now.getTime();
   const isoDate = now.toISOString();
 
-  // Guarantee unique IDs, real-time timestamps, and media attachment
-  const validNewItems = (Array.isArray(newItemsRaw) ? newItemsRaw : []).map((item, index) => {
+  const validNewItems = dispatches.map((item, index) => {
     const prefix = item.platform ? item.platform.toLowerCase().replace(/[^a-z]/g, "") : "post";
     return {
       id: `${prefix}_${timestamp}_${index}`,
@@ -109,8 +114,7 @@ Do not include extra text or markdown backticks.`;
   if (fs.existsSync(feedPath)) {
     try {
       const parsed = JSON.parse(fs.readFileSync(feedPath, "utf8"));
-      if (Array.isArray(parsed)) existingFeed = parsed;
-      else if (parsed && Array.isArray(parsed.items)) existingFeed = parsed.items;
+      existingFeed = Array.isArray(parsed) ? parsed : (parsed.items || []);
     } catch (e) {
       existingFeed = [];
     }
@@ -118,7 +122,7 @@ Do not include extra text or markdown backticks.`;
 
   const updatedFeed = [...validNewItems, ...existingFeed];
   fs.writeFileSync(feedPath, JSON.stringify(updatedFeed, null, 2));
-  console.log(`Successfully appended ${validNewItems.length} unique dispatches.`);
+  console.log(`[Engine] Successfully appended ${validNewItems.length} unique dispatches.`);
 }
 
 generate().catch((err) => {
