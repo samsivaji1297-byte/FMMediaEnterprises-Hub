@@ -12,46 +12,70 @@ async function generate() {
     process.exit(1);
   }
 
-  const prompt = `Convert this raw input into 3 social media dispatches and 1 visual card layout.
-Seed: "${rawText}"
-Signal Type: "${type}"
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
 
-Output strictly valid JSON matching this structure:
-{
-  "dispatches": [
-    { "platform": "Twitter", "content": "..." },
-    { "platform": "LinkedIn", "content": "..." },
-    { "platform": "Substack", "content": "..." }
-  ],
-  "visual_card": {
-    "meta": { "aspectRatio": "4:5", "width": 1080, "height": 1350 },
-    "styles": {
-      "backgroundColor": "#0D1117",
-      "accentColor": "#0066FF",
-      "textColor": "#F0F6FC",
-      "mutedTextColor": "#8B949E"
-    },
-    "content": {
-      "badge": "PROTOCOL SIGNAL",
-      "headline": "Punchy Summary Hook",
-      "body": "Core takeaway message.",
-      "footer": "COMMANDHUB // AUTOMATED DISPATCH",
-      "author": "@SOVEREIGN"
+  const prompt = `Convert this seed into social media dispatches and a visual card layout: "${rawText}" (Type: "${type}")`;
+
+  const payload = {
+    contents: [{ parts: [{ text: prompt }] }],
+    generationConfig: {
+      responseMimeType: "application/json",
+      responseSchema: {
+        type: "OBJECT",
+        properties: {
+          dispatches: {
+            type: "ARRAY",
+            items: {
+              type: "OBJECT",
+              properties: {
+                platform: { type: "STRING" },
+                content: { type: "STRING" }
+              },
+              required: ["platform", "content"]
+            }
+          },
+          visual_card: {
+            type: "OBJECT",
+            properties: {
+              meta: {
+                type: "OBJECT",
+                properties: {
+                  aspectRatio: { type: "STRING" },
+                  width: { type: "INTEGER" },
+                  height: { type: "INTEGER" }
+                }
+              },
+              styles: {
+                type: "OBJECT",
+                properties: {
+                  backgroundColor: { type: "STRING" },
+                  accentColor: { type: "STRING" },
+                  textColor: { type: "STRING" },
+                  mutedTextColor: { type: "STRING" }
+                }
+              },
+              content: {
+                type: "OBJECT",
+                properties: {
+                  badge: { type: "STRING" },
+                  headline: { type: "STRING" },
+                  body: { type: "STRING" },
+                  footer: { type: "STRING" },
+                  author: { type: "STRING" }
+                }
+              }
+            }
+          }
+        },
+        required: ["dispatches", "visual_card"]
+      }
     }
-  }
-}`;
-
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
+  };
 
   const response = await fetch(url, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      contents: [{ parts: [{ text: prompt }] }],
-      generationConfig: {
-        responseMimeType: "application/json"
-      }
-    })
+    body: JSON.stringify(payload)
   });
 
   const data = await response.json();
@@ -61,8 +85,7 @@ Output strictly valid JSON matching this structure:
 
   let geminiOutput = {};
   try {
-    const cleaned = rawTextResponse.replace(/```json|```/gi, "").trim();
-    geminiOutput = JSON.parse(cleaned);
+    geminiOutput = JSON.parse(rawTextResponse);
   } catch (err) {
     console.error("[Engine Error] JSON Parse failed:", err);
   }
@@ -83,12 +106,10 @@ Output strictly valid JSON matching this structure:
     } catch (renderErr) {
       console.error("[Engine Error] Render failed:", renderErr);
     }
-  } else {
-    console.warn("[Engine Warning] No 'visual_card' key found in JSON response.");
   }
 
   // Extract dispatches
-  let dispatches = Array.isArray(geminiOutput.dispatches) ? geminiOutput.dispatches : [];
+  const dispatches = Array.isArray(geminiOutput.dispatches) ? geminiOutput.dispatches : [];
   const now = new Date();
   const timestamp = now.getTime();
   const isoDate = now.toISOString();
