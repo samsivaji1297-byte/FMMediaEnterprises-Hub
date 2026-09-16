@@ -1,27 +1,6 @@
-const fs = require("fs");
 const fs = require('fs');
 const path = require('path');
 const { renderCard } = require('./canvas_renderer');
-
-// 1. Receive parsed output from Gemini
-const geminiOutput = JSON.parse(geminiResponseText);
-
-// 2. Render visual card if visual_card payload exists
-if (geminiOutput.visual_card) {
-  const imageBuffer = renderCard(geminiOutput.visual_card);
-  
-  // 3. Save directly to /MemoryVault/media/
-  const imageFilename = `card_${Date.now()}.png`;
-  const mediaPath = path.join(__dirname, 'MemoryVault', 'media', imageFilename);
-  
-  fs.mkdirSync(path.dirname(mediaPath), { recursive: true });
-  fs.writeFileSync(mediaPath, imageBuffer);
-  
-  console.log(`[Engine] Visual Card rendered and saved to /MemoryVault/media/${imageFilename}`);
-  
-  // Attach local media path to ledger item
-  geminiOutput.media_url = `./MemoryVault/media/${imageFilename}`;
-}
 
 async function generate() {
   const apiKey = process.env.GEMINI_API_KEY;
@@ -33,16 +12,8 @@ async function generate() {
     process.exit(1);
   }
 
-  const prompt = `You are a content transformation engine. Convert this raw seed into 3 social media dispatches for Substack, Twitter/X, and LinkedIn.
-Seed: "${rawText}"
-Signal Type: "${type}"
-
-Respond strictly with a JSON array of 3 objects with keys: "platform", "content". Do not include extra text or markdown backticks.`;
-
-
   const canvasSchemaInstructions = `
-You are the Creative Director. In addition to text dispatches, output a "visual_card" JSON object adhering strictly to this layout schema:
-
+In addition to text dispatches, output a "visual_card" JSON object adhering strictly to this layout schema:
 {
   "meta": { "aspectRatio": "4:5", "width": 1080, "height": 1350 },
   "styles": {
@@ -60,8 +31,20 @@ You are the Creative Director. In addition to text dispatches, output a "visual_
   }
 }
 `;
-  
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`;
+
+  const prompt = `You are a content transformation engine. Convert this raw seed into 3 social media dispatches for Substack, Twitter/X, and LinkedIn.
+Seed: "${rawText}"
+Signal Type: "${type}"
+
+${canvasSchemaInstructions}
+
+Respond strictly with a JSON object with two keys:
+1. "dispatches": an array of 3 objects with keys "platform" and "content".
+2. "visual_card": the visual card layout JSON object described above.
+
+Do not include extra text or markdown backticks.`;
+
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
 
   const response = await fetch(url, {
     method: "POST",
@@ -75,27 +58,48 @@ You are the Creative Director. In addition to text dispatches, output a "visual_
   });
 
   const data = await response.json();
-  const rawTextResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "[]";
+  const rawTextResponse = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
 
-  let newItems = [];
+  let geminiOutput = {};
   try {
-    newItems = JSON.parse(rawTextResponse);
+    geminiOutput = JSON.parse(rawTextResponse);
   } catch (err) {
     const cleaned = rawTextResponse.replace(/```json|```/g, "").trim();
-    newItems = JSON.parse(cleaned);
+    geminiOutput = JSON.parse(cleaned);
   }
 
+  // --- Render Visual Card if payload exists ---
+  let mediaUrl = null;
+  if (geminiOutput.visual_card) {
+    try {
+      const imageBuffer = renderCard(geminiOutput.visual_card);
+
+      const imageFilename = `card_${Date.now()}.png`;
+      const mediaPath = path.join(__dirname, 'MemoryVault', 'media', imageFilename);
+
+      fs.mkdirSync(path.dirname(mediaPath), { recursive: true });
+      fs.writeFileSync(mediaPath, imageBuffer);
+
+      console.log(`[Engine] Visual Card rendered and saved to /MemoryVault/media/${imageFilename}`);
+      mediaUrl = `./MemoryVault/media/${imageFilename}`;
+    } catch (renderErr) {
+      console.error("[Engine] Failed to render visual card:", renderErr);
+    }
+  }
+
+  const newItemsRaw = geminiOutput.dispatches || geminiOutput;
   const now = new Date();
   const timestamp = now.getTime();
   const isoDate = now.toISOString();
 
-  // Guarantee unique IDs and real-time timestamps
-  const validNewItems = (Array.isArray(newItems) ? newItems : []).map((item, index) => {
+  // Guarantee unique IDs, real-time timestamps, and media attachment
+  const validNewItems = (Array.isArray(newItemsRaw) ? newItemsRaw : []).map((item, index) => {
     const prefix = item.platform ? item.platform.toLowerCase().replace(/[^a-z]/g, "") : "post";
     return {
       id: `${prefix}_${timestamp}_${index}`,
       platform: item.platform || "Platform",
       content: item.content || "",
+      media_url: mediaUrl,
       created_at: isoDate
     };
   });
