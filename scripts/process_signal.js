@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { renderCard } = require('./canvas_renderer');
+const { renderCard } = require('./CanvasEngine/canvas_renderer');
 
 async function generate() {
   const apiKey = process.env.GEMINI_API_KEY;
