@@ -1,0 +1,12 @@
+{
+  "name": "commandhub-engine",
+  "version": "1.0.0",
+  "description": "Sovereign Code-First Media Engine",
+  "main": "process_signal.js",
+  "scripts": {
+    "start": "node process_signal.js"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2"
+  }
+}
