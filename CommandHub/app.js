@@ -162,10 +162,14 @@ async function fetchPendingDispatches() {
     if (resolvedMedia) {
       const heroSection = document.createElement("div");
       heroSection.className = "media-hero-section";
-      heroSection.style.cssText = "background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; text-align: center;";
+      heroSection.style.cssText = "background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 24px; text-align: center; width: 100%; box-sizing: border-box;";
       heroSection.innerHTML = `
-        <span class="badge" style="margin-bottom: 10px; display: inline-block;">Generated Visual Card</span>
-        <img src="${resolvedMedia}" alt="Rendered Media Asset" style="max-width: 100%; max-height: 400px; border-radius: 8px; display: block; margin: 0 auto;" />
+        <div style="margin-bottom: 12px;">
+          <span class="badge" style="display: inline-block;">Generated Visual Asset</span>
+        </div>
+        <div style="width: 100%; display: flex; justify-content: center; align-items: center; overflow: hidden; border-radius: 8px;">
+          <img src="${resolvedMedia}" alt="Rendered Media Asset" style="width: 100%; max-width: 650px; height: auto; object-fit: contain; display: block; border-radius: 8px; border: 1px solid var(--border);" />
+        </div>
       `;
       feedContainer.appendChild(heroSection);
     }
