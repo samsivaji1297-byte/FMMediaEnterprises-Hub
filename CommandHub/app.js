@@ -20,6 +20,16 @@ function getFormattedCurrentDateTime() {
   return now.toISOString().slice(0, 16);
 }
 
+// Helper to resolve paths relative to /CommandHub/ on GitHub Pages
+function resolveMediaPath(rawUrl) {
+  if (!rawUrl) return null;
+  if (rawUrl.startsWith('http://') || rawUrl.startsWith('https://')) {
+    return rawUrl;
+  }
+  const cleanPath = rawUrl.replace(/^\.\//, '').replace(/^\//, '');
+  return `../${cleanPath}`;
+}
+
 // ==========================================
 // INITIALIZATION & TAB SWITCHING
 // ==========================================
@@ -135,7 +145,6 @@ async function fetchPendingDispatches() {
     return;
   }
 
-  // Normalize items whether rawData is a direct Array or a wrapped Object
   let items = Array.isArray(rawData) ? rawData : (rawData.items || rawData.dispatches || []);
 
   if (items.length === 0) {
@@ -157,6 +166,13 @@ function createPendingCard(item, idx) {
 
   const platform = item.platform || item.target_platform || "General";
   const content = item.content || item.mutated_text || item.text || "";
+  
+  const resolvedMedia = resolveMediaPath(item.media_url);
+  const mediaHtml = resolvedMedia 
+    ? `<div class="card-media" style="margin-bottom: 12px;">
+         <img src="${resolvedMedia}" alt="Rendered Media Card" style="width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block;" />
+       </div>`
+    : '';
 
   card.innerHTML = `
     <div class="card-header">
@@ -164,6 +180,7 @@ function createPendingCard(item, idx) {
       <span class="timestamp-tag">ID: ${itemId}</span>
     </div>
     <div class="card-body">
+      ${mediaHtml}
       <p class="content-text" id="text-${itemId}">${content}</p>
     </div>
     <div class="card-actions">
@@ -212,12 +229,20 @@ function createReleasedCard(item) {
   const content = item.content || item.mutated_text || "";
   const releasedAt = item.distributed_at ? new Date(item.distributed_at).toLocaleString() : "Released";
 
+  const resolvedMedia = resolveMediaPath(item.media_url);
+  const mediaHtml = resolvedMedia 
+    ? `<div class="card-media" style="margin-bottom: 12px;">
+         <img src="${resolvedMedia}" alt="Rendered Media Card" style="width: 100%; border-radius: 6px; border: 1px solid var(--border); display: block;" />
+       </div>`
+    : '';
+
   card.innerHTML = `
     <div class="card-header">
       <span class="badge">${platform}</span>
       <span class="timestamp-tag">${releasedAt}</span>
     </div>
     <div class="card-body">
+      ${mediaHtml}
       <p class="content-text">${content}</p>
     </div>
     <div class="card-actions">
