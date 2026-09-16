@@ -132,7 +132,7 @@ async function submitSignal() {
 }
 
 // ==========================================
-// 2. PENDING QUEUE FEED
+// 2. PENDING QUEUE FEED (GROUPED BY MEDIA)
 // ==========================================
 async function fetchPendingDispatches() {
   const feedContainer = document.getElementById("feed-container");
@@ -153,12 +153,31 @@ async function fetchPendingDispatches() {
   }
 
   feedContainer.innerHTML = "";
+
+  // 1. Check if any item in the batch has a media_url
+  const primaryMediaItem = items.find(item => item.media_url);
+  
+  if (primaryMediaItem) {
+    const resolvedMedia = resolveMediaPath(primaryMediaItem.media_url);
+    if (resolvedMedia) {
+      const heroSection = document.createElement("div");
+      heroSection.className = "media-hero-section";
+      heroSection.style.cssText = "background: rgba(255,255,255,0.03); border: 1px solid var(--border); border-radius: 10px; padding: 16px; margin-bottom: 20px; text-align: center;";
+      heroSection.innerHTML = `
+        <span class="badge" style="margin-bottom: 10px; display: inline-block;">Generated Visual Card</span>
+        <img src="${resolvedMedia}" alt="Rendered Media Asset" style="max-width: 100%; max-height: 400px; border-radius: 8px; display: block; margin: 0 auto;" />
+      `;
+      feedContainer.appendChild(heroSection);
+    }
+  }
+
+  // 2. Render each platform post without duplicate media inside the individual cards
   items.forEach((item, idx) => {
-    feedContainer.appendChild(createPendingCard(item, idx));
+    feedContainer.appendChild(createTextOnlyPendingCard(item, idx));
   });
 }
 
-function createPendingCard(item, idx) {
+function createTextOnlyPendingCard(item, idx) {
   const card = document.createElement("div");
   card.className = "card";
   const itemId = item.id || `dispatch-${idx}-${Date.now()}`;
@@ -167,19 +186,11 @@ function createPendingCard(item, idx) {
   const platform = item.platform || item.target_platform || "General";
   const content = item.content || item.mutated_text || item.text || "";
 
-  const resolvedMedia = resolveMediaPath(item.media_url);
-  const mediaHtml = resolvedMedia 
-    ? `<div class="media-box" style="background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px; padding: 8px; margin-top: 10px; text-align: center;">
-         <img src="${resolvedMedia}" alt="Rendered Media Card" style="max-width: 100%; height: auto; border-radius: 6px; display: block; margin: 0 auto;" />
-       </div>`
-    : '';
-
   card.innerHTML = `
     <div class="card-header">
       <span class="badge">${platform}</span>
       <span class="timestamp-tag">ID: ${itemId}</span>
     </div>
-    ${mediaHtml}
     <div class="card-body">
       <p class="content-text" id="text-${itemId}">${content}</p>
     </div>
