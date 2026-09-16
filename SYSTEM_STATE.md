@@ -6,7 +6,7 @@ CommandHub is a sovereign, code-first content production engine. It ingests raw 
 ## 2. Immutable Directory Structure
 
 ```text
-/ (Repo Root)
+/ (FMMediaEnterprises-Hub)
 ├── .github/
 │   └── workflows/
 │       └── signal_processor.yml      <-- Automated pipeline execution
