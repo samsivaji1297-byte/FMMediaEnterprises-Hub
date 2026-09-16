@@ -35,6 +35,7 @@ jobs:
         run: npm install
 
       - name: Run Signal Processor Script
+        working-directory: ./scripts
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           RAW_TEXT: ${{ github.event.client_payload.raw_text || inputs.RAW_TEXT }}
