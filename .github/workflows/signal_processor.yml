@@ -3,6 +3,17 @@ name: Signal Processor Engine
 on:
   repository_dispatch:
     types: [signal_capture]
+  workflow_dispatch:
+    inputs:
+      RAW_TEXT:
+        description: 'Raw signal input or seed text'
+        required: true
+        type: string
+      SIGNAL_TYPE:
+        description: 'Type of dispatch signal'
+        required: false
+        default: 'content_dispatch'
+        type: string
 
 jobs:
   process-signal:
@@ -19,17 +30,21 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install Dependencies
+        working-directory: ./scripts
+        run: npm install
+
       - name: Run Signal Processor Script
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          RAW_TEXT: ${{ github.event.client_payload.raw_text }}
-          SIGNAL_TYPE: ${{ github.event.client_payload.signal_type }}
+          RAW_TEXT: ${{ github.event.client_payload.raw_text || inputs.RAW_TEXT }}
+          SIGNAL_TYPE: ${{ github.event.client_payload.signal_type || inputs.SIGNAL_TYPE }}
         run: node scripts/process_signal.js
 
       - name: Commit & Push Changes
         run: |
           git config --global user.name "CommandHub Engine"
           git config --global user.email "engine@commandhub.local"
-          git add MemoryVault/dashboard_feed.json
-          git commit -m "auto: process signal into dispatches" || exit 0
+          git add MemoryVault/
+          git diff --quiet && git diff --staged --quiet || git commit -m "auto: process signal and render media assets [skip ci]"
           git push
