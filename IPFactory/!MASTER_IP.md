@@ -40,3 +40,4 @@
 - Basal Sovereign Gyroscope — An internal rotational stabilization framework that maintains an operator's core authority and psychological center of mass against high-velocity external disruption.
 - Teleodynamic Dominion Vector — An operational framework designed to project an operator's self-determined purpose across cognitive and strategic domains without external destabilization.
 - Basal Volition Redoubt — A psychological fortification that preserves absolute operator agency by anchoring self-determination deep within an unshakeable internal gravity field.
+- Endogenous Agency Vault — An internal strategic redoubt that secures the operator's core identity against perceptual erosion and cognitive subversion.
