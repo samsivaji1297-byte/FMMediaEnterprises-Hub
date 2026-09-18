@@ -43,3 +43,4 @@
 - Endogenous Agency Vault — An internal strategic redoubt that secures the operator's core identity against perceptual erosion and cognitive subversion.
 - Endogenic Agency Attractor — An operational mental framework that continuously pulls psychological energy inward to maintain an unbreakable, self-generated locus of command.
 - Autogenous Empire Stratum — The deep, self-originating layer of identity architecture that serves as the unyielding bedrock for total cognitive sovereignty and self-governed authority.
+- Endocentric Sovereign Spire — A self-reinforcing architecture of psychological primacy that concentrates an operator's internal gravity into an unyielding axis of autonomous command.
