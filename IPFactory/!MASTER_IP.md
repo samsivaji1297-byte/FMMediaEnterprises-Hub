@@ -44,3 +44,4 @@
 - Endogenic Agency Attractor — An operational mental framework that continuously pulls psychological energy inward to maintain an unbreakable, self-generated locus of command.
 - Autogenous Empire Stratum — The deep, self-originating layer of identity architecture that serves as the unyielding bedrock for total cognitive sovereignty and self-governed authority.
 - Endocentric Sovereign Spire — A self-reinforcing architecture of psychological primacy that concentrates an operator's internal gravity into an unyielding axis of autonomous command.
+- Centripetal Identity Foundry — An operational architecture that continually pulls and refines an operator's internal power into an unbreakable center of self-governance.
