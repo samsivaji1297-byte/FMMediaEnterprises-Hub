@@ -1,13 +1,13 @@
 import os
 import sys
 import glob
-import json
-import requests
+import time
 import yaml
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
 from googleapiclient.discovery import build
 import google.generativeai as genai
+from google.api_core.exceptions import ResourceExhausted
 
 # ==============================================================================
 # 1. Environment & Credentials Setup
@@ -25,8 +25,11 @@ if not all([BLOG_ID, CLIENT_ID, CLIENT_SECRET, REFRESH_TOKEN, GEMINI_API_KEY]):
 # Configure Gemini API
 genai.configure(api_key=GEMINI_API_KEY)
 
-# Build Blogger Service using Refresh Token
+
 def get_blogger_service():
+    """
+    Builds and returns an authorized Blogger API v3 service instance using OAuth refresh tokens.
+    """
     creds = Credentials(
         token=None,
         refresh_token=REFRESH_TOKEN,
@@ -70,7 +73,7 @@ def parse_markdown_file(filepath):
 # ==============================================================================
 def transform_markdown_to_html(markdown_text, title):
     """
-    Converts raw Markdown into clean, well-structured HTML optimized for Blogger.
+    Converts raw Markdown into clean, well-structured HTML optimized for Blogger via Gemini.
     """
     model = genai.GenerativeModel("gemini-3.6-flash")
 
@@ -108,9 +111,9 @@ Markdown Body:
 # ==============================================================================
 def publish_post(service, title, html_content, tags, status):
     """
-    Posts the processed HTML to Google Blogger.
+    Posts the processed HTML to Google Blogger as a live post or a draft.
     """
-    is_draft = True if status.lower() == "draft" else False
+    is_draft = True if str(status).lower() == "draft" else False
 
     body = {
         "kind": "blogger#post",
@@ -142,15 +145,18 @@ def publish_post(service, title, html_content, tags, status):
 # 5. Main Execution Flow
 # ==============================================================================
 def main():
-    # Target directory or pass path as command argument
-    target_dir = sys.argv[1] if len(sys.argv) > 1 else "WritingFactory/Mindset"
+    target_input = sys.argv[1] if len(sys.argv) > 1 else "WritingFactory/Mindset"
 
-    print(f"Searching for Markdown files in: {target_dir}")
-    md_files = glob.glob(f"{target_dir}/**/*.md", recursive=True) + glob.glob(f"{target_dir}/*.md")
-    md_files = list(set(md_files)) # deduplicate
+    # Support processing both a single specific file or scanning an entire directory
+    if os.path.isfile(target_input) and target_input.endswith(".md"):
+        md_files = [target_input]
+    else:
+        print(f"Searching for Markdown files in: {target_input}")
+        md_files = glob.glob(f"{target_input}/**/*.md", recursive=True) + glob.glob(f"{target_input}/*.md")
+        md_files = list(set(md_files))
 
     if not md_files:
-        print(f"No Markdown files found in {target_dir}.")
+        print(f"No Markdown files found for target: {target_input}.")
         return
 
     print(f"Found {len(md_files)} file(s) to process.\n")
@@ -169,10 +175,29 @@ def main():
         print(f"Tags: {tags}")
 
         print("Transforming Markdown to HTML via Gemini...")
-        html_content = transform_markdown_to_html(body, title)
+        
+        # Retry loop for Gemini API to handle rate limits gracefully
+        html_content = None
+        for attempt in range(3):
+            try:
+                html_content = transform_markdown_to_html(body, title)
+                break
+            except ResourceExhausted:
+                print("Quota limit reached (429). Waiting 10 seconds before retrying...")
+                time.sleep(10)
+            except Exception as e:
+                print(f"Error transforming file via Gemini: {e}")
+                break
+
+        if not html_content:
+            print(f"Skipping {filepath} due to transformation failure.\n")
+            continue
 
         print("Publishing to Blogger...")
         publish_post(service, title, html_content, tags, status)
+
+        # 4-second delay between loop cycles to stay safely under API rate limits
+        time.sleep(4)
 
 
 if __name__ == "__main__":
