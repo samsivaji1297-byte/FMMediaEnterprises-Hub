@@ -66,7 +66,7 @@ def transform_and_stage(filepath):
     print(f"Selected source file: {filepath}")
     print(f"Extracted Title: {title}")
 
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-3.6-flash")
     prompt = f"""
 You are an expert content editor converting raw Markdown into publication-ready Blogger HTML.
 
