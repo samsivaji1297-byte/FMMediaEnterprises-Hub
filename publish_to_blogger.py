@@ -145,7 +145,7 @@ def publish_post(service, title, html_content, tags, status):
 # 5. Main Execution Flow
 # ==============================================================================
 def main():
-    target_input = sys.argv[1] if len(sys.argv) > 1 else "WritingFactory/Mindset"
+    target_input = sys.argv[1] if len(sys.argv) > 1 else "DistributionPlatforms/Blogger"
 
     # Support processing both a single specific file or scanning an entire directory
     if os.path.isfile(target_input) and target_input.endswith(".md"):
