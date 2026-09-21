@@ -16,7 +16,7 @@ config = types.GenerateContentConfig(
     tools=[types.Tool(google_search=types.GoogleSearch())]
 )
 
-chat = client.chats.create(model="gemini-2.5-flash", config=config)
+chat = client.chats.create(model="gemini-3.6-flash", config=config)
 response = chat.send_message("What are 3 trending topics in AI automation this week? Keep it brief.")
 
 print("\n--- RESPONSE ---")
