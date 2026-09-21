@@ -30,4 +30,4 @@ try:
         for q in metadata.web_search_queries:
             print(f"- {q}")
 except Exception as e:
-    print(f"\nCould not extract search metadata: {e}")test_search.py
+    print(f"\nCould not extract search metadata: {e}")
