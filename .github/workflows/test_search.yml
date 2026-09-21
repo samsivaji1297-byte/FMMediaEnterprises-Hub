@@ -1,0 +1,24 @@
+name: Run Gemini Search Test
+
+on:
+  workflow_dispatch: # Allows manual trigger from the GitHub web UI
+
+jobs:
+  run-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Dependencies
+        run: pip install google-genai
+
+      - name: Run Search Test Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python test_search.py
