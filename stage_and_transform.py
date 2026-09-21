@@ -1,120 +1,89 @@
 import os
-import sys
 import glob
-import random
 import re
-from datetime import datetime
-import google.generativeai as genai
+from google import genai
+from google.genai import types
 
-# ==============================================================================
-# 1. Setup & Config
-# ==============================================================================
-SOURCE_DIR = "WritingFactory/Mindset"
-DEST_DIR = "DistributionPlatforms/Blogger"
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+MODEL_ID = "gemini-3.6-flash"
+RESEARCH_DIR = "ResearchFactory"
+WRITING_DIR = "WritingFactory"
 
-if not GEMINI_API_KEY:
-    print("Error: GEMINI_API_KEY environment variable missing.")
-    sys.exit(1)
+def get_latest_brief_path() -> str:
+    """Finds the most recent research brief file in ResearchFactory."""
+    files = glob.glob(os.path.join(RESEARCH_DIR, "*.md"))
+    if not files:
+        raise FileNotFoundError(f"No research briefs found in '{RESEARCH_DIR}'. Run research_engine.py first.")
+    # Sort by modification time to get the latest file
+    latest_file = max(files, key=os.path.getmtime)
+    print(f"[DEBUG] Found latest research brief: {latest_file}")
+    return latest_file
 
-genai.configure(api_key=GEMINI_API_KEY)
-os.makedirs(DEST_DIR, exist_ok=True)
-
-
-# ==============================================================================
-# 2. File Selection & Parsing
-# ==============================================================================
-def get_random_unprocessed_file():
-    source_files = glob.glob(f"{SOURCE_DIR}/*.md") + glob.glob(f"{SOURCE_DIR}/**/*.md", recursive=True)
-    if not source_files:
-        print(f"No source files found in {SOURCE_DIR}")
-        return None
-
-    # Track already processed files to avoid duplicates
-    existing_staged = set(os.listdir(DEST_DIR))
+def extract_clean_title(brief_content: str, fallback_filename: str) -> str:
+    """Extracts a clean post title from the brief H1 or Title Tag Options."""
+    # Look for proposed title options in the brief first
+    title_match = re.search(r'Option 1:\*\*?\s*(.+)', brief_content)
+    if title_match:
+        return title_match.group(1).strip()
     
-    # Shuffle and find a file that hasn't been transformed yet
-    random.shuffle(source_files)
-    for filepath in source_files:
-        filename = os.path.basename(filepath)
-        if not any(filename.replace(".md", "") in staged for staged in existing_staged):
-            return filepath
-            
-    print("All files in source directory have already been staged to Blogger.")
-    return None
-
-def extract_title_and_clean_body(filepath):
-    with open(filepath, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    # Match first H1 header (# Title)
-    h1_match = re.search(r"^#\s+(.+)$", content, re.MULTILINE)
+    # Fallback: Look for the main H1 line
+    h1_match = re.search(r'^#\s*(.+)', brief_content, re.MULTILINE)
     if h1_match:
-        title = h1_match.group(1).strip()
-    else:
-        # Fallback to filename without extension and clean up underscores
-        title = os.path.basename(filepath).replace(".md", "").replace("_", " ")
+        clean_h1 = h1_match.group(1).replace("Executive SEO Brief:", "").strip()
+        return clean_h1
 
-    return title, content
+    # Fallback: Clean up raw filename (remove prefix and timestamp)
+    base = os.path.basename(fallback_filename)
+    clean_base = re.sub(r'^SEO_Brief_', '', base)
+    clean_base = re.sub(r'_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.md$', '', clean_base)
+    return clean_base.replace('_', ' ').title()
 
+def transform_brief_to_article(brief_file_path: str):
+    """Reads brief, generates full article, and saves clean Markdown output."""
+    with open(brief_file_path, "r", encoding="utf-8") as f:
+        brief_content = f.read()
 
-# ==============================================================================
-# 3. Gemini Transformation & Staging
-# ==============================================================================
-def transform_and_stage(filepath):
-    title, raw_markdown = extract_title_and_clean_body(filepath)
-    print(f"Selected source file: {filepath}")
-    print(f"Extracted Title: {title}")
+    clean_title = extract_clean_title(brief_content, brief_file_path)
+    print(f"[DEBUG] Extracted Clean Title: '{clean_title}'")
 
-    model = genai.GenerativeModel("gemini-3.6-flash")
+    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+
     prompt = f"""
-You are an expert content editor converting raw Markdown into publication-ready Blogger HTML.
+You are an expert content writer and industry authority. 
 
-Target Title: {title}
+Using the following SEO Research Brief as your strict architectural guide, write a comprehensive, highly engaging, 1500+ word article.
 
-Instructions:
-1. Convert the provided Markdown into clean, responsive HTML suitable for Blogger posts.
-2. Structure headers with <h2> and <h3>, and use <p>, <ul>, <ol>, <li>, and <blockquote> correctly.
-3. DO NOT output standard Markdown code blocks or wrapping ```html fences. Return ONLY the raw HTML body.
-
-Raw Markdown:
-{raw_markdown}
-"""
-
-    response = model.generate_content(prompt)
-    html_body = response.text.strip()
-
-    # Strip code block fences if generated
-    if html_body.startswith("```html"):
-        html_body = html_body[7:]
-    if html_body.startswith("```"):
-        html_body = html_body[3:]
-    if html_body.endswith("```"):
-        html_body = html_body[:-3]
-
-    # Create YAML Frontmatter + HTML payload
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    staged_filename = f"Blogger_Mindset_{timestamp}.md"
-    staged_filepath = os.path.join(DEST_DIR, staged_filename)
-
-    staged_content = f"""---
-title: "{title}"
-tags: ["Mindset", "FM Media"]
-status: "publish"
-source_file: "{os.path.basename(filepath)}"
+---
+RESEARCH BRIEF:
+{brief_content}
 ---
 
-{html_body.strip()}
+INSTRUCTIONS:
+1. Use the following exact Title as the primary H1 header at the top of the article:
+   # {clean_title}
+2. Follow all H2 and H3 subheadings outlined in the brief.
+3. Write with depth, concrete examples, and zero generic AI jargon.
+4. Format cleanly in Markdown with tables, lists, and bold emphasis where appropriate.
 """
 
-    with open(staged_filepath, "w", encoding="utf-8") as f:
-        f.write(staged_content)
+    print("[DEBUG] Generating full article in WritingFactory...")
+    chat = client.chats.create(model=MODEL_ID)
+    response = chat.send_message(prompt)
 
-    print(f"Successfully transformed and staged to: {staged_filepath}")
-    return staged_filepath
+    os.makedirs(WRITING_DIR, exist_ok=True)
+    
+    # Save formatted article using the clean title in the filename
+    clean_filename_slug = re.sub(r'[^\w\-_]', '_', clean_title.replace(" ", "_"))
+    output_path = os.path.join(WRITING_DIR, f"{clean_filename_slug}.md")
 
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(response.text.strip())
+
+    print(f"[DEBUG] Full article saved to: {output_path}")
+    return output_path, clean_title
 
 if __name__ == "__main__":
-    selected_file = get_random_unprocessed_file()
-    if selected_file:
-        transform_and_stage(selected_file)
+    brief_path = get_latest_brief_path()
+    article_path, post_title = transform_brief_to_article(brief_path)
+    print(f"\n=== Transformation Complete ===")
+    print(f"Article Ready: {article_path}")
+    print(f"Clean Post Title: {post_title}")
