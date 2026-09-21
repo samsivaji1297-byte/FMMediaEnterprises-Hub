@@ -1,87 +1,114 @@
 import os
 import sys
-import time
-from typing import Optional
+import re
+from datetime import datetime
 from google import genai
 from google.genai import types
 from google.genai.errors import ClientError
 
 # Configuration
-MODEL_ID = "gemini-3.6-flash"  # Flash model has higher RPM/TPM thresholds
-MAX_RETRIES = 5
-INITIAL_BACKOFF = 12  # Seconds to wait on first 429 before retrying
+MODEL_ID = "gemini-3.6-flash"
+RESEARCH_DIR = "ResearchFactory"
+
 
 def get_gemini_client() -> genai.Client:
-    """Initializes and returns the Google Gen AI SDK Client."""
+    """Initializes the SDK client using GEMINI_API_KEY from environment."""
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        print("Error: GEMINI_API_KEY environment variable not found.", file=sys.stderr)
+        print("[DEBUG ERROR] GEMINI_API_KEY environment variable is missing!")
         sys.exit(1)
+    print("[DEBUG] Gemini client initialized successfully.")
     return genai.Client(api_key=api_key)
 
-def execute_chat_with_backoff(client: genai.Client, prompt: str, config: types.GenerateContentConfig):
-    """
-    Executes grounded research using the Chat module to comply with 
-    Automatic Function Calling (AFC) SDK guidelines and handles 429 rate limits.
-    """
-    backoff = INITIAL_BACKOFF
-    
-    for attempt in range(1, MAX_RETRIES + 1):
-        try:
-            # AFC (Search Grounding) is properly supported on Chat sessions
-            chat = client.chats.create(
-                model=MODEL_ID,
-                config=config
-            )
-            response = chat.send_message(prompt)
-            return response
-            
-        except ClientError as e:
-            if "429" in str(e) or e.code == 429:
-                print(f"[Rate Limit 429] Quota exceeded. Retrying in {backoff}s... (Attempt {attempt}/{MAX_RETRIES})")
-                time.sleep(backoff)
-                backoff *= 2  # Exponential backoff
-            else:
-                print(f"[ClientError] API call failed: {e}", file=sys.stderr)
-                raise e
-        except Exception as e:
-            print(f"[Unexpected Error]: {e}", file=sys.stderr)
-            raise e
 
-    raise RuntimeError(f"Failed to complete research after {MAX_RETRIES} attempts due to persistent rate limiting.")
-
-def run_seo_research(target_topic: str) -> Optional[str]:
-    """Runs search-grounded research on a target topic."""
-    print(f"--- Running Google Search Grounded Research on: '{target_topic}' ---")
-    
+def generate_seo_brief(target_topic: str) -> str:
+    """Generates an SEO brief with Search Grounding fallback handling."""
     client = get_gemini_client()
     
-    # Configure Google Search Grounding tool
-    config = types.GenerateContentConfig(
+    prompt = f"""
+You are an elite SEO strategist. Perform research on the topic: "{target_topic}".
+
+Generate a structured SEO Brief in Markdown with the following headings:
+# Executive SEO Brief: {target_topic}
+## 1. Search Intent & Audience Analysis
+## 2. Content Gaps & Opportunities
+## 3. Recommended Keywords & Topics
+## 4. Proposed Article Outline (H1, H2, H3)
+
+Keep it tactical and actionable.
+"""
+
+    # --- Attempt 1: Search-Grounded Generation ---
+    print(f"\n[DEBUG] Starting Search-Grounded Research for: '{target_topic}'...")
+    grounded_config = types.GenerateContentConfig(
         tools=[types.Tool(google_search=types.GoogleSearch())],
-        temperature=0.3  # Keeps research output focused and accurate
-    )
-    
-    prompt = (
-        f"Perform structured research on the topic: '{target_topic}'. "
-        f"Provide core insights, systemic execution steps, actionable takeaways, "
-        f"and key domain terminology."
+        temperature=0.3
     )
 
-    response = execute_chat_with_backoff(client, prompt, config)
+    try:
+        chat = client.chats.create(model=MODEL_ID, config=grounded_config)
+        response = chat.send_message(prompt)
+        
+        brief_text = response.text.strip() if response and response.text else ""
+        print("[DEBUG] Search-Grounded Research completed successfully!")
+
+        # Log search queries used if available
+        try:
+            candidate = response.candidates[0]
+            if hasattr(candidate, 'grounding_metadata') and candidate.grounding_metadata:
+                queries = getattr(candidate.grounding_metadata, 'web_search_queries', []) or []
+                if queries:
+                    print(f"[DEBUG] Search queries executed by Gemini: {queries}")
+                    brief_text += "\n\n---\n### Search Queries Used:\n" + "\n".join([f"- `{q}`" for q in queries])
+        except Exception as e:
+            print(f"[DEBUG] Notice: Could not parse grounding metadata ({e})")
+
+        return brief_text
+
+    except ClientError as e:
+        print(f"[DEBUG WARN] Grounded search hit an API limit: {e}")
+        print("[DEBUG] Switching immediately to Fallback Mode (Standard Generation)...")
+    except Exception as e:
+        print(f"[DEBUG WARN] Grounded search failed with error: {e}")
+        print("[DEBUG] Switching immediately to Fallback Mode (Standard Generation)...")
+
+    # --- Attempt 2: Fallback (Standard Generation without tools) ---
+    print("\n[DEBUG] Running Standard Gemini Generation (No Search Tools)...")
+    standard_config = types.GenerateContentConfig(temperature=0.3)
     
-    if response and response.text:
-        print("\n=== Research Results ===")
-        print(response.text)
-        return response.text
-    else:
-        print("Warning: Received empty response from Gemini API.", file=sys.stderr)
-        return None
+    try:
+        chat = client.chats.create(model=MODEL_ID, config=standard_config)
+        response = chat.send_message(prompt)
+        brief_text = response.text.strip() + "\n\n---\n*Note: Generated via Gemini parametric model due to search quota limits.*"
+        print("[DEBUG] Standard generation completed successfully!")
+        return brief_text
+    except Exception as e:
+        print(f"[DEBUG ERROR] Standard generation failed: {e}")
+        sys.exit(1)
+
+
+def save_brief(topic: str, content: str) -> str:
+    """Saves the generated content to a Markdown file in ResearchFactory."""
+    os.makedirs(RESEARCH_DIR, exist_ok=True)
+    
+    clean_topic = re.sub(r'[^\w\-_]', '_', topic.replace(" ", "_"))
+    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filename = f"SEO_Brief_{clean_topic}_{timestamp}.md"
+    filepath = os.path.join(RESEARCH_DIR, filename)
+
+    print(f"\n[DEBUG] Writing SEO Brief to file: {filepath}")
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(content)
+
+    print("[DEBUG] File saved successfully!")
+    return filepath
+
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        target_topic = " ".join(sys.argv[1:])
-    else:
-        target_topic = "High Agency Mindset and Systemic Execution"
-        
-    run_seo_research(target_topic)
+    target_topic = sys.argv[1] if len(sys.argv) > 1 else "High Agency Mindset and Systemic Execution"
+    print(f"=== Research Engine Triggered for Topic: '{target_topic}' ===")
+    
+    brief = generate_seo_brief(target_topic)
+    save_brief(target_topic, brief)
+    
+    print("=== Research Engine Completed Successfully ===")
