@@ -8,13 +8,15 @@ on:
         required: false
         default: 'High Agency Mindset and Systemic Execution'
 
-  # Autonomous daily schedule (e.g., 09:00 UTC / 7:00 PM AEST)
   schedule:
     - cron: '0 9 * * *'
 
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
+
+    permissions:
+      contents: write  # Grants GitHub Actions permission to push commits to the repo
 
     steps:
       - name: Checkout Code
@@ -33,10 +35,17 @@ jobs:
       - name: Run End-to-End Autonomous Pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # Uses manual input if triggered in UI; otherwise defaults for scheduled run
           INPUT_TOPIC: ${{ github.event.inputs.topic || 'High Agency Mindset and Systemic Execution' }}
         run: |
           echo "=== Executing Autonomous Pipeline for Topic: '$INPUT_TOPIC' ==="
           python research_engine.py "$INPUT_TOPIC"
           python stage_and_transform.py
           python publish_to_blogger.py
+
+      - name: Commit and Push Generated Assets
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          git add ResearchFactory/ DistributionPlatforms/
+          # Only commit if there are actually new or modified files
+          git diff --quiet && git diff --staged --quiet || (git commit -m "auto: publish and persist generated assets [skip ci]" && git push)
