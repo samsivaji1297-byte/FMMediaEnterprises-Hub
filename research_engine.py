@@ -12,7 +12,7 @@ def run_research():
 
     # 2. Scrape live web context via DuckDuckGo (Zero API limits)
     try:
-        results = DDGS().text(keywords=topic, max_results=5)
+        results = DDGS().text(topic, max_results=5)
         if not results:
             print("[WARN] DuckDuckGo returned no results. Proceeding with fallback context.")
             search_context = "No live search context available."
