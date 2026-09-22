@@ -7,8 +7,8 @@ from google.genai import errors
 MODEL_ID = "gemini-3.6-flash"
 
 @retry(
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(multiplier=2, min=10, max=65),
+    stop=stop_after_attempt(3),
+    wait=wait_exponential(multiplier=2, min=4, max=20),
     retry=retry_if_exception_type((errors.ServerError, errors.APIError, errors.ClientError)),
     before_sleep=lambda retry_state: print(
         f"[DEBUG WARN] API Rate Limit or Server Busy. Waiting {retry_state.next_action.sleep:.1f}s before retrying..."
