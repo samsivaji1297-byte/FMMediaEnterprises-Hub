@@ -2,88 +2,119 @@ import os
 import glob
 import re
 from google import genai
-from google.genai import types
 
 MODEL_ID = "gemini-3.6-flash"
 RESEARCH_DIR = "ResearchFactory"
-WRITING_DIR = "WritingFactory"
+
+# Target distribution directories
+DIST_BASE = "DistributionPlatforms"
+BLOGGER_DIR = os.path.join(DIST_BASE, "Blogger")
+SUBSTACK_DIR = os.path.join(DIST_BASE, "Substack")
+LINKEDIN_DIR = os.path.join(DIST_BASE, "LinkedIn")
 
 def get_latest_brief_path() -> str:
     """Finds the most recent research brief file in ResearchFactory."""
     files = glob.glob(os.path.join(RESEARCH_DIR, "*.md"))
     if not files:
         raise FileNotFoundError(f"No research briefs found in '{RESEARCH_DIR}'. Run research_engine.py first.")
-    # Sort by modification time to get the latest file
     latest_file = max(files, key=os.path.getmtime)
     print(f"[DEBUG] Found latest research brief: {latest_file}")
     return latest_file
 
 def extract_clean_title(brief_content: str, fallback_filename: str) -> str:
     """Extracts a clean post title from the brief H1 or Title Tag Options."""
-    # Look for proposed title options in the brief first
     title_match = re.search(r'Option 1:\*\*?\s*(.+)', brief_content)
     if title_match:
         return title_match.group(1).strip()
     
-    # Fallback: Look for the main H1 line
     h1_match = re.search(r'^#\s*(.+)', brief_content, re.MULTILINE)
     if h1_match:
-        clean_h1 = h1_match.group(1).replace("Executive SEO Brief:", "").strip()
-        return clean_h1
+        return h1_match.group(1).replace("Executive SEO Brief:", "").strip()
 
-    # Fallback: Clean up raw filename (remove prefix and timestamp)
     base = os.path.basename(fallback_filename)
     clean_base = re.sub(r'^SEO_Brief_', '', base)
     clean_base = re.sub(r'_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.md$', '', clean_base)
     return clean_base.replace('_', ' ').title()
 
-def transform_brief_to_article(brief_file_path: str):
-    """Reads brief, generates full article, and saves clean Markdown output."""
+def generate_asset_variant(client, prompt: str, output_path: str, asset_name: str):
+    """Utility to call Gemini and save generated markdown to target distribution folder."""
+    print(f"[DEBUG] Generating {asset_name} asset...")
+    chat = client.chats.create(model=MODEL_ID)
+    response = chat.send_message(prompt)
+    
+    # Ensure destination directory exists before saving
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(response.text.strip())
+    print(f"[SUCCESS] Saved {asset_name} -> {output_path}")
+
+def transform_brief_to_multi_assets(brief_file_path: str):
+    """Transforms a single research brief into 3 distinct native channel assets."""
     with open(brief_file_path, "r", encoding="utf-8") as f:
         brief_content = f.read()
 
     clean_title = extract_clean_title(brief_content, brief_file_path)
-    print(f"[DEBUG] Extracted Clean Title: '{clean_title}'")
+    print(f"\n=== Mutating Brief for Title: '{clean_title}' ===")
 
     client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+    slug = re.sub(r'[^\w\-_]', '_', clean_title.replace(" ", "_"))
 
-    prompt = f"""
-You are an expert content writer and industry authority. 
+    # 1. BLOGGER / SEO ARTICLE -> DistributionPlatforms/Blogger
+    blogger_prompt = f"""
+You are an expert SEO content strategist and technical writer.
+Transform this research brief into a 1500+ word, highly actionable SEO article.
 
-Using the following SEO Research Brief as your strict architectural guide, write a comprehensive, highly engaging, 1500+ word article.
-
----
-RESEARCH BRIEF:
-{brief_content}
----
+TITLE: # {clean_title}
 
 INSTRUCTIONS:
-1. Use the following exact Title as the primary H1 header at the top of the article:
-   # {clean_title}
-2. Follow all H2 and H3 subheadings outlined in the brief.
-3. Write with depth, concrete examples, and zero generic AI jargon.
-4. Format cleanly in Markdown with tables, lists, and bold emphasis where appropriate.
+- Follow the H2/H3 architecture from the brief.
+- Write with high operational depth, include markdown comparison tables, and avoid generic AI filler.
+- Optimize for high reader retention and clear search intent resolution.
+
+RESEARCH BRIEF:
+{brief_content}
 """
+    blogger_file = os.path.join(BLOGGER_DIR, f"{slug}.md")
+    generate_asset_variant(client, blogger_prompt, blogger_file, "Blogger SEO Post")
 
-    print("[DEBUG] Generating full article in WritingFactory...")
-    chat = client.chats.create(model=MODEL_ID)
-    response = chat.send_message(prompt)
+    # 2. SUBSTACK NEWSLETTER ESSAY -> DistributionPlatforms/Substack
+    substack_prompt = f"""
+You are a top-tier Substack essayist and strategic thinker.
+Transform this research brief into an engaging, narrative-driven newsletter essay.
 
-    os.makedirs(WRITING_DIR, exist_ok=True)
-    
-    # Save formatted article using the clean title in the filename
-    clean_filename_slug = re.sub(r'[^\w\-_]', '_', clean_title.replace(" ", "_"))
-    output_path = os.path.join(WRITING_DIR, f"{clean_filename_slug}.md")
+TITLE: {clean_title}
 
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(response.text.strip())
+INSTRUCTIONS:
+- Tone: Direct, intellectually rigorous, conversational, first-principles mindset.
+- Structure: Start with a strong hook/real-world problem, break down the core framework, and end with a strategic takeaway.
+- Use bold emphasis, short paragraphs, and callout boxes (`> blockquotes`) for key principles.
 
-    print(f"[DEBUG] Full article saved to: {output_path}")
-    return output_path, clean_title
+RESEARCH BRIEF:
+{brief_content}
+"""
+    substack_file = os.path.join(SUBSTACK_DIR, f"{slug}.md")
+    generate_asset_variant(client, substack_prompt, substack_file, "Substack Essay")
+
+    # 3. LINKEDIN NATIVE FEED POST -> DistributionPlatforms/LinkedIn
+    linkedin_prompt = f"""
+You are a LinkedIn content creator known for high-agency operational insights.
+Transform this research brief into a punchy, highly shareable LinkedIn post.
+
+INSTRUCTIONS:
+- Length: Under 2,000 characters.
+- Formatting: Short single lines, strong spacing, clean emoji bullet points.
+- Hook: Start with a strong non-obvious statement about: {clean_title}.
+- Body: 3-4 tactical bullet points stripping the core philosophy down to execution.
+- Call to Action: End with a direct question to trigger comments.
+
+RESEARCH BRIEF:
+{brief_content}
+"""
+    linkedin_file = os.path.join(LINKEDIN_DIR, f"{slug}.md")
+    generate_asset_variant(client, linkedin_prompt, linkedin_file, "LinkedIn Post")
 
 if __name__ == "__main__":
     brief_path = get_latest_brief_path()
-    article_path, post_title = transform_brief_to_article(brief_path)
-    print(f"\n=== Transformation Complete ===")
-    print(f"Article Ready: {article_path}")
-    print(f"Clean Post Title: {post_title}")
+    transform_brief_to_multi_assets(brief_path)
+    print("\n=== Mutation Engine Complete: Assets routed to DistributionPlatforms/ ===")
