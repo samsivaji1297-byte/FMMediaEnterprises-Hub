@@ -32,7 +32,7 @@ def run_research(topic="High Agency Mindset and Systemic Execution"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     response = client.models.generate_content(
-        model="gemini-3.6-flash",
+        model="gemini-3.5-flash",
         contents=prompt
     )
 
