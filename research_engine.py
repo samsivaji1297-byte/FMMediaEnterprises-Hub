@@ -1,16 +1,16 @@
 import sys
 import os
+import time
 from google import genai
 from google.genai import types
 
-MODEL_ID = "gemini-2.5-flash"
+MODEL_ID = "gemini-3.6-flash"
 
 def run_research(topic: str):
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
         raise ValueError("GEMINI_API_KEY environment variable not set.")
     
-    # Initialize client FIRST
     client = genai.Client(api_key=api_key)
     print("[DEBUG] Gemini client initialized successfully.")
 
@@ -30,6 +30,9 @@ def run_research(topic: str):
     except Exception as e:
         print(f"[DEBUG WARN] Grounded search hit an API limit: {e}")
         print("[DEBUG] Switching immediately to Fallback Mode (Standard Generation)...")
+
+    # Brief delay before fallback
+    time.sleep(5)
 
     # Fallback to Standard Generation
     try:
