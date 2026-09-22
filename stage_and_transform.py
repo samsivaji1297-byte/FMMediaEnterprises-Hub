@@ -6,7 +6,7 @@ from google import genai
 from google.genai import errors
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
-MODEL_ID = "gemini-3.6-flash"
+MODEL_ID = "gemini-2.5-flash"
 RESEARCH_DIR = "ResearchFactory"
 
 # Target distribution directories
@@ -39,15 +39,15 @@ def extract_clean_title(brief_content: str, fallback_filename: str) -> str:
     clean_base = re.sub(r'_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.md$', '', clean_base)
     return clean_base.replace('_', ' ').title()
 
-# Retry automatically up to 5 times if Google hits a 503 ServerError or 429 Rate Limit
+# Catches both 503 ServerErrors and 429 Rate Limits / Quotas, backing off up to 45s
 @retry(
     stop=stop_after_attempt(5),
-    wait=wait_exponential(multiplier=2, min=4, max=30),
-    retry=retry_if_exception_type((errors.ServerError, errors.APIError)),
-    before_sleep=lambda retry_state: print(f"[DEBUG WARN] API busy/unavailable. Retrying in {retry_state.next_action.sleep} seconds...")
+    wait=wait_exponential(multiplier=2, min=5, max=45),
+    retry=retry_if_exception_type((errors.ServerError, errors.APIError, errors.ClientError)),
+    before_sleep=lambda retry_state: print(f"[DEBUG WARN] API Rate Limit or Server Busy. Waiting {retry_state.next_action.sleep:.1f}s before retrying...")
 )
 def call_gemini_with_retry(client, prompt: str):
-    """Calls Gemini with exponential backoff on server errors."""
+    """Calls Gemini with exponential backoff on rate limits or server errors."""
     chat = client.chats.create(model=MODEL_ID)
     return chat.send_message(prompt)
 
@@ -62,8 +62,8 @@ def generate_asset_variant(client, prompt: str, output_path: str, asset_name: st
         f.write(response.text.strip())
     print(f"[SUCCESS] Saved {asset_name} -> {output_path}")
     
-    # 5-second sleep to prevent rate-limit flooding between assets
-    time.sleep(5)
+    # 10-second pause between asset generations to preserve free-tier request quotas
+    time.sleep(10)
 
 def transform_brief_to_multi_assets(brief_file_path: str):
     """Transforms a single research brief into 3 distinct native channel assets."""
