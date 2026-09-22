@@ -41,8 +41,8 @@ def extract_clean_title(brief_content: str, fallback_filename: str) -> str:
 
 # Catches both 503 ServerErrors and 429 Rate Limits / Quotas, backing off up to 45s
 @retry(
-    stop=stop_after_attempt(5),
-    wait=wait_exponential(multiplier=2, min=5, max=45),
+    stop=stop_after_attempt(8),
+    wait=wait_exponential(multiplier=2, min=10, max=60),
     retry=retry_if_exception_type((errors.ServerError, errors.APIError, errors.ClientError)),
     before_sleep=lambda retry_state: print(f"[DEBUG WARN] API Rate Limit or Server Busy. Waiting {retry_state.next_action.sleep:.1f}s before retrying...")
 )
