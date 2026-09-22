@@ -1,7 +1,7 @@
 google-api-python-client
 google-auth-oauthlib
 google-genai
-duckduckgo-search
+ddgs
 pyyaml
 requests
 tenacity
