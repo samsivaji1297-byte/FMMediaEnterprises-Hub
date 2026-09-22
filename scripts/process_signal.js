@@ -12,7 +12,7 @@ async function generate() {
     process.exit(1);
   }
 
-  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+  const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent?key=${apiKey}`;
 
   const prompt = `Convert this seed into social media dispatches and a visual card layout: "${rawText}" (Type: "${type}")`;
 
