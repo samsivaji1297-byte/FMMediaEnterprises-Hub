@@ -6,7 +6,7 @@ from google import genai
 from google.genai import errors
 from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
-MODEL_ID = "gemini-3.6-flash"
+MODEL_ID = "gemini-1.5-flash"
 RESEARCH_DIR = "ResearchFactory"
 
 # Target distribution directories
