@@ -55,7 +55,7 @@ Rules:
 
 # --- Generate IP ---
 def generate_ip(prompt):
-    chat = client.chats.create(model="gemini-3.6-flash")
+    chat = client.chats.create(model="gemini-3.7-flash")
     response = chat.send_message(prompt)
     return response.text.strip()
 
