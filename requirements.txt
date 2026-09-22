@@ -1,6 +1,6 @@
 google-api-python-client
 google-auth-oauthlib
-google-generativeai
+google-genai
 pyyaml
 requests
 tenacity
