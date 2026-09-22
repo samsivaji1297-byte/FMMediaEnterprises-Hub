@@ -7,9 +7,16 @@ from google.genai import types
 from google.genai.errors import ClientError
 
 # Configuration
-MODEL_ID = "gemini-1.5-flash"
+MODEL_ID = "gemini-2.5-flash"
 RESEARCH_DIR = "ResearchFactory"
 
+response = client.models.generate_content(
+    model=MODEL_ID,
+    contents=prompt,
+    config=types.GenerateContentConfig(
+        tools=[{"google_search": {}}]
+    )
+)
 
 def get_gemini_client() -> genai.Client:
     """Initializes the SDK client using GEMINI_API_KEY from environment."""
