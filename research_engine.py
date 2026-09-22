@@ -7,7 +7,7 @@ from google.genai import types
 from google.genai.errors import ClientError
 
 # Configuration
-MODEL_ID = "gemini-3.6-flash"
+MODEL_ID = "gemini-1.5-flash"
 RESEARCH_DIR = "ResearchFactory"
 
 
