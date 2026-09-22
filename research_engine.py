@@ -1,76 +1,60 @@
 import os
-import sys
-import time
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+from duckduckgo_search import DDGS
 from google import genai
-from google.genai import errors
 
-MODEL_ID = "gemini-3.6-flash"
+def run_research():
+    # 1. Define target query / market demand topic
+    topic = "Autonomous AI Workflows and Content Automation Tools"
+    print(f"[INFO] Fetching real-time search signals for: '{topic}'...")
 
-@retry(
-    stop=stop_after_attempt(8),
-    wait=wait_exponential(multiplier=2, min=10, max=65),
-    retry=retry_if_exception_type((errors.ServerError, errors.APIError, errors.ClientError)),
-    before_sleep=lambda retry_state: print(
-        f"[DEBUG WARN] API Rate Limit hit. Pausing {retry_state.next_action.sleep:.1f}s before retrying standard generation..."
-    )
-)
-def call_standard_gemini(client, prompt: str):
-    """Executes standard Gemini generation wrapped in retry backoff."""
-    response = client.models.generate_content(
-        model=MODEL_ID,
-        contents=prompt
-    )
-    return response.text
+    # 2. Scrape live web context via DuckDuckGo (Zero API limits)
+    try:
+        results = DDGS().text(keywords=topic, max_results=5)
+        if not results:
+            print("[WARN] DuckDuckGo returned no results. Proceeding with fallback context.")
+            search_context = "No live search context available."
+        else:
+            search_context = "\n\n".join(
+                [f"Source ({r.get('href', 'N/A')}):\nTitle: {r.get('title', '')}\nSnippet: {r.get('body', '')}" for r in results]
+            )
+            print("[INFO] Successfully retrieved SERP signals from DuckDuckGo.")
+    except Exception as e:
+        print(f"[ERROR] Failed to fetch DuckDuckGo results: {e}")
+        search_context = "Search failed. Rely on internal knowledge base."
 
-def run_research(topic: str):
+    # 3. Construct prompt bypassing Google Search Grounding tools
+    prompt = f"""
+    You are an expert researcher for theFINALMindset and FMMediaEnterprises.
+    Analyze the following real-time search context on '{topic}' and compile a detailed research summary.
+
+    SEARCH CONTEXT:
+    {search_context}
+
+    Please cover:
+    - Core problem & market demand overview
+    - Key takeaways & high-impact solutions
+    - Pain points / friction points users face
+    - Potential content hooks or micro-angles
+    """
+
+    # 4. Generate summary via Gemini (Standard payload, no grounding tools attached)
+    print("[INFO] Passing search context to Gemini for strategic synthesis...")
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("GEMINI_API_KEY environment variable not set.")
+        raise ValueError("GEMINI_API_KEY environment variable is not set.")
 
     client = genai.Client(api_key=api_key)
-    print("[DEBUG] Gemini client initialized successfully.")
-
-    prompt = (
-        f"Conduct deep, strategic research on the following topic: '{topic}'.\n\n"
-        "Provide a comprehensive, highly actionable summary covering:\n"
-        "1. Core concepts & foundational principles\n"
-        "2. Strategic execution steps\n"
-        "3. Key takeaways and actionable insights\n"
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
     )
 
-    research_output = None
+    # 5. Output research_summary.md for stage_and_transform.py
+    output_filename = "research_summary.md"
+    with open(output_filename, "w", encoding="utf-8") as f:
+        f.write(response.text)
 
-    # Step 1: Attempt Grounded Search
-    print(f"[DEBUG] Starting Search-Grounded Research for: '{topic}'...")
-    try:
-        response = client.models.generate_content(
-            model=MODEL_ID,
-            contents=prompt,
-            config={"tools": [{"google_search": {}}]}
-        )
-        research_output = response.text
-        print("[DEBUG] Search-Grounded Research completed successfully.")
-
-    except Exception as e:
-        print(f"[DEBUG WARN] Grounded search hit an API limit: {e}")
-        print("[DEBUG] Switching immediately to Fallback Mode (Standard Generation)...")
-
-    # Step 2: Fallback to Standard Generation if Search failed
-    if not research_output:
-        print("[DEBUG] Running Standard Gemini Generation with Retry Protection...")
-        # Brief pause before attempting fallback call
-        time.sleep(5)
-        research_output = call_standard_gemini(client, prompt)
-        print("[DEBUG] Standard Generation completed successfully.")
-
-    # Save output to file
-    output_file = "research_summary.md"
-    with open(output_file, "w", encoding="utf-8") as f:
-        f.write(research_output)
-
-    print(f"[DEBUG] Research summary successfully saved to '{output_file}'.")
+    print(f"[SUCCESS] Research summary successfully saved to '{output_filename}'.")
 
 if __name__ == "__main__":
-    topic_input = sys.argv[1] if len(sys.argv) > 1 else "High Agency Mindset and Systemic Execution"
-    run_research(topic_input)
+    run_research()
