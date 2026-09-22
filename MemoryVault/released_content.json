@@ -1,5 +1,13 @@
 [
   {
+    "id": "twitter_1789524086084_0",
+    "platform": "Twitter",
+    "content": "Great systems aren't built on inspiration alone. Design and infrastructure development require absolute discipline\u2014from clean architecture to scalable components.",
+    "distributed_at": "2026-09-22T10:31",
+    "status": "Released",
+    "echo_stage": "Pending T+3"
+  },
+  {
     "id": "linkedin_1789524086084_1",
     "platform": "LinkedIn",
     "content": "Exceptional design and infrastructure don't happen by accident. They demand rigorous discipline, systematic thinking, and unyielding consistency. When building for scale, discipline is your ultimate competitive edge. #SystemDesign #Infrastructure #Design",
