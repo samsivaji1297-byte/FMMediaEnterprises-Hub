@@ -1,7 +1,10 @@
 import os
 import glob
 import re
+import time
 from google import genai
+from google.genai import errors
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 
 MODEL_ID = "gemini-3.6-flash"
 RESEARCH_DIR = "ResearchFactory"
@@ -36,18 +39,31 @@ def extract_clean_title(brief_content: str, fallback_filename: str) -> str:
     clean_base = re.sub(r'_\d{4}-\d{2}-\d{2}_\d{2}-\d{2}-\d{2}\.md$', '', clean_base)
     return clean_base.replace('_', ' ').title()
 
-def generate_asset_variant(client, prompt: str, output_path: str, asset_name: str):
-    """Utility to call Gemini and save generated markdown to target distribution folder."""
-    print(f"[DEBUG] Generating {asset_name} asset...")
+# Retry automatically up to 5 times if Google hits a 503 ServerError or 429 Rate Limit
+@retry(
+    stop=stop_after_attempt(5),
+    wait=wait_exponential(multiplier=2, min=4, max=30),
+    retry=retry_if_exception_type((errors.ServerError, errors.APIError)),
+    before_sleep=lambda retry_state: print(f"[DEBUG WARN] API busy/unavailable. Retrying in {retry_state.next_action.sleep} seconds...")
+)
+def call_gemini_with_retry(client, prompt: str):
+    """Calls Gemini with exponential backoff on server errors."""
     chat = client.chats.create(model=MODEL_ID)
-    response = chat.send_message(prompt)
+    return chat.send_message(prompt)
+
+def generate_asset_variant(client, prompt: str, output_path: str, asset_name: str):
+    """Utility to call Gemini, save markdown, and throttle requests."""
+    print(f"[DEBUG] Generating {asset_name} asset...")
     
-    # Ensure destination directory exists before saving
+    response = call_gemini_with_retry(client, prompt)
+    
     os.makedirs(os.path.dirname(output_path), exist_ok=True)
-    
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(response.text.strip())
     print(f"[SUCCESS] Saved {asset_name} -> {output_path}")
+    
+    # 5-second sleep to prevent rate-limit flooding between assets
+    time.sleep(5)
 
 def transform_brief_to_multi_assets(brief_file_path: str):
     """Transforms a single research brief into 3 distinct native channel assets."""
