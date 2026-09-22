@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "twitterx_1790058168259_0",
+    "platform": "Twitter / X",
+    "content": "Doubts are simply the natural byproducts of actions that don't produce immediate results. The lag between effort and outcome isn't failure—it's just incubation. Stay the course.",
+    "media_url": "./MemoryVault/media/card_1790058168258.png",
+    "created_at": "2026-09-22T06:22:48.259Z"
+  },
+  {
+    "id": "linkedin_1790058168259_1",
+    "platform": "LinkedIn",
+    "content": "When results aren't immediate, doubt inevitably creeps in. We live in a culture conditioned for instant feedback, making long-horizon efforts feel unsettling. Remember: doubts are byproducts of doing meaningful work whose payoff takes time to compound. Focus on the inputs, trust the process, and let the timeline unfold.",
+    "media_url": "./MemoryVault/media/card_1790058168258.png",
+    "created_at": "2026-09-22T06:22:48.259Z"
+  },
+  {
+    "id": "threads_1790058168259_2",
+    "platform": "Threads",
+    "content": "Doubt doesn't mean you made the wrong move. It just means you took an action whose results haven't shown up yet. Keep building.",
+    "media_url": "./MemoryVault/media/card_1790058168258.png",
+    "created_at": "2026-09-22T06:22:48.259Z"
+  }
+]
