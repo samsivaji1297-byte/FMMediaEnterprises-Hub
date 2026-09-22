@@ -51,3 +51,4 @@
 - Autarchic Command Threshold — The definitive psychological boundary within an operator's cognitive architecture that filters, halts, and converts external input into self-governed operational strategy.
 - Inviolable Volition Apex — An operational identity framework designed to lock an operator's internal self-governance into an unshakeable summit of strategic cognitive authority.
 - Annealed Identity Bedrock — The stress-relieved psychological foundation that renders an operator's core self-definition impervious to external cognitive pressure and sudden narrative shockwaves.
+- Hermetic Command Obelisk — An impenetrable, self-contained psychological pillar that serves as the absolute locus of an operator's internal authority.
