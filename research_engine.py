@@ -1,16 +1,19 @@
 import os
 import sys
+import re
 import datetime
-import slugify
+
 try:
     from ddgs import DDGS
 except ImportError:
     from duckduckgo_search import DDGS
 
 def slugify_topic(topic: str) -> str:
-    """Creates a clean filename slug from topic string."""
-    clean = "".join([c if c.isalnum() or c in (" ", "-", "_") else "" for c in topic])
-    return clean.strip().lower().replace(" ", "_")
+    """Creates a clean filename slug from a topic string using native Python stdlib."""
+    # Convert to lowercase and replace non-alphanumeric chars with underscores
+    clean = re.sub(r'[^a-zA-Z0-9]+', '_', topic.strip().lower())
+    # Strip leading/trailing underscores
+    return clean.strip('_')
 
 def run_seo_research(topic: str = "High Agency Mindset and Systemic Execution"):
     print(f"[INFO] Initiating SERP signal harvest for: '{topic}'")
@@ -18,9 +21,7 @@ def run_seo_research(topic: str = "High Agency Mindset and Systemic Execution"):
     # 1. Harvest DuckDuckGo SERP results
     search_results = []
     try:
-        # Utilizing ddgs context manager for clean network teardown
         with DDGS() as ddgs:
-            # Query passed as positional argument, max_results explicitly named
             raw_results = list(ddgs.text(topic, max_results=7))
             
         if not raw_results:
@@ -81,7 +82,7 @@ def run_seo_research(topic: str = "High Agency Mindset and Systemic Execution"):
     filename = f"{date_prefix}_{file_slug}.md"
     filepath = os.path.join(target_dir, filename)
 
-    # Also maintain a latest pointer for downstream consumers
+    # Maintain latest pointer for downstream asset engines
     latest_filepath = os.path.join(target_dir, "latest_research.md")
 
     with open(filepath, "w", encoding="utf-8") as f:
