@@ -1,84 +1,90 @@
 import os
-import time
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+import re
 from google import genai
-from google.genai import errors
+from google.genai.errors import APIError
 
-MODEL_ID = "gemini-3.6-flash"
-
-@retry(
-    stop=stop_after_attempt(3),
-    wait=wait_exponential(multiplier=2, min=4, max=20),
-    retry=retry_if_exception_type((errors.ServerError, errors.APIError, errors.ClientError)),
-    before_sleep=lambda retry_state: print(
-        f"[DEBUG WARN] API Rate Limit or Server Busy. Waiting {retry_state.next_action.sleep:.1f}s before retrying..."
-    )
-)
-def call_gemini_with_retry(client, prompt: str):
-    """Calls Gemini with exponential backoff on rate limits or server errors."""
-    response = client.models.generate_content(
-        model=MODEL_ID,
-        contents=prompt
-    )
-    return response.text
-
-def generate_and_save(client, prompt: str, output_file: str, label: str):
-    """Handles generating a specific asset variant with pacing and error handoff."""
-    print(f"\n[DEBUG] Generating {label} asset...")
-    # Pace executions to avoid bursting the RPM quota
-    time.sleep(6)
+def load_latest_research() -> str:
+    """Reads the persisted research intelligence from disk."""
+    research_path = os.path.join("ResearchFactory", "latest_research.md")
+    if not os.path.exists(research_path):
+        raise FileNotFoundError(f"Research file not found at {research_path}. Run research_engine.py first.")
     
-    content = call_gemini_with_retry(client, prompt)
-    
-    with open(output_file, "w", encoding="utf-8") as f:
-        f.write(content)
-    
-    print(f"[DEBUG] Successfully saved {label} asset to {output_file}")
+    with open(research_path, "r", encoding="utf-8") as f:
+        return f.read()
 
-def main():
+def generate_multi_asset_content():
+    print("[INFO] Initializing Stage & Transform Engine...")
+    
+    # 1. Read context off disk (Zero web/tool call overhead)
+    research_context = load_latest_research()
+    print("[INFO] Successfully loaded persisted research context from disk.")
+
+    # 2. Construct Single-Pass Prompt
+    prompt = f"""
+You are the lead content architect for theFINALMindset and FMMediaEnterprises.
+Using the provided SEO Research Intelligence, generate three distinct, high-impact content assets in a SINGLE output.
+
+You MUST separate each asset with the exact string delimiters shown below:
+
+===BLOGGER_POST===
+(Write an authoritative, SEO-optimized Blogger article with H2/H3 headers, clear key takeaways, and a call to action. Return ONLY the article content.)
+
+===SUBSTACK_ESSAY===
+(Write a deep, narrative-driven Substack essay with high analytical depth, compelling personal/systemic insights, and newsletter formatting. Return ONLY the essay content.)
+
+===THREADS_SEQUENCE===
+(Write a high-hook, 5 to 7 post Threads/X sequence with line breaks, tactical takeaways, and sharp punchy delivery. Return ONLY the thread posts.)
+
+RESEARCH INTELLIGENCE CONTEXT:
+{research_context}
+"""
+
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
-        raise ValueError("GEMINI_API_KEY environment variable not set.")
-        
+        raise ValueError("GEMINI_API_KEY environment variable is missing.")
+
+    # 3. Execute 1 Single Gemini Call
     client = genai.Client(api_key=api_key)
-    print("[DEBUG] Gemini client initialized for stage and transform.")
-
-    # Read research input
-    input_file = "research_summary.md"
-    if not os.path.exists(input_file):
-        raise FileNotFoundError(f"Input research file '{input_file}' not found. Ensure research_engine.py ran successfully.")
-        
-    with open(input_file, "r", encoding="utf-8") as f:
-        research_data = f.read()
-
-    # Prompts for transformed media outputs
-    blogger_prompt = (
-        "You are an expert technical editor and content strategist. "
-        "Transform the following research notes into an engaging, long-form, SEO-optimized blog post formatted in Markdown. "
-        "Include an intriguing title, clear subheadings, and key actionable takeaways.\n\n"
-        f"RESEARCH DATA:\n{research_data}"
+    print("[INFO] Sending single-pass prompt to Gemini (gemini-2.5-flash)...")
+    
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt
     )
 
-    substack_prompt = (
-        "You are a thought leader writing a high-value newsletter. "
-        "Transform the following research into an insightful, personal-style Substack essay formatted in Markdown. "
-        "Focus on narrative flow, strong hooks, strategic perspectives, and a compelling call-to-action at the end.\n\n"
-        f"RESEARCH DATA:\n{research_data}"
-    )
+    raw_output = response.text
+    print("[SUCCESS] Content assets generated successfully. Parsing payload...")
 
-    linkedin_prompt = (
-        "You are a personal brand and executive strategist. "
-        "Transform the following research into a concise, high-impact LinkedIn post formatted in Markdown. "
-        "Use short, punchy paragraphs, bullet points for readability, relevant hashtags, and an engaging question to drive comments.\n\n"
-        f"RESEARCH DATA:\n{research_data}"
-    )
+    # 4. Parse Delimiters & Save Individual Assets
+    output_dir = "DistributionPlatforms"
+    os.makedirs(output_dir, exist_ok=True)
 
-    # Sequential execution with backoff protection
-    generate_and_save(client, blogger_prompt, "blogger.md", "Blogger Post")
-    generate_and_save(client, substack_prompt, "substack.md", "Substack Essay")
-    generate_and_save(client, linkedin_prompt, "linkedin.md", "LinkedIn Post")
+    def extract_section(delimiter_name, text):
+        pattern = f"==={delimiter_name}===\n(.*?)(?=\n===|\Z)"
+        match = re.search(pattern, text, re.DOTALL)
+        return match.group(1).strip() if match else ""
 
-    print("\n[DEBUG] All stage and transform assets generated successfully!")
+    blogger_content = extract_section("BLOGGER_POST", raw_output)
+    substack_content = extract_section("SUBSTACK_ESSAY", raw_output)
+    threads_content = extract_section("THREADS_SEQUENCE", raw_output)
+
+    # Fallback writing if regex match hits unexpected output formatting
+    if not blogger_content:
+        blogger_content = raw_output
+
+    with open(os.path.join(output_dir, "blogger.md"), "w", encoding="utf-8") as f:
+        f.write(blogger_content)
+    print("[SUCCESS] Persisted 'DistributionPlatforms/blogger.md'")
+
+    if substack_content:
+        with open(os.path.join(output_dir, "substack.md"), "w", encoding="utf-8") as f:
+            f.write(substack_content)
+        print("[SUCCESS] Persisted 'DistributionPlatforms/substack.md'")
+
+    if threads_content:
+        with open(os.path.join(output_dir, "threads.md"), "w", encoding="utf-8") as f:
+            f.write(threads_content)
+        print("[SUCCESS] Persisted 'DistributionPlatforms/threads.md'")
 
 if __name__ == "__main__":
-    main()
+    generate_multi_asset_content()
