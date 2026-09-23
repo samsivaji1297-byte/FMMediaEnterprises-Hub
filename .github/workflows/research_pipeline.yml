@@ -1,4 +1,4 @@
-name: Autonomous SEO Research Pipeline
+name: Autonomous SEO Research Pipeline (Ingestion Only)
 
 on:
   workflow_dispatch:
@@ -12,14 +12,14 @@ on:
     - cron: '0 9 * * *'
 
 jobs:
-  run-pipeline:
+  run-research-harvest:
     runs-on: ubuntu-latest
 
     permissions:
-      contents: write  # Grants GitHub Actions permission to push commits to the repo
+      contents: write
 
     steps:
-      - name: Checkout Code
+      - name: Checkout Repository Code
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -32,20 +32,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run End-to-End Autonomous Pipeline
+      - name: Execute Research Engine Scraper
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           INPUT_TOPIC: ${{ github.event.inputs.topic || 'High Agency Mindset and Systemic Execution' }}
         run: |
-          echo "=== Executing Autonomous Pipeline for Topic: '$INPUT_TOPIC' ==="
+          echo "=== Harvesting SERP Signals for Topic: '$INPUT_TOPIC' ==="
           python research_engine.py "$INPUT_TOPIC"
-          python stage_and_transform.py
-          python publish_to_blogger.py
 
-      - name: Commit and Push Generated Assets
+      - name: Commit and Push Captured Intelligence
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
-          git add ResearchFactory/ DistributionPlatforms/
-          # Only commit if there are actually new or modified files
-          git diff --quiet && git diff --staged --quiet || (git commit -m "auto: publish and persist generated assets [skip ci]" && git push)
+          git add ResearchFactory/
+          git diff --quiet && git diff --staged --quiet || (git commit -m "feat(research): persist captured SERP intelligence [skip ci]" && git push)
