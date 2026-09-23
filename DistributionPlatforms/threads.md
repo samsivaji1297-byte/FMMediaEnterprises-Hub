@@ -1,46 +1,52 @@
-1/ In the age of AI, intelligence is completely commoditized. 
+1/6
+Most people treat life like a movie they are watching. 
 
-The ultimate differentiator? **High Agency**. 
+High-agency individuals treat life like a game they are playing—and one where they can rewrite the rules.
 
-It is the highest level of personal competence—the refusal to accept the world as it is currently presented to you. 
+If you want to break free from passive defaults and build unstoppable momentum, let's talk about the High Agency Mindset. 👇
 
-Here is how to build it: 🧵
+---
 
-2/ Low Agency vs. High Agency:
+2/6
+What is High Agency? 
 
-• Low Agency: "The market is down, so my business is failing."
-• High Agency: "The market is down; I will immediately pivot our offer to solve the new problems this crisis created."
+It’s the deep conviction that you can shape your circumstances, rather than letting them shape you.
 
-Low agency waits for permission. High agency builds the road under its own feet.
+• Low Agency: "The market is bad, so my project failed."
+• High Agency: "The market is bad, so I redesigned our delivery model to win anyway."
 
-3/ How do you spot a High Agency operator? 
+---
 
-Look for 3 distinct markers:
+3/6
+Product veteran Shreyas Doshi places High Agency at the absolute center of career impact. 
 
-1. **Geographic Courage**: The willingness to pack up and move physically to where the action, capital, and talent are. They do not let their zip code dictate their destiny.
+In any org, when uncertainty spikes, collective passivity sets in. Most people freeze.
 
-4/ 2. **Intellectual Contradictions**: 
+The high-agency leader does the opposite: they make bold decisions *despite* absolute ambiguity.
 
-High agency minds do not fit into neat tribal boxes. They hold non-obvious, often contradictory views because they think from raw first-principles, not pre-packaged consensus.
+---
 
-They don't ask what to think—they ask how to see.
+4/6
+How do you build this muscle? Dr. Milan Milanović suggests a ruthless focus on your Circle of Influence.
 
-5/ 3. **The Crisis Test**: 
+Stop wasting cognitive bandwidth on external chaos you can’t control. 
 
-When things break, average people point fingers or freeze. 
+Instead, ask one question: "Given these constraints, what is my absolute best move right now?"
 
-High agency people absorb the chaos, take 100% ownership, and immediately look for leverage. They treat every emergency as a design challenge.
+---
 
-6/ In a world of automated content and hyper-distraction, personal agency is under siege. 
+5/6
+Psychologist Nick Wignall points out that High Agency is essential for emotional health. 
 
-If you do not actively control your attention, focus, and strategy, algorithms will rent your mind. 
+When you stop viewing yourself as a victim of circumstances, your anxiety drops and your resilience sky-rockets. 
 
-Ownership isn't just a mindset; it's operational survival.
+Agency isn't just a business strategy—it's mental sovereignty.
 
-7/ Stop waiting for the perfect conditions. 
+---
 
-• Stop asking for permission.
-• Upgrade your skills before you "need" to.
-• Take radical responsibility for your current outcomes.
+6/6
+The default state of the world is inertia. If you want to build something meaningful, you have to actively bend reality.
 
-If you want to build systems for the elite, follow @theFINALMindset and take control of your execution.
+Stop waiting for permission. Solve the messy, undefined problems. 
+
+For more deep-dives on systemic execution and cognitive mastery, join us at theFINALMindset.
