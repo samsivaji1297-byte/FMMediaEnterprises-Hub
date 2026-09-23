@@ -1,47 +1,98 @@
 import os
+import sys
+import datetime
+import slugify
 try:
     from ddgs import DDGS
 except ImportError:
     from duckduckgo_search import DDGS
-from google import genai
 
-def run_research(topic="High Agency Mindset and Systemic Execution"):
-    print(f"[INFO] Fetching real-time search signals for: '{topic}'...")
+def slugify_topic(topic: str) -> str:
+    """Creates a clean filename slug from topic string."""
+    clean = "".join([c if c.isalnum() or c in (" ", "-", "_") else "" for c in topic])
+    return clean.strip().lower().replace(" ", "_")
 
+def run_seo_research(topic: str = "High Agency Mindset and Systemic Execution"):
+    print(f"[INFO] Initiating SERP signal harvest for: '{topic}'")
+    
+    # 1. Harvest DuckDuckGo SERP results
+    search_results = []
     try:
-        results = list(DDGS().text(topic, max_results=5))
-        if not results:
-            print("[WARN] DuckDuckGo returned no results.")
-            search_context = "No live search context available."
+        # Utilizing ddgs context manager for clean network teardown
+        with DDGS() as ddgs:
+            # Query passed as positional argument, max_results explicitly named
+            raw_results = list(ddgs.text(topic, max_results=7))
+            
+        if not raw_results:
+            print("[WARN] DuckDuckGo returned no SERP results. Fallback triggered.")
         else:
-            search_context = "\n\n".join(
-                [f"Source ({r.get('href', 'N/A')}):\nTitle: {r.get('title', '')}\nSnippet: {r.get('body', '')}" for r in results]
-            )
-            print("[INFO] Successfully retrieved SERP signals from DuckDuckGo.")
+            search_results = raw_results
+            print(f"[SUCCESS] Scraped {len(search_results)} live search signals.")
+            
     except Exception as e:
-        print(f"[ERROR] Failed to fetch DuckDuckGo results: {e}")
-        search_context = "Search failed."
+        print(f"[ERROR] DDGS scrape failed: {e}")
+        print("[INFO] Proceeding with empty context fallback.")
 
-    prompt = f"""
-    Analyze the following real-time search context on '{topic}' and compile a detailed research summary.
+    # 2. Build Markdown Document
+    now = datetime.datetime.now(datetime.timezone.utc)
+    timestamp_str = now.strftime("%Y-%m-%d %H:%M:%S UTC")
+    date_prefix = now.strftime("%Y-%m-%d")
 
-    SEARCH CONTEXT:
-    {search_context}
-    """
+    md_lines = [
+        f"# SEO Research Signal: {topic}",
+        f"**Generated:** {timestamp_str}",
+        f"**Engine:** DuckDuckGo SERP Scraper (Decoupled)",
+        "---",
+        "",
+        "## Harvested Search Results",
+        ""
+    ]
 
-    api_key = os.environ.get("GEMINI_API_KEY")
-    client = genai.Client(api_key=api_key)
-    response = client.models.generate_content(
-        model="gemini-3.5-flash",
-        contents=prompt
-    )
+    if search_results:
+        for idx, item in enumerate(search_results, start=1):
+            title = item.get("title", "No Title")
+            href = item.get("href", item.get("url", "N/A"))
+            snippet = item.get("body", item.get("snippet", "No Snippet"))
+            
+            md_lines.append(f"### {idx}. {title}")
+            md_lines.append(f"- **URL:** {href}")
+            md_lines.append(f"- **Snippet:** {snippet}")
+            md_lines.append("")
+    else:
+        md_lines.append("> No live web search results captured for this query.")
+        md_lines.append("")
 
-    with open("research_summary.md", "w", encoding="utf-8") as f:
-        f.write(response.text)
+    md_lines.append("---")
+    md_lines.append("## Raw Intelligence Context")
+    md_lines.append("```text")
+    for item in search_results:
+        md_lines.append(f"Title: {item.get('title', '')}")
+        md_lines.append(f"URL: {item.get('href', '')}")
+        md_lines.append(f"Body: {item.get('body', '')}\n")
+    md_lines.append("```")
 
-    print("[SUCCESS] Research summary successfully saved to 'research_summary.md'.")
+    markdown_content = "\n".join(md_lines)
+
+    # 3. Save to ResearchFactory Directory with Timestamp
+    target_dir = "ResearchFactory"
+    os.makedirs(target_dir, exist_ok=True)
+
+    file_slug = slugify_topic(topic)
+    filename = f"{date_prefix}_{file_slug}.md"
+    filepath = os.path.join(target_dir, filename)
+
+    # Also maintain a latest pointer for downstream consumers
+    latest_filepath = os.path.join(target_dir, "latest_research.md")
+
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(markdown_content)
+        
+    with open(latest_filepath, "w", encoding="utf-8") as f:
+        f.write(markdown_content)
+
+    print(f"[SUCCESS] Research saved to '{filepath}'")
+    print(f"[SUCCESS] Updated pointer '{latest_filepath}'")
 
 if __name__ == "__main__":
-    import sys
-    topic_arg = sys.argv[1] if len(sys.argv) > 1 else "High Agency Mindset and Systemic Execution"
-    run_research(topic_arg)
+    target_topic = sys.argv[1] if len(sys.argv) > 1 else "High Agency Mindset and Systemic Execution"
+    run_seo_research(target_topic)
