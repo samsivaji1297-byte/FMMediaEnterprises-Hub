@@ -1,52 +1,73 @@
-1/6
-Most people treat life like a movie they are watching. 
+### Post 1
+Most people are running on a default software program. 
 
-High-agency individuals treat life like a game they are playing—and one where they can rewrite the rules.
+They wait for a syllabus in school. 
+They wait for a checklist at their internship. 
+They wait for a manager at their job. 
 
-If you want to break free from passive defaults and build unstoppable momentum, let's talk about the High Agency Mindset. 👇
+They are trapped in the "Syllabus Loop"—waiting for permission to build. 
 
----
-
-2/6
-What is High Agency? 
-
-It’s the deep conviction that you can shape your circumstances, rather than letting them shape you.
-
-• Low Agency: "The market is bad, so my project failed."
-• High Agency: "The market is bad, so I redesigned our delivery model to win anyway."
+Let's break it down. 🧵
 
 ---
 
-3/6
-Product veteran Shreyas Doshi places High Agency at the absolute center of career impact. 
+### Post 2
+The ultimate cheat code in life, business, and leadership is a **High-Agency Mindset**.
 
-In any org, when uncertainty spikes, collective passivity sets in. Most people freeze.
+What is it? 
+It is the absolute refusal to accept default constraints. 
 
-The high-agency leader does the opposite: they make bold decisions *despite* absolute ambiguity.
-
----
-
-4/6
-How do you build this muscle? Dr. Milan Milanović suggests a ruthless focus on your Circle of Influence.
-
-Stop wasting cognitive bandwidth on external chaos you can’t control. 
-
-Instead, ask one question: "Given these constraints, what is my absolute best move right now?"
+When a low-agency person hits a wall, they say: "It's impossible."
+When a high-agency person hits a wall, they ask: "Who built the wall, and what are the conditions to bypass it?"
 
 ---
 
-5/6
-Psychologist Nick Wignall points out that High Agency is essential for emotional health. 
+### Post 3
+High agency isn't a genetic trait. It’s a trainable skill. 
 
-When you stop viewing yourself as a victim of circumstances, your anxiety drops and your resilience sky-rockets. 
+According to research and top operators, high-agency individuals show 3 distinct markers:
 
-Agency isn't just a business strategy—it's mental sovereignty.
+1. **The Crisis Test:** They don't freeze during chaos; they design systems to exploit it.
+2. **Geographic Courage:** They will physically move to where the leverage, talent, and capital are.
+3. **Intellectual Contradiction:** They reject off-the-shelf dogmas. They think from first principles.
 
 ---
 
-6/6
-The default state of the world is inertia. If you want to build something meaningful, you have to actively bend reality.
+### Post 4
+How to spot high-agency operators in your company or life:
 
-Stop waiting for permission. Solve the messy, undefined problems. 
+They don’t ask: "What should I do next?"
+They say: "Here is the problem I found, here are 3 potential solutions I engineered, and here is the one I am executing right now."
 
-For more deep-dives on systemic execution and cognitive mastery, join us at theFINALMindset.
+They don’t wait for resources. They generate resourcefulness.
+
+---
+
+### Post 5
+Look at Wilbur Wright in 1885. 
+
+Brutally attacked, bedridden for 3 years, and his career track completely shattered. 
+
+Instead of adopting a low-agency victim identity, he spent those years of confinement obsessively studying biology and mechanics. 
+
+He didn't wait for a flight syllabus. He wrote it.
+
+---
+
+### Post 6
+Stop waiting for the perfect market, the perfect boss, or the perfect hand. 
+
+• Career: Build skills and network proactively. Don't wait for a raise.
+• Health: Optimize your biology. Don't blame genetics.
+• Systems: Build your own infrastructure. Don't rely on the default path.
+
+---
+
+### Post 7
+The system is designed to keep you compliant, predictable, and passive. 
+
+If you're ready to break the loop, upgrade your cognitive software, and execute at the highest level:
+
+Follow @theFINALMindset and join the elite class of builders reclaiming absolute agency over their reality. 
+
+[Link to Substack / Website]
