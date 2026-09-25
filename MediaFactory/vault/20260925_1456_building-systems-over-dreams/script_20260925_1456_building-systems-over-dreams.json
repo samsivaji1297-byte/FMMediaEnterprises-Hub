@@ -1,0 +1,33 @@
+{
+    "title": "Building Systems Over Dreams",
+    "voiceover_full": "Dreams don't build empires. Daily systems do. Stop waiting for motivation. Design a repeatable process that makes failure impossible. Commit to the machine you build today, and your results will handle themselves.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Dreams don't build empires. Daily systems do.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, extreme close up of a fountain pen precisely drawing a blueprint grid on black paper under a harsh spotlight",
+            "text_overlay": "DREAMS VS SYSTEMS",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "Stop waiting for motivation. Design a repeatable process that makes failure impossible.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, moody lighting macro shot of brass clockwork gears mesh together and turn seamlessly",
+            "text_overlay": "AUTOMATE YOUR SUCCESS",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Commit to the machine you build today, and your results will handle themselves.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, silhouette of a determined person closing a high-end metal laptop in a dark luxurious penthouse office overlooking city lights",
+            "text_overlay": "BUILD THE SYSTEM",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20260925_1456_building-systems-over-dreams",
+        "topic": "Building Systems Over Dreams",
+        "theme": "kinetic",
+        "timestamp": "20260925_1456"
+    }
+}
