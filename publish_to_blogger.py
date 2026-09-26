@@ -2,6 +2,7 @@ import os
 import sys
 import glob
 import time
+import re
 import yaml
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -150,7 +151,7 @@ def main():
     else:
         print(f"Searching for Markdown files in: {target_input}")
         md_files = glob.glob(f"{target_input}/**/*.md", recursive=True) + glob.glob(f"{target_input}/*.md")
-        # Filter out timestamped archives if target is directory to avoid double posting
+        # Filter out timestamped archive files if scanning a directory to prevent posting duplicate historical runs
         md_files = [f for f in set(md_files) if "latest_blogger.md" in f or not re.search(r"\d{4}-\d{2}-\d{2}", f)]
 
     if not md_files:
