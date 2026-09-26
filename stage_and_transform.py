@@ -1,90 +1,64 @@
 import os
-import re
-from google import genai
-from google.genai.errors import APIError
+import google.generativeai as genai
 
-def load_latest_research() -> str:
-    """Reads the persisted research intelligence from disk."""
-    research_path = os.path.join("ResearchFactory", "latest_research.md")
-    if not os.path.exists(research_path):
-        raise FileNotFoundError(f"Research file not found at {research_path}. Run research_engine.py first.")
-    
-    with open(research_path, "r", encoding="utf-8") as f:
-        return f.read()
+# Setup Gemini API configuration
+genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
-def generate_multi_asset_content():
-    print("[INFO] Initializing Stage & Transform Engine...")
-    
-    # 1. Read context off disk (Zero web/tool call overhead)
-    research_context = load_latest_research()
-    print("[INFO] Successfully loaded persisted research context from disk.")
+RECOGNITION_EVENT_PROMPT = """
+You are an elite Content Architect specializing in "Recognition-Event" assets and friction-based human psychology.
 
-    # 2. Construct Single-Pass Prompt
-    prompt = f"""
-You are the lead content architect for theFINALMindset and FMMediaEnterprises.
-Using the provided SEO Research Intelligence, generate three distinct, high-impact content assets in a SINGLE output.
+You have been provided raw forum text scraped from high-context communities (Reddit/Hacker News).
 
-You MUST separate each asset with the exact string delimiters shown below:
+Your Job:
+1. Extract the core HUMAN FRICTION (the unspoken emotional/psychological bottleneck).
+2. Identify the UNDERLYING MECHANISM (why this friction exists, e.g., Decision Fatigue, Fear of Effort-Income Disconnect).
+3. Transform this insight into 3 distinct, high-converting assets:
 
-===BLOGGER_POST===
-(Write an authoritative, SEO-optimized Blogger article with H2/H3 headers, clear key takeaways, and a call to action. Return ONLY the article content.)
+---
 
-===SUBSTACK_ESSAY===
-(Write a deep, narrative-driven Substack essay with high analytical depth, compelling personal/systemic insights, and newsletter formatting. Return ONLY the essay content.)
+### OUTPUT FORMAT REQUIREMENTS:
 
-===THREADS_SEQUENCE===
-(Write a high-hook, 5 to 7 post Threads/X sequence with line breaks, tactical takeaways, and sharp punchy delivery. Return ONLY the thread posts.)
+## 1. Recognition Event Reel & Caption
+- **Reel Hook (On-Screen Text / Voiceover):** 2 lines maximum. Must provoke an immediate "fuck... that's me" realization.
+- **Caption:** Tight, punchy prose. Expose the problem without offering a bloated 10-step system. Focus on decision removal.
 
-RESEARCH INTELLIGENCE CONTEXT:
-{research_context}
+## 2. Substack Long-Form Essay
+- **Title:** High-agency, curiosity-driven title.
+- **Thesis Statement:** First sentence must state the counter-intuitive truth.
+- **Body:** 400-600 words dissecting the psychological mechanism, contrasting traditional "low agency" traps with the "high agency" solution.
+
+## 3. Threads / Social Micro-Thread
+- 3-4 standalone punchy posts designed to be read sequentially. Focus on zero-fluff friction removal.
+
+---
+
+RAW FORUM DATA PAYLOAD:
+{raw_data_payload}
 """
 
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise ValueError("GEMINI_API_KEY environment variable is missing.")
+def process_latest_research():
+    if not os.path.exists("latest_research.md"):
+        print("[!] Error: 'latest_research.md' not found.")
+        return
 
-    # 3. Execute 1 Single Gemini Call
-    client = genai.Client(api_key=api_key)
-    print("[INFO] Sending single-pass prompt to Gemini (gemini-2.5-flash)...")
+    with open("latest_research.md", "r", encoding="utf-8") as f:
+        raw_payload = f.read()
+
+    model = genai.GenerativeModel("gemini-1.5-flash")
+    prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload)
+
+    print("[*] Generating Recognition Event asset suite via Gemini...")
+    response = model.generate_content(prompt)
+
+    # Ensure output directory exists
+    os.makedirs("DistributionPlatforms", exist_ok=True)
     
-    response = client.models.generate_content(
-        model="gemini-3.5-flash",
-        contents=prompt
-    )
+    # Save staged output
+    output_path = os.path.join("DistributionPlatforms", "staged_content.md")
+    with open(output_path, "w", encoding="utf-8") as f:
+        f.write(response.text)
 
-    raw_output = response.text
-    print("[SUCCESS] Content assets generated successfully. Parsing payload...")
-
-    # 4. Parse Delimiters & Save Individual Assets
-    output_dir = "DistributionPlatforms"
-    os.makedirs(output_dir, exist_ok=True)
-
-    def extract_section(delimiter_name, text):
-        pattern = f"==={delimiter_name}===\n(.*?)(?=\n===|\Z)"
-        match = re.search(pattern, text, re.DOTALL)
-        return match.group(1).strip() if match else ""
-
-    blogger_content = extract_section("BLOGGER_POST", raw_output)
-    substack_content = extract_section("SUBSTACK_ESSAY", raw_output)
-    threads_content = extract_section("THREADS_SEQUENCE", raw_output)
-
-    # Fallback writing if regex match hits unexpected output formatting
-    if not blogger_content:
-        blogger_content = raw_output
-
-    with open(os.path.join(output_dir, "blogger.md"), "w", encoding="utf-8") as f:
-        f.write(blogger_content)
-    print("[SUCCESS] Persisted 'DistributionPlatforms/blogger.md'")
-
-    if substack_content:
-        with open(os.path.join(output_dir, "substack.md"), "w", encoding="utf-8") as f:
-            f.write(substack_content)
-        print("[SUCCESS] Persisted 'DistributionPlatforms/substack.md'")
-
-    if threads_content:
-        with open(os.path.join(output_dir, "threads.md"), "w", encoding="utf-8") as f:
-            f.write(threads_content)
-        print("[SUCCESS] Persisted 'DistributionPlatforms/threads.md'")
+    print(f"[+] Recognition Event suite successfully generated at: '{output_path}'")
 
 if __name__ == "__main__":
-    generate_multi_asset_content()
+    process_latest_research()
