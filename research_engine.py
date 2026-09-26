@@ -138,17 +138,22 @@ def run_seo_research(topic: str = None):
 
     markdown_content = "\n".join(md_lines)
 
-    # Save to ResearchFactory Directory
+    # 3. Save to ResearchFactory Directory with Date + Time Timestamp
     target_dir = "ResearchFactory"
     os.makedirs(target_dir, exist_ok=True)
 
+    # Use Date AND Time timestamp so multiple daily runs don't overwrite
+    datetime_prefix = now.strftime("%Y-%m-%d_%H%M%S")
     file_slug = slugify_topic(clean_topic)
-    filename = f"{date_prefix}_{file_slug}.md"
+
+    # Example filename: 2026-09-26_014530_paralyzed_by_choice_productivity_tools.md
+    filename = f"{datetime_prefix}_{file_slug}.md"
     filepath = os.path.join(target_dir, filename)
 
+    # Maintain latest pointer for downstream asset engines
     latest_filepath = os.path.join(target_dir, "latest_research.md")
 
-    # Save historical dated archive
+    # Save unique timestamped archive file
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(markdown_content)
         
