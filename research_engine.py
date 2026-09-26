@@ -9,67 +9,71 @@ try:
 except ImportError:
     from duckduckgo_search import DDGS
 
+# Default seeds used ONLY if seed_topics.txt does not exist
+DEFAULT_SEEDS = [
+    "paralyzed by choice productivity tools",
+    "fear of failure starting side business 2026",
+    "income control vs effort disconnect",
+    "overwhelmed by too many productivity systems",
+    "overthinking project launch perfectionism",
+    "feeling stuck in career low agency"
+]
+
 def slugify_topic(topic: str) -> str:
     """Creates a clean filename slug from a topic string using native Python stdlib."""
     clean = re.sub(r'[^a-zA-Z0-9]+', '_', topic.strip().lower())
     return clean.strip('_')
 
-def get_random_seed_topic(seed_file: str = "seed_topics.txt") -> str:
+def get_random_seed(seed_file: str = "seed_topics.txt") -> str:
     """
-    Reads seed_topics.txt and randomly selects 1 or 2 topics to combine.
+    Ensures seed_topics.txt exists, reads it, and randomly selects 1 topic.
     """
     if not os.path.exists(seed_file):
-        print(f"[WARN] '{seed_file}' not found. Using default friction topic.")
-        return "overwhelmed by productivity systems"
-        
-    with open(seed_file, "r", encoding="utf-8") as f:
-        seeds = [line.strip() for line in f if line.strip() and not line.startswith("#")]
-        
-    if not seeds:
-        print(f"[WARN] '{seed_file}' is empty. Using default friction topic.")
-        return "overwhelmed by productivity systems"
-        
-    # Randomly pick 1 topic (80% chance) or 2 topics to synthesize (20% chance)
-    if len(seeds) >= 2 and random.random() < 0.2:
-        selected = random.sample(seeds, 2)
-        combined_topic = f"{selected[0]} {selected[1]}"
-        print(f"[INFO] Randomly combined seeds: '{selected[0]}' + '{selected[1]}'")
-        return combined_topic
+        print(f"[INFO] '{seed_file}' not found. Creating default seed file...")
+        with open(seed_file, "w", encoding="utf-8") as f:
+            f.write("\n".join(DEFAULT_SEEDS) + "\n")
+        seeds = DEFAULT_SEEDS
     else:
-        selected = random.choice(seeds)
-        print(f"[INFO] Randomly selected seed topic: '{selected}'")
-        return selected
+        with open(seed_file, "r", encoding="utf-8") as f:
+            seeds = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+        
+        if not seeds:
+            print(f"[WARN] '{seed_file}' was empty. Populating defaults...")
+            with open(seed_file, "w", encoding="utf-8") as f:
+                f.write("\n".join(DEFAULT_SEEDS) + "\n")
+            seeds = DEFAULT_SEEDS
+
+    selected = random.choice(seeds)
+    print(f"[SUCCESS] Selected Random Seed Topic: '{selected}'")
+    return selected
 
 def run_seo_research(topic: str = None):
-    # If no explicit CLI argument passed, select randomly from seed_topics.txt
+    # Always pull a random seed if no explicit CLI parameter was given
     if not topic:
-        topic = get_random_seed_topic()
+        topic = get_random_seed()
 
     clean_topic = topic.replace('"', '').strip()
-    forum_query = f'{clean_topic} (site:reddit.com OR site:news.ycombinator.com)'
     
-    print(f"[INFO] Initiating human friction harvest for: '{clean_topic}'")
-    print(f"[INFO] Search query: {forum_query}")
+    print(f"[INFO] Harvesting dual-layer intelligence for: '{clean_topic}'")
     
-    search_results = []
-    try:
-        with DDGS() as ddgs:
-            raw_results = list(ddgs.text(forum_query, max_results=8))
-            
-            # Fallback to broad query if forum-specific hits are sparse
-            if not raw_results:
-                print("[WARN] Forum query returned sparse hits. Triggering broad query fallback...")
-                raw_results = list(ddgs.text(clean_topic, max_results=8))
-            
-        if raw_results:
-            search_results = raw_results
-            print(f"[SUCCESS] Scraped {len(search_results)} live human friction signals.")
-        else:
-            print("[WARN] No live search signals captured.")
-            
-    except Exception as e:
-        print(f"[ERROR] DDGS scrape failed: {e}")
-        print("[INFO] Proceeding with empty context fallback.")
+    web_results = []
+    forum_results = []
+    
+    with DDGS() as ddgs:
+        # 1. Harvest General Web SERP (5 Top Web Articles)
+        try:
+            print("[*] Fetching general web SERP signals...")
+            web_results = list(ddgs.text(clean_topic, max_results=5))
+        except Exception as e:
+            print(f"[ERROR] Web search failed: {e}")
+
+        # 2. Harvest Community Forum Signals (5 Reddit/Forum Threads)
+        try:
+            print("[*] Fetching community forum friction signals (Reddit)...")
+            forum_query = f"{clean_topic} site:reddit.com"
+            forum_results = list(ddgs.text(forum_query, max_results=5))
+        except Exception as e:
+            print(f"[ERROR] Forum search failed: {e}")
 
     # Build Markdown Document
     now = datetime.datetime.now(datetime.timezone.utc)
@@ -79,15 +83,15 @@ def run_seo_research(topic: str = None):
     md_lines = [
         f"# SEO Research Signal: {clean_topic}",
         f"**Generated:** {timestamp_str}",
-        f"**Engine:** DuckDuckGo Forum Friction Scraper (Randomized Seed Ingestion)",
+        f"**Engine:** DuckDuckGo Dual-Layer Scraper (Web + Forum Hybrid)",
         "---",
         "",
-        "## Harvested Search Results",
+        "## 1. Web SERP Articles & Insights",
         ""
     ]
 
-    if search_results:
-        for idx, item in enumerate(search_results, start=1):
+    if web_results:
+        for idx, item in enumerate(web_results, start=1):
             title = item.get("title", "No Title")
             href = item.get("href", item.get("url", "N/A"))
             snippet = item.get("body", item.get("snippet", "No Snippet"))
@@ -97,13 +101,36 @@ def run_seo_research(topic: str = None):
             md_lines.append(f"- **Snippet:** {snippet}")
             md_lines.append("")
     else:
-        md_lines.append("> No live web search results captured for this query.")
-        md_lines.append("")
+        md_lines.append("> No web SERP results captured.\n")
+
+    md_lines.append("---")
+    md_lines.append("## 2. Reddit Community Friction Signals")
+    md_lines.append("")
+
+    if forum_results:
+        for idx, item in enumerate(forum_results, start=1):
+            title = item.get("title", "No Title")
+            href = item.get("href", item.get("url", "N/A"))
+            snippet = item.get("body", item.get("snippet", "No Snippet"))
+            
+            md_lines.append(f"### {idx}. {title}")
+            md_lines.append(f"- **URL:** {href}")
+            md_lines.append(f"- **Snippet:** {snippet}")
+            md_lines.append("")
+    else:
+        md_lines.append("> No Reddit community results captured.\n")
 
     md_lines.append("---")
     md_lines.append("## Raw Intelligence Context")
     md_lines.append("```text")
-    for item in search_results:
+    md_lines.append("=== GENERAL WEB CONTEXT ===")
+    for item in web_results:
+        md_lines.append(f"Title: {item.get('title', '')}")
+        md_lines.append(f"URL: {item.get('href', '')}")
+        md_lines.append(f"Body: {item.get('body', '')}\n")
+
+    md_lines.append("=== REDDIT FRICTION CONTEXT ===")
+    for item in forum_results:
         md_lines.append(f"Title: {item.get('title', '')}")
         md_lines.append(f"URL: {item.get('href', '')}")
         md_lines.append(f"Body: {item.get('body', '')}\n")
@@ -121,18 +148,17 @@ def run_seo_research(topic: str = None):
 
     latest_filepath = os.path.join(target_dir, "latest_research.md")
 
-    # Write historical archive file
+    # Save historical dated archive
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(markdown_content)
         
-    # Overwrite pointer for downstream pipeline
+    # Overwrite downstream latest_research.md pointer
     with open(latest_filepath, "w", encoding="utf-8") as f:
         f.write(markdown_content)
 
-    print(f"[SUCCESS] Historical research archived to '{filepath}'")
-    print(f"[SUCCESS] Updated downstream pointer '{latest_filepath}'")
+    print(f"[SUCCESS] Historical research saved to '{filepath}'")
+    print(f"[SUCCESS] Downstream pointer updated at '{latest_filepath}'")
 
 if __name__ == "__main__":
-    # If user manually passes a topic via command line, use it; otherwise pick randomly from seed_topics.txt
     cli_topic = sys.argv[1] if len(sys.argv) > 1 else None
     run_seo_research(cli_topic)
