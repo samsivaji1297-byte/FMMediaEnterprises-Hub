@@ -3,8 +3,6 @@ import re
 from google import genai
 from google.genai.errors import APIError
 
-genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
-
 RECOGNITION_EVENT_PROMPT = """
 You are an elite Content Architect specializing in "Recognition-Event" assets and friction-based human psychology.
 
@@ -32,21 +30,31 @@ RAW FORUM DATA PAYLOAD:
 """
 
 def process_latest_research():
-    if not os.path.exists("latest_research.md"):
-        print("[!] Error: 'latest_research.md' not found.")
-        return
+    # 1. Read research payload from ResearchFactory
+    research_path = os.path.join("ResearchFactory", "latest_research.md")
+    if not os.path.exists(research_path):
+        # Fallback check for root level
+        if os.path.exists("latest_research.md"):
+            research_path = "latest_research.md"
+        else:
+            print("[!] Error: 'latest_research.md' not found in ResearchFactory/ or root.")
+            return
 
-    with open("latest_research.md", "r", encoding="utf-8") as f:
+    with open(research_path, "r", encoding="utf-8") as f:
         raw_payload = f.read()
 
-    model = genai.GenerativeModel("gemini-3.6-flash")
+    # 2. Initialize modern google-genai Client
+    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
     prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload)
 
     print("[*] Generating Recognition Event asset suite via Gemini...")
-    response = model.generate_content(prompt)
+    response = client.models.generate_content(
+        model="gemini-3.6-flash",
+        contents=prompt
+    )
     content = response.text
 
-    # Extract sections using delimiters
+    # 3. Extract sections using delimiters
     def extract_section(start_delim, end_delim):
         if start_delim in content and end_delim in content:
             return content.split(start_delim)[1].split(end_delim)[0].strip()
@@ -56,7 +64,7 @@ def process_latest_research():
     substack_content = extract_section("===SUBSTACK_START===", "===SUBSTACK_END===")
     blogger_content = extract_section("===BLOGGER_START===", "===BLOGGER_END===")
 
-    # Output paths matching your exact folder architecture
+    # 4. Save parsed outputs to distribution targets
     targets = [
         ("DistributionPlatforms/Threads", "threads_draft.md", threads_content),
         ("DistributionPlatforms/Substack", "substack_draft.md", substack_content),
