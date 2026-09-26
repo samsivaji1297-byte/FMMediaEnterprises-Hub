@@ -4,9 +4,9 @@ on:
   workflow_dispatch:
     inputs:
       topic:
-        description: 'Target Topic / Keyword to Research'
+        description: 'Target Topic / Keyword to Research (Leave empty for random seed)'
         required: false
-        default: 'High Agency Mindset and Systemic Execution'
+        default: ''
 
   schedule:
     - cron: '0 9 * * *'
@@ -34,10 +34,15 @@ jobs:
 
       - name: Execute Research Engine Scraper
         env:
-          INPUT_TOPIC: ${{ github.event.inputs.topic || 'High Agency Mindset and Systemic Execution' }}
+          INPUT_TOPIC: ${{ github.event.inputs.topic }}
         run: |
-          echo "=== Harvesting SERP Signals for Topic: '$INPUT_TOPIC' ==="
-          python research_engine.py "$INPUT_TOPIC"
+          if [ -z "$INPUT_TOPIC" ]; then
+            echo "=== No manual topic provided. Triggering random seed harvest from seed_topics.txt ==="
+            python research_engine.py
+          else
+            echo "=== Harvesting SERP Signals for Custom Topic: '$INPUT_TOPIC' ==="
+            python research_engine.py "$INPUT_TOPIC"
+          fi
 
       - name: Commit and Push Captured Intelligence
         run: |
