@@ -1,99 +1,43 @@
-import os
 import sys
-import re
-import datetime
+import os
+from duckduckgo_search import DDGS
 
-try:
-    from ddgs import DDGS
-except ImportError:
-    from duckduckgo_search import DDGS
-
-def slugify_topic(topic: str) -> str:
-    """Creates a clean filename slug from a topic string using native Python stdlib."""
-    # Convert to lowercase and replace non-alphanumeric chars with underscores
-    clean = re.sub(r'[^a-zA-Z0-9]+', '_', topic.strip().lower())
-    # Strip leading/trailing underscores
-    return clean.strip('_')
-
-def run_seo_research(topic: str = "High Agency Mindset and Systemic Execution"):
-    print(f"[INFO] Initiating SERP signal harvest for: '{topic}'")
+def harvest_friction(seed_query: str) -> str:
+    """
+    Queries DuckDuckGo specifically targeting Reddit and Hacker News 
+    to extract raw human psychological friction and forum discussions.
+    """
+    ddgs = DDGS()
     
-    # 1. Harvest DuckDuckGo SERP results
-    search_results = []
-    try:
-        with DDGS() as ddgs:
-            raw_results = list(ddgs.text(topic, max_results=7))
-            
-        if not raw_results:
-            print("[WARN] DuckDuckGo returned no SERP results. Fallback triggered.")
-        else:
-            search_results = raw_results
-            print(f"[SUCCESS] Scraped {len(search_results)} live search signals.")
-            
-    except Exception as e:
-        print(f"[ERROR] DDGS scrape failed: {e}")
-        print("[INFO] Proceeding with empty context fallback.")
+    # Force search to pull raw human discussion platforms
+    forum_target = f'"{seed_query}" (site:reddit.com OR site:news.ycombinator.com)'
+    
+    print(f"[*] Ingesting raw human friction for: '{seed_query}'...")
+    results = ddgs.text(forum_target, max_results=8)
+    
+    if not results:
+        # Fallback to broader web search if forum results are sparse
+        print("[!] Sparse forum hits. Broadening search parameters...")
+        results = ddgs.text(seed_query, max_results=8)
 
-    # 2. Build Markdown Document
-    now = datetime.datetime.now(datetime.timezone.utc)
-    timestamp_str = now.strftime("%Y-%m-%d %H:%M:%S UTC")
-    date_prefix = now.strftime("%Y-%m-%d")
-
-    md_lines = [
-        f"# SEO Research Signal: {topic}",
-        f"**Generated:** {timestamp_str}",
-        f"**Engine:** DuckDuckGo SERP Scraper (Decoupled)",
-        "---",
-        "",
-        "## Harvested Search Results",
-        ""
-    ]
-
-    if search_results:
-        for idx, item in enumerate(search_results, start=1):
-            title = item.get("title", "No Title")
-            href = item.get("href", item.get("url", "N/A"))
-            snippet = item.get("body", item.get("snippet", "No Snippet"))
-            
-            md_lines.append(f"### {idx}. {title}")
-            md_lines.append(f"- **URL:** {href}")
-            md_lines.append(f"- **Snippet:** {snippet}")
-            md_lines.append("")
-    else:
-        md_lines.append("> No live web search results captured for this query.")
-        md_lines.append("")
-
-    md_lines.append("---")
-    md_lines.append("## Raw Intelligence Context")
-    md_lines.append("```text")
-    for item in search_results:
-        md_lines.append(f"Title: {item.get('title', '')}")
-        md_lines.append(f"URL: {item.get('href', '')}")
-        md_lines.append(f"Body: {item.get('body', '')}\n")
-    md_lines.append("```")
-
-    markdown_content = "\n".join(md_lines)
-
-    # 3. Save to ResearchFactory Directory with Timestamp
-    target_dir = "ResearchFactory"
-    os.makedirs(target_dir, exist_ok=True)
-
-    file_slug = slugify_topic(topic)
-    filename = f"{date_prefix}_{file_slug}.md"
-    filepath = os.path.join(target_dir, filename)
-
-    # Maintain latest pointer for downstream asset engines
-    latest_filepath = os.path.join(target_dir, "latest_research.md")
-
-    with open(filepath, "w", encoding="utf-8") as f:
-        f.write(markdown_content)
+    # Format the payload for latest_research.md persistence
+    markdown_payload = f"# Raw Human Friction Signals: {seed_query}\n\n"
+    markdown_payload += "```text\n"
+    
+    for item in results:
+        markdown_payload += f"Title: {item.get('title', 'N/A')}\n"
+        markdown_payload += f"URL: {item.get('href', 'N/A')}\n"
+        markdown_payload += f"Body: {item.get('body', 'N/A')}\n\n"
         
-    with open(latest_filepath, "w", encoding="utf-8") as f:
-        f.write(markdown_content)
-
-    print(f"[SUCCESS] Research saved to '{filepath}'")
-    print(f"[SUCCESS] Updated pointer '{latest_filepath}'")
+    markdown_payload += "```\n"
+    return markdown_payload
 
 if __name__ == "__main__":
-    target_topic = sys.argv[1] if len(sys.argv) > 1 else "High Agency Mindset and Systemic Execution"
-    run_seo_research(target_topic)
+    query = sys.argv[1] if len(sys.argv) > 1 else "paralyzed by choice productivity tools"
+    payload = harvest_friction(query)
+    
+    # Write output to latest_research.md
+    with open("latest_research.md", "w", encoding="utf-8") as f:
+        f.write(payload)
+        
+    print("[+] Successfully persisted friction dump to 'latest_research.md'.")
