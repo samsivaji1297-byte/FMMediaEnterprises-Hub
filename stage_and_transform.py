@@ -1,7 +1,6 @@
 import os
 import google.generativeai as genai
 
-# Setup Gemini API configuration
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
 RECOGNITION_EVENT_PROMPT = """
@@ -12,25 +11,19 @@ You have been provided raw forum text scraped from high-context communities (Red
 Your Job:
 1. Extract the core HUMAN FRICTION (the unspoken emotional/psychological bottleneck).
 2. Identify the UNDERLYING MECHANISM (why this friction exists, e.g., Decision Fatigue, Fear of Effort-Income Disconnect).
-3. Transform this insight into 3 distinct, high-converting assets:
+3. Transform this insight into 3 distinct, high-converting assets separated by exact delimitations:
 
----
+===THREADS_START===
+[Insert 3-4 standalone punchy posts designed to be read sequentially on Threads/X. Include a 2-line Reel Hook & Caption at the top.]
+===THREADS_END===
 
-### OUTPUT FORMAT REQUIREMENTS:
+===SUBSTACK_START===
+[Insert Substack Long-Form Essay (400-600 words) dissecting the psychological mechanism, titled with a high-agency curiosity hook.]
+===SUBSTACK_END===
 
-## 1. Recognition Event Reel & Caption
-- **Reel Hook (On-Screen Text / Voiceover):** 2 lines maximum. Must provoke an immediate "fuck... that's me" realization.
-- **Caption:** Tight, punchy prose. Expose the problem without offering a bloated 10-step system. Focus on decision removal.
-
-## 2. Substack Long-Form Essay
-- **Title:** High-agency, curiosity-driven title.
-- **Thesis Statement:** First sentence must state the counter-intuitive truth.
-- **Body:** 400-600 words dissecting the psychological mechanism, contrasting traditional "low agency" traps with the "high agency" solution.
-
-## 3. Threads / Social Micro-Thread
-- 3-4 standalone punchy posts designed to be read sequentially. Focus on zero-fluff friction removal.
-
----
+===BLOGGER_START===
+[Insert Blogger/SEO Article optimized for search intent, entity coverage, and practical execution.]
+===BLOGGER_END===
 
 RAW FORUM DATA PAYLOAD:
 {raw_data_payload}
@@ -44,21 +37,36 @@ def process_latest_research():
     with open("latest_research.md", "r", encoding="utf-8") as f:
         raw_payload = f.read()
 
-    model = genai.GenerativeModel("gemini-1.5-flash")
+    model = genai.GenerativeModel("gemini-3.6-flash")
     prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload)
 
     print("[*] Generating Recognition Event asset suite via Gemini...")
     response = model.generate_content(prompt)
+    content = response.text
 
-    # Ensure output directory exists
-    os.makedirs("DistributionPlatforms", exist_ok=True)
-    
-    # Save staged output
-    output_path = os.path.join("DistributionPlatforms", "staged_content.md")
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(response.text)
+    # Extract sections using delimiters
+    def extract_section(start_delim, end_delim):
+        if start_delim in content and end_delim in content:
+            return content.split(start_delim)[1].split(end_delim)[0].strip()
+        return content
 
-    print(f"[+] Recognition Event suite successfully generated at: '{output_path}'")
+    threads_content = extract_section("===THREADS_START===", "===THREADS_END===")
+    substack_content = extract_section("===SUBSTACK_START===", "===SUBSTACK_END===")
+    blogger_content = extract_section("===BLOGGER_START===", "===BLOGGER_END===")
+
+    # Output paths matching your exact folder architecture
+    targets = [
+        ("DistributionPlatforms/Threads", "threads_draft.md", threads_content),
+        ("DistributionPlatforms/Substack", "substack_draft.md", substack_content),
+        ("DistributionPlatforms/Blogger", "blogger_draft.md", blogger_content),
+    ]
+
+    for folder, filename, body in targets:
+        os.makedirs(folder, exist_ok=True)
+        file_path = os.path.join(folder, filename)
+        with open(file_path, "w", encoding="utf-8") as f:
+            f.write(body)
+        print(f"[+] Saved asset: {file_path}")
 
 if __name__ == "__main__":
     process_latest_research()
