@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FM Media - Content Control Hub</title>
+    <style>
+        :root {
+            --bg-color: #121212;
+            --card-bg: #1e1e1e;
+            --accent-blue: #3b82f6;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --border-color: #333333;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 16px;
+        }
+        header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 12px;
+            margin-bottom: 20px;
+        }
+        h1 { font-size: 1.4rem; margin: 0; color: #fff; }
+        .subtitle { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .tab-btn {
+            flex: 1;
+            padding: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+        .tab-btn.active {
+            background: var(--accent-blue);
+            color: #ffffff;
+            border-color: var(--accent-blue);
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        .platform-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #2a2a2a;
+            color: var(--accent-blue);
+            font-weight: bold;
+        }
+        pre {
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            font-family: inherit;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-main);
+            margin: 0;
+        }
+        .copy-btn {
+            background: #2a2a2a;
+            border: 1px solid var(--border-color);
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+        }
+        .copy-btn:active { background: var(--accent-blue); }
+        #loader { text-align: center; color: var(--text-muted); padding: 40px 0; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Autonomous Content Hub</h1>
+        <div class="subtitle" id="last-updated">Status: Ready</div>
+    </header>
+
+    <div class="nav-tabs">
+        <button class="tab-btn active" onclick="switchPlatform('Substack')">Substack</button>
+        <button class="tab-btn" onclick="switchPlatform('Threads')">Threads</button>
+        <button class="tab-btn" onclick="switchPlatform('Blogger')">Blogger</button>
+    </div>
+
+    <div id="loader">Loading latest intelligence asset...</div>
+    <div id="content-display" style="display: none;">
+        <div class="card">
+            <div class="card-header">
+                <span class="platform-tag" id="current-platform">Substack</span>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy Draft</button>
+            </div>
+            <pre id="asset-body"></pre>
+        </div>
+    </div>
+
+    <script>
+        // Paths relative to DistributionPlatforms/
+        const relativePaths = {
+            'Substack': './Substack/latest_substack.md',
+            'Threads': './Threads/latest_threads.md',
+            'Blogger': './Blogger/latest_blogger.md'
+        };
+
+        let currentActivePlatform = 'Substack';
+        let currentContent = '';
+
+        async function fetchAsset(platform) {
+            document.getElementById('loader').style.display = 'block';
+            document.getElementById('content-display').style.display = 'none';
+
+            // Cache-busting query param ensures phone always gets latest commit output
+            const fileUrl = `${relativePaths[platform]}?t=${new Date().getTime()}`;
+
+            try {
+                const response = await fetch(fileUrl);
+                if (!response.ok) throw new Error("Asset file not found.");
+                
+                currentContent = await response.text();
+                document.getElementById('asset-body').textContent = currentContent;
+                document.getElementById('current-platform').textContent = platform;
+                
+                document.getElementById('loader').style.display = 'none';
+                document.getElementById('content-display').style.display = 'block';
+                document.getElementById('last-updated').textContent = `Fetched: ${new Date().toLocaleTimeString()}`;
+            } catch (err) {
+                document.getElementById('loader').textContent = `Failed to load ${platform} asset. (Verify latest draft exists in subfolder).`;
+            }
+        }
+
+        function switchPlatform(platform) {
+            currentActivePlatform = platform;
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent === platform);
+            });
+            fetchAsset(platform);
+        }
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText(currentContent);
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = 'Copied!';
+            setTimeout(() => btn.textContent = 'Copy Draft', 2000);
+        }
+
+        // Initialize default view
+        fetchAsset('Substack');
+    </script>
+</body>
+</html>
