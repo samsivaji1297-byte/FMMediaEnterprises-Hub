@@ -1,5 +1,7 @@
 import os
-import google.generativeai as genai
+import re
+from google import genai
+from google.genai.errors import APIError
 
 genai.configure(api_key=os.environ.get("GEMINI_API_KEY"))
 
