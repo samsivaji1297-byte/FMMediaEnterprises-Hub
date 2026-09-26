@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+import random
 import datetime
 
 try:
@@ -13,11 +14,38 @@ def slugify_topic(topic: str) -> str:
     clean = re.sub(r'[^a-zA-Z0-9]+', '_', topic.strip().lower())
     return clean.strip('_')
 
-def run_seo_research(topic: str = "overwhelmed by productivity systems"):
-    # Clean topic string to ensure DuckDuckGo handles the query cleanly
+def get_random_seed_topic(seed_file: str = "seed_topics.txt") -> str:
+    """
+    Reads seed_topics.txt and randomly selects 1 or 2 topics to combine.
+    """
+    if not os.path.exists(seed_file):
+        print(f"[WARN] '{seed_file}' not found. Using default friction topic.")
+        return "overwhelmed by productivity systems"
+        
+    with open(seed_file, "r", encoding="utf-8") as f:
+        seeds = [line.strip() for line in f if line.strip() and not line.startswith("#")]
+        
+    if not seeds:
+        print(f"[WARN] '{seed_file}' is empty. Using default friction topic.")
+        return "overwhelmed by productivity systems"
+        
+    # Randomly pick 1 topic (80% chance) or 2 topics to synthesize (20% chance)
+    if len(seeds) >= 2 and random.random() < 0.2:
+        selected = random.sample(seeds, 2)
+        combined_topic = f"{selected[0]} {selected[1]}"
+        print(f"[INFO] Randomly combined seeds: '{selected[0]}' + '{selected[1]}'")
+        return combined_topic
+    else:
+        selected = random.choice(seeds)
+        print(f"[INFO] Randomly selected seed topic: '{selected}'")
+        return selected
+
+def run_seo_research(topic: str = None):
+    # If no explicit CLI argument passed, select randomly from seed_topics.txt
+    if not topic:
+        topic = get_random_seed_topic()
+
     clean_topic = topic.replace('"', '').strip()
-    
-    # Force search to target raw human discussions on community platforms
     forum_query = f'{clean_topic} (site:reddit.com OR site:news.ycombinator.com)'
     
     print(f"[INFO] Initiating human friction harvest for: '{clean_topic}'")
@@ -51,7 +79,7 @@ def run_seo_research(topic: str = "overwhelmed by productivity systems"):
     md_lines = [
         f"# SEO Research Signal: {clean_topic}",
         f"**Generated:** {timestamp_str}",
-        f"**Engine:** DuckDuckGo Forum Friction Scraper (Decoupled)",
+        f"**Engine:** DuckDuckGo Forum Friction Scraper (Randomized Seed Ingestion)",
         "---",
         "",
         "## Harvested Search Results",
@@ -83,7 +111,7 @@ def run_seo_research(topic: str = "overwhelmed by productivity systems"):
 
     markdown_content = "\n".join(md_lines)
 
-    # Save to ResearchFactory Directory with Timestamp
+    # Save to ResearchFactory Directory
     target_dir = "ResearchFactory"
     os.makedirs(target_dir, exist_ok=True)
 
@@ -91,14 +119,13 @@ def run_seo_research(topic: str = "overwhelmed by productivity systems"):
     filename = f"{date_prefix}_{file_slug}.md"
     filepath = os.path.join(target_dir, filename)
 
-    # Maintain latest pointer for downstream asset engines
     latest_filepath = os.path.join(target_dir, "latest_research.md")
 
-    # Write historical dated research file
+    # Write historical archive file
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(markdown_content)
         
-    # Overwrite latest_research.md pointer
+    # Overwrite pointer for downstream pipeline
     with open(latest_filepath, "w", encoding="utf-8") as f:
         f.write(markdown_content)
 
@@ -106,5 +133,6 @@ def run_seo_research(topic: str = "overwhelmed by productivity systems"):
     print(f"[SUCCESS] Updated downstream pointer '{latest_filepath}'")
 
 if __name__ == "__main__":
-    target_topic = sys.argv[1] if len(sys.argv) > 1 else "overwhelmed by productivity systems"
-    run_seo_research(target_topic)
+    # If user manually passes a topic via command line, use it; otherwise pick randomly from seed_topics.txt
+    cli_topic = sys.argv[1] if len(sys.argv) > 1 else None
+    run_seo_research(cli_topic)
