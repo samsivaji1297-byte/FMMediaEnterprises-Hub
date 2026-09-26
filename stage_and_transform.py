@@ -1,5 +1,6 @@
 import os
 import re
+from datetime import datetime, timezone
 from google import genai
 from google.genai.errors import APIError
 
@@ -33,7 +34,6 @@ def process_latest_research():
     # 1. Read research payload from ResearchFactory
     research_path = os.path.join("ResearchFactory", "latest_research.md")
     if not os.path.exists(research_path):
-        # Fallback check for root level
         if os.path.exists("latest_research.md"):
             research_path = "latest_research.md"
         else:
@@ -64,19 +64,31 @@ def process_latest_research():
     substack_content = extract_section("===SUBSTACK_START===", "===SUBSTACK_END===")
     blogger_content = extract_section("===BLOGGER_START===", "===BLOGGER_END===")
 
-    # 4. Save parsed outputs to distribution targets
+    # 4. Generate timestamp string (matching ResearchFactory UTC naming)
+    timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H%M%S")
+
+    # Target folder definitions with platform-specific prefixes
     targets = [
-        ("DistributionPlatforms/Threads", "threads_draft.md", threads_content),
-        ("DistributionPlatforms/Substack", "substack_draft.md", substack_content),
-        ("DistributionPlatforms/Blogger", "blogger_draft.md", blogger_content),
+        ("DistributionPlatforms/Threads", f"{timestamp}_threads_draft.md", "latest_threads.md", threads_content),
+        ("DistributionPlatforms/Substack", f"{timestamp}_substack_draft.md", "latest_substack.md", substack_content),
+        ("DistributionPlatforms/Blogger", f"{timestamp}_blogger_draft.md", "latest_blogger.md", blogger_content),
     ]
 
-    for folder, filename, body in targets:
+    # 5. Save timestamped archive files and overwrite latest pointers
+    for folder, timestamped_file, latest_file, body in targets:
         os.makedirs(folder, exist_ok=True)
-        file_path = os.path.join(folder, filename)
-        with open(file_path, "w", encoding="utf-8") as f:
+        
+        # Save timestamped historical copy
+        archive_path = os.path.join(folder, timestamped_file)
+        with open(archive_path, "w", encoding="utf-8") as f:
             f.write(body)
-        print(f"[+] Saved asset: {file_path}")
+        print(f"[+] Archived asset: {archive_path}")
+
+        # Overwrite latest pointer file
+        latest_path = os.path.join(folder, latest_file)
+        with open(latest_path, "w", encoding="utf-8") as f:
+            f.write(body)
+        print(f"[+] Updated pointer: {latest_path}")
 
 if __name__ == "__main__":
     process_latest_research()
