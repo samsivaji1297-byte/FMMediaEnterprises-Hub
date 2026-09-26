@@ -21,14 +21,14 @@ def run_seo_research(topic: str = "overwhelmed by productivity systems"):
     forum_query = f'{clean_topic} (site:reddit.com OR site:news.ycombinator.com)'
     
     print(f"[INFO] Initiating human friction harvest for: '{clean_topic}'")
-    print(f"[INFO] Query string: {forum_query}")
+    print(f"[INFO] Search query: {forum_query}")
     
     search_results = []
     try:
         with DDGS() as ddgs:
             raw_results = list(ddgs.text(forum_query, max_results=8))
             
-            # Fallback to broad search if forum-specific results are sparse
+            # Fallback to broad query if forum-specific hits are sparse
             if not raw_results:
                 print("[WARN] Forum query returned sparse hits. Triggering broad query fallback...")
                 raw_results = list(ddgs.text(clean_topic, max_results=8))
@@ -94,14 +94,16 @@ def run_seo_research(topic: str = "overwhelmed by productivity systems"):
     # Maintain latest pointer for downstream asset engines
     latest_filepath = os.path.join(target_dir, "latest_research.md")
 
+    # Write historical dated research file
     with open(filepath, "w", encoding="utf-8") as f:
         f.write(markdown_content)
         
+    # Overwrite latest_research.md pointer
     with open(latest_filepath, "w", encoding="utf-8") as f:
         f.write(markdown_content)
 
-    print(f"[SUCCESS] Research saved to '{filepath}'")
-    print(f"[SUCCESS] Updated pointer '{latest_filepath}'")
+    print(f"[SUCCESS] Historical research archived to '{filepath}'")
+    print(f"[SUCCESS] Updated downstream pointer '{latest_filepath}'")
 
 if __name__ == "__main__":
     target_topic = sys.argv[1] if len(sys.argv) > 1 else "overwhelmed by productivity systems"
