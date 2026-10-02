@@ -69,3 +69,4 @@
 - Seismic Sovereign Dampener — An internal psychological stabilizing system designed to absorb, disperse, and neutralize high-impact cognitive shocks and external disruptive forces to maintain operational equilibrium.
 - Ecliptic Identity Pivot — An internal gravity framework that anchors the operator’s central self-concept to an immutable orbital axis, neutralizing external psychological pull.
 - Negentropic Sovereign Governor — An internal regulatory mechanism that continuously converts external psychological chaos into structured, self-directed mental order.
+- Biaxial Sovereign Gimbal — A multi-axis internal stabilization mechanism that allows the operator to adapt fluidly to chaotic environmental shifts while maintaining a perfectly level baseline of sovereign intent.
