@@ -1,6 +1,7 @@
 import sys
 import subprocess
 from pathlib import Path
+from google.genai import types
 
 # Resolve project root path for clean config imports
 PROJECT_ROOT = Path(__file__).resolve().parent
@@ -63,13 +64,20 @@ Rules:
 
 
 def generate_ip(prompt: str) -> str:
-    """Executes prompt against the model fallback cascade (3.5 -> 3.6 -> 3.7 -> 3.8)."""
+    """Executes prompt against model cascade with disabled automatic function calling warnings."""
     def _api_func_builder(target_model: str):
         def _api_call():
             print(f"Requesting generation using model: {target_model}")
+            
+            # Disable AFC locally to suppress SDK warning logs
+            gen_config = types.GenerateContentConfig(
+                automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
+            )
+            
             response = client.models.generate_content(
                 model=target_model,
                 contents=prompt,
+                config=gen_config,
             )
             return response.text.strip()
         return _api_call
