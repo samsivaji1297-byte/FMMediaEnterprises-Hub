@@ -1,30 +1,44 @@
-import os
-from google import genai
+import sys
+import subprocess
+from pathlib import Path
 
-# --- Gemini Client ---
-client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+# Resolve project root path for clean config imports
+PROJECT_ROOT = Path(__file__).resolve().parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
-# --- Load existing IP names dynamically ---
-def load_existing_ip_names():
-    master_path = "IPFactory/!MASTER_IP.md"
-    if not os.path.exists(master_path):
+from config import get_client, get_model, call_with_retry
+
+# --- Configuration & Paths ---
+IP_FACTORY_DIR = PROJECT_ROOT / "IPFactory"
+MASTER_FILE = IP_FACTORY_DIR / "!MASTER_IP.md"
+
+# Initialize Client & Default Model from central config
+client = get_client()
+MODEL_NAME = get_model("flash_3_5")  # Explicitly targeting the 3.X Flash series
+
+
+def load_existing_ip_names() -> list[str]:
+    """Dynamically parses existing IP framework names from MASTER_IP.md."""
+    if not MASTER_FILE.exists():
         return []
 
     existing_names = []
-    with open(master_path, "r") as f:
-        for line in f.readlines():
+    with open(MASTER_FILE, "r", encoding="utf-8") as f:
+        for line in f:
             if line.startswith("- "):
-                # Extract name before the em dash
+                # Extract name prior to em-dash separator
                 name = line.split("—")[0].replace("- ", "").strip()
-                existing_names.append(name)
+                if name:
+                    existing_names.append(name)
     return existing_names
 
 
-# --- Build dynamic prompt ---
-def build_prompt(existing_names):
+def build_prompt(existing_names: list[str]) -> str:
+    """Constructs systemic identity architecture generation prompt."""
     existing_list = "\n".join(f"- {name}" for name in existing_names)
 
-    prompt = f"""
+    return f"""
 Existing IP names:
 {existing_list}
 
@@ -48,60 +62,84 @@ Rules:
   Mythic Identity, Empire Architecture.
 - The IP may be mythic or non-mythic.
 - Do NOT generate explanations, doctrine, or multi-paragraph content.
-
 """
-    return prompt
 
 
-# --- Generate IP ---
-def generate_ip(prompt):
-    chat = client.chats.create(model="gemini-3.5-flash")
-    response = chat.send_message(prompt)
-    return response.text.strip()
+def generate_ip(prompt: str) -> str:
+    """Executes call via direct single-turn request wrapped in exponential retry logic."""
+    def _api_call():
+        # Uses single-turn generate_content for concise text tasks
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=prompt,
+        )
+        return response.text.strip()
+
+    return call_with_retry(_api_call)
 
 
-# --- Parse Gemini output ---
-def parse_ip(ip_text):
-    # Case 1: "Name — Definition"
-    if "—" in ip_text:
-        parts = ip_text.split("—")
-        name = parts[0].strip()
-        definition = parts[1].strip()
-        return name, definition
+def parse_ip(ip_text: str) -> tuple[str, str]:
+    """Parses raw text returned from Gemini into Name and Definition strings."""
+    lines = [line.strip() for line in ip_text.splitlines() if line.strip()]
+    
+    # Format Case 1: "Name — Definition"
+    if lines and "—" in lines[0]:
+        parts = lines[0].split("—", 1)
+        return parts[0].strip(), parts[1].strip()
 
-    # Case 2: two-line format
-    lines = ip_text.splitlines()
-    name = lines[0].strip()
-    definition = lines[1].strip() if len(lines) > 1 else ""
+    # Format Case 2: Line 1 = Name, Line 2 = Definition
+    name = lines[0] if lines else "Unnamed_Framework"
+    definition = lines[1] if len(lines) > 1 else ""
     return name, definition
 
 
-# --- Save IP file ---
-def save_ip(name, definition):
-    filename = f"IPFactory/{name.replace(' ', '_')}.md"
-    with open(filename, "w") as f:
+def save_ip(name: str, definition: str) -> Path:
+    """Saves generated IP into a dedicated Markdown file inside IPFactory."""
+    IP_FACTORY_DIR.mkdir(parents=True, exist_ok=True)
+    
+    # Sanitize file output name
+    clean_name = "".join(c if c.isalnum() or c in (" ", "_") else "" for c in name)
+    filename = IP_FACTORY_DIR / f"{clean_name.replace(' ', '_')}.md"
+    
+    with open(filename, "w", encoding="utf-8") as f:
         f.write(f"# {name}\n{definition}\n")
     return filename
 
 
-# --- Update master list ---
-def update_master_list(name, definition):
-    with open("IPFactory/!MASTER_IP.md", "a") as f:
+def update_master_list(name: str, definition: str) -> None:
+    """Appends newly generated framework to MASTER_IP.md."""
+    IP_FACTORY_DIR.mkdir(parents=True, exist_ok=True)
+    with open(MASTER_FILE, "a", encoding="utf-8") as f:
         f.write(f"- {name} — {definition}\n")
 
 
-# --- Commit changes ---
-def git_commit(filename):
-    os.system(f"git add {filename} IPFactory/!MASTER_IP.md")
-    os.system(f'git commit -m "Add new IP framework: {filename}"')
+def git_commit(filepath: Path) -> None:
+    """Commits created asset to local git tracking using subprocess."""
+    try:
+        rel_filepath = filepath.relative_to(PROJECT_ROOT)
+        rel_master = MASTER_FILE.relative_to(PROJECT_ROOT)
+        
+        subprocess.run(["git", "add", str(rel_filepath), str(rel_master)], check=True)
+        subprocess.run(
+            ["git", "commit", "-m", f"Add new IP framework: {rel_filepath.name}"], 
+            check=True
+        )
+        print(f"[Git] Successfully committed {rel_filepath.name}")
+    except Exception as e:
+        print(f"[Git Warning] Automated commit skipped: {e}")
 
 
-# --- Run engine ---
+# --- Main Engine Loop ---
 if __name__ == "__main__":
+    print(f"Running IP Generator engine with model: {MODEL_NAME}")
+    
     existing_names = load_existing_ip_names()
     prompt = build_prompt(existing_names)
     raw_ip = generate_ip(prompt)
+    
     name, definition = parse_ip(raw_ip)
     filename = save_ip(name, definition)
     update_master_list(name, definition)
+    
     git_commit(filename)
+    print(f"Successfully deployed: {name}")
