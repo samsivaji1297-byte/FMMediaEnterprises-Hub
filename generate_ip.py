@@ -7,15 +7,13 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
-from config import get_client, get_model, call_with_retry
+from config import get_client, call_with_fallback
 
 # --- Configuration & Paths ---
 IP_FACTORY_DIR = PROJECT_ROOT / "IPFactory"
 MASTER_FILE = IP_FACTORY_DIR / "!MASTER_IP.md"
 
-# Initialize Client & Default Model from central config
 client = get_client()
-MODEL_NAME = get_model("flash_3_5")  # Explicitly targeting the 3.X Flash series
 
 
 def load_existing_ip_names() -> list[str]:
@@ -27,7 +25,6 @@ def load_existing_ip_names() -> list[str]:
     with open(MASTER_FILE, "r", encoding="utf-8") as f:
         for line in f:
             if line.startswith("- "):
-                # Extract name prior to em-dash separator
                 name = line.split("—")[0].replace("- ", "").strip()
                 if name:
                     existing_names.append(name)
@@ -66,16 +63,18 @@ Rules:
 
 
 def generate_ip(prompt: str) -> str:
-    """Executes call via direct single-turn request wrapped in exponential retry logic."""
-    def _api_call():
-        # Uses single-turn generate_content for concise text tasks
-        response = client.models.generate_content(
-            model=MODEL_NAME,
-            contents=prompt,
-        )
-        return response.text.strip()
+    """Executes prompt against the model fallback cascade (3.5 -> 3.6 -> 3.7 -> 3.8)."""
+    def _api_func_builder(target_model: str):
+        def _api_call():
+            print(f"Requesting generation using model: {target_model}")
+            response = client.models.generate_content(
+                model=target_model,
+                contents=prompt,
+            )
+            return response.text.strip()
+        return _api_call
 
-    return call_with_retry(_api_call)
+    return call_with_fallback(_api_func_builder)
 
 
 def parse_ip(ip_text: str) -> tuple[str, str]:
@@ -97,7 +96,6 @@ def save_ip(name: str, definition: str) -> Path:
     """Saves generated IP into a dedicated Markdown file inside IPFactory."""
     IP_FACTORY_DIR.mkdir(parents=True, exist_ok=True)
     
-    # Sanitize file output name
     clean_name = "".join(c if c.isalnum() or c in (" ", "_") else "" for c in name)
     filename = IP_FACTORY_DIR / f"{clean_name.replace(' ', '_')}.md"
     
@@ -131,7 +129,7 @@ def git_commit(filepath: Path) -> None:
 
 # --- Main Engine Loop ---
 if __name__ == "__main__":
-    print(f"Running IP Generator engine with model: {MODEL_NAME}")
+    print("Starting IP Generator engine with resilient model cascade...")
     
     existing_names = load_existing_ip_names()
     prompt = build_prompt(existing_names)
@@ -142,4 +140,4 @@ if __name__ == "__main__":
     update_master_list(name, definition)
     
     git_commit(filename)
-    print(f"Successfully deployed: {name}")
+    print(f"Successfully generated and processed: {name}")
