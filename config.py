@@ -13,7 +13,7 @@ FLASH_MODEL_CASCADE = [
     "gemini-3.8-flash",
 ]
 
-# Dedicated model dictionary for reference
+# Dedicated model dictionary for direct targeting
 GEMINI_MODELS = {
     "flash_3_5": "gemini-3.5-flash",
     "flash_3_6": "gemini-3.6-flash",
@@ -40,8 +40,6 @@ def call_with_fallback(
     If the model hits persistent 429 rate limits or transient errors, it 
     cascades down through the fallback model list until completion.
     """
-    client = get_client()
-
     for model_index, model in enumerate(model_chain):
         delay = initial_delay
         api_func = api_func_builder(model)
@@ -64,10 +62,8 @@ def call_with_fallback(
                     else:
                         print(f"[{model}] Retries exhausted. Escalating to next fallback model in cascade...")
                 else:
-                    # Non-transient errors (e.g., Auth, Invalid Argument) fail immediately
                     raise e
             except Exception as e:
-                # Unexpected exceptions pass through
                 raise e
 
     raise RuntimeError(f"All model fallbacks exhausted: {model_chain}")
