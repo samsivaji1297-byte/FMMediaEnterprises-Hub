@@ -1,8 +1,29 @@
 import os
 import re
+import sys
+import time
+import random
 from datetime import datetime, timezone
+from pathlib import Path
 from google import genai
 from google.genai.errors import APIError
+
+# --- Path Configurations ---
+SCRIPT_DIR = Path(__file__).resolve().parent
+PROJECT_ROOT = SCRIPT_DIR.parent if SCRIPT_DIR.name == "scripts" else SCRIPT_DIR
+
+RESEARCH_PRIMARY_PATH = PROJECT_ROOT / "ResearchFactory" / "latest_research.md"
+RESEARCH_FALLBACK_PATH = PROJECT_ROOT / "latest_research.md"
+
+DISTRIBUTION_DIR = PROJECT_ROOT / "DistributionPlatforms"
+
+# --- Model Cascade Configuration ---
+MODEL_CASCADE = [
+    "gemini-3.8-flash",
+    "gemini-3.7-flash",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash"
+]
 
 RECOGNITION_EVENT_PROMPT = """
 You are an elite Content Architect specializing in "Recognition-Event" assets and friction-based human psychology.
@@ -30,65 +51,112 @@ RAW FORUM DATA PAYLOAD:
 {raw_data_payload}
 """
 
+def extract_section(content: str, tag_name: str) -> str:
+    """
+    Extracts content between explicit delimiters using regex first, falling back to string splitting.
+    """
+    pattern = rf"===\s*{tag_name}_START\s*===\s*(.*?)\s*===\s*{tag_name}_END\s*==="
+    match = re.search(pattern, content, re.DOTALL | re.IGNORECASE)
+    
+    if match:
+        return match.group(1).strip()
+    
+    # Fallback to direct string split logic
+    start_delim = f"==={tag_name}_START==="
+    end_delim = f"==={tag_name}_END==="
+    
+    if start_delim in content and end_delim in content:
+        return content.split(start_delim)[1].split(end_delim)[0].strip()
+        
+    return content.strip()
+
+
+def generate_content_with_fallback(client: genai.Client, prompt: str) -> str:
+    """
+    Executes model generation across the fallback cascade with retry logic and backoff.
+    """
+    last_exception = None
+
+    for model in MODEL_CASCADE:
+        for attempt in range(1, 4):
+            try:
+                print(f"[*] Calling model: {model} (Attempt {attempt})")
+                response = client.models.generate_content(
+                    model=model,
+                    contents=prompt
+                )
+                if response.text:
+                    return response.text
+                else:
+                    raise ValueError("Model returned an empty text payload.")
+            except APIError as api_err:
+                last_exception = api_err
+                print(f"[!] API Error on {model} (Attempt {attempt}): {api_err.message}")
+            except Exception as e:
+                last_exception = e
+                print(f"[!] Unexpected error on {model} (Attempt {attempt}): {str(e)}")
+
+            # Exponential backoff with jitter
+            sleep_time = (2 ** attempt) + random.uniform(0.1, 0.5)
+            time.sleep(sleep_time)
+
+        print(f"[!] Exhausted retries for {model}. Cascading to next model...")
+
+    raise RuntimeError(f"All model fallbacks failed. Last error: {last_exception}")
+
+
 def process_latest_research():
-    # 1. Read research payload from ResearchFactory
-    research_path = os.path.join("ResearchFactory", "latest_research.md")
-    if not os.path.exists(research_path):
-        if os.path.exists("latest_research.md"):
-            research_path = "latest_research.md"
-        else:
-            print("[!] Error: 'latest_research.md' not found in ResearchFactory/ or root.")
-            return
+    api_key = os.environ.get("GEMINI_API_KEY")
+    if not api_key:
+        print("[!] Fatal Error: 'GEMINI_API_KEY' environment variable missing.")
+        sys.exit(1)
 
-    with open(research_path, "r", encoding="utf-8") as f:
-        raw_payload = f.read()
+    # 1. Resolve research payload path safely
+    if RESEARCH_PRIMARY_PATH.exists():
+        research_path = RESEARCH_PRIMARY_PATH
+    elif RESEARCH_FALLBACK_PATH.exists():
+        research_path = RESEARCH_FALLBACK_PATH
+    else:
+        print(f"[!] Fatal Error: 'latest_research.md' not found in '{RESEARCH_PRIMARY_PATH}' or '{RESEARCH_FALLBACK_PATH}'.")
+        sys.exit(1)
 
-    # 2. Initialize modern google-genai Client
-    client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
+    print(f"[*] Loading raw research payload from: {research_path}")
+    raw_payload = research_path.read_text(encoding="utf-8")
+
+    # 2. Initialize Gemini Client
+    client = genai.Client(api_key=api_key)
     prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload)
 
-    print("[*] Generating Recognition Event asset suite via Gemini...")
-    response = client.models.generate_content(
-        model="gemini-3.6-flash",
-        contents=prompt
-    )
-    content = response.text
+    # 3. Generate content with fallback cascade
+    print("[*] Generating Recognition Event asset suite via Gemini SDK...")
+    content = generate_content_with_fallback(client, prompt)
 
-    # 3. Extract sections using delimiters
-    def extract_section(start_delim, end_delim):
-        if start_delim in content and end_delim in content:
-            return content.split(start_delim)[1].split(end_delim)[0].strip()
-        return content
+    # 4. Extract target sections
+    threads_content = extract_section(content, "THREADS")
+    substack_content = extract_section(content, "SUBSTACK")
+    blogger_content = extract_section(content, "BLOGGER")
 
-    threads_content = extract_section("===THREADS_START===", "===THREADS_END===")
-    substack_content = extract_section("===SUBSTACK_START===", "===SUBSTACK_END===")
-    blogger_content = extract_section("===BLOGGER_START===", "===BLOGGER_END===")
-
-    # 4. Generate timestamp string (matching ResearchFactory UTC naming)
+    # 5. Timestamp formatting (UTC ISO standard)
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H%M%S")
 
-    # Target folder definitions with platform-specific prefixes
     targets = [
-        ("DistributionPlatforms/Threads", f"{timestamp}_threads_draft.md", "latest_threads.md", threads_content),
-        ("DistributionPlatforms/Substack", f"{timestamp}_substack_draft.md", "latest_substack.md", substack_content),
-        ("DistributionPlatforms/Blogger", f"{timestamp}_blogger_draft.md", "latest_blogger.md", blogger_content),
+        (DISTRIBUTION_DIR / "Threads", f"{timestamp}_threads_draft.md", "latest_threads.md", threads_content),
+        (DISTRIBUTION_DIR / "Substack", f"{timestamp}_substack_draft.md", "latest_substack.md", substack_content),
+        (DISTRIBUTION_DIR / "Blogger", f"{timestamp}_blogger_draft.md", "latest_blogger.md", blogger_content),
     ]
 
-    # 5. Save timestamped archive files and overwrite latest pointers
-    for folder, timestamped_file, latest_file, body in targets:
-        os.makedirs(folder, exist_ok=True)
-        
-        # Save timestamped historical copy
-        archive_path = os.path.join(folder, timestamped_file)
-        with open(archive_path, "w", encoding="utf-8") as f:
-            f.write(body)
-        print(f"[+] Archived asset: {archive_path}")
+    # 6. Save timestamped archive files and overwrite pointer files
+    for folder_path, timestamped_filename, latest_filename, body in targets:
+        folder_path.mkdir(parents=True, exist_ok=True)
 
-        # Overwrite latest pointer file
-        latest_path = os.path.join(folder, latest_file)
-        with open(latest_path, "w", encoding="utf-8") as f:
-            f.write(body)
-        print(f"[+] Updated pointer: {latest_path}")
+        archive_file = folder_path / timestamped_filename
+        archive_file.write_text(body, encoding="utf-8")
+        print(f"[+] Archived asset: {archive_file.relative_to(PROJECT_ROOT)}")
+
+        latest_file = folder_path / latest_filename
+        latest_file.write_text(body, encoding="utf-8")
+        print(f"[+] Updated pointer: {latest_file.relative_to(PROJECT_ROOT)}")
+
 
 if __name__ == "__main__":
     process_latest_research()
