@@ -1,19 +1,26 @@
-import os
+import sys
 import datetime
+import subprocess
+from pathlib import Path
 from zoneinfo import ZoneInfo
-from google import genai
+from google.genai import types
 
-OUTPUT_DIR = "WritingFactory/FreeFall"
-MODEL_NAME = "gemini-3.6-flash"
+# Resolve project root path for clean config imports
+PROJECT_ROOT = Path(__file__).resolve().parent
+if str(PROJECT_ROOT) not in sys.path:
+    sys.path.append(str(PROJECT_ROOT))
 
-def get_client():
-    api_key = os.environ.get("GEMINI_API_KEY")
-    if not api_key:
-        raise RuntimeError("GEMINI_API_KEY not set")
-    return genai.Client(api_key=api_key)
+from config import get_client, call_with_fallback
 
-def generate_freefall(client):
-    prompt = """
+# --- Configuration & Directories ---
+OUTPUT_DIR = PROJECT_ROOT / "WritingFactory" / "FreeFall"
+
+client = get_client()
+
+
+def build_prompt() -> str:
+    """Constructs prompt for stream-of-consciousness free-fall writing."""
+    return """
 Generate 300–400 words of free-fall writing in the user's sovereign identity tone.
 
 Constraints:
@@ -25,33 +32,74 @@ Constraints:
 - Pure flow, no headings, no bullet points.
 """
 
-    chat = client.chats.create(model=MODEL_NAME)
-    resp = chat.send_message(prompt)
 
-    # Extract text from the response
-    text = resp.candidates[0].content.parts[0].text.strip()
+def generate_freefall() -> str:
+    """Executes prompt against model cascade with disabled automatic function calling warnings."""
+    prompt = build_prompt()
 
-    # Guarantee Markdown paragraph spacing
-    text = text.replace("\n", "\n\n")
+    def _api_func_builder(target_model: str):
+        def _api_call():
+            print(f"Requesting FreeFall writing using model: {target_model}")
+            
+            # Suppress SDK warning logs
+            gen_config = types.GenerateContentConfig(
+                automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
+            )
+            
+            response = client.models.generate_content(
+                model=target_model,
+                contents=prompt,
+                config=gen_config,
+            )
+            
+            text = response.text.strip()
+            # Normalize newlines to clean double paragraph breaks
+            paragraphs = [p.strip() for p in text.split("\n") if p.strip()]
+            return "\n\n".join(paragraphs)
 
-    return text
+        return _api_call
 
-def save_output(text):
-    os.makedirs(OUTPUT_DIR, exist_ok=True)
+    return call_with_fallback(_api_func_builder)
 
-    # Sydney-local timestamp
+
+def save_output(text: str) -> Path:
+    """Saves generated free-fall piece into WritingFactory/FreeFall with Sydney timestamp."""
+    OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Local Sydney timestamp
     timestamp = datetime.datetime.now(ZoneInfo("Australia/Sydney")).strftime("%Y-%m-%d_%H-%M-%S")
-    filename = f"{OUTPUT_DIR}/FreeFall_{timestamp}.md"
+    filepath = OUTPUT_DIR / f"FreeFall_{timestamp}.md"
 
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(text)
+    with open(filepath, "w", encoding="utf-8") as f:
+        f.write(f"# Sovereign Free-Fall Writing — {timestamp}\n\n{text}\n")
 
-    print(f"Saved free-fall writing: {filename}")
+    print(f"Saved free-fall writing: {filepath}")
+    return filepath
+
+
+def git_commit(filepath: Path) -> None:
+    """Commits created free-fall asset to local Git tracking using subprocess."""
+    try:
+        rel_filepath = filepath.relative_to(PROJECT_ROOT)
+        
+        subprocess.run(["git", "add", str(rel_filepath)], check=True)
+        subprocess.run(
+            ["git", "commit", "-m", f"Add FreeFall writing: {rel_filepath.name}"], 
+            check=True
+        )
+        print(f"[Git] Successfully committed {rel_filepath.name}")
+    except Exception as e:
+        print(f"[Git Warning] Automated commit skipped: {e}")
+
 
 def main():
-    client = get_client()
-    text = generate_freefall(client)
-    save_output(text)
+    print("Starting FreeFall Writing Engine...")
+    
+    freefall_text = generate_freefall()
+    saved_filepath = save_output(freefall_text)
+    
+    git_commit(saved_filepath)
+
 
 if __name__ == "__main__":
     main()
