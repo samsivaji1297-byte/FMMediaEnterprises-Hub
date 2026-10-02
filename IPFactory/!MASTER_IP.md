@@ -70,3 +70,4 @@
 - Ecliptic Identity Pivot — An internal gravity framework that anchors the operator’s central self-concept to an immutable orbital axis, neutralizing external psychological pull.
 - Negentropic Sovereign Governor — An internal regulatory mechanism that continuously converts external psychological chaos into structured, self-directed mental order.
 - Biaxial Sovereign Gimbal — A multi-axis internal stabilization mechanism that allows the operator to adapt fluidly to chaotic environmental shifts while maintaining a perfectly level baseline of sovereign intent.
+- Cataclastic Identity Core — An internal psychological architecture that recrystallizes and hardens the operator's core values under intense environmental pressure.
