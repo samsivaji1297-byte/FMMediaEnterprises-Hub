@@ -1,29 +1,29 @@
 {
-  "title": "Timeline Rejection Hook",
+  "title": "Timeline Rejection - Break Default Trajectory",
   "product_key": "TIMELINE_REJECTION",
-  "voiceover_full": "You are trading lifetime agency for short-term comfort. The standard trajectory isn't safe\u2014it is a slow, passive drift into mediocrity. Break the loop and re-engineer your trajectory right now. Comment 'TIMELINE' to receive the Protocol.",
-  "caption": "You chose the 'safe' path, but it is slowly eroding your agency. \n\nEvery day you conform to societal timelines, you drift further from your true potential. It is not stability; it is a passive trajectory into mediocrity. \n\nIt is time for rapid trajectory re-engineering. The Timeline Rejection Protocol is designed to break you out of passive loops and install complete personal sovereignty.\n\n\ud83d\udc47 COMMENT 'TIMELINE' below and I will DM you instant access to the protocol on Gumroad.",
+  "voiceover_full": "Shatter the prescribed timeline. You are trading lifetime agency for short-term comfort. Drift is systemic compliance. Sever the default sequence and seize sovereign trajectory immediately. Comment REJECT below to access the Timeline Rejection Protocol.",
+  "caption": "You are trading lifetime agency for short-term comfort.\n\nPassive conformity is an active decision to surrender your potential. The default path was engineered for compliance, not sovereignty. It is time to execute a systemic hard reset.\n\nComment 'REJECT' below and I will DM you direct access to the Timeline Rejection Protocol on Gumroad.\n\n#sovereignty #mindsetshift #agency #discipline #highperformance",
   "scenes": [
     {
       "scene_id": 1,
-      "duration_seconds": 3,
-      "narration": "You are trading lifetime agency for short-term comfort.",
-      "text_overlay": "TRADING AGENCY FOR COMFORT?",
-      "visual_prompt": "Macro close-up of an analog watch face ticking backward, shot on 35mm in dark charcoal, illuminated by a sharp, minimalist beam of gold light. Fast motion blur transition at 1.5 seconds."
+      "duration_seconds": 2,
+      "narration": "Shatter the prescribed timeline.",
+      "text_overlay": "TERMINATE DEFAULT TRAJECTORY",
+      "visual_prompt": "Cinematic vertical 9:16 macro shot of an obsidian pocket watch violently shattering under a concentrated electric blue laser beam, set against a dark charcoal #121212 background with razor-sharp gold glass shards flying toward the lens, ending in a rapid motion-blur transition."
     },
     {
       "scene_id": 2,
-      "duration_seconds": 11,
-      "narration": "The standard trajectory isn't safe\u2014it is a slow, passive drift into mediocrity. Break the loop and re-engineer your trajectory right now.",
-      "text_overlay": "RE-ENGINEER YOUR TRAJECTORY",
-      "visual_prompt": "A silhouette of a person standing at the edge of a minimalist concrete structure overlooking a dark charcoal abyss. A subtle, sharp laser line of vibrant blue slices horizontally through the frame, dividing the dark space."
+      "duration_seconds": 8,
+      "narration": "You are trading lifetime agency for short-term comfort. Drift is systemic compliance. Sever the default sequence and seize sovereign trajectory immediately.",
+      "text_overlay": "TRADE COMFORT FOR SOVEREIGNTY",
+      "visual_prompt": "Cinematic vertical 9:16 macro cinematography of dense gold particulates colliding at hyper-velocity in a dark charcoal void, illuminated by intense directional electric blue lighting. At the 4-second midpoint, the particulates rapidly organize into a rigid, glowing geometric matrix."
     },
     {
       "scene_id": 3,
-      "duration_seconds": 4,
-      "narration": "Comment 'TIMELINE' to receive the Protocol.",
-      "text_overlay": "COMMENT 'TIMELINE'",
-      "visual_prompt": "An elegant, minimalist gold geometric symbol slowly rotating on a dark charcoal textured background, glowing with a soft, vibrant blue aura. High-end, premium aesthetic."
+      "duration_seconds": 5,
+      "narration": "Comment REJECT below to access the Timeline Rejection Protocol.",
+      "text_overlay": "COMMENT 'REJECT' BELOW",
+      "visual_prompt": "Cinematic vertical 9:16 minimalist frame on a dark charcoal #121212 texture, featuring a glowing gold digital protocol blueprint expanding outward with subtle electric blue ambient light bleeds and clean typography."
     }
   ]
 }
