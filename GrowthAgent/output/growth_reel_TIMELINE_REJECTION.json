@@ -1,29 +1,29 @@
 {
-  "title": "Timeline Rejection Protocol - Sovereignty Re-engineering",
+  "title": "Timeline Rejection Protocol",
   "product_key": "TIMELINE_REJECTION",
-  "voiceover_full": "The default path is engineered for quiet compliance. Passivity breeds terminal drift. Break the baseline loop, seize absolute sovereignty, and re-engineer your destiny using systemic precision. Comment REJECT below to instantly receive the Timeline Rejection Protocol.",
-  "caption": "The default trajectory is a slow decay into conformity. Stop drifting. Seize absolute personal sovereignty and re-engineer your reality.\n\nComment 'REJECT' below and I will DM you the direct link to the Timeline Rejection Protocol.",
+  "voiceover_full": "Abort the drift. Every year you wait, you yield your sovereignty to a pre-programmed trajectory. Re-engineer your timeline today. Comment PROTOCOL below to receive the Timeline Rejection Protocol instantly.",
+  "caption": "The default path is engineered for quiet compliance. It\u2019s a slow, comfortable drift designed to keep you predictable.\n\nEvery day you spend following the unwritten social script is another day you surrender your sovereignty to someone else's design.\n\nIt is time to break the cycle and execute a rapid trajectory re-engineering.\n\nGet the exact blueprint to hijack your own future.\n\n\ud83d\udc47 Comment 'PROTOCOL' below and I\u2019ll DM you the Timeline Rejection Protocol instantly.",
   "scenes": [
     {
       "scene_id": 1,
-      "duration_seconds": 3,
-      "narration": "The default path is engineered for quiet compliance.",
-      "text_overlay": "DESTROY DEFAULT PATH",
-      "visual_prompt": "Cinematic vertical 9:16 macro shot in dark charcoal (#121212) showing a precision obsidian clock face fracturing violently from high-intensity electric blue laser impact. Sharp gold accents glow inside the micro-cracks. Sudden high-velocity motion-blur transition at 1.5 seconds."
+      "duration_seconds": 1.5,
+      "narration": "Abort the drift.",
+      "text_overlay": "ABORT THE DRIFT",
+      "visual_prompt": "Cinematic 9:16 macro shot. A single sheet of black glass instantly fractures into thousands of microscopic shards under a high-intensity electric blue laser strike. Dark charcoal background (#121212) with razor-sharp neon blue accents. Sudden motion-blur transition at 0.75 seconds."
     },
     {
       "scene_id": 2,
-      "duration_seconds": 8,
-      "narration": "Passivity breeds terminal drift. Break the baseline loop, seize absolute sovereignty, and re-engineer your destiny using systemic precision.",
+      "duration_seconds": 7.5,
+      "narration": "Every year you wait, you yield your sovereignty to a pre-programmed trajectory. Re-engineer your timeline today.",
       "text_overlay": "RE-ENGINEER YOUR TIMELINE",
-      "visual_prompt": "Cinematic vertical 9:16 macro sequence in dark charcoal (#121212). Directional electric blue lasers collide with metallic gold particulates, forcing chaotic floating debris into an ordered, crystalline matrix. Midpoint visual state shift at 4 seconds rapidly sweeps camera through motion-blur laser light."
+      "visual_prompt": "Cinematic 9:16 high-contrast macro shot. Shimmering gold particulate dust colliding in mid-air, violently reversing direction at the 3.75-second midpoint transition as an electric blue kinetic wave sweeps across. Dark charcoal (#121212) background."
     },
     {
       "scene_id": 3,
-      "duration_seconds": 4,
-      "narration": "Comment REJECT below to instantly receive the Timeline Rejection Protocol.",
-      "text_overlay": "COMMENT 'REJECT' BELOW",
-      "visual_prompt": "Cinematic vertical 9:16 minimalist visual in matte dark charcoal (#121212) featuring a central glowing gold geometric emblem pulsing softly with sharp electric blue rim lighting."
+      "duration_seconds": 6.0,
+      "narration": "Comment PROTOCOL below to receive the Timeline Rejection Protocol instantly.",
+      "text_overlay": "COMMENT 'PROTOCOL' BELOW",
+      "visual_prompt": "Cinematic 9:16 minimalist CTA. A single, razor-sharp gold line slicing vertically through a dark charcoal (#121212) void, revealing a glowing electric blue core at the 3-second midpoint. Clean, high-contrast layout."
     }
   ]
 }
