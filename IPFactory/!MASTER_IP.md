@@ -75,3 +75,4 @@
 - Cratonic Agency Platform — A foundational psychological infrastructure modeled on the deep-time stability of continental crust, engineered to prevent external socio-cultural shifts from disrupting the operator’s core executive command.
 - Hyperstatic Sovereign Truss — A highly redundant internal architecture of psychological anchor points designed to prevent identity collapse by distributing cognitive stress across multiple independent axes of self-governance.
 - Epitaxial Identity Template — A cognitive engineering framework that perfectly replicates the unyielding structural lattice of the core self onto all external layers of personality and operational behavior.
+- Orogenic Sovereign Uplift — The systematic transformation of intense environmental and psychological pressure into monumental, unyielding structures of internal authority.
