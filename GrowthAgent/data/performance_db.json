@@ -1,0 +1,45 @@
+[
+  {
+    "media_id": "ig_reel_TIMELINE_REJECTION_001",
+    "timestamp": "2026-10-03T02:50:32.694579+00:00",
+    "product_key": "TIMELINE_REJECTION",
+    "hook_text": "REJECT THE TIMELINE",
+    "full_script": {
+      "title": "The Operational Friction Protocol",
+      "product_key": "TIMELINE_REJECTION",
+      "voiceover_full": "Rejecting the standard timeline requires deliberate operational friction. Your drift is calculated compliance. To break the trajectory, you must engineer high-stakes friction against default habits. Comment PROTOCOL below to receive the blueprint immediately.",
+      "caption": "Most people don't choose their lives; they simply inherit a pre-packaged drift.\n\nPassive trajectories feel safe because they lack friction. But safety is the slow death of personal sovereignty.\n\nIf you are ready to violently re-engineer your trajectory and step out of the societal queue, you must introduce deliberate operational friction. Reject the default path.\n\nI have digitized the exact framework for rapid timeline re-engineering.\n\n\ud83d\udc49 Comment 'PROTOCOL' below and I will DM you the direct Gumroad link to the Timeline Rejection Protocol instantly.",
+      "scenes": [
+        {
+          "scene_id": 1,
+          "duration_seconds": 3,
+          "narration": "Rejecting the standard timeline requires deliberate operational friction.",
+          "text_overlay": "REJECT THE TIMELINE",
+          "visual_prompt": "Cinematic vertical 9:16. Extreme macro shot of a black glass sphere fracturing in slow motion, pierced by a sharp, high-contrast gold laser line against a dark charcoal void."
+        },
+        {
+          "scene_id": 2,
+          "duration_seconds": 8,
+          "narration": "Your drift is calculated compliance. To break the trajectory, you must engineer high-stakes friction against default habits.",
+          "text_overlay": "DELIBERATE FRICTION",
+          "visual_prompt": "Cinematic vertical 9:16. High-contrast silhouette of a person standing in a dark charcoal gallery, backlit by a single, powerful, vertical stripe of vibrant blue light."
+        },
+        {
+          "scene_id": 3,
+          "duration_seconds": 4,
+          "narration": "Comment PROTOCOL below to receive the blueprint immediately.",
+          "text_overlay": "COMMENT 'PROTOCOL'",
+          "visual_prompt": "Cinematic vertical 9:16. Ultra-minimalist dark charcoal screen with a subtle, glowing gold border. Elegant, sharp typography pulsing slowly in the center."
+        }
+      ]
+    },
+    "metrics": {
+      "views": 1250,
+      "reach": 980,
+      "saves": 84,
+      "shares": 32,
+      "comments": 19,
+      "retention_score": 7.8
+    }
+  }
+]
