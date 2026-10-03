@@ -14,65 +14,77 @@ on:
         type: choice
         options:
           - ''
-          - ambient
           - sovereign
+          - ambient
           - kinetic
   schedule:
-    - cron: '0 10 * * *'  # Runs automatically every day
+    - cron: '0 10 * * *'  # Runs automatically daily at 10:00 UTC
+
+permissions:
+  contents: write
 
 jobs:
   build-vault-and-publish:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
 
-    - name: Install System Dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y ffmpeg imagemagick fonts-liberation
-        sudo sed -i 's/policy domain="path" rights="none" pattern="@\*"/policy domain="path" rights="read|write" pattern="@\*"/' /etc/ImageMagick-6/policy.xml
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg imagemagick fonts-liberation
+          sudo sed -i 's/policy domain="path" rights="none" pattern="@\*"/policy domain="path" rights="read|write" pattern="@\*"/' /etc/ImageMagick-6/policy.xml
 
-    - name: Install Python Dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r MediaFactory/requirements.txt
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r MediaFactory/requirements.txt
 
-    - name: Run Engine & Render Reel Asset
-      env:
-        GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-      run: |
-        cd MediaFactory/src
-        python main.py --topic "${{ github.event.inputs.topic }}" --theme "${{ github.event.inputs.theme }}"
+      - name: Run Engine & Render Reel Asset
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+        run: |
+          cd MediaFactory/src
+          python main.py --topic "${{ github.event.inputs.topic }}" --theme "${{ github.event.inputs.theme }}"
 
-    - name: Commit & Push Reel to Repository Vault
-      run: |
-        git config --global user.name "MediaFactory Bot"
-        git config --global user.email "bot@mediafactory.local"
-        git add MediaFactory/vault/
-        git commit -m "vault: archive rendered reel [skip ci]" || echo "No changes to commit"
-        git push
+      - name: Commit & Push Rendered Assets to Vault
+        run: |
+          git config --global user.name "MediaFactory Bot"
+          git config --global user.email "bot@mediafactory.local"
+          git add MediaFactory/vault/
+          git commit -m "vault: archive rendered reel [skip ci]" || echo "No changes to commit"
+          git pull --rebase origin main
+          git push
 
-    - name: Auto-Publish Reel to Instagram via Raw URL
-      env:
-        IG_USER_ID: ${{ secrets.IG_USER_ID }}
-        IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
-        GITHUB_REPOSITORY: ${{ github.repository }}
-      run: |
-        cd MediaFactory/src
-        python publisher.py
+      - name: Wait for GitHub CDN Propagations
+        run: |
+          echo "[*] Waiting 30 seconds for raw.githubusercontent.com CDN caching..."
+          sleep 30
 
-    - name: Commit Updated Queue State
-      run: |
-        git add MediaFactory/vault/queue.json
-        git commit -m "vault: update published queue state [skip ci]" || echo "No changes to commit"
-        git push
+      - name: Auto-Publish Reel to Instagram via Meta Graph API
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID || secrets.INSTAGRAM_ACCOUNT_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN || secrets.INSTAGRAM_ACCESS_TOKEN || secrets.META_ACCESS_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          cd MediaFactory/src
+          python publisher.py
+
+      - name: Commit Updated Queue State
+        run: |
+          git add MediaFactory/vault/queue.json
+          git commit -m "vault: update published queue state [skip ci]" || echo "No changes to commit"
+          git pull --rebase origin main
+          git push
