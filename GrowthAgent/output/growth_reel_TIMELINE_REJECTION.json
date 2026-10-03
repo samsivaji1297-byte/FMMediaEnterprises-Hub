@@ -1,29 +1,29 @@
 {
   "title": "Timeline Rejection Protocol",
   "product_key": "TIMELINE_REJECTION",
-  "voiceover_full": "Abort the drift. Every year you wait, you yield your sovereignty to a pre-programmed trajectory. Re-engineer your timeline today. Comment PROTOCOL below to receive the Timeline Rejection Protocol instantly.",
-  "caption": "The default path is engineered for quiet compliance. It\u2019s a slow, comfortable drift designed to keep you predictable.\n\nEvery day you spend following the unwritten social script is another day you surrender your sovereignty to someone else's design.\n\nIt is time to break the cycle and execute a rapid trajectory re-engineering.\n\nGet the exact blueprint to hijack your own future.\n\n\ud83d\udc47 Comment 'PROTOCOL' below and I\u2019ll DM you the Timeline Rejection Protocol instantly.",
+  "voiceover_full": "Reject the standard timeline. Deliberate operational friction is required to break the drift. Sovereignty is not stumbled into; it is engineered. Stop complying with passive social milestones. Comment TIMELINE to receive the Rejection Protocol and re-engineer your trajectory today.",
+  "caption": "The greatest threat to your potential isn't failure\u2014it's the comfort of a pre-programmed life. \n\nMost people don't choose their path; they drift into it, executing a script written by societal expectations. The Timeline Rejection Protocol is the counter-measure. It is a systematic blueprint to inject deliberate friction into your current trajectory and force a rapid, sovereign re-engineering of your life. \n\nComment 'TIMELINE' below and I\u2019ll DM you the protocol immediately.",
   "scenes": [
     {
       "scene_id": 1,
       "duration_seconds": 1.5,
-      "narration": "Abort the drift.",
+      "narration": "Reject the standard timeline.",
       "text_overlay": "ABORT THE DRIFT",
-      "visual_prompt": "Cinematic 9:16 macro shot. A single sheet of black glass instantly fractures into thousands of microscopic shards under a high-intensity electric blue laser strike. Dark charcoal background (#121212) with razor-sharp neon blue accents. Sudden motion-blur transition at 0.75 seconds."
+      "visual_prompt": "Cinematic vertical 9:16 macro shot of a dark charcoal (#121212) glass plate fracturing instantly under a sudden, intense electric-blue laser impact. Razor-sharp shards scatter in slow motion against a black background."
     },
     {
       "scene_id": 2,
-      "duration_seconds": 7.5,
-      "narration": "Every year you wait, you yield your sovereignty to a pre-programmed trajectory. Re-engineer your timeline today.",
-      "text_overlay": "RE-ENGINEER YOUR TIMELINE",
-      "visual_prompt": "Cinematic 9:16 high-contrast macro shot. Shimmering gold particulate dust colliding in mid-air, violently reversing direction at the 3.75-second midpoint transition as an electric blue kinetic wave sweeps across. Dark charcoal (#121212) background."
+      "duration_seconds": 8.0,
+      "narration": "Deliberate operational friction is required to break the drift. Sovereignty is not stumbled into; it is engineered. Stop complying with passive social milestones.",
+      "text_overlay": "OPERATIONAL FRICTION",
+      "visual_prompt": "Cinematic vertical 9:16 macro cinematography of gold particulate collisions suspended in a dark charcoal (#121212) fluid. At the 4-second mark, a sudden kinetic shockwave ripples through the liquid with a heavy motion-blur transition, forcing the particles to instantly realign into razor-sharp geometric gold lines."
     },
     {
       "scene_id": 3,
-      "duration_seconds": 6.0,
-      "narration": "Comment PROTOCOL below to receive the Timeline Rejection Protocol instantly.",
-      "text_overlay": "COMMENT 'PROTOCOL' BELOW",
-      "visual_prompt": "Cinematic 9:16 minimalist CTA. A single, razor-sharp gold line slicing vertically through a dark charcoal (#121212) void, revealing a glowing electric blue core at the 3-second midpoint. Clean, high-contrast layout."
+      "duration_seconds": 5.5,
+      "narration": "Comment TIMELINE to receive the Rejection Protocol and re-engineer your trajectory today.",
+      "text_overlay": "COMMENT 'TIMELINE'",
+      "visual_prompt": "Cinematic vertical 9:16 minimalist dark charcoal (#121212) background. A clean, sharp gold laser beam cuts a horizontal line across the center of the screen, instantly revealing the glowing electric-blue call-to-action text."
     }
   ]
 }
