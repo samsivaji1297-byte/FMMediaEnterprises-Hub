@@ -9,9 +9,26 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
-from GrowthAgent.core.reels_engine import generate_reel_script
+# Dynamically import reels_engine to support function or class methods
+import GrowthAgent.core.reels_engine as reels_engine
 from GrowthAgent.analytics.meta_tracker import publish_reel_to_instagram, record_reel_performance, fetch_reel_metrics
 from GrowthAgent.core.feedback_loop import run_optimization_cycle
+
+
+def synthesize_script(product_key: str) -> dict:
+    """Helper to call whichever generator function exists in reels_engine."""
+    if hasattr(reels_engine, "generate_reel_script"):
+        return reels_engine.generate_reel_script(product_key)
+    elif hasattr(reels_engine, "generate_script"):
+        return reels_engine.generate_script(product_key)
+    elif hasattr(reels_engine, "ReelsEngine"):
+        engine = reels_engine.ReelsEngine()
+        if hasattr(engine, "generate"):
+            return engine.generate(product_key)
+        elif hasattr(engine, "generate_script"):
+            return engine.generate_script(product_key)
+    
+    raise AttributeError("No valid script generation function found in reels_engine.py")
 
 
 def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
@@ -23,7 +40,7 @@ def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
     # PHASE 1: Synthesize High-Retention Script Payload
     # ------------------------------------------------------------------
     print("\n[PHASE 1] Synthesizing High-Retention Reel Script...")
-    script_payload = generate_reel_script(product_key=product_key)
+    script_payload = synthesize_script(product_key=product_key)
     
     title = script_payload.get("title", "Growth Reel")
     output_dir = SCRIPT_DIR / "output"
@@ -42,10 +59,8 @@ def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
     # ------------------------------------------------------------------
     print("\n[PHASE 2] Executing Meta API Upload & Analytics Sync...")
 
-    # Look for a public video URL in the payload or environment
     video_url = script_payload.get("video_url") or os.environ.get("REEL_VIDEO_URL")
     
-    # Construct caption from scenes and CTA
     scenes_text = "\n".join([f"• {s.get('text_overlay', '')}" for s in script_payload.get("scenes", [])])
     caption = f"{title}\n\n{scenes_text}\n\n#sovereignty #productivity #mindset #automation"
 
@@ -58,11 +73,9 @@ def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
         print("[*] Script payload generated successfully. To auto-upload video files directly, pass REEL_VIDEO_URL or link to Drive/GitHub MP4 host.")
 
     if not media_id:
-        # Fallback tracking ID for script-only runs to keep feedback loop operating
         media_id = f"ig_reel_{product_key}_{os.urandom(3).hex()}"
         print(f"[*] Registered run tracking ID: {media_id}")
 
-    # Sync performance / record metrics
     metrics = fetch_reel_metrics(media_id)
     record_reel_performance(media_id, script_payload, metrics)
 
