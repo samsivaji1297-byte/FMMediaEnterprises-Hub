@@ -127,5 +127,48 @@
       "comments": 0,
       "retention_score": 0.0
     }
+  },
+  {
+    "media_id": "ig_reel_TIMELINE_REJECTION_8b8364",
+    "timestamp": "2026-10-03T03:36:09.661014+00:00",
+    "product_key": "TIMELINE_REJECTION",
+    "hook_text": "TERMINATE PASSIVE DRIFT",
+    "full_script": {
+      "title": "Timeline Rejection Protocol - High Retention Reel",
+      "product_key": "TIMELINE_REJECTION",
+      "voiceover_full": "Rejecting the standard timeline requires deliberate operational friction. Passive trajectory is systematic self-sabotage. Force a hard break on societal alignment and re-engineer your reality instantly. Comment PROTOCOL below to execute the Timeline Rejection Protocol today.",
+      "caption": "The default timeline is engineered for passive compliance. If you accept standard trajectories, you surrender personal sovereignty. Reclaim control through high-intensity operational friction.\n\nComment 'PROTOCOL' below to receive direct access to the Timeline Rejection Protocol.",
+      "scenes": [
+        {
+          "scene_id": 1,
+          "duration_seconds": 3,
+          "narration": "Rejecting the standard timeline requires deliberate operational friction.",
+          "text_overlay": "TERMINATE PASSIVE DRIFT",
+          "visual_prompt": "Cinematic vertical 9:16 macro shot of a monolithic obsidian cylinder violently fracturing under an intense, razor-sharp electric blue directional laser. Dark charcoal background (#121212), dynamic particulate glass explosion with motion blur."
+        },
+        {
+          "scene_id": 2,
+          "duration_seconds": 8,
+          "narration": "Passive trajectory is systematic self-sabotage. Force a hard break on societal alignment and re-engineer your reality instantly.",
+          "text_overlay": "OPERATIONAL FRICTION",
+          "visual_prompt": "Cinematic vertical 9:16 high-speed macro view of gold particulate streams colliding mid-air and altering direction instantly against a dark charcoal (#121212) canvas. Midpoint visual state shift using a hyper-fast motion-blur to an ascending electric blue vector grid."
+        },
+        {
+          "scene_id": 3,
+          "duration_seconds": 4,
+          "narration": "Comment PROTOCOL below to execute the Timeline Rejection Protocol today.",
+          "text_overlay": "COMMENT 'PROTOCOL' BELOW",
+          "visual_prompt": "Cinematic vertical 9:16 minimalist visual featuring a glowing electric blue circuit line laser-engraving text into a matte charcoal (#121212) steel plate with razor-sharp gold light reflections."
+        }
+      ]
+    },
+    "metrics": {
+      "views": 0,
+      "reach": 0,
+      "saves": 0,
+      "shares": 0,
+      "comments": 0,
+      "retention_score": 0.0
+    }
   }
 ]
