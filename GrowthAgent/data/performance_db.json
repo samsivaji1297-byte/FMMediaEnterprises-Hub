@@ -41,5 +41,48 @@
       "comments": 19,
       "retention_score": 7.8
     }
+  },
+  {
+    "media_id": "ig_reel_TIMELINE_REJECTION_001",
+    "timestamp": "2026-10-03T02:57:56.197725+00:00",
+    "product_key": "TIMELINE_REJECTION",
+    "hook_text": "TRADING AGENCY FOR COMFORT?",
+    "full_script": {
+      "title": "Timeline Rejection Hook",
+      "product_key": "TIMELINE_REJECTION",
+      "voiceover_full": "You are trading lifetime agency for short-term comfort. The standard trajectory isn't safe\u2014it is a slow, passive drift into mediocrity. Break the loop and re-engineer your trajectory right now. Comment 'TIMELINE' to receive the Protocol.",
+      "caption": "You chose the 'safe' path, but it is slowly eroding your agency. \n\nEvery day you conform to societal timelines, you drift further from your true potential. It is not stability; it is a passive trajectory into mediocrity. \n\nIt is time for rapid trajectory re-engineering. The Timeline Rejection Protocol is designed to break you out of passive loops and install complete personal sovereignty.\n\n\ud83d\udc47 COMMENT 'TIMELINE' below and I will DM you instant access to the protocol on Gumroad.",
+      "scenes": [
+        {
+          "scene_id": 1,
+          "duration_seconds": 3,
+          "narration": "You are trading lifetime agency for short-term comfort.",
+          "text_overlay": "TRADING AGENCY FOR COMFORT?",
+          "visual_prompt": "Macro close-up of an analog watch face ticking backward, shot on 35mm in dark charcoal, illuminated by a sharp, minimalist beam of gold light. Fast motion blur transition at 1.5 seconds."
+        },
+        {
+          "scene_id": 2,
+          "duration_seconds": 11,
+          "narration": "The standard trajectory isn't safe\u2014it is a slow, passive drift into mediocrity. Break the loop and re-engineer your trajectory right now.",
+          "text_overlay": "RE-ENGINEER YOUR TRAJECTORY",
+          "visual_prompt": "A silhouette of a person standing at the edge of a minimalist concrete structure overlooking a dark charcoal abyss. A subtle, sharp laser line of vibrant blue slices horizontally through the frame, dividing the dark space."
+        },
+        {
+          "scene_id": 3,
+          "duration_seconds": 4,
+          "narration": "Comment 'TIMELINE' to receive the Protocol.",
+          "text_overlay": "COMMENT 'TIMELINE'",
+          "visual_prompt": "An elegant, minimalist gold geometric symbol slowly rotating on a dark charcoal textured background, glowing with a soft, vibrant blue aura. High-end, premium aesthetic."
+        }
+      ]
+    },
+    "metrics": {
+      "views": 0,
+      "reach": 0,
+      "saves": 0,
+      "shares": 0,
+      "comments": 0,
+      "retention_score": 0.0
+    }
   }
 ]

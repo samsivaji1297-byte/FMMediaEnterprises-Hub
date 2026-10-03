@@ -1,29 +1,29 @@
 {
-  "title": "The Operational Friction Protocol",
+  "title": "Timeline Rejection Hook",
   "product_key": "TIMELINE_REJECTION",
-  "voiceover_full": "Rejecting the standard timeline requires deliberate operational friction. Your drift is calculated compliance. To break the trajectory, you must engineer high-stakes friction against default habits. Comment PROTOCOL below to receive the blueprint immediately.",
-  "caption": "Most people don't choose their lives; they simply inherit a pre-packaged drift.\n\nPassive trajectories feel safe because they lack friction. But safety is the slow death of personal sovereignty.\n\nIf you are ready to violently re-engineer your trajectory and step out of the societal queue, you must introduce deliberate operational friction. Reject the default path.\n\nI have digitized the exact framework for rapid timeline re-engineering.\n\n\ud83d\udc49 Comment 'PROTOCOL' below and I will DM you the direct Gumroad link to the Timeline Rejection Protocol instantly.",
+  "voiceover_full": "You are trading lifetime agency for short-term comfort. The standard trajectory isn't safe\u2014it is a slow, passive drift into mediocrity. Break the loop and re-engineer your trajectory right now. Comment 'TIMELINE' to receive the Protocol.",
+  "caption": "You chose the 'safe' path, but it is slowly eroding your agency. \n\nEvery day you conform to societal timelines, you drift further from your true potential. It is not stability; it is a passive trajectory into mediocrity. \n\nIt is time for rapid trajectory re-engineering. The Timeline Rejection Protocol is designed to break you out of passive loops and install complete personal sovereignty.\n\n\ud83d\udc47 COMMENT 'TIMELINE' below and I will DM you instant access to the protocol on Gumroad.",
   "scenes": [
     {
       "scene_id": 1,
       "duration_seconds": 3,
-      "narration": "Rejecting the standard timeline requires deliberate operational friction.",
-      "text_overlay": "REJECT THE TIMELINE",
-      "visual_prompt": "Cinematic vertical 9:16. Extreme macro shot of a black glass sphere fracturing in slow motion, pierced by a sharp, high-contrast gold laser line against a dark charcoal void."
+      "narration": "You are trading lifetime agency for short-term comfort.",
+      "text_overlay": "TRADING AGENCY FOR COMFORT?",
+      "visual_prompt": "Macro close-up of an analog watch face ticking backward, shot on 35mm in dark charcoal, illuminated by a sharp, minimalist beam of gold light. Fast motion blur transition at 1.5 seconds."
     },
     {
       "scene_id": 2,
-      "duration_seconds": 8,
-      "narration": "Your drift is calculated compliance. To break the trajectory, you must engineer high-stakes friction against default habits.",
-      "text_overlay": "DELIBERATE FRICTION",
-      "visual_prompt": "Cinematic vertical 9:16. High-contrast silhouette of a person standing in a dark charcoal gallery, backlit by a single, powerful, vertical stripe of vibrant blue light."
+      "duration_seconds": 11,
+      "narration": "The standard trajectory isn't safe\u2014it is a slow, passive drift into mediocrity. Break the loop and re-engineer your trajectory right now.",
+      "text_overlay": "RE-ENGINEER YOUR TRAJECTORY",
+      "visual_prompt": "A silhouette of a person standing at the edge of a minimalist concrete structure overlooking a dark charcoal abyss. A subtle, sharp laser line of vibrant blue slices horizontally through the frame, dividing the dark space."
     },
     {
       "scene_id": 3,
       "duration_seconds": 4,
-      "narration": "Comment PROTOCOL below to receive the blueprint immediately.",
-      "text_overlay": "COMMENT 'PROTOCOL'",
-      "visual_prompt": "Cinematic vertical 9:16. Ultra-minimalist dark charcoal screen with a subtle, glowing gold border. Elegant, sharp typography pulsing slowly in the center."
+      "narration": "Comment 'TIMELINE' to receive the Protocol.",
+      "text_overlay": "COMMENT 'TIMELINE'",
+      "visual_prompt": "An elegant, minimalist gold geometric symbol slowly rotating on a dark charcoal textured background, glowing with a soft, vibrant blue aura. High-end, premium aesthetic."
     }
   ]
 }
