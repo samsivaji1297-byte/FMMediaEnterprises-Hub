@@ -2,9 +2,9 @@ name: GrowthAgent Autonomous Reels Loop
 
 on:
   schedule:
-    # Runs every 4 hours (at minute 0)
+    # Runs every 4 hours
     - cron: '0 */4 * * *'
-  workflow_dispatch: # Allows manual trigger from GitHub web UI anytime
+  workflow_dispatch:
 
 jobs:
   run-growth-agent:
@@ -28,8 +28,8 @@ jobs:
       - name: Execute Autonomous Growth Agent Loop
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          META_GRAPH_ACCESS_TOKEN: ${{ secrets.META_GRAPH_ACCESS_TOKEN }}
-          INSTAGRAM_ACCOUNT_ID: ${{ secrets.INSTAGRAM_ACCOUNT_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
         run: |
           python GrowthAgent/main_agent.py
 
