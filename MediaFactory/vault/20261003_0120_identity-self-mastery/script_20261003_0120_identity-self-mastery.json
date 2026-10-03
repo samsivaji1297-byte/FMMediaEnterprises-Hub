@@ -1,0 +1,33 @@
+{
+    "title": "Master Your Ghost",
+    "voiceover_full": "You aren't stuck in your life. You are stuck in your identity. Every habit you struggle to break is just you keeping a ghost alive. To change your life, you must first kill the person you think you are.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "You aren't stuck in your life. You are stuck in your identity.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A single silhouette standing in front of a towering, cracked obsidian mirror, rim-lit by cold white light.",
+            "text_overlay": "STUCK IN YOUR IDENTITY",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "Every habit you struggle to break is just you keeping a ghost alive.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Dark ink slowly bleeding and swirling through clear water in slow motion, lit by a dramatic spotlight.",
+            "text_overlay": "FEEDING THE GHOST",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "To change your life, you must first kill the person you think you are.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A marble statue slowly fracturing and shattering from within, revealing a glowing golden light beneath the stone.",
+            "text_overlay": "REWRITE YOURSELF",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261003_0120_identity-self-mastery",
+        "topic": "Identity & Self-Mastery",
+        "theme": "kinetic",
+        "timestamp": "20261003_0120"
+    }
+}
