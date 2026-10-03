@@ -1,0 +1,33 @@
+{
+    "title": "Systems Over Dreams",
+    "voiceover_full": "Your dream is lying to you. It is just a hallucination without a machine to build it. Winners and losers have the exact same goals. The only difference is the daily system they commit to. Stop chasing the destination. Build the engine.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Your dream is lying to you. It is just a hallucination without a machine to build it.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A macro shot of a fountain pen drawing a perfect, sharp grid line on pitch-black paper under a single dramatic spotlight.",
+            "text_overlay": "DREAMS ARE LIES.",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "Winners and losers have the exact same goals. The only difference is the daily system they commit to.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Slow motion close-up of a premium mechanical watch interior, gears turning in perfect synchronization, moody dramatic shadows.",
+            "text_overlay": "THE DAILY MACHINE",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Stop chasing the destination. Build the engine.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A silhouette of a focused individual staring at a clean glowing screen in a dark room, typing with absolute intention, dust motes in the light beam.",
+            "text_overlay": "BUILD THE ENGINE.",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261003_1430_building-systems-over-dreams",
+        "topic": "Building Systems Over Dreams",
+        "theme": "kinetic",
+        "timestamp": "20261003_1430"
+    }
+}
