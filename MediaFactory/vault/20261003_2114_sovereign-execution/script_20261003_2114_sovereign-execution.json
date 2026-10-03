@@ -1,0 +1,33 @@
+{
+    "title": "Sovereign Execution",
+    "voiceover_full": "True power doesn't ask for permission. It commands reality through silent, flawless execution. Be the sovereign of your focus. Execute.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "True power doesn't ask for permission.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A metallic crown sitting on a raw concrete plinth in a dimly lit, moody brutalist room with strong shafts of light.",
+            "text_overlay": "NO PERMISSION.",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "It commands reality through silent, flawless execution.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A sharp silhouette of a determined individual stepping forward into a single harsh spotlight, surrounded by shadows.",
+            "text_overlay": "COMMAND REALITY.",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Be the sovereign of your focus. Execute.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A top-down macro shot of a dark marble chess king slamming down onto a white marble board, scattering dust in slow motion.",
+            "text_overlay": "EXECUTE.",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261003_2114_sovereign-execution",
+        "topic": "Sovereign Execution",
+        "theme": "sovereign",
+        "timestamp": "20261003_2114"
+    }
+}
