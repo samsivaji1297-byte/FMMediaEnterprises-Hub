@@ -2,7 +2,6 @@ name: GrowthAgent Autonomous Reels Loop
 
 on:
   schedule:
-    # Runs every 4 hours
     - cron: '0 */4 * * *'
   workflow_dispatch:
 
@@ -36,15 +35,15 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f GrowthAgent/requirements.txt ]; then pip install -r GrowthAgent/requirements.txt; fi
 
-      # STEP 1: Generate Script & Render MP4 Asset
+      # STEP 1: Render Video Only
       - name: Synthesize Script & Render Video
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          python GrowthAgent/main_agent.py TIMELINE_REJECTION --theme sovereign
+          python GrowthAgent/main_agent.py TIMELINE_REJECTION --theme sovereign --stage render
 
-      # STEP 2: Commit & Push Rendered Assets to GitHub Raw CDN
+      # STEP 2: Commit & Push Rendered Assets
       - name: Commit & Push Rendered Assets
         run: |
           git config --global user.name "GrowthAgent[bot]"
@@ -52,13 +51,16 @@ jobs:
           git add GrowthAgent/output/ GrowthAgent/data/
           git diff-index --quiet HEAD || (git commit -m "auto(growth-agent): update performance database & rendered video assets [skip ci]" && git push)
 
-      # STEP 3: Dispatch MP4 via Meta API using GitHub Raw CDN
+      # STEP 3: Publish to Instagram using Committed Raw URL
       - name: Execute Meta API Upload & Optimization Loop
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.IG_USER_ID }}
+          META_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PYTHONPATH: ${{ github.workspace }}
         run: |
-          python GrowthAgent/main_agent.py TIMELINE_REJECTION --theme sovereign
+          python GrowthAgent/main_agent.py TIMELINE_REJECTION --stage publish
