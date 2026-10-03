@@ -2,7 +2,6 @@ import os
 import sys
 import json
 import argparse
-import inspect
 from pathlib import Path
 
 SCRIPT_DIR = Path(__file__).resolve().parent
@@ -10,46 +9,21 @@ PROJECT_ROOT = SCRIPT_DIR.parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
-# Import modules directly to inspect available functions
-import GrowthAgent.core.reels_engine as reels_engine
-import GrowthAgent.core.feedback_loop as feedback_loop
+# Import core modules
+from GrowthAgent.core.reels_engine import generate_psychology_reel
 from GrowthAgent.analytics.meta_tracker import publish_reel_to_instagram, record_reel_performance, fetch_reel_metrics
 
-
-def synthesize_script(product_key: str) -> dict:
-    """Helper to dynamically trigger the generation function in reels_engine."""
-    for fn_name in ["generate_reel_script", "generate_script", "run_script_generation", "generate"]:
-        if hasattr(reels_engine, fn_name):
-            return getattr(reels_engine, fn_name)(product_key)
-            
-    if hasattr(reels_engine, "ReelsEngine"):
-        engine = reels_engine.ReelsEngine()
-        for method_name in ["generate", "generate_script", "run"]:
-            if hasattr(engine, method_name):
-                return getattr(engine, method_name)(product_key)
-                
-    raise AttributeError("Could not find a valid generation function in reels_engine.py")
+# Dynamically import feedback loop function
+import GrowthAgent.core.feedback_loop as feedback_loop
 
 
 def execute_optimization_loop():
-    """Helper to dynamically trigger the optimization function in feedback_loop."""
+    """Helper to safely invoke the optimization loop regardless of exact function name."""
     for fn_name in ["run_optimization_cycle", "run_feedback_loop", "optimize_prompts", "run_optimization", "main"]:
         if hasattr(feedback_loop, fn_name):
             func = getattr(feedback_loop, fn_name)
-            # Check if function takes arguments or run empty
-            sig = inspect.signature(func)
-            if len(sig.parameters) == 0:
-                return func()
-            else:
-                return func()
-                
-    if hasattr(feedback_loop, "FeedbackLoop"):
-        loop = feedback_loop.FeedbackLoop()
-        for method_name in ["run", "optimize", "execute"]:
-            if hasattr(loop, method_name):
-                return getattr(loop, method_name)()
-
-    print("[!] Warning: Could not find optimization function in feedback_loop.py. Skipping phase.")
+            return func()
+    print("[!] Warning: Could not locate optimization entry point in feedback_loop.py")
 
 
 def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
@@ -61,7 +35,7 @@ def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
     # PHASE 1: Synthesize High-Retention Script Payload
     # ------------------------------------------------------------------
     print("\n[PHASE 1] Synthesizing High-Retention Reel Script...")
-    script_payload = synthesize_script(product_key=product_key)
+    script_payload = generate_psychology_reel(product_key=product_key)
     
     title = script_payload.get("title", "Growth Reel")
     output_dir = SCRIPT_DIR / "output"
@@ -76,15 +50,13 @@ def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
     print(f"[+] Asset payload saved to: {payload_file}")
 
     # ------------------------------------------------------------------
-    # PHASE 2: Live IG Publish or Video Processing Check
+    # PHASE 2: Live IG Publish & Performance Sync
     # ------------------------------------------------------------------
     print("\n[PHASE 2] Executing Meta API Upload & Analytics Sync...")
 
+    # Video target (from payload or env var)
     video_url = script_payload.get("video_url") or os.environ.get("REEL_VIDEO_URL")
-    
-    scenes = script_payload.get("scenes", [])
-    scenes_text = "\n".join([f"• {s.get('text_overlay', '')}" for s in scenes]) if isinstance(scenes, list) else ""
-    caption = f"{title}\n\n{scenes_text}\n\n#sovereignty #productivity #mindset #automation"
+    caption = script_payload.get("caption") or f"{title}\n\n#sovereignty #productivity #mindset #automation"
 
     media_id = None
     if video_url:
@@ -101,7 +73,7 @@ def run_pipeline(product_key: str = "TIMELINE_REJECTION"):
         metrics = fetch_reel_metrics(media_id)
         record_reel_performance(media_id, script_payload, metrics)
     except Exception as e:
-        print(f"[*] Performance logging skipped/deferred: {e}")
+        print(f"[*] Performance logging deferred: {e}")
 
     # ------------------------------------------------------------------
     # PHASE 3: Autonomous Prompt Optimization Loop
