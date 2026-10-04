@@ -1,0 +1,43 @@
+name: Agent Network Autopilot
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'Execution Mode'
+        required: true
+        default: 'single'
+        type: choice
+        options:
+          - single
+          - batch
+      count:
+        description: 'Batch Count'
+        required: false
+        default: '1'
+  schedule:
+    - cron: '0 21 * * *'  # Runs automatically daily
+
+jobs:
+  run-agents:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Execute Agent Network
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+        run: |
+          python -m AgentNetwork.main --mode ${{ github.event.inputs.mode || 'single' }} --count ${{ github.event.inputs.count || '1' }}
