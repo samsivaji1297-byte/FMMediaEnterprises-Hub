@@ -1,0 +1,33 @@
+{
+    "title": "Identity & Self-Mastery",
+    "voiceover_full": "You aren't stuck. You're just loyal to a version of yourself that no longer exists. Self-mastery isn't about controlling your emotions. It\u2019s about choosing who you become when they hit. Kill the old identity. Master the mind, and the world follows.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "You aren't stuck. You're just loyal to a version of yourself that no longer exists.",
+            "visual_prompt": "Cinematic vertical 9:16, high contrast dark aesthetic, minimalist. A single overhead spotlight illuminating a marble bust reflecting in a slowly cracking dark mirror, moody and mysterious atmosphere.",
+            "text_overlay": "YOU AREN'T STUCK",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "Self-mastery isn't about controlling your emotions. It\u2019s about choosing who you become when they hit.",
+            "visual_prompt": "Cinematic vertical 9:16, high contrast dark aesthetic. Macro shot of thick black ink swirling in clear water, suddenly freezing and turning into solid, polished obsidian stone.",
+            "text_overlay": "CHOOSE WHO YOU BECOME",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Kill the old identity. Master the mind, and the world follows.",
+            "visual_prompt": "Cinematic vertical 9:16, high contrast dark aesthetic. A sharp, geometric silhouette of a person walking forward into a single blindingly bright vertical slit of white light in a colossal, dark concrete hall.",
+            "text_overlay": "MASTER YOUR MIND",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261004_1505_identity-self-mastery",
+        "topic": "Identity & Self-Mastery",
+        "theme": "sovereign",
+        "timestamp": "20261004_1505"
+    }
+}
