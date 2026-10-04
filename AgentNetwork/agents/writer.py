@@ -38,15 +38,17 @@ class ScriptEngineAgent:
         }}
         """
 
-        def api_call(model_name: str):
-            res = self.client.models.generate_content(
-                model=model_name,
-                contents=prompt,
-                config=types.GenerateContentConfig(response_mime_type="application/json")
-            )
-            return res.text
+        def make_api_call(model_name: str):
+            def execute():
+                res = self.client.models.generate_content(
+                    model=model_name,
+                    contents=prompt,
+                    config=types.GenerateContentConfig(response_mime_type="application/json")
+                )
+                return res.text
+            return execute
 
-        raw_json = call_with_fallback(api_call)
+        raw_json = call_with_fallback(make_api_call)
         data = json.loads(raw_json)
 
         return ScriptPayload(
