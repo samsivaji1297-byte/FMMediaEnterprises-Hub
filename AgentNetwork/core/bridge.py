@@ -1,4 +1,5 @@
 import sys
+import inspect
 from pathlib import Path
 from AgentNetwork.core.schemas import ScriptPayload
 from AgentNetwork.config.settings import BASE_DIR, VAULT_DIR
@@ -8,7 +9,7 @@ MEDIAFACTORY_DIR = BASE_DIR / "MediaFactory"
 if str(MEDIAFACTORY_DIR) not in sys.path:
     sys.path.append(str(MEDIAFACTORY_DIR))
 
-# Import video_builder module
+# Import video_builder module dynamically
 import src.video_builder as vb
 
 class MediaFactoryBridge:
@@ -23,17 +24,36 @@ class MediaFactoryBridge:
 
         print(f"[*] Dispatching to MediaFactory Engine: {script.title}")
         
-        # Dynamically locate the render function from video_builder
-        render_func = getattr(vb, "build_reel_video", None) or \
-                      getattr(vb, "generate_reel", None) or \
-                      getattr(vb, "create_video", None) or \
-                      getattr(vb, "main", None)
+        # Discover top-level functions defined in video_builder
+        callable_funcs = {
+            name: func for name, func in inspect.getmembers(vb, inspect.isfunction)
+            if func.__module__ == vb.__name__
+        }
 
-        if render_func is None:
-            raise AttributeError("Could not find video creation function in MediaFactory/src/video_builder.py")
+        # Look for explicit name matches first, fallback to the first available function
+        target_func = (
+            callable_funcs.get("build_reel_video") or
+            callable_funcs.get("generate_reel") or
+            callable_funcs.get("create_video") or
+            callable_funcs.get("build_video") or
+            callable_funcs.get("render_video") or
+            callable_funcs.get("main")
+        )
 
-        # Execute render function
-        rendered_path = render_func(
+        if not target_func and callable_funcs:
+            # Fall back to the primary function defined in video_builder.py
+            target_func = list(callable_funcs.values())[0]
+
+        if not target_func:
+            raise AttributeError(
+                f"No callable rendering function found in MediaFactory/src/video_builder.py. "
+                f"Available attributes: {dir(vb)}"
+            )
+
+        print(f"[*] Executing rendering via function: '{target_func.__name__}'")
+
+        # Execute render call with script payload kwargs
+        rendered_path = target_func(
             hook_text=script.hook_text,
             voiceover_text=script.voiceover_script,
             body_bullets=script.body_points,
@@ -43,5 +63,6 @@ class MediaFactoryBridge:
             output_path=str(output_path)
         )
 
-        print(f"[✓] Render Complete: {rendered_path}")
-        return Path(rendered_path if rendered_path else output_path)
+        final_file = Path(rendered_path if rendered_path else output_path)
+        print(f"[✓] Render Complete: {final_file}")
+        return final_file
