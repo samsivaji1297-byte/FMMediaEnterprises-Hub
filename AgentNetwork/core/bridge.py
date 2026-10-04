@@ -8,8 +8,8 @@ MEDIAFACTORY_DIR = BASE_DIR / "MediaFactory"
 if str(MEDIAFACTORY_DIR) not in sys.path:
     sys.path.append(str(MEDIAFACTORY_DIR))
 
-# Import MediaFactory execution functions
-from src.video_builder import build_reel_video
+# Import video_builder module
+import src.video_builder as vb
 
 class MediaFactoryBridge:
     def __init__(self):
@@ -23,8 +23,17 @@ class MediaFactoryBridge:
 
         print(f"[*] Dispatching to MediaFactory Engine: {script.title}")
         
-        # Executes video compositing using the refactored MoviePy v2 module
-        rendered_path = build_reel_video(
+        # Dynamically locate the render function from video_builder
+        render_func = getattr(vb, "build_reel_video", None) or \
+                      getattr(vb, "generate_reel", None) or \
+                      getattr(vb, "create_video", None) or \
+                      getattr(vb, "main", None)
+
+        if render_func is None:
+            raise AttributeError("Could not find video creation function in MediaFactory/src/video_builder.py")
+
+        # Execute render function
+        rendered_path = render_func(
             hook_text=script.hook_text,
             voiceover_text=script.voiceover_script,
             body_bullets=script.body_points,
@@ -35,4 +44,4 @@ class MediaFactoryBridge:
         )
 
         print(f"[✓] Render Complete: {rendered_path}")
-        return Path(rendered_path)
+        return Path(rendered_path if rendered_path else output_path)
