@@ -21,7 +21,7 @@ class ScriptEngineAgent:
 
         RETENTION RULES:
         1. HOOK (0-3s): Punchy, provocative, or pattern-breaking. Max 10 words.
-        2. VOICEOVER: Spoken script. No fluff or fluff introductions. Start immediately with the core problem. Max 45 words total.
+        2. VOICEOVER: Spoken script. No intro greetings. Start immediately with the core problem. Max 45 words total.
         3. VISUAL BULLETS: 2-3 short text overlays to display during the body.
         4. CALL TO ACTION: Single sentence driving saves or shares.
         5. THEME: Select one of ['sovereign', 'ambient', 'kinetic'].
