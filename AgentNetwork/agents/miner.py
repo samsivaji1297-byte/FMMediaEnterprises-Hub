@@ -2,7 +2,7 @@ import json
 import random
 import hashlib
 from typing import List
-from duckduckgo_search import DDGS  # Free keyless web search
+from duckduckgo_search import DDGS
 from config import get_client, call_with_fallback
 from google.genai import types
 from AgentNetwork.core.schemas import SignalPayload, ExecutionConfig
@@ -15,11 +15,9 @@ class SignalMinerAgent:
             self.seeds = json.load(f)["evergreen_pillars"]
 
     def _get_live_duckduckgo_signals(self, topic: str) -> str:
-        """Fetches live search intent snippets via DuckDuckGo."""
         results = []
         try:
             with DDGS() as ddgs:
-                # Pull top 3 search intent results
                 for r in ddgs.text(topic, max_results=3):
                     results.append(f"Title: {r.get('title')}\nSnippet: {r.get('body')}")
         except Exception as e:
@@ -28,12 +26,10 @@ class SignalMinerAgent:
         return "\n---\n".join(results)
 
     def extract_signals(self, config: ExecutionConfig) -> List[SignalPayload]:
-        """Generates validated SignalPayload objects (Single or Batch)."""
         signals = []
         count = config.batch_size if config.mode == "batch" else 1
 
         for _ in range(count):
-            # Select demand source: Evergreen vs Real-Time
             use_evergreen = config.force_evergreen or (random.random() < 0.5)
             category = random.choice(list(self.seeds.keys()))
             seed_query = random.choice(self.seeds[category])
@@ -46,7 +42,6 @@ class SignalMinerAgent:
                 live_data = self._get_live_duckduckgo_signals(seed_query)
                 context = f"Live Market Query: {seed_query}\nRecent Search Signals:\n{live_data}"
 
-            # Gemini Prompting via call_with_fallback
             prompt = f"""
             You are a Demand Mining Agent specializing in high-converting, short-form content.
             Analyze this input and construct a high-retention video signal.
@@ -71,18 +66,19 @@ class SignalMinerAgent:
             }}
             """
 
-            def api_call(model_name: str):
-                res = self.client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                    config=types.GenerateContentConfig(response_mime_type="application/json")
-                )
-                return res.text
+            def make_api_call(model_name: str):
+                def execute():
+                    res = self.client.models.generate_content(
+                        model=model_name,
+                        contents=prompt,
+                        config=types.GenerateContentConfig(response_mime_type="application/json")
+                    )
+                    return res.text
+                return execute
 
-            raw_json = call_with_fallback(api_call)
+            raw_json = call_with_fallback(make_api_call)
             data = json.loads(raw_json)
 
-            # Generate unique hash ID
             sig_hash = hashlib.md5(f"{seed_query}_{data['target_hook']}".encode()).hexdigest()[:10]
 
             payload = SignalPayload(
