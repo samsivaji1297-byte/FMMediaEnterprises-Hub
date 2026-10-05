@@ -16,31 +16,74 @@ on:
         required: false
         default: '1'
   schedule:
-    - cron: '0 21 * * *'  # Runs automatically daily
+    - cron: '0 21 * * *'  # Runs automatically daily at 21:00 UTC
+
+permissions:
+  contents: write
 
 jobs:
   run-agents:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+          cache: 'pip'
 
-      - name: Install Dependencies
+      - name: Install System Dependencies
         run: |
-          pip install -r requirements.txt
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg imagemagick fonts-liberation
+          sudo sed -i 's/policy domain="path" rights="none" pattern="@\*"/policy domain="path" rights="read|write" pattern="@\*"/' /etc/ImageMagick-6/policy.xml
 
-      - name: Execute Agent Network
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f MediaFactory/requirements.txt ]; then pip install -r MediaFactory/requirements.txt; fi
+
+      - name: Execute Agent Network Generation
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
-          IG_USER_ID: ${{ secrets.IG_USER_ID }}
-          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
         run: |
           python -m AgentNetwork.main --mode ${{ github.event.inputs.mode || 'single' }} --count ${{ github.event.inputs.count || '1' }}
+
+      - name: Commit & Push Rendered Assets to Vault
+        run: |
+          git config --global user.name "AgentNetwork Bot"
+          git config --global user.email "bot@agentnetwork.local"
+          git add MediaFactory/vault/
+          git commit -m "vault: archive rendered assets [skip ci]" || echo "No changes to commit"
+          git pull --rebase origin main
+          git push
+
+      - name: Wait for GitHub CDN Propagation
+        run: |
+          echo "[*] Waiting 30 seconds for raw.githubusercontent.com CDN edge caching..."
+          sleep 30
+
+      - name: Auto-Publish Reel to Instagram via Meta Graph API
+        env:
+          IG_USER_ID: ${{ secrets.IG_USER_ID || secrets.INSTAGRAM_ACCOUNT_ID }}
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN || secrets.INSTAGRAM_ACCESS_TOKEN || secrets.META_ACCESS_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        run: |
+          python -m AgentNetwork.agents.publisher
+
+      - name: Commit Updated Vault Queue State
+        run: |
+          git add MediaFactory/vault/queue.json
+          git commit -m "vault: update published queue state [skip ci]" || echo "No changes to commit"
+          git pull --rebase origin main
+          git push
 
       - name: Upload Generated Media Artifacts
         uses: actions/upload-artifact@v4
@@ -48,6 +91,6 @@ jobs:
         with:
           name: generated-reels-${{ github.run_id }}
           path: |
-            MediaFactory/vault/renders/*.mp4
-            MediaFactory/vault/audio/*.mp3
+            MediaFactory/vault/*/*.mp4
+            MediaFactory/vault/*/*.txt
           retention-days: 7
