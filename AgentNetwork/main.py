@@ -6,7 +6,6 @@ from dataclasses import dataclass, field
 import AgentNetwork.agents.miner as miner_module
 import AgentNetwork.agents.writer as writer_module
 from AgentNetwork.core.bridge import MediaFactoryBridge
-from AgentNetwork.agents.publisher import InstagramPublisher
 
 
 @dataclass
@@ -55,10 +54,10 @@ writer_class = _get_module_class(writer_module, "AgentNetwork/agents/writer.py")
 
 
 def run_pipeline(mode: str = "single", count: int = 1):
-    print("=== KICKING OFF AGENT NETWORK [SINGLE MODE] ===")
+    print("=== KICKING OFF AGENT NETWORK ===")
 
     # Step 1: Mine Signals
-    print("\n[1/4] Mining Demand & Friction Signals...")
+    print("\n[1/3] Mining Demand & Friction Signals...")
     try:
         miner = miner_class()
         mine_func = (
@@ -78,7 +77,6 @@ def run_pipeline(mode: str = "single", count: int = 1):
 
     writer = writer_class()
     bridge = MediaFactoryBridge()
-    publisher = InstagramPublisher()
 
     for idx, raw_signal in enumerate(signals, 1):
         # Wrap signal in proxy to protect writer against missing fields
@@ -88,7 +86,7 @@ def run_pipeline(mode: str = "single", count: int = 1):
         print(f"Demand Source: {signal.source} | Friction: {signal.friction_text}")
 
         # Step 2: Generate Script Payload
-        print("[2/4] Generating High-Retention Script...")
+        print("[2/3] Generating High-Retention Script...")
         generate_func = (
             getattr(writer, "generate_script", None)
             or getattr(writer, "write", None)
@@ -99,20 +97,10 @@ def run_pipeline(mode: str = "single", count: int = 1):
         print(f"Script Title: {getattr(script, 'title', 'Untitled')}")
         print(f"Hook: '{getattr(script, 'hook_text', getattr(script, 'hook', ''))}'")
 
-        # Step 3: Composite Video Asset
-        print("[3/4] Compositing Asset via MediaFactory...")
+        # Step 3: Composite Video Asset to Vault
+        print("[3/3] Compositing Asset via MediaFactory to Vault...")
         video_path = bridge.render_script(script)
-        print(f"[✓] Render Complete: {video_path}")
-
-        # Step 4: Publish to Instagram Reels via Meta Graph API
-        print("[4/4] Dispatching to Instagram Reels...")
-        caption = (
-            f"{getattr(script, 'title', '')}\n\n"
-            f"{getattr(script, 'hook_text', getattr(script, 'hook', ''))}\n\n"
-            f"{getattr(script, 'call_to_action', getattr(script, 'cta', ''))}\n\n"
-            f"#systems #automation #mindset #productivity"
-        )
-        publisher.publish_reel(Path(video_path), caption)
+        print(f"[✓] Render Complete and Saved to Vault: {video_path}")
 
 
 if __name__ == "__main__":
