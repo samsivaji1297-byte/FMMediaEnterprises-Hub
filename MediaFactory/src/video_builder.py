@@ -48,6 +48,18 @@ def _crop_and_center_video(clip: VideoFileClip, target_w: int, target_h: int) ->
     return cropped.resized(new_size=(target_w, target_h))
 
 
+def _calculate_safe_font_size(text: str, base_size: int, max_width_px: int) -> int:
+    """Dynamically scales down font size if word/phrase length threatens horizontal bounds."""
+    longest_word = max(text.split(), key=len) if text.split() else text
+    # Rough estimate: average character width in bold fonts is ~0.55-0.65 of font_size
+    estimated_width = len(longest_word) * (base_size * 0.6)
+    
+    if estimated_width > max_width_px:
+        scale_factor = max_width_px / estimated_width
+        return max(int(base_size * scale_factor), 32)  # Floor at 32px
+    return base_size
+
+
 def _synthesize_scenes_from_script(script_data: dict) -> list:
     """Constructs scene structure if root dictionary fields are passed."""
     scenes = []
@@ -105,8 +117,9 @@ def build_video(
 
     scene_clips = []
     
-    # Safe bounds for vertical social platforms (1080x1920 canvas)
-    MAX_TEXT_WIDTH = int(CANVAS_WIDTH * 0.80)  # 864px max width to prevent horizontal cutoff
+    # Strictly enforced safe boundaries for 1080x1920 canvas
+    MAX_TEXT_WIDTH = 780   # Leaves ~150px padding on left/right for platform UI
+    MAX_TEXT_HEIGHT = 500  # Vertical center box height
 
     for i, scene in enumerate(scenes):
         search_query = scene.get("search_query") or scene.get("text_overlay", "dark aesthetic")
@@ -114,7 +127,7 @@ def build_video(
         
         bg_video_path = fetch_background_video(search_query, i, duration_per_scene)
 
-        # 1. Centered Background Layer Execution
+        # 1. Background Layer Execution
         if active_theme == "sovereign" or not bg_video_path or not os.path.exists(bg_video_path):
             bg_clip = ColorClip(
                 size=(CANVAS_WIDTH, CANVAS_HEIGHT),
@@ -129,7 +142,6 @@ def build_video(
                 else:
                     raw_bg = raw_bg.subclipped(0, duration_per_scene)
 
-                # Apply central 9:16 crop before resizing
                 bg_clip = _crop_and_center_video(raw_bg, CANVAS_WIDTH, CANVAS_HEIGHT)
             except Exception as e:
                 print(f"[!] Background crop/render fallback for scene {i+1}: {e}")
@@ -144,26 +156,29 @@ def build_video(
             size=(CANVAS_WIDTH, CANVAS_HEIGHT),
             color=(0, 0, 0),
             duration=duration_per_scene,
-        ).with_opacity(theme_config.get("mask_opacity", 0.55))
+        ).with_opacity(theme_config.get("mask_opacity", 0.60))
 
-        # 2. Typography Layer Assembly with Safe Boundaries
+        # 2. Typography Assembly with Strict Safe Bounds
         raw_text = scene.get("text_overlay", "").upper().strip()
         words = raw_text.split() if raw_text else ["EXECUTE"]
         text_subclips = []
 
+        base_font_size = theme_config.get("font_size", 54)
+
         if active_theme == "kinetic":
             word_duration = duration_per_scene / max(len(words), 1)
             for w_idx, word in enumerate(words):
+                safe_size = _calculate_safe_font_size(word, min(base_font_size, 72), MAX_TEXT_WIDTH)
                 try:
                     txt = TextClip(
                         text=word,
-                        font_size=min(theme_config["font_size"], 80),  # Constrain kinetic font size
+                        font_size=safe_size,
                         color=theme_config["text"],
                         font=font_path,
                         stroke_color=theme_config.get("stroke", "black"),
                         stroke_width=4,
                         method="caption",
-                        size=(MAX_TEXT_WIDTH, None),
+                        size=(MAX_TEXT_WIDTH, MAX_TEXT_HEIGHT),
                     ).with_duration(word_duration).with_position(("center", "center")).with_start(
                         w_idx * word_duration
                     )
@@ -171,16 +186,21 @@ def build_video(
                 except Exception as e:
                     print(f"[!] TextClip rendering error on word '{word}': {e}")
         else:
-            # Group into 2-3 words per line max to guarantee fit
-            caption_text = "\n".join([" ".join(words[j : j + 3]) for j in range(0, len(words), 3)])
+            # Group into 2 words per line for clean vertical stack
+            lines = [" ".join(words[j : j + 2]) for j in range(0, len(words), 2)]
+            caption_text = "\n".join(lines)
+            safe_size = _calculate_safe_font_size(caption_text, min(base_font_size, 52), MAX_TEXT_WIDTH)
+
             try:
                 txt = TextClip(
                     text=caption_text,
-                    font_size=min(theme_config["font_size"], 60),  # Scaled font size for safe zones
+                    font_size=safe_size,
                     color=theme_config["text"],
                     font=font_path,
+                    stroke_color="black",
+                    stroke_width=3,
                     method="caption",
-                    size=(MAX_TEXT_WIDTH, None),
+                    size=(MAX_TEXT_WIDTH, MAX_TEXT_HEIGHT),
                 ).with_duration(duration_per_scene).with_position(("center", "center"))
                 text_subclips.append(txt)
             except Exception as e:
