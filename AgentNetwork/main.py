@@ -1,11 +1,19 @@
 import argparse
 import inspect
 from pathlib import Path
+from dataclasses import dataclass
 
 import AgentNetwork.agents.miner as miner_module
 import AgentNetwork.agents.writer as writer_module
 from AgentNetwork.core.bridge import MediaFactoryBridge
 from AgentNetwork.agents.publisher import InstagramPublisher
+
+
+@dataclass
+class FallbackSignal:
+    id: str = "sig_fallback_01"
+    source: str = "evergreen_utility"
+    friction_text: str = "The exhausting cognitive overload of managing manual repetitive tasks every single day."
 
 
 def _get_module_class(module, module_name: str):
@@ -16,7 +24,7 @@ def _get_module_class(module, module_name: str):
     raise ImportError(f"No class definition found in {module_name}")
 
 
-# Dynamically bind miner and writer classes regardless of internal naming
+# Dynamically bind miner and writer classes
 miner_class = _get_module_class(miner_module, "AgentNetwork/agents/miner.py")
 writer_class = _get_module_class(writer_module, "AgentNetwork/agents/writer.py")
 
@@ -26,13 +34,22 @@ def run_pipeline(mode: str = "single", count: int = 1):
 
     # Step 1: Mine Signals
     print("\n[1/4] Mining Demand & Friction Signals...")
-    miner = miner_class()
-    mine_func = (
-        getattr(miner, "mine_signals", None)
-        or getattr(miner, "run", None)
-        or getattr(miner, "mine", None)
-    )
-    signals = mine_func(count=count) if mine_func else []
+    try:
+        miner = miner_class()
+        mine_func = (
+            getattr(miner, "mine_signals", None)
+            or getattr(miner, "run", None)
+            or getattr(miner, "mine", None)
+        )
+        signals = mine_func(count=count) if mine_func else []
+    except Exception as e:
+        print(f"[!] Miner execution warning: {e}")
+        signals = []
+
+    # FALLBACK GUARANTEE: Never exit empty
+    if not signals:
+        print("[*] Miner returned 0 signals. Injecting fallback friction signal to force execution pipeline...")
+        signals = [FallbackSignal()]
 
     writer = writer_class()
     bridge = MediaFactoryBridge()
