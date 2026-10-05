@@ -26,11 +26,32 @@ from moviepy import (
 )
 
 
+def _crop_and_center_video(clip: VideoFileClip, target_w: int, target_h: int) -> VideoFileClip:
+    """Crops a landscape or arbitrary clip to center 9:16 vertical before resizing."""
+    orig_w, orig_h = clip.size
+    target_aspect = target_w / target_h
+    orig_aspect = orig_w / orig_h
+
+    if orig_aspect > target_aspect:
+        # Video is wider than 9:16 (e.g. 16:9 landscape) -> Crop sides
+        new_w = int(orig_h * target_aspect)
+        x_center = orig_w / 2
+        x1 = int(x_center - (new_w / 2))
+        cropped = clip.cropped(x1=x1, y1=0, width=new_w, height=orig_h)
+    else:
+        # Video is taller or already vertical -> Crop top/bottom
+        new_h = int(orig_w / target_aspect)
+        y_center = orig_h / 2
+        y1 = int(y_center - (new_h / 2))
+        cropped = clip.cropped(x1=0, y1=y1, width=orig_w, height=new_h)
+
+    return cropped.resized(new_size=(target_w, target_h))
+
+
 def _synthesize_scenes_from_script(script_data: dict) -> list:
-    """Fallback parser to construct scenes list if script_data provides root fields."""
+    """Constructs scene structure if root dictionary fields are passed."""
     scenes = []
 
-    # 1. Hook Scene
     hook_text = script_data.get("hook_text") or script_data.get("hook")
     if hook_text:
         scenes.append({
@@ -38,7 +59,6 @@ def _synthesize_scenes_from_script(script_data: dict) -> list:
             "search_query": script_data.get("visual_search_queries", ["abstract dark"])[0] if script_data.get("visual_search_queries") else "abstract dark"
         })
 
-    # 2. Body Points Scenes
     body_points = script_data.get("body_points") or script_data.get("body_bullets") or []
     visual_queries = script_data.get("visual_search_queries") or script_data.get("visual_keywords") or []
     
@@ -49,7 +69,6 @@ def _synthesize_scenes_from_script(script_data: dict) -> list:
             "search_query": str(q)
         })
 
-    # 3. Call To Action Scene
     cta_text = script_data.get("call_to_action") or script_data.get("cta")
     if cta_text:
         scenes.append({
@@ -57,11 +76,8 @@ def _synthesize_scenes_from_script(script_data: dict) -> list:
             "search_query": "action execution"
         })
 
-    # Fallback default if completely empty
     if not scenes:
-        scenes = [
-            {"text_overlay": script_data.get("title", "EXECUTE"), "search_query": "dark aesthetic"}
-        ]
+        scenes = [{"text_overlay": script_data.get("title", "EXECUTE"), "search_query": "dark aesthetic"}]
 
     return scenes
 
@@ -74,14 +90,12 @@ def build_video(
 ):
     font_path = resolve_font_path()
     
-    # Allow script_data to override default theme if specified
     active_theme = script_data.get("theme", theme)
     theme_config = COLOR_TOKENS.get(active_theme, COLOR_TOKENS.get("sovereign", COLOR_TOKENS[list(COLOR_TOKENS.keys())[0]]))
 
     audio = AudioFileClip(audio_path)
     total_duration = audio.duration
 
-    # Parse explicit scenes or synthesize from script_data attributes
     scenes = script_data.get("scenes", [])
     if not scenes:
         scenes = _synthesize_scenes_from_script(script_data)
@@ -90,6 +104,9 @@ def build_video(
     duration_per_scene = total_duration / max(scene_count, 1)
 
     scene_clips = []
+    
+    # Safe bounds for vertical social platforms (1080x1920 canvas)
+    MAX_TEXT_WIDTH = int(CANVAS_WIDTH * 0.80)  # 864px max width to prevent horizontal cutoff
 
     for i, scene in enumerate(scenes):
         search_query = scene.get("search_query") or scene.get("text_overlay", "dark aesthetic")
@@ -97,7 +114,7 @@ def build_video(
         
         bg_video_path = fetch_background_video(search_query, i, duration_per_scene)
 
-        # 1. Background Layer Execution
+        # 1. Centered Background Layer Execution
         if active_theme == "sovereign" or not bg_video_path or not os.path.exists(bg_video_path):
             bg_clip = ColorClip(
                 size=(CANVAS_WIDTH, CANVAS_HEIGHT),
@@ -112,23 +129,24 @@ def build_video(
                 else:
                     raw_bg = raw_bg.subclipped(0, duration_per_scene)
 
-                bg_clip = raw_bg.resized(new_size=(CANVAS_WIDTH, CANVAS_HEIGHT))
+                # Apply central 9:16 crop before resizing
+                bg_clip = _crop_and_center_video(raw_bg, CANVAS_WIDTH, CANVAS_HEIGHT)
             except Exception as e:
-                print(f"[!] Video background render fallback for scene {i+1}: {e}")
+                print(f"[!] Background crop/render fallback for scene {i+1}: {e}")
                 bg_clip = ColorClip(
                     size=(CANVAS_WIDTH, CANVAS_HEIGHT),
                     color=theme_config["bg"],
                     duration=duration_per_scene,
                 )
 
-        # Contrast overlay mask
+        # Contrast mask overlay
         dark_overlay = ColorClip(
             size=(CANVAS_WIDTH, CANVAS_HEIGHT),
             color=(0, 0, 0),
             duration=duration_per_scene,
         ).with_opacity(theme_config.get("mask_opacity", 0.55))
 
-        # 2. Kinetic / Static Caption Layer Assembly
+        # 2. Typography Layer Assembly with Safe Boundaries
         raw_text = scene.get("text_overlay", "").upper().strip()
         words = raw_text.split() if raw_text else ["EXECUTE"]
         text_subclips = []
@@ -139,30 +157,31 @@ def build_video(
                 try:
                     txt = TextClip(
                         text=word,
-                        font_size=theme_config["font_size"],
+                        font_size=min(theme_config["font_size"], 80),  # Constrain kinetic font size
                         color=theme_config["text"],
                         font=font_path,
                         stroke_color=theme_config.get("stroke", "black"),
-                        stroke_width=5,
+                        stroke_width=4,
                         method="caption",
-                        size=(900, None),
-                    ).with_duration(word_duration).with_position("center").with_start(
+                        size=(MAX_TEXT_WIDTH, None),
+                    ).with_duration(word_duration).with_position(("center", "center")).with_start(
                         w_idx * word_duration
                     )
                     text_subclips.append(txt)
                 except Exception as e:
                     print(f"[!] TextClip rendering error on word '{word}': {e}")
         else:
+            # Group into 2-3 words per line max to guarantee fit
             caption_text = "\n".join([" ".join(words[j : j + 3]) for j in range(0, len(words), 3)])
             try:
                 txt = TextClip(
                     text=caption_text,
-                    font_size=theme_config["font_size"],
+                    font_size=min(theme_config["font_size"], 60),  # Scaled font size for safe zones
                     color=theme_config["text"],
                     font=font_path,
                     method="caption",
-                    size=(920, None),
-                ).with_duration(duration_per_scene).with_position("center")
+                    size=(MAX_TEXT_WIDTH, None),
+                ).with_duration(duration_per_scene).with_position(("center", "center"))
                 text_subclips.append(txt)
             except Exception as e:
                 print(f"[!] TextClip rendering error on scene {i+1}: {e}")
@@ -172,9 +191,7 @@ def build_video(
         )
         scene_clips.append(scene_composite)
 
-    # Empty sequence safety guard
     if not scene_clips:
-        print("[!] Warning: scene_clips is empty. Creating default fallback scene.")
         fallback_bg = ColorClip(
             size=(CANVAS_WIDTH, CANVAS_HEIGHT),
             color=theme_config["bg"],
@@ -185,7 +202,6 @@ def build_video(
     final_video = concatenate_videoclips(scene_clips, method="compose")
     final_video = final_video.with_audio(audio)
 
-    # Resolve output directory target
     target_output = script_data.get("output_path", output_path)
     os.makedirs(os.path.dirname(os.path.abspath(target_output)), exist_ok=True)
 
@@ -195,7 +211,7 @@ def build_video(
         codec="libx264",
         audio_codec="aac",
         threads=4,
-        logger=None,  # Suppress verbose rendering logs
+        logger=None,
     )
     print(f"[+] [{active_theme.upper()}] Reel generated -> {target_output}")
     return target_output
