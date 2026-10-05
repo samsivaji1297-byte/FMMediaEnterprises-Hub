@@ -47,7 +47,9 @@ class MediaFactoryBridge:
         if not target_func:
             raise AttributeError("No callable rendering function found in MediaFactory/src/video_builder.py")
 
-        # Step 2: Construct Script Data Dictionary
+        # Step 2: Construct Script Data Dictionary with redundant key mappings for video_builder compatibility
+        keywords = script.visual_search_queries if script.visual_search_queries else ["abstract dark background", "focus execution"]
+
         script_dict = {
             "title": script.title,
             "hook_text": script.hook_text,
@@ -55,7 +57,9 @@ class MediaFactoryBridge:
             "body_points": script.body_points,
             "call_to_action": script.call_to_action,
             "theme": script.theme,
-            "visual_search_queries": script.visual_search_queries,
+            "visual_search_queries": keywords,
+            "visual_keywords": keywords,
+            "keywords": keywords,
             "output_path": str(output_video_path)
         }
 
