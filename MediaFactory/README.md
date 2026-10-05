@@ -1,3 +1,5 @@
+https://share.gemini.google/VnbQFqcOJkU0
+
 Yeah, exactly. Right now, everything goes through that single, core rendering engine inside MediaFactory:
  * video_builder.py: The main compositing engine (MoviePy + ImageMagick) that handles font safe-zones, dynamic text wrapping, dark overlay masks, audio syncing, and final video assembly.
  * video_fetcher.py: The B-roll fetcher that queries Pexels for vertical HD stock clips and handles local chunk streaming into cache.
