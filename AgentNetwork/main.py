@@ -1,11 +1,17 @@
 import argparse
+import inspect
 from pathlib import Path
+import AgentNetwork.agents.miner as miner_module
 
-# Safe import fallbacks for agent class names
-try:
-    from AgentNetwork.agents.miner import FrictionMiner
-except ImportError:
-    from AgentNetwork.agents.miner import SignalMiner as FrictionMiner
+# Dynamically instantiate the miner class defined in miner.py
+miner_class = None
+for name, obj in inspect.getmembers(miner_module, inspect.isclass):
+    if obj.__module__ == miner_module.__name__:
+        miner_class = obj
+        break
+
+if not miner_class:
+    raise ImportError("No class definition found in AgentNetwork/agents/miner.py")
 
 try:
     from AgentNetwork.agents.writer import ScriptWriter
@@ -21,10 +27,13 @@ def run_pipeline(mode: str = "single", count: int = 1):
 
     # Step 1: Mine Signals
     print("\n[1/4] Mining Demand & Friction Signals...")
-    miner = FrictionMiner()
+    miner = miner_class()
     
-    # Handle method naming differences across miner implementations
-    mine_func = getattr(miner, "mine_signals", None) or getattr(miner, "run", None) or getattr(miner, "mine", None)
+    mine_func = (
+        getattr(miner, "mine_signals", None)
+        or getattr(miner, "run", None)
+        or getattr(miner, "mine", None)
+    )
     signals = mine_func(count=count) if mine_func else []
 
     writer = ScriptWriter()
