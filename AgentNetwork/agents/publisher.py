@@ -1,86 +1,100 @@
+import os
 import time
 import requests
-import json
 from pathlib import Path
-from AgentNetwork.config.settings import IG_USER_ID, IG_ACCESS_TOKEN, QUEUE_FILE
-from AgentNetwork.core.schemas import ScriptPayload
 
-class PublisherAgent:
+class InstagramPublisher:
     def __init__(self):
-        self.user_id = IG_USER_ID
-        self.access_token = IG_ACCESS_TOKEN
-        self.api_version = "v20.0"
-        self.base_url = f"https://graph.facebook.com/{self.api_version}"
+        self.ig_user_id = os.getenv("IG_USER_ID")
+        self.access_token = os.getenv("IG_ACCESS_TOKEN")
+        self.graph_url = "https://graph.facebook.com/v19.0"
 
-    def publish_reel(self, video_url: str, script: ScriptPayload) -> str:
-        """Publishes container to Instagram Reels and tracks permalink."""
-        if not self.user_id or not self.access_token:
-            raise ValueError("Missing Instagram API credentials in settings/env.")
+    def _get_public_video_url(self, local_video_path: Path) -> str:
+        """Uploads local MP4 to a temporary HTTPS transfer host so Meta servers can fetch it."""
+        print(f"[*] Hosting render file temporarily for Meta Graph API handoff...")
+        try:
+            with open(local_video_path, "rb") as f:
+                response = requests.post("https://0x0.st", files={"file": f}, timeout=120)
+            if response.status_code == 200:
+                public_url = response.text.strip()
+                print(f"[✓] Temporary Public Link: {public_url}")
+                return public_url
+            else:
+                raise RuntimeError(f"Transfer upload failed with status {response.status_code}: {response.text}")
+        except Exception as e:
+            print(f"[!] Primary host failed ({e}). Trying fallback transfer.sh...")
+            filename = local_video_path.name
+            with open(local_video_path, "rb") as f:
+                res = requests.put(f"https://transfer.sh/{filename}", data=f, timeout=120)
+            if res.status_code in [200, 201]:
+                public_url = res.text.strip()
+                print(f"[✓] Temporary Public Link (Fallback): {public_url}")
+                return public_url
+            raise RuntimeError(f"Both temporary file hosting attempts failed: {res.text}")
 
-        caption = f"{script.hook_text}\n\n{' '.join(script.body_points)}\n\n{script.call_to_action}"
-        
-        # Step 1: Create Container
-        container_url = f"{self.base_url}/{self.user_id}/media"
+    def publish_reel(self, video_path: Path, caption: str) -> str:
+        """Publishes an MP4 video as an Instagram Reel using the 2-step Meta Graph API container flow."""
+        if not self.ig_user_id or not self.access_token:
+            print("[!] Skipping IG publish: IG_USER_ID or IG_ACCESS_TOKEN missing from environment variables.")
+            return ""
+
+        # Step 1: Generate direct HTTPS URL
+        video_url = self._get_public_video_url(Path(video_path))
+
+        # Step 2: Create Media Container
+        print(f"[*] Initiating IG Reel Media Container creation...")
+        container_endpoint = f"{self.graph_url}/{self.ig_user_id}/media"
         payload = {
             "media_type": "REELS",
             "video_url": video_url,
             "caption": caption,
-            "access_token": self.access_token
+            "access_token": self.access_token,
         }
-        res = requests.post(container_url, data=payload).json()
-        container_id = res.get("id")
 
-        if not container_id:
-            raise RuntimeError(f"Failed to create IG media container: {res}")
+        res = requests.post(container_endpoint, data=payload, timeout=30)
+        res_data = res.json()
 
-        # Step 2: Poll Container Status
-        status_url = f"{self.base_url}/{container_id}"
-        print(f"[*] Processing Reel Container ID: {container_id}...")
-        
-        for _ in range(12):  # Poll up to 60 seconds
-            time.sleep(5)
-            status_res = requests.get(status_url, params={"fields": "status_code", "access_token": self.access_token}).json()
-            status = status_res.get("status_code")
-            if status == "FINISHED":
+        if "id" not in res_data:
+            raise RuntimeError(f"[!] Container creation failed: {res_data}")
+
+        container_id = res_data["id"]
+        print(f"[✓] Media Container Created ID: {container_id}")
+
+        # Step 3: Poll Status until FINISHED
+        status_endpoint = f"{self.graph_url}/{container_id}"
+        print("[*] Waiting for Meta to process and encode video container...")
+
+        for attempt in range(12):  # Poll up to 2 minutes (12 x 10s)
+            time.sleep(10)
+            status_res = requests.get(
+                status_endpoint,
+                params={"fields": "status_code,status", "access_token": self.access_token},
+                timeout=15,
+            ).json()
+
+            status_code = status_res.get("status_code")
+            print(f"    -> Status Check [{attempt+1}/12]: {status_code}")
+
+            if status_code == "FINISHED":
+                print("[✓] Video processing complete!")
                 break
-            elif status == "ERROR":
-                raise RuntimeError(f"IG Media container processing error: {status_res}")
+            elif status_code == "ERROR":
+                raise RuntimeError(f"[!] Meta container processing failed: {status_res}")
+        else:
+            raise TimeoutError("[!] Meta video container processing timed out.")
 
-        # Step 3: Publish Media
-        publish_url = f"{self.base_url}/{self.user_id}/media_publish"
-        pub_res = requests.post(publish_url, data={"creation_id": container_id, "access_token": self.access_token}).json()
-        media_id = pub_res.get("id")
-
-        # Step 4: Fetch Direct Permalink
-        permalink_res = requests.get(
-            f"{self.base_url}/{media_id}",
-            params={"fields": "permalink", "access_token": self.access_token}
+        # Step 4: Publish Container
+        print("[*] Dispatching publish trigger to Instagram Feed...")
+        publish_endpoint = f"{self.graph_url}/{self.ig_user_id}/media_publish"
+        publish_res = requests.post(
+            publish_endpoint,
+            data={"creation_id": container_id, "access_token": self.access_token},
+            timeout=30,
         ).json()
-        
-        permalink = permalink_res.get("permalink", "N/A")
-        print(f"[✓] Live on Instagram: {permalink}")
 
-        # Step 5: Log Record
-        self._record_publication(media_id, permalink, script)
-        return permalink
-
-    def _record_publication(self, media_id: str, permalink: str, script: ScriptPayload):
-        queue = []
-        if QUEUE_FILE.exists():
-            with open(QUEUE_FILE, "r") as f:
-                try:
-                    queue = json.load(f)
-                except Exception:
-                    queue = []
-
-        queue.append({
-            "media_id": media_id,
-            "permalink": permalink,
-            "title": script.title,
-            "theme": script.theme,
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
-            "metrics": {"plays": 0, "reach": 0, "shares": 0, "saves": 0}
-        })
-
-        with open(QUEUE_FILE, "w") as f:
-            json.dump(queue, f, indent=2)
+        if "id" in publish_res:
+            media_id = publish_res["id"]
+            print(f"[🔥] SUCCESS! Reel Published Live to Instagram. Media ID: {media_id}")
+            return media_id
+        else:
+            raise RuntimeError(f"[!] IG Media Publish failed: {publish_res}")
