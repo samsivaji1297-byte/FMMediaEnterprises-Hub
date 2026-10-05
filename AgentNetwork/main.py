@@ -1,25 +1,24 @@
 import argparse
 import inspect
 from pathlib import Path
+
 import AgentNetwork.agents.miner as miner_module
-
-# Dynamically instantiate the miner class defined in miner.py
-miner_class = None
-for name, obj in inspect.getmembers(miner_module, inspect.isclass):
-    if obj.__module__ == miner_module.__name__:
-        miner_class = obj
-        break
-
-if not miner_class:
-    raise ImportError("No class definition found in AgentNetwork/agents/miner.py")
-
-try:
-    from AgentNetwork.agents.writer import ScriptWriter
-except ImportError:
-    from AgentNetwork.agents.writer import Writer as ScriptWriter
-
+import AgentNetwork.agents.writer as writer_module
 from AgentNetwork.core.bridge import MediaFactoryBridge
 from AgentNetwork.agents.publisher import InstagramPublisher
+
+
+def _get_module_class(module, module_name: str):
+    """Finds and returns the primary class defined inside a module."""
+    for name, obj in inspect.getmembers(module, inspect.isclass):
+        if obj.__module__ == module.__name__:
+            return obj
+    raise ImportError(f"No class definition found in {module_name}")
+
+
+# Dynamically bind miner and writer classes regardless of internal naming
+miner_class = _get_module_class(miner_module, "AgentNetwork/agents/miner.py")
+writer_class = _get_module_class(writer_module, "AgentNetwork/agents/writer.py")
 
 
 def run_pipeline(mode: str = "single", count: int = 1):
@@ -28,7 +27,6 @@ def run_pipeline(mode: str = "single", count: int = 1):
     # Step 1: Mine Signals
     print("\n[1/4] Mining Demand & Friction Signals...")
     miner = miner_class()
-    
     mine_func = (
         getattr(miner, "mine_signals", None)
         or getattr(miner, "run", None)
@@ -36,13 +34,13 @@ def run_pipeline(mode: str = "single", count: int = 1):
     )
     signals = mine_func(count=count) if mine_func else []
 
-    writer = ScriptWriter()
+    writer = writer_class()
     bridge = MediaFactoryBridge()
     publisher = InstagramPublisher()
 
     for idx, signal in enumerate(signals, 1):
         sig_id = getattr(signal, "id", f"sig_{idx}")
-        sig_src = getattr(signal, "source", "real_time_intent")
+        sig_src = getattr(signal, "source", "evergreen_utility")
         sig_text = getattr(signal, "friction_text", getattr(signal, "text", ""))
 
         print(f"\n--- Processing Signal {idx}/{len(signals)} [{sig_id}] ---")
@@ -50,11 +48,15 @@ def run_pipeline(mode: str = "single", count: int = 1):
 
         # Step 2: Generate Script Payload
         print("[2/4] Generating High-Retention Script...")
-        generate_func = getattr(writer, "generate_script", None) or getattr(writer, "write", None)
+        generate_func = (
+            getattr(writer, "generate_script", None)
+            or getattr(writer, "write", None)
+            or getattr(writer, "run", None)
+        )
         script = generate_func(signal)
-        
-        print(f"Script Title: {script.title}")
-        print(f"Hook: '{script.hook_text}'")
+
+        print(f"Script Title: {getattr(script, 'title', 'Untitled')}")
+        print(f"Hook: '{getattr(script, 'hook_text', getattr(script, 'hook', ''))}'")
 
         # Step 3: Composite Video Asset
         print("[3/4] Compositing Asset via MediaFactory...")
@@ -63,7 +65,12 @@ def run_pipeline(mode: str = "single", count: int = 1):
 
         # Step 4: Publish to Instagram Reels via Meta Graph API
         print("[4/4] Dispatching to Instagram Reels...")
-        caption = f"{script.title}\n\n{script.hook_text}\n\n{script.call_to_action}\n\n#systems #automation #mindset #productivity"
+        caption = (
+            f"{getattr(script, 'title', '')}\n\n"
+            f"{getattr(script, 'hook_text', getattr(script, 'hook', ''))}\n\n"
+            f"{getattr(script, 'call_to_action', getattr(script, 'cta', ''))}\n\n"
+            f"#systems #automation #mindset #productivity"
+        )
         publisher.publish_reel(Path(video_path), caption)
 
 
