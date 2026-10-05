@@ -10,32 +10,17 @@ class InstagramPublisher:
         self.graph_url = "https://graph.facebook.com/v19.0"
 
     def _get_public_video_url(self, local_video_path: Path) -> str:
-        """Uploads local MP4 to public HTTPS temporary file hosts with high-reliability fallbacks."""
+        """Uploads local MP4 to Catbox Litterbox for direct, unthrottled Meta crawler access."""
         print(f"[*] Hosting render file temporarily for Meta Graph API handoff ({local_video_path.name})...")
 
-        # Strategy 1: tmpfiles.org (Extremely reliable for direct link handoffs)
-        try:
-            with open(local_video_path, "rb") as f:
-                res = requests.post("https://tmpfiles.org/api/v1/upload", files={"file": f}, timeout=60)
-            if res.status_code == 200:
-                data = res.json()
-                if data.get("status") == "success":
-                    raw_url = data["data"]["url"]
-                    # Convert standard view URL to direct raw download URL for Meta API
-                    public_url = raw_url.replace("tmpfiles.org/", "tmpfiles.org/dl/")
-                    print(f"[✓] Public Link (tmpfiles.org): {public_url}")
-                    return public_url
-        except Exception as e:
-            print(f"[!] tmpfiles.org upload failed: {e}")
-
-        # Strategy 2: Litterbox (Catbox temporary upload service)
+        # Strategy 1: Litterbox (Catbox - Direct Raw Binary Access, Meta Friendly)
         try:
             with open(local_video_path, "rb") as f:
                 res = requests.post(
                     "https://litterbox.catbox.moe/resources/internals/api.php",
                     data={"reqtype": "fileupload", "time": "1h"},
                     files={"fileToUpload": f},
-                    timeout=60,
+                    timeout=90,
                 )
             if res.status_code == 200 and res.text.startswith("http"):
                 public_url = res.text.strip()
@@ -44,10 +29,10 @@ class InstagramPublisher:
         except Exception as e:
             print(f"[!] Litterbox host failed: {e}")
 
-        # Strategy 3: File.io fallback
+        # Strategy 2: File.io (Clean direct raw link fallback)
         try:
             with open(local_video_path, "rb") as f:
-                res = requests.post("https://file.io", files={"file": f}, timeout=60)
+                res = requests.post("https://file.io", files={"file": f}, timeout=90)
             if res.status_code == 200:
                 data = res.json()
                 if data.get("success"):
@@ -56,6 +41,20 @@ class InstagramPublisher:
                     return public_url
         except Exception as e:
             print(f"[!] File.io host failed: {e}")
+
+        # Strategy 3: tmpfiles.org fallback
+        try:
+            with open(local_video_path, "rb") as f:
+                res = requests.post("https://tmpfiles.org/api/v1/upload", files={"file": f}, timeout=90)
+            if res.status_code == 200:
+                data = res.json()
+                if data.get("status") == "success":
+                    raw_url = data["data"]["url"]
+                    public_url = raw_url.replace("tmpfiles.org/", "tmpfiles.org/dl/")
+                    print(f"[✓] Public Link (tmpfiles.org): {public_url}")
+                    return public_url
+        except Exception as e:
+            print(f"[!] tmpfiles.org upload failed: {e}")
 
         raise RuntimeError("All public video hosting options timed out or failed.")
 
