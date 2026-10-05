@@ -1,0 +1,33 @@
+{
+    "title": "Silence as Strategic Leverage",
+    "voiceover_full": "The most dangerous person in the room isn\u2019t the loudest. It\u2019s the one who says nothing. When you pause, people get uncomfortable. To stop the awkwardness, they will over-explain and negotiate against themselves. Next time you want the upper hand: ask your question, shut your mouth, and just wait.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "The most dangerous person in the room isn\u2019t the loudest. It\u2019s the one who says nothing.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A sharp-dressed individual sitting in a dimly lit, high-end boardroom, calmly holding a glass of water, looking intensely and calmly at the camera. Soft shadow play.",
+            "text_overlay": "POWER IN SILENCE",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "When you pause, people get uncomfortable. To stop the awkwardness, they will over-explain and negotiate against themselves.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Extreme close-up of a chessboard in shadows, a hand slowly moving a black knight into position with absolute precision.",
+            "text_overlay": "THEY WILL OVER-PLAY",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Next time you want the upper hand: ask your question, shut your mouth, and just wait.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Slow motion focus on a confident, stoic expression. The background is softly blurred with luxury city lights at night.",
+            "text_overlay": "ASK, THEN WAIT",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261005_1906_silence-as-strategic-leverage",
+        "topic": "Silence as Strategic Leverage",
+        "theme": "kinetic",
+        "timestamp": "20261005_1906"
+    }
+}
