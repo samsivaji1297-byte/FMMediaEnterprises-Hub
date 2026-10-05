@@ -1,40 +1,46 @@
 import argparse
-from AgentNetwork.core.schemas import ExecutionConfig
-from AgentNetwork.agents.miner import SignalMinerAgent
-from AgentNetwork.agents.writer import ScriptEngineAgent
+from pathlib import Path
+from AgentNetwork.agents.miner import FrictionMiner
+from AgentNetwork.agents.writer import ScriptWriter
 from AgentNetwork.core.bridge import MediaFactoryBridge
+from AgentNetwork.agents.publisher import InstagramPublisher
 
 def run_pipeline(mode: str = "single", count: int = 1):
-    print(f"=== KICKING OFF AGENT NETWORK [{mode.upper()} MODE] ===")
-    
-    config = ExecutionConfig(mode=mode, batch_size=count)
-    miner = SignalMinerAgent()
-    writer = ScriptEngineAgent()
+    print("=== KICKING OFF AGENT NETWORK [SINGLE MODE] ===")
+
+    # Step 1: Mine Signals
+    print("\n[1/4] Mining Demand & Friction Signals...")
+    miner = FrictionMiner()
+    signals = miner.mine_signals(count=count)
+
+    writer = ScriptWriter()
     bridge = MediaFactoryBridge()
+    publisher = InstagramPublisher()
 
-    # Step 1: Extract Demand Signals
-    print("\n[1/3] Mining Demand & Friction Signals...")
-    signals = miner.extract_signals(config)
+    for idx, signal in enumerate(signals, 1):
+        print(f"\n--- Processing Signal {idx}/{len(signals)} [{signal.id}] ---")
+        print(f"Demand Source: {signal.source} | Friction: {signal.friction_text}")
 
-    for i, sig in enumerate(signals, 1):
-        print(f"\n--- Processing Signal {i}/{len(signals)} [{sig.signal_id}] ---")
-        print(f"Demand Source: {sig.demand_type} | Friction: {sig.universal_pain_point}")
-
-        # Step 2: Write Script
-        print("[2/3] Generating High-Retention Script...")
-        script = writer.generate_script(sig)
+        # Step 2: Generate Script Payload
+        print("[2/4] Generating High-Retention Script...")
+        script = writer.generate_script(signal)
         print(f"Script Title: {script.title}")
         print(f"Hook: '{script.hook_text}'")
 
-        # Step 3: Render via MediaFactory
-        print("[3/3] Compositing Asset via MediaFactory...")
+        # Step 3: Composite Video Asset
+        print("[3/4] Compositing Asset via MediaFactory...")
         video_path = bridge.render_script(script)
-        print(f"[✓] Asset ready for distribution: {video_path}")
+        print(f"[✓] Render Complete: {video_path}")
+
+        # Step 4: Publish to Instagram Reels via Meta Graph API
+        print("[4/4] Dispatching to Instagram Reels...")
+        caption = f"{script.title}\n\n{script.hook_text}\n\n{script.call_to_action}\n\n#systems #automation #mindset #productivity"
+        publisher.publish_reel(Path(video_path), caption)
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Agent Network Orchestrator")
-    parser.add_argument("--mode", choices=["single", "batch"], default="single", help="Execution mode")
-    parser.add_argument("--count", type=int, default=1, help="Batch count")
+    parser = argparse.ArgumentParser(description="Agent Network Autopilot")
+    parser.add_argument("--mode", type=str, default="single", choices=["single", "batch"])
+    parser.add_argument("--count", type=int, default=1)
     args = parser.parse_args()
 
     run_pipeline(mode=args.mode, count=args.count)
