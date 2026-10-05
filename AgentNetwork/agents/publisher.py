@@ -11,56 +11,70 @@ class InstagramPublisher:
         self.graph_url = "https://graph.facebook.com/v19.0"
 
     def _get_public_video_url(self, local_video_path: Path) -> str:
-        """Uploads local MP4 to reliable public HTTPS raw file hosts."""
+        """Generates an unthrottled, raw direct media URL for Meta Graph API handoff."""
         print(f"[*] Hosting render file temporarily for Meta Graph API handoff ({local_video_path.name})...")
 
-        # Strategy 1: Catbox.moe (Direct raw media host, no bot blocking)
+        # Strategy 1: GitHub Releases / Repo Assets (100% Uptime, Direct CDN, Zero Bot-Blocking)
         try:
-            curl_cmd = [
-                "curl", "-s", "-F", "reqtype=fileupload",
-                "-F", f"fileToUpload=@{local_video_path}",
-                "https://catbox.moe/user/api.php"
-            ]
-            result = subprocess.run(curl_cmd, capture_output=True, text=True, timeout=120)
-            url = result.stdout.strip()
-            if url.startswith("https://files.catbox.moe/"):
-                print(f"[✓] Public Direct Link (Catbox): {url}")
-                return url
-            else:
-                print(f"[!] Catbox response invalid: {url}")
-        except Exception as e:
-            print(f"[!] Catbox cURL failed: {e}")
-
-        # Strategy 2: Litterbox (Catbox 1-hour temporary host with explicit form submit)
-        try:
-            curl_cmd = [
-                "curl", "-s", "-F", "reqtype=fileupload",
-                "-F", "time=1h",
-                "-F", f"fileToUpload=@{local_video_path}",
-                "https://litterbox.catbox.moe/resources/internals/api.php"
-            ]
-            result = subprocess.run(curl_cmd, capture_output=True, text=True, timeout=120)
-            url = result.stdout.strip()
-            if url.startswith("https://litterbox.catbox.moe/"):
-                print(f"[✓] Public Direct Link (Litterbox): {url}")
-                return url
-            else:
-                print(f"[!] Litterbox response invalid: {url}")
-        except Exception as e:
-            print(f"[!] Litterbox cURL failed: {e}")
-
-        # Strategy 3: File.io with 1-day expiration (raw download API)
-        try:
-            with open(local_video_path, "rb") as f:
-                res = requests.post("https://file.io?expires=1d", files={"file": f}, timeout=120)
-            if res.status_code == 200:
-                data = res.json()
-                if data.get("success"):
-                    public_url = data["link"]
-                    print(f"[✓] Public Direct Link (file.io): {public_url}")
+            github_token = os.getenv("GITHUB_TOKEN")
+            github_repo = os.getenv("GITHUB_REPOSITORY") # e.g. "user/repo"
+            
+            if github_token and github_repo:
+                tag_name = f"render-cache-{int(time.time())}"
+                
+                # 1. Create temporary release tag
+                create_release_cmd = [
+                    "gh", "release", "create", tag_name,
+                    str(local_video_path),
+                    "--title", f"Media Handoff {tag_name}",
+                    "--notes", "Temporary video hosting for Meta Graph API crawler",
+                    "--repo", github_repo
+                ]
+                res = subprocess.run(create_release_cmd, capture_output=True, text=True, timeout=60)
+                
+                if res.returncode == 0:
+                    # Construct direct raw GitHub download URL
+                    public_url = f"https://github.com/{github_repo}/releases/download/{tag_name}/{local_video_path.name}"
+                    print(f"[✓] Public Direct Link (GitHub Release CDN): {public_url}")
                     return public_url
+                else:
+                    print(f"[!] GH Release create failed: {res.stderr}")
         except Exception as e:
-            print(f"[!] File.io upload failed: {e}")
+            print(f"[!] GitHub Release strategy failed: {e}")
+
+        # Strategy 2: transfer.sh (Raw byte stream, no WAF challenges)
+        try:
+            curl_cmd = [
+                "curl", "-s", "--upload-file", str(local_video_path),
+                f"https://transfer.sh/{local_video_path.name}"
+            ]
+            result = subprocess.run(curl_cmd, capture_output=True, text=True, timeout=90)
+            url = result.stdout.strip()
+            if url.startswith("https://transfer.sh/"):
+                print(f"[✓] Public Direct Link (transfer.sh): {url}")
+                return url
+            else:
+                print(f"[!] transfer.sh response invalid: {url}")
+        except Exception as e:
+            print(f"[!] transfer.sh failed: {e}")
+
+        # Strategy 3: bashupload.com (Raw Direct Stream)
+        try:
+            curl_cmd = [
+                "curl", "-s", "-T", str(local_video_path),
+                "https://bashupload.com"
+            ]
+            result = subprocess.run(curl_cmd, capture_output=True, text=True, timeout=90)
+            output = result.stdout
+            for line in output.splitlines():
+                if "wget" in line or "https://bashupload.com/" in line:
+                    parts = line.split()
+                    for p in parts:
+                        if p.startswith("https://bashupload.com/"):
+                            print(f"[✓] Public Direct Link (bashupload): {p}")
+                            return p
+        except Exception as e:
+            print(f"[!] bashupload failed: {e}")
 
         raise RuntimeError("All public video hosting options failed to produce a valid direct URL.")
 
