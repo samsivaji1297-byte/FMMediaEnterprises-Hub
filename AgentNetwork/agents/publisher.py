@@ -10,10 +10,25 @@ class InstagramPublisher:
         self.graph_url = "https://graph.facebook.com/v19.0"
 
     def _get_public_video_url(self, local_video_path: Path) -> str:
-        """Uploads local MP4 to public HTTPS temporary file hosts with multi-provider fallbacks."""
+        """Uploads local MP4 to public HTTPS temporary file hosts with high-reliability fallbacks."""
         print(f"[*] Hosting render file temporarily for Meta Graph API handoff ({local_video_path.name})...")
-        
-        # Strategy 1: Litterbox (Catbox temporary upload up to 1GB, 1-hour expiration)
+
+        # Strategy 1: tmpfiles.org (Extremely reliable for direct link handoffs)
+        try:
+            with open(local_video_path, "rb") as f:
+                res = requests.post("https://tmpfiles.org/api/v1/upload", files={"file": f}, timeout=60)
+            if res.status_code == 200:
+                data = res.json()
+                if data.get("status") == "success":
+                    raw_url = data["data"]["url"]
+                    # Convert standard view URL to direct raw download URL for Meta API
+                    public_url = raw_url.replace("tmpfiles.org/", "tmpfiles.org/dl/")
+                    print(f"[✓] Public Link (tmpfiles.org): {public_url}")
+                    return public_url
+        except Exception as e:
+            print(f"[!] tmpfiles.org upload failed: {e}")
+
+        # Strategy 2: Litterbox (Catbox temporary upload service)
         try:
             with open(local_video_path, "rb") as f:
                 res = requests.post(
@@ -29,29 +44,18 @@ class InstagramPublisher:
         except Exception as e:
             print(f"[!] Litterbox host failed: {e}")
 
-        # Strategy 2: 0x0.st with user-agent
+        # Strategy 3: File.io fallback
         try:
-            headers = {"User-Agent": "Mozilla/5.0"}
             with open(local_video_path, "rb") as f:
-                res = requests.post("https://0x0.st", files={"file": f}, headers=headers, timeout=60)
-            if res.status_code == 200 and res.text.startswith("http"):
-                public_url = res.text.strip()
-                print(f"[✓] Public Link (0x0.st): {public_url}")
-                return public_url
+                res = requests.post("https://file.io", files={"file": f}, timeout=60)
+            if res.status_code == 200:
+                data = res.json()
+                if data.get("success"):
+                    public_url = data["link"]
+                    print(f"[✓] Public Link (file.io): {public_url}")
+                    return public_url
         except Exception as e:
-            print(f"[!] 0x0.st host failed: {e}")
-
-        # Strategy 3: Transfer.sh
-        try:
-            filename = local_video_path.name
-            with open(local_video_path, "rb") as f:
-                res = requests.put(f"https://transfer.sh/{filename}", data=f, timeout=60)
-            if res.status_code in [200, 201] and res.text.startswith("http"):
-                public_url = res.text.strip()
-                print(f"[✓] Public Link (transfer.sh): {public_url}")
-                return public_url
-        except Exception as e:
-            print(f"[!] Transfer.sh host failed: {e}")
+            print(f"[!] File.io host failed: {e}")
 
         raise RuntimeError("All public video hosting options timed out or failed.")
 
