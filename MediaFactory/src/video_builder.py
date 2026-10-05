@@ -26,6 +26,46 @@ from moviepy import (
 )
 
 
+def _synthesize_scenes_from_script(script_data: dict) -> list:
+    """Fallback parser to construct scenes list if script_data provides root fields."""
+    scenes = []
+
+    # 1. Hook Scene
+    hook_text = script_data.get("hook_text") or script_data.get("hook")
+    if hook_text:
+        scenes.append({
+            "text_overlay": str(hook_text),
+            "search_query": script_data.get("visual_search_queries", ["abstract dark"])[0] if script_data.get("visual_search_queries") else "abstract dark"
+        })
+
+    # 2. Body Points Scenes
+    body_points = script_data.get("body_points") or script_data.get("body_bullets") or []
+    visual_queries = script_data.get("visual_search_queries") or script_data.get("visual_keywords") or []
+    
+    for idx, point in enumerate(body_points):
+        q = visual_queries[min(idx + 1, len(visual_queries) - 1)] if visual_queries else "focus execution"
+        scenes.append({
+            "text_overlay": str(point),
+            "search_query": str(q)
+        })
+
+    # 3. Call To Action Scene
+    cta_text = script_data.get("call_to_action") or script_data.get("cta")
+    if cta_text:
+        scenes.append({
+            "text_overlay": str(cta_text),
+            "search_query": "action execution"
+        })
+
+    # Fallback default if completely empty
+    if not scenes:
+        scenes = [
+            {"text_overlay": script_data.get("title", "EXECUTE"), "search_query": "dark aesthetic"}
+        ]
+
+    return scenes
+
+
 def build_video(
     script_data: dict,
     audio_path: str,
@@ -33,23 +73,32 @@ def build_video(
     output_path: str = "final_reel.mp4",
 ):
     font_path = resolve_font_path()
-    theme_config = COLOR_TOKENS.get(theme, COLOR_TOKENS["sovereign"])
+    
+    # Allow script_data to override default theme if specified
+    active_theme = script_data.get("theme", theme)
+    theme_config = COLOR_TOKENS.get(active_theme, COLOR_TOKENS.get("sovereign", COLOR_TOKENS[list(COLOR_TOKENS.keys())[0]]))
 
     audio = AudioFileClip(audio_path)
     total_duration = audio.duration
 
+    # Parse explicit scenes or synthesize from script_data attributes
     scenes = script_data.get("scenes", [])
+    if not scenes:
+        scenes = _synthesize_scenes_from_script(script_data)
+
     scene_count = len(scenes)
     duration_per_scene = total_duration / max(scene_count, 1)
 
     scene_clips = []
 
     for i, scene in enumerate(scenes):
-        search_query = scene.get("text_overlay", "dark aesthetic").lower()
+        search_query = scene.get("search_query") or scene.get("text_overlay", "dark aesthetic")
+        search_query = str(search_query).lower()
+        
         bg_video_path = fetch_background_video(search_query, i, duration_per_scene)
 
         # 1. Background Layer Execution
-        if theme == "sovereign" or not bg_video_path or not os.path.exists(bg_video_path):
+        if active_theme == "sovereign" or not bg_video_path or not os.path.exists(bg_video_path):
             bg_clip = ColorClip(
                 size=(CANVAS_WIDTH, CANVAS_HEIGHT),
                 color=theme_config["bg"],
@@ -84,7 +133,7 @@ def build_video(
         words = raw_text.split() if raw_text else ["EXECUTE"]
         text_subclips = []
 
-        if theme == "kinetic":
+        if active_theme == "kinetic":
             word_duration = duration_per_scene / max(len(words), 1)
             for w_idx, word in enumerate(words):
                 try:
@@ -123,15 +172,30 @@ def build_video(
         )
         scene_clips.append(scene_composite)
 
+    # Empty sequence safety guard
+    if not scene_clips:
+        print("[!] Warning: scene_clips is empty. Creating default fallback scene.")
+        fallback_bg = ColorClip(
+            size=(CANVAS_WIDTH, CANVAS_HEIGHT),
+            color=theme_config["bg"],
+            duration=total_duration,
+        )
+        scene_clips.append(fallback_bg)
+
     final_video = concatenate_videoclips(scene_clips, method="compose")
     final_video = final_video.with_audio(audio)
 
+    # Resolve output directory target
+    target_output = script_data.get("output_path", output_path)
+    os.makedirs(os.path.dirname(os.path.abspath(target_output)), exist_ok=True)
+
     final_video.write_videofile(
-        output_path,
+        target_output,
         fps=CANVAS_FPS,
         codec="libx264",
         audio_codec="aac",
         threads=4,
         logger=None,  # Suppress verbose rendering logs
     )
-    print(f"[+] [{theme.upper()}] Reel generated -> {output_path}")
+    print(f"[+] [{active_theme.upper()}] Reel generated -> {target_output}")
+    return target_output
