@@ -10,32 +10,55 @@ class InstagramPublisher:
         self.graph_url = "https://graph.facebook.com/v19.0"
 
     def _get_public_video_url(self, local_video_path: Path) -> str:
-        """Uploads local MP4 to a temporary HTTPS transfer host so Meta servers can fetch it."""
-        print(f"[*] Hosting render file temporarily for Meta Graph API handoff...")
+        """Uploads local MP4 to public HTTPS temporary file hosts with multi-provider fallbacks."""
+        print(f"[*] Hosting render file temporarily for Meta Graph API handoff ({local_video_path.name})...")
+        
+        # Strategy 1: Litterbox (Catbox temporary upload up to 1GB, 1-hour expiration)
         try:
             with open(local_video_path, "rb") as f:
-                response = requests.post("https://0x0.st", files={"file": f}, timeout=120)
-            if response.status_code == 200:
-                public_url = response.text.strip()
-                print(f"[✓] Temporary Public Link: {public_url}")
+                res = requests.post(
+                    "https://litterbox.catbox.moe/resources/internals/api.php",
+                    data={"reqtype": "fileupload", "time": "1h"},
+                    files={"fileToUpload": f},
+                    timeout=60,
+                )
+            if res.status_code == 200 and res.text.startswith("http"):
+                public_url = res.text.strip()
+                print(f"[✓] Public Link (Litterbox): {public_url}")
                 return public_url
-            else:
-                raise RuntimeError(f"Transfer upload failed with status {response.status_code}: {response.text}")
         except Exception as e:
-            print(f"[!] Primary host failed ({e}). Trying fallback transfer.sh...")
+            print(f"[!] Litterbox host failed: {e}")
+
+        # Strategy 2: 0x0.st with user-agent
+        try:
+            headers = {"User-Agent": "Mozilla/5.0"}
+            with open(local_video_path, "rb") as f:
+                res = requests.post("https://0x0.st", files={"file": f}, headers=headers, timeout=60)
+            if res.status_code == 200 and res.text.startswith("http"):
+                public_url = res.text.strip()
+                print(f"[✓] Public Link (0x0.st): {public_url}")
+                return public_url
+        except Exception as e:
+            print(f"[!] 0x0.st host failed: {e}")
+
+        # Strategy 3: Transfer.sh
+        try:
             filename = local_video_path.name
             with open(local_video_path, "rb") as f:
-                res = requests.put(f"https://transfer.sh/{filename}", data=f, timeout=120)
-            if res.status_code in [200, 201]:
+                res = requests.put(f"https://transfer.sh/{filename}", data=f, timeout=60)
+            if res.status_code in [200, 201] and res.text.startswith("http"):
                 public_url = res.text.strip()
-                print(f"[✓] Temporary Public Link (Fallback): {public_url}")
+                print(f"[✓] Public Link (transfer.sh): {public_url}")
                 return public_url
-            raise RuntimeError(f"Both temporary file hosting attempts failed: {res.text}")
+        except Exception as e:
+            print(f"[!] Transfer.sh host failed: {e}")
+
+        raise RuntimeError("All public video hosting options timed out or failed.")
 
     def publish_reel(self, video_path: Path, caption: str) -> str:
-        """Publishes an MP4 video as an Instagram Reel using the 2-step Meta Graph API container flow."""
+        """Publishes an MP4 video as an Instagram Reel using Meta Graph API."""
         if not self.ig_user_id or not self.access_token:
-            print("[!] Skipping IG publish: IG_USER_ID or IG_ACCESS_TOKEN missing from environment variables.")
+            print("[!] Skipping IG publish: IG_USER_ID or IG_ACCESS_TOKEN missing.")
             return ""
 
         # Step 1: Generate direct HTTPS URL
@@ -64,7 +87,7 @@ class InstagramPublisher:
         status_endpoint = f"{self.graph_url}/{container_id}"
         print("[*] Waiting for Meta to process and encode video container...")
 
-        for attempt in range(12):  # Poll up to 2 minutes (12 x 10s)
+        for attempt in range(12):  # Poll up to 2 minutes
             time.sleep(10)
             status_res = requests.get(
                 status_endpoint,
