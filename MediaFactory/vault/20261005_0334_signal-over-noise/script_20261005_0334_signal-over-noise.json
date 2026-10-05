@@ -1,0 +1,33 @@
+{
+    "title": "Signal Over Noise",
+    "voiceover_full": "You're drowning in a sea of opinions, notifications, and fake urgency. 99% of it is just noise designed to steal your attention. Mute the chaos. Lock in on the signal. Focus on what actually moves the needle.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "You're drowning in a sea of opinions, notifications, and fake urgency.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, chaotic glowing red glitch text cascading over a dark silhouette in a dimly lit void, ultra-detailed moody lighting.",
+            "text_overlay": "TOO MUCH NOISE",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "99% of it is just noise designed to steal your attention. Mute the chaos.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, sleek dark audio visualizer collapsing into a single laser-sharp glowing white line, dramatic shadow play, hyper-realistic.",
+            "text_overlay": "MUTE THE CHAOS",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Lock in on the signal. Focus on what actually moves the needle.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, a lone focused figure standing in a single intense beam of light cutting through deep pitch-black space, sharp focus, 8k render.",
+            "text_overlay": "FIND THE SIGNAL",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261005_0334_signal-over-noise",
+        "topic": "Signal Over Noise",
+        "theme": "sovereign",
+        "timestamp": "20261005_0334"
+    }
+}
