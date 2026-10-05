@@ -1,7 +1,7 @@
 import argparse
 import inspect
 from pathlib import Path
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 
 import AgentNetwork.agents.miner as miner_module
 import AgentNetwork.agents.writer as writer_module
@@ -14,6 +14,31 @@ class FallbackSignal:
     id: str = "sig_fallback_01"
     source: str = "evergreen_utility"
     friction_text: str = "The exhausting cognitive overload of managing manual repetitive tasks every single day."
+    universal_pain_point: str = "Spending hours on repetitive manual workflows instead of high-value strategic work."
+    market_demand_score: float = 0.95
+    category: str = "productivity"
+    target_audience: str = "creators and operators"
+
+
+class SafeSignalProxy:
+    """Wraps any signal object to automatically provide safe defaults for missing attributes."""
+    def __init__(self, target):
+        self._target = target
+
+    def __getattr__(self, name):
+        if hasattr(self._target, name):
+            return getattr(self._target, name)
+        # Safe default attribute fallbacks for prompt templates
+        defaults = {
+            "universal_pain_point": getattr(self._target, "friction_text", "manual task fatigue"),
+            "friction_text": "repetitive manual process bottlenecks",
+            "market_demand_score": 0.90,
+            "category": "automation",
+            "target_audience": "operators",
+            "source": "evergreen_utility",
+            "id": "sig_auto_01",
+        }
+        return defaults.get(name, "high execution leverage")
 
 
 def _get_module_class(module, module_name: str):
@@ -55,13 +80,12 @@ def run_pipeline(mode: str = "single", count: int = 1):
     bridge = MediaFactoryBridge()
     publisher = InstagramPublisher()
 
-    for idx, signal in enumerate(signals, 1):
-        sig_id = getattr(signal, "id", f"sig_{idx}")
-        sig_src = getattr(signal, "source", "evergreen_utility")
-        sig_text = getattr(signal, "friction_text", getattr(signal, "text", ""))
+    for idx, raw_signal in enumerate(signals, 1):
+        # Wrap signal in proxy to protect writer against missing fields
+        signal = SafeSignalProxy(raw_signal)
 
-        print(f"\n--- Processing Signal {idx}/{len(signals)} [{sig_id}] ---")
-        print(f"Demand Source: {sig_src} | Friction: {sig_text}")
+        print(f"\n--- Processing Signal {idx}/{len(signals)} [{signal.id}] ---")
+        print(f"Demand Source: {signal.source} | Friction: {signal.friction_text}")
 
         # Step 2: Generate Script Payload
         print("[2/4] Generating High-Retention Script...")
