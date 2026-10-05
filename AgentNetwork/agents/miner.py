@@ -2,7 +2,7 @@ import json
 import random
 import hashlib
 from typing import List
-from duckduckgo_search import DDGS
+from ddgs import DDGS
 from config import get_client, call_with_fallback
 from google.genai import types
 from AgentNetwork.core.schemas import SignalPayload, ExecutionConfig
