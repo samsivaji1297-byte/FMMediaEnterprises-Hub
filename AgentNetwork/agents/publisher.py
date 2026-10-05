@@ -11,10 +11,27 @@ class InstagramPublisher:
         self.graph_url = "https://graph.facebook.com/v19.0"
 
     def _get_public_video_url(self, local_video_path: Path) -> str:
-        """Uploads local MP4 using direct curl commands for max upload reliability and speed."""
+        """Uploads local MP4 to reliable public HTTPS raw file hosts."""
         print(f"[*] Hosting render file temporarily for Meta Graph API handoff ({local_video_path.name})...")
 
-        # Strategy 1: Direct cURL to Litterbox (Catbox) - 1 Hour temporary storage
+        # Strategy 1: Catbox.moe (Direct raw media host, no bot blocking)
+        try:
+            curl_cmd = [
+                "curl", "-s", "-F", "reqtype=fileupload",
+                "-F", f"fileToUpload=@{local_video_path}",
+                "https://catbox.moe/user/api.php"
+            ]
+            result = subprocess.run(curl_cmd, capture_output=True, text=True, timeout=120)
+            url = result.stdout.strip()
+            if url.startswith("https://files.catbox.moe/"):
+                print(f"[✓] Public Direct Link (Catbox): {url}")
+                return url
+            else:
+                print(f"[!] Catbox response invalid: {url}")
+        except Exception as e:
+            print(f"[!] Catbox cURL failed: {e}")
+
+        # Strategy 2: Litterbox (Catbox 1-hour temporary host with explicit form submit)
         try:
             curl_cmd = [
                 "curl", "-s", "-F", "reqtype=fileupload",
@@ -24,45 +41,31 @@ class InstagramPublisher:
             ]
             result = subprocess.run(curl_cmd, capture_output=True, text=True, timeout=120)
             url = result.stdout.strip()
-            if url.startswith("http"):
-                print(f"[✓] Public Link (Litterbox cURL): {url}")
+            if url.startswith("https://litterbox.catbox.moe/"):
+                print(f"[✓] Public Direct Link (Litterbox): {url}")
                 return url
+            else:
+                print(f"[!] Litterbox response invalid: {url}")
         except Exception as e:
             print(f"[!] Litterbox cURL failed: {e}")
 
-        # Strategy 2: Direct cURL to 0x0.st with custom User-Agent
-        try:
-            curl_cmd = [
-                "curl", "-s", "-A", "Mozilla/5.0",
-                "-F", f"file=@{local_video_path}",
-                "https://0x0.st"
-            ]
-            result = subprocess.run(curl_cmd, capture_output=True, text=True, timeout=120)
-            url = result.stdout.strip()
-            if url.startswith("http"):
-                print(f"[✓] Public Link (0x0.st cURL): {url}")
-                return url
-        except Exception as e:
-            print(f"[!] 0x0.st cURL failed: {e}")
-
-        # Strategy 3: tmpfiles.org Fallback
+        # Strategy 3: File.io with 1-day expiration (raw download API)
         try:
             with open(local_video_path, "rb") as f:
-                res = requests.post("https://tmpfiles.org/api/v1/upload", files={"file": f}, timeout=90)
+                res = requests.post("https://file.io?expires=1d", files={"file": f}, timeout=120)
             if res.status_code == 200:
                 data = res.json()
-                if data.get("status") == "success":
-                    raw_url = data["data"]["url"]
-                    public_url = raw_url.replace("tmpfiles.org/", "tmpfiles.org/dl/")
-                    print(f"[✓] Public Link (tmpfiles.org): {public_url}")
+                if data.get("success"):
+                    public_url = data["link"]
+                    print(f"[✓] Public Direct Link (file.io): {public_url}")
                     return public_url
         except Exception as e:
-            print(f"[!] tmpfiles.org fallback failed: {e}")
+            print(f"[!] File.io upload failed: {e}")
 
-        raise RuntimeError("All public video hosting options timed out or failed.")
+        raise RuntimeError("All public video hosting options failed to produce a valid direct URL.")
 
     def publish_reel(self, video_path: Path, caption: str) -> str:
-        """Publishes an MP4 video as an Instagram Reel using Meta Graph API with tuned polling delays."""
+        """Publishes an MP4 video as an Instagram Reel using Meta Graph API."""
         if not self.ig_user_id or not self.access_token:
             print("[!] Skipping IG publish: IG_USER_ID or IG_ACCESS_TOKEN missing.")
             return ""
@@ -89,12 +92,12 @@ class InstagramPublisher:
         container_id = res_data["id"]
         print(f"[✓] Media Container Created ID: {container_id}")
 
-        # Step 3: Poll Status until FINISHED (Initial grace period before checking)
+        # Step 3: Poll Status until FINISHED
         status_endpoint = f"{self.graph_url}/{container_id}"
         print("[*] Waiting 15s for Meta crawler to pull raw media binary...")
         time.sleep(15)
 
-        for attempt in range(15):  # Poll up to 3 minutes (15 x 12s)
+        for attempt in range(15):  # Poll up to 3 minutes
             status_res = requests.get(
                 status_endpoint,
                 params={"fields": "status_code,status", "access_token": self.access_token},
@@ -110,7 +113,7 @@ class InstagramPublisher:
             elif status_code == "ERROR":
                 raise RuntimeError(f"[!] Meta container processing failed: {status_res}")
             
-            time.sleep(12)
+            time.sleep(10)
         else:
             raise TimeoutError("[!] Meta video container processing timed out.")
 
