@@ -10,8 +10,36 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from AgentNetwork.agents.mindset_agents import SovereignStrategist, KineticScriptwright
-from MediaFactory.src.video_builder import build_video
-from MediaFactory.src.tts import generate_voiceover
+
+def generate_voiceover_robust(text: str, output_path: str):
+    """Robust voiceover generator with multiple fallback strategies."""
+    # Attempt 1: Import from MediaFactory if available
+    try:
+        from MediaFactory.src.tts import generate_voiceover
+        generate_voiceover(text=text, output_path=output_path)
+        print(f"[✓] TTS generated via MediaFactory.src.tts")
+        return
+    except (ImportError, AttributeError):
+        pass
+
+    try:
+        from MediaFactory.src.tts import generate_tts
+        generate_tts(text=text, output_path=output_path)
+        print(f"[✓] TTS generated via MediaFactory.src.tts (generate_tts)")
+        return
+    except (ImportError, AttributeError):
+        pass
+
+    # Attempt 2: Native gTTS fallback if local module import fails
+    try:
+        from gtts import gTTS
+        tts = gTTS(text=text, lang="en", slow=False)
+        tts.save(output_path)
+        print(f"[✓] TTS generated via gTTS fallback engine")
+        return
+    except Exception as e:
+        print(f"[!] Primary and fallback TTS failed: {e}")
+        raise e
 
 def run_mindset_pipeline(friction_topic: str):
     print("=== [1/3] Sovereign Strategist: Engineering Psychological Hooks ===")
@@ -48,8 +76,8 @@ def run_mindset_pipeline(friction_topic: str):
     
     print(f"[*] Generating TTS Voiceover Audio: {audio_path.name}")
     try:
-        generate_voiceover(text=full_voiceover_text, output_path=str(audio_path))
-        print(f"[✓] Audio Generated: {audio_path}")
+        generate_voiceover_robust(text=full_voiceover_text, output_path=str(audio_path))
+        print(f"[✓] Audio Saved: {audio_path}")
     except Exception as e:
         print(f"[!] Voiceover generation failed: {e}")
         return
@@ -57,6 +85,7 @@ def run_mindset_pipeline(friction_topic: str):
     # Render Video via Core Engine
     output_filename = f"{title}.mp4"
     try:
+        from MediaFactory.src.video_builder import build_video
         output_video_path = build_video(
             script_data=blueprint, 
             audio_path=str(audio_path),
