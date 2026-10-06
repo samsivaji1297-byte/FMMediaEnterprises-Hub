@@ -1,0 +1,33 @@
+{
+    "title": "The Sovereign Operator Mindset",
+    "voiceover_full": "Most people are NPCs reacting to every distraction. You don't have a focus problem, you have a sovereignty problem. The Sovereign Operator operates from ultimate internal control. Quiet the external noise, master your impulses, and execute without permission. Reclaim your mind. Own your reality. Become unshakeable.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Most people are NPCs reacting to every distraction. You don't have a focus problem, you have a sovereignty problem.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, extreme close up of a glowing minimalist digital eye surrounded by chaotic glitch effects, moody dramatic lighting",
+            "text_overlay": "STOP BEING AN NPC",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "The Sovereign Operator operates from ultimate internal control. Quiet the external noise, master your impulses, and execute without permission.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, silhouette of a focused figure standing calmly in a fast-paced dark cyber city, long exposure crowd blur",
+            "text_overlay": "INTERNAL MASTERY",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Reclaim your mind. Own your reality. Become unshakeable.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, a sharp obsidian statue emerging from dark water with subtle gold accents, epic volumetric lighting",
+            "text_overlay": "BECOME UNSHAKEABLE",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261006_1627_the-sovereign-operator-mindset",
+        "topic": "The Sovereign Operator Mindset",
+        "theme": "ambient",
+        "timestamp": "20261006_1627"
+    }
+}
