@@ -1,9 +1,5 @@
 import os
 import json
-import google.generativeai as genai
-
-# Configure Gemini model for rapid agent execution
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
 
 class SovereignStrategist:
     """Agent 1: Specialized in high-friction psychological hooks, human drive, and relentless discipline."""
@@ -29,14 +25,30 @@ class SovereignStrategist:
     """
 
     def generate_strategy(self, friction_signal: str) -> dict:
-        model = genai.GenerativeModel("gemini-1.5-flash", system_instruction=self.SYSTEM_PROMPT)
-        prompt = f"Analyze and generate a psychological script architecture for this input friction: '{friction_signal}'"
+        api_key = os.getenv("GEMINI_API_KEY")
         
-        response = model.generate_content(
-            prompt,
-            generation_config={"response_mime_type": "application/json"}
-        )
-        return json.loads(response.text)
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel("gemini-1.5-flash", system_instruction=self.SYSTEM_PROMPT)
+            prompt = f"Analyze and generate a psychological script architecture for this input friction: '{friction_signal}'"
+            response = model.generate_content(
+                prompt,
+                generation_config={"response_mime_type": "application/json"}
+            )
+            return json.loads(response.text)
+        except Exception as e:
+            print(f"[!] SovereignStrategist warning: {e}. Executing standard fallback payload.")
+            return {
+                "core_friction": friction_signal,
+                "hook": "Stop wasting potential on cheap comfort.",
+                "narrative_arc": [
+                    "Comfort kills ambition faster than failure.",
+                    "Build systems that operate independent of emotions.",
+                    "Execute the daily non-negotiables without debate."
+                ],
+                "b_roll_theme": "dark minimalist high-contrast motion"
+            }
 
 
 class KineticScriptwright:
@@ -45,7 +57,7 @@ class KineticScriptwright:
     SYSTEM_PROMPT = """You are The Kinetic Scriptwright. You transform raw mindset strategy into frame-level 9:16 visual blueprints.
     
     RULES:
-    - Keep dynamic line wrapping inside strict 840x800 safe-zones.
+    - Keep dynamic line wrapping short and impactful.
     - Scene duration must be fast-paced (2 to 4 seconds per scene max).
     - Map precise, dark-aesthetic B-roll queries for Pexels search (e.g. 'dark moody traffic', 'focused night coding', 'street lights motion').
     
@@ -57,7 +69,7 @@ class KineticScriptwright:
         {
           "scene_index": 0,
           "text": "ON-SCREEN TEXT OVERLAY",
-          "query": "pexels search term",
+          "query": "dark minimalist tech code night",
           "duration": 3.0
         }
       ]
@@ -65,11 +77,43 @@ class KineticScriptwright:
     """
 
     def compile_blueprint(self, strategy_data: dict) -> dict:
-        model = genai.GenerativeModel("gemini-1.5-flash", system_instruction=self.SYSTEM_PROMPT)
-        prompt = f"Compile this strategy into an optimized script blueprint:\n{json.dumps(strategy_data)}"
+        api_key = os.getenv("GEMINI_API_KEY")
         
-        response = model.generate_content(
-            prompt,
-            generation_config={"response_mime_type": "application/json"}
-        )
-        return json.loads(response.text)
+        try:
+            import google.generativeai as genai
+            genai.configure(api_key=api_key)
+            model = genai.GenerativeModel("gemini-1.5-flash", system_instruction=self.SYSTEM_PROMPT)
+            prompt = f"Compile this strategy into an optimized script blueprint:\n{json.dumps(strategy_data)}"
+            response = model.generate_content(
+                prompt,
+                generation_config={"response_mime_type": "application/json"}
+            )
+            return json.loads(response.text)
+        except Exception as e:
+            print(f"[!] KineticScriptwright warning: {e}. Executing standard fallback payload.")
+            hook = strategy_data.get("hook", "Stop Doing Manual Work")
+            clean_title = hook.lower().replace(" ", "_").replace("'", "").replace(".", "")[:30]
+            return {
+                "title": clean_title,
+                "caption": f"{hook}\n\nExecution over speculation. Systemize the workflow.\n\n#automation #productivity #systems #operator",
+                "scenes": [
+                    {
+                        "scene_index": 0,
+                        "text": hook,
+                        "query": "dark moody minimalist office screen",
+                        "duration": 3.0
+                    },
+                    {
+                        "scene_index": 1,
+                        "text": "Comfort is the hidden killer of progress.",
+                        "query": "night city street lights blur motion",
+                        "duration": 3.5
+                    },
+                    {
+                        "scene_index": 2,
+                        "text": "Build systems that execute without feelings.",
+                        "query": "focused person typing code dark room",
+                        "duration": 3.0
+                    }
+                ]
+            }
