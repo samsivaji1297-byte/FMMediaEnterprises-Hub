@@ -20,9 +20,18 @@ class InstagramPublisher:
         # Path resolution pointing to MediaFactory vault
         self.vault_dir = Path(__file__).resolve().parent.parent.parent / "MediaFactory" / "vault"
 
-    def get_raw_github_url(self, run_folder_name: str, video_filename: str) -> str:
+    def get_raw_github_url(self, relative_path: str) -> str:
         """Constructs direct public raw link on GitHub CDN."""
-        return f"https://raw.githubusercontent.com/{self.github_repo}/main/MediaFactory/vault/{run_folder_name}/{video_filename}"
+        return f"https://raw.githubusercontent.com/{self.github_repo}/main/MediaFactory/vault/{relative_path}"
+
+    def _generate_fallback_caption(self, base_name: str) -> str:
+        """Generates a clean fallback caption if no .txt file exists."""
+        clean_title = base_name.replace("_", " ").replace("-", " ").title()
+        return (
+            f"{clean_title}\n\n"
+            "Execution over speculation. Systemize the workflow.\n\n"
+            "#automation #productivity #systems #operator #buildinpublic"
+        )
 
     def publish_latest_vault_reel(self) -> str:
         """Processes and publishes the oldest unposted reel from vault queue."""
@@ -34,15 +43,47 @@ class InstagramPublisher:
         posted_runs = []
 
         if queue_file.exists():
-            with open(queue_file, "r", encoding="utf-8") as f:
-                posted_runs = json.load(f).get("posted", [])
+            try:
+                with open(queue_file, "r", encoding="utf-8") as f:
+                    posted_runs = json.load(f).get("posted", [])
+            except Exception:
+                posted_runs = []
 
-        runs = [d.name for d in self.vault_dir.iterdir() if d.is_dir()]
-        runs.sort()  # Process oldest pending reel first
+        # Find target video file across subdirectories or renders/ folder
+        target_video_path = None
+        target_caption_path = None
+        target_run_id = None
+        relative_cdn_path = None
 
-        target_run = next((r for r in runs if r not in posted_runs), None)
+        # Check subdirectories first
+        subdirs = [d for d in self.vault_dir.iterdir() if d.is_dir()]
+        subdirs.sort()
 
-        if not target_run:
+        for d in subdirs:
+            if d.name in posted_runs or d.name in ("audio", "renders", "cache"):
+                continue
+            mp4_file = next((f for f in d.glob("*.mp4")), None)
+            if mp4_file:
+                target_video_path = mp4_file
+                target_caption_path = next((f for f in d.glob("*.txt")), None)
+                target_run_id = d.name
+                relative_cdn_path = f"{d.name}/{mp4_file.name}"
+                break
+
+        # Fallback to direct renders folder if no subfolder run was found
+        if not target_video_path:
+            renders_dir = self.vault_dir / "renders"
+            if renders_dir.exists():
+                mp4_files = sorted(renders_dir.glob("*.mp4"))
+                for mp4_file in mp4_files:
+                    if mp4_file.name not in posted_runs and mp4_file.stem not in posted_runs:
+                        target_video_path = mp4_file
+                        target_caption_path = mp4_file.with_suffix(".txt")
+                        target_run_id = mp4_file.name
+                        relative_cdn_path = f"renders/{mp4_file.name}"
+                        break
+
+        if not target_video_path:
             print("[*] No pending reels found in vault.")
             return ""
 
@@ -50,20 +91,19 @@ class InstagramPublisher:
             print("[!] Meta API credentials missing in environment variables.")
             return ""
 
-        run_path = self.vault_dir / target_run
-        video_file = next((f.name for f in run_path.glob("*.mp4")), None)
-        caption_file = next((f.name for f in run_path.glob("*.txt")), None)
+        # Extract or fallback caption text
+        caption_text = ""
+        if target_caption_path and target_caption_path.exists() and target_caption_path.stat().st_size > 0:
+            with open(target_caption_path, "r", encoding="utf-8") as f:
+                caption_text = f.read().strip()
+            print(f"[✓] Loaded caption from {target_caption_path.name}")
+        else:
+            caption_text = self._generate_fallback_caption(target_video_path.stem)
+            print(f"[*] No caption file found. Applied auto-fallback caption for {target_video_path.name}")
 
-        if not video_file or not caption_file:
-            print(f"[!] Incomplete vault assets in folder {target_run}.")
-            return ""
+        raw_video_url = self.get_raw_github_url(relative_cdn_path)
 
-        with open(run_path / caption_file, "r", encoding="utf-8") as f:
-            caption_text = f.read()
-
-        raw_video_url = self.get_raw_github_url(target_run, video_file)
-
-        print(f"=== Publishing Reel via Meta Graph API: {target_run} ===")
+        print(f"=== Publishing Reel via Meta Graph API: {target_run_id} ===")
         print(f"[*] Public Video URL: {raw_video_url}")
 
         # Step 1: Create Container
@@ -123,10 +163,14 @@ class InstagramPublisher:
 
         if "id" in publish_res:
             media_id = publish_res["id"]
-            posted_runs.append(target_run)
+            posted_runs.append(target_run_id)
+            
+            # Ensure folder structure exists for queue writing
+            queue_file.parent.mkdir(parents=True, exist_ok=True)
             with open(queue_file, "w", encoding="utf-8") as f:
                 json.dump({"posted": posted_runs}, f, indent=4)
-            print(f"[SUCCESS] Published reel '{target_run}' to Instagram! Media ID: {media_id}")
+                
+            print(f"[SUCCESS] Published reel '{target_run_id}' to Instagram! Media ID: {media_id}")
             return media_id
 
         return ""
