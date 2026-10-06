@@ -1,6 +1,7 @@
 import sys
 import os
 import json
+import argparse
 from pathlib import Path
 
 # Anchor repo root to sys.path so imports across AgentNetwork & MediaFactory work seamlessly
@@ -10,29 +11,22 @@ if str(REPO_ROOT) not in sys.path:
 
 from AgentNetwork.agents.mindset_agents import SovereignStrategist, KineticScriptwright
 from MediaFactory.src.video_builder import build_video
-from MediaFactory.src.tts import generate_voiceover  # Import TTS engine
+from MediaFactory.src.tts import generate_voiceover
 
 def run_mindset_pipeline(friction_topic: str):
     print("=== [1/3] Sovereign Strategist: Engineering Psychological Hooks ===")
     strategist = SovereignStrategist()
-    try:
-        strategy = strategist.generate_strategy(friction_topic)
-        print(f"[✓] Hook Created: '{strategy.get('hook', 'No hook returned')}'")
-    except Exception as e:
-        print(f"[!] SovereignStrategist failed: {e}")
-        return
+    strategy = strategist.generate_strategy(friction_topic)
+    print(f"[✓] Hook Created: '{strategy.get('hook', 'No hook returned')}'")
 
     print("\n=== [2/3] Kinetic Scriptwright: Mapping B-Roll & Visual Timing ===")
     scriptwright = KineticScriptwright()
-    try:
-        blueprint = scriptwright.compile_blueprint(strategy)
-        print(f"[✓] Compiled {len(blueprint.get('scenes', []))} kinetic scenes for MediaFactory.")
-    except Exception as e:
-        print(f"[!] KineticScriptwright failed: {e}")
-        return
+    blueprint = scriptwright.compile_blueprint(strategy)
+    print(f"[✓] Compiled {len(blueprint.get('scenes', []))} kinetic scenes for MediaFactory.")
 
     print("\n=== [3/3] MediaFactory Engine: Generating Audio & Rendering ===")
-    title = blueprint.get("title", "relentless_execution").lower().replace(" ", "_")
+    title_raw = blueprint.get("title", "relentless_execution")
+    title = "".join(c for c in title_raw if c.isalnum() or c in ("_", "-")).lower()
     
     # Setup Vault Paths
     vault_dir = REPO_ROOT / "MediaFactory" / "vault"
@@ -42,13 +36,13 @@ def run_mindset_pipeline(friction_topic: str):
     renders_dir.mkdir(parents=True, exist_ok=True)
     audio_dir.mkdir(parents=True, exist_ok=True)
 
-    # Step 3A: Save .txt Caption for Publisher Agent
+    # Save .txt Caption alongside video for Publisher Agent
     caption_text = blueprint.get("caption", f"{title.replace('_', ' ').title()}\n\n#execution #mindset #operator")
     caption_file = renders_dir / f"{title}.txt"
     caption_file.write_text(caption_text, encoding="utf-8")
     print(f"[✓] Caption archived to {caption_file}")
 
-    # Step 3B: Generate Voiceover Audio File
+    # Generate Voiceover Audio File
     full_voiceover_text = " ".join([s.get("text", "") for s in blueprint.get("scenes", [])])
     audio_path = audio_dir / f"{title}_audio.mp3"
     
@@ -60,7 +54,7 @@ def run_mindset_pipeline(friction_topic: str):
         print(f"[!] Voiceover generation failed: {e}")
         return
 
-    # Step 3C: Render Video via Core Engine
+    # Render Video via Core Engine
     output_filename = f"{title}.mp4"
     try:
         output_video_path = build_video(
@@ -73,6 +67,13 @@ def run_mindset_pipeline(friction_topic: str):
         print(f"[!] Video Rendering failed: {e}")
 
 if __name__ == "__main__":
-    default_topic = "wasting time seeking comfort and avoiding hard execution"
-    topic = sys.argv[1] if len(sys.argv) > 1 else default_topic
-    run_mindset_pipeline(topic)
+    parser = argparse.ArgumentParser(description="Run AgentNetwork reel generation pipeline.")
+    parser.add_argument("--mode", type=str, default="single", help="Execution mode")
+    parser.add_argument("--count", type=int, default=1, help="Number of reels to build")
+    parser.add_argument("topic", nargs="?", default="wasting time seeking comfort and avoiding hard execution", help="Topic or friction signal")
+    
+    args = parser.parse_args()
+    
+    for i in range(args.count):
+        print(f"\n--- Running Generation Batch [{i + 1}/{args.count}] ---")
+        run_mindset_pipeline(args.topic)
