@@ -1,112 +1,32 @@
-import argparse
-import inspect
+import sys
 from pathlib import Path
-from dataclasses import dataclass, field
+from AgentNetwork.agents.mindset_agents import SovereignStrategist, KineticScriptwright
+from MediaFactory.src.video_builder import build_video
 
-import AgentNetwork.agents.miner as miner_module
-import AgentNetwork.agents.writer as writer_module
-from AgentNetwork.core.bridge import MediaFactoryBridge
+def run_mindset_pipeline(friction_topic: str):
+    print(f"=== [1/3] Sovereign Strategist: Engineering Psychological Hooks ===")
+    strategist = SovereignStrategist()
+    strategy = strategist.generate_strategy(friction_topic)
+    print(f"[✓] Hook Created: '{strategy.get('hook')}'")
 
+    print(f"\n=== [2/3] Kinetic Scriptwright: Mapping B-Roll & Visual Timing ===")
+    scriptwright = KineticScriptwright()
+    blueprint = scriptwright.compile_blueprint(strategy)
+    print(f"[✓] Compiled {len(blueprint.get('scenes', []))} kinetic scenes for MediaFactory.")
 
-@dataclass
-class FallbackSignal:
-    id: str = "sig_fallback_01"
-    source: str = "evergreen_utility"
-    friction_text: str = "The exhausting cognitive overload of managing manual repetitive tasks every single day."
-    universal_pain_point: str = "Spending hours on repetitive manual workflows instead of high-value strategic work."
-    market_demand_score: float = 0.95
-    category: str = "productivity"
-    target_audience: str = "creators and operators"
+    print(f"\n=== [3/3] MediaFactory Engine: Rendering & Archiving ===")
+    title = blueprint.get("title", "relentless_execution")
+    
+    # Save .txt caption alongside the video so Publisher picks it up directly
+    renders_dir = Path("MediaFactory/vault/renders")
+    renders_dir.mkdir(parents=True, exist_ok=True)
+    caption_file = renders_dir / f"{title}.txt"
+    caption_file.write_text(blueprint.get("caption", ""), encoding="utf-8")
 
-
-class SafeSignalProxy:
-    """Wraps any signal object to automatically provide safe defaults for missing attributes."""
-    def __init__(self, target):
-        self._target = target
-
-    def __getattr__(self, name):
-        if hasattr(self._target, name):
-            return getattr(self._target, name)
-        # Safe default attribute fallbacks for prompt templates
-        defaults = {
-            "universal_pain_point": getattr(self._target, "friction_text", "manual task fatigue"),
-            "friction_text": "repetitive manual process bottlenecks",
-            "market_demand_score": 0.90,
-            "category": "automation",
-            "target_audience": "operators",
-            "source": "evergreen_utility",
-            "id": "sig_auto_01",
-        }
-        return defaults.get(name, "high execution leverage")
-
-
-def _get_module_class(module, module_name: str):
-    """Finds and returns the primary class defined inside a module."""
-    for name, obj in inspect.getmembers(module, inspect.isclass):
-        if obj.__module__ == module.__name__:
-            return obj
-    raise ImportError(f"No class definition found in {module_name}")
-
-
-# Dynamically bind miner and writer classes
-miner_class = _get_module_class(miner_module, "AgentNetwork/agents/miner.py")
-writer_class = _get_module_class(writer_module, "AgentNetwork/agents/writer.py")
-
-
-def run_pipeline(mode: str = "single", count: int = 1):
-    print("=== KICKING OFF AGENT NETWORK ===")
-
-    # Step 1: Mine Signals
-    print("\n[1/3] Mining Demand & Friction Signals...")
-    try:
-        miner = miner_class()
-        mine_func = (
-            getattr(miner, "mine_signals", None)
-            or getattr(miner, "run", None)
-            or getattr(miner, "mine", None)
-        )
-        signals = mine_func(count=count) if mine_func else []
-    except Exception as e:
-        print(f"[!] Miner execution warning: {e}")
-        signals = []
-
-    # FALLBACK GUARANTEE: Never exit empty
-    if not signals:
-        print("[*] Miner returned 0 signals. Injecting fallback friction signal to force execution pipeline...")
-        signals = [FallbackSignal()]
-
-    writer = writer_class()
-    bridge = MediaFactoryBridge()
-
-    for idx, raw_signal in enumerate(signals, 1):
-        # Wrap signal in proxy to protect writer against missing fields
-        signal = SafeSignalProxy(raw_signal)
-
-        print(f"\n--- Processing Signal {idx}/{len(signals)} [{signal.id}] ---")
-        print(f"Demand Source: {signal.source} | Friction: {signal.friction_text}")
-
-        # Step 2: Generate Script Payload
-        print("[2/3] Generating High-Retention Script...")
-        generate_func = (
-            getattr(writer, "generate_script", None)
-            or getattr(writer, "write", None)
-            or getattr(writer, "run", None)
-        )
-        script = generate_func(signal)
-
-        print(f"Script Title: {getattr(script, 'title', 'Untitled')}")
-        print(f"Hook: '{getattr(script, 'hook_text', getattr(script, 'hook', ''))}'")
-
-        # Step 3: Composite Video Asset to Vault
-        print("[3/3] Compositing Asset via MediaFactory to Vault...")
-        video_path = bridge.render_script(script)
-        print(f"[✓] Render Complete and Saved to Vault: {video_path}")
-
+    # Render video through core pipeline
+    output_video_path = build_video(script_data=blueprint, output_filename=f"{title}.mp4")
+    print(f"[SUCCESS] Render Complete -> {output_video_path}")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Agent Network Autopilot")
-    parser.add_argument("--mode", type=str, default="single", choices=["single", "batch"])
-    parser.add_argument("--count", type=int, default=1)
-    args = parser.parse_args()
-
-    run_pipeline(mode=args.mode, count=args.count)
+    topic = sys.argv[1] if len(sys.argv) > 1 else "wasting time seeking comfort and avoiding hard execution"
+    run_mindset_pipeline(topic)
