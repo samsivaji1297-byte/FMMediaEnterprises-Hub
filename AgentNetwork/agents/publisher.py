@@ -1,180 +1,122 @@
 import os
-import time
 import json
 import requests
+import time
 from pathlib import Path
 
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+RENDERS_DIR = REPO_ROOT / "MediaFactory" / "vault" / "renders"
+QUEUE_FILE = REPO_ROOT / "vault" / "queue.json"
+PUBLISHED_FILE = REPO_ROOT / "vault" / "published_reels.json"
+
 class InstagramPublisher:
-    """Publishes reels using raw GitHub repository links as the video CDN for Meta Graph API."""
-
     def __init__(self):
-        self.ig_user_id = os.getenv("IG_USER_ID") or os.getenv("INSTAGRAM_ACCOUNT_ID")
-        self.access_token = (
-            os.getenv("IG_ACCESS_TOKEN")
-            or os.getenv("INSTAGRAM_ACCESS_TOKEN")
-            or os.getenv("META_ACCESS_TOKEN")
-        )
-        self.github_repo = os.getenv("GITHUB_REPOSITORY")  # e.g., 'owner/repo'
-        self.graph_url = "https://graph.facebook.com/v21.0"
+        self.access_token = os.environ.get("IG_ACCESS_TOKEN") or os.environ.get("INSTAGRAM_ACCESS_TOKEN")
+        self.user_id = os.environ.get("IG_USER_ID") or os.environ.get("INSTAGRAM_ACCOUNT_ID")
+        self.repo = os.environ.get("GITHUB_REPOSITORY")
+        self.api_version = "v19.0"
+        self.base_url = f"https://graph.facebook.com/{self.api_version}"
+
+    def publish_pending_reels(self):
+        print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING PENDING REELS ===")
         
-        # Path resolution pointing to MediaFactory vault
-        self.vault_dir = Path(__file__).resolve().parent.parent.parent / "MediaFactory" / "vault"
+        if not RENDERS_DIR.exists():
+            print(f"[!] Renders directory missing at {RENDERS_DIR}")
+            return
 
-    def get_raw_github_url(self, relative_path: str) -> str:
-        """Constructs direct public raw link on GitHub CDN."""
-        return f"https://raw.githubusercontent.com/{self.github_repo}/main/MediaFactory/vault/{relative_path}"
+        # Find all mp4 files in MediaFactory/vault/renders/
+        video_files = list(RENDERS_DIR.glob("*.mp4"))
+        if not video_files:
+            print("[!] No pending reels found in vault/renders/ directory.")
+            return
 
-    def _generate_fallback_caption(self, base_name: str) -> str:
-        """Generates a clean fallback caption if no .txt file exists."""
-        clean_title = base_name.replace("_", " ").replace("-", " ").title()
-        return (
-            f"{clean_title}\n\n"
-            "Execution over speculation. Systemize the workflow.\n\n"
-            "#automation #productivity #systems #operator #buildinpublic"
-        )
-
-    def publish_latest_vault_reel(self) -> str:
-        """Processes and publishes the oldest unposted reel from vault queue."""
-        if not self.vault_dir.exists():
-            print(f"[!] Vault directory does not exist at {self.vault_dir}. No reels to publish.")
-            return ""
-
-        queue_file = self.vault_dir / "queue.json"
-        posted_runs = []
-
-        if queue_file.exists():
+        published_log = []
+        if PUBLISHED_FILE.exists():
             try:
-                with open(queue_file, "r", encoding="utf-8") as f:
-                    posted_runs = json.load(f).get("posted", [])
+                with open(PUBLISHED_FILE, "r", encoding="utf-8") as f:
+                    published_log = json.load(f)
             except Exception:
-                posted_runs = []
+                published_log = []
 
-        # Find target video file across subdirectories or renders/ folder
-        target_video_path = None
-        target_caption_path = None
-        target_run_id = None
-        relative_cdn_path = None
+        already_published = {item.get("filename") for item in published_log if isinstance(item, dict)}
 
-        # Check subdirectories first
-        subdirs = [d for d in self.vault_dir.iterdir() if d.is_dir()]
-        subdirs.sort()
-
-        for d in subdirs:
-            if d.name in posted_runs or d.name in ("audio", "renders", "cache"):
+        for video_path in video_files:
+            filename = video_path.name
+            if filename in already_published:
                 continue
-            mp4_file = next((f for f in d.glob("*.mp4")), None)
-            if mp4_file:
-                target_video_path = mp4_file
-                target_caption_path = next((f for f in d.glob("*.txt")), None)
-                target_run_id = d.name
-                relative_cdn_path = f"{d.name}/{mp4_file.name}"
-                break
 
-        # Fallback to direct renders folder if no subfolder run was found
-        if not target_video_path:
-            renders_dir = self.vault_dir / "renders"
-            if renders_dir.exists():
-                mp4_files = sorted(renders_dir.glob("*.mp4"))
-                for mp4_file in mp4_files:
-                    if mp4_file.name not in posted_runs and mp4_file.stem not in posted_runs:
-                        target_video_path = mp4_file
-                        target_caption_path = mp4_file.with_suffix(".txt")
-                        target_run_id = mp4_file.name
-                        relative_cdn_path = f"renders/{mp4_file.name}"
-                        break
+            txt_path = video_path.with_suffix(".txt")
+            caption = ""
+            if txt_path.exists():
+                caption = txt_path.read_text(encoding="utf-8")
 
-        if not target_video_path:
-            print("[*] No pending reels found in vault.")
-            return ""
+            # CDN URL where GitHub Actions pushed the rendered video asset
+            video_url = f"https://raw.githubusercontent.com/{self.repo}/main/MediaFactory/vault/renders/{filename}"
+            print(f"[*] Processing Reel: {filename}")
+            print(f"[*] CDN Target URL: {video_url}")
 
-        if not self.access_token or not self.ig_user_id:
-            print("[!] Meta API credentials missing in environment variables.")
-            return ""
+            if not self.access_token or not self.user_id:
+                print("[!] IG_ACCESS_TOKEN or IG_USER_ID not configured. Running dry-run mode.")
+                published_log.append({
+                    "filename": filename,
+                    "media_id": f"mock_id_{filename}",
+                    "published_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                    "status": "MOCK_PUBLISHED"
+                })
+                continue
 
-        # Extract or fallback caption text
-        caption_text = ""
-        if target_caption_path and target_caption_path.exists() and target_caption_path.stat().st_size > 0:
-            with open(target_caption_path, "r", encoding="utf-8") as f:
-                caption_text = f.read().strip()
-            print(f"[✓] Loaded caption from {target_caption_path.name}")
-        else:
-            caption_text = self._generate_fallback_caption(target_video_path.stem)
-            print(f"[*] No caption file found. Applied auto-fallback caption for {target_video_path.name}")
+            # Meta Graph API Container Creation & Publishing Sequence
+            container_id = self._create_container(video_url, caption)
+            if container_id and self._wait_for_container(container_id):
+                media_id = self._publish_container(container_id)
+                if media_id:
+                    print(f"[✓] Successfully Published Reel to Instagram! Media ID: {media_id}")
+                    published_log.append({
+                        "filename": filename,
+                        "media_id": media_id,
+                        "published_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                        "status": "PUBLISHED"
+                    })
 
-        raw_video_url = self.get_raw_github_url(relative_cdn_path)
+        # Sync published history back to vault
+        PUBLISHED_FILE.parent.mkdir(parents=True, exist_ok=True)
+        with open(PUBLISHED_FILE, "w", encoding="utf-8") as f:
+            json.dump(published_log, f, indent=4)
 
-        print(f"=== Publishing Reel via Meta Graph API: {target_run_id} ===")
-        print(f"[*] Public Video URL: {raw_video_url}")
-
-        # Step 1: Create Container
-        container_endpoint = f"{self.graph_url}/{self.ig_user_id}/media"
+    def _create_container(self, video_url, caption):
+        url = f"{self.base_url}/{self.user_id}/media"
         payload = {
             "media_type": "REELS",
-            "video_url": raw_video_url,
-            "caption": caption_text,
-            "access_token": self.access_token,
+            "video_url": video_url,
+            "caption": caption,
+            "access_token": self.access_token
         }
+        res = requests.post(url, data=payload, timeout=15)
+        data = res.json()
+        return data.get("id")
 
-        res = requests.post(container_endpoint, data=payload, timeout=30).json()
-        creation_id = res.get("id")
-
-        if not creation_id:
-            print(f"[!] Failed to create container on Meta: {res}")
-            return ""
-
-        print(f"[+] Container created! ID: {creation_id}")
-
-        # Step 2: Poll Container Status
-        status_endpoint = f"{self.graph_url}/{creation_id}"
-        status = ""
-        attempts = 0
-
-        while status != "FINISHED" and attempts < 25:
-            time.sleep(6)
-            status_res = requests.get(
-                status_endpoint,
-                params={"fields": "status_code", "access_token": self.access_token},
-                timeout=15,
-            ).json()
-
-            status = status_res.get("status_code", "")
-            print(f"[*] Processing status [{attempts + 1}/25]: {status}")
-
+    def _wait_for_container(self, container_id, max_attempts=12):
+        url = f"{self.base_url}/{container_id}?fields=status_code&access_token={self.access_token}"
+        for _ in range(max_attempts):
+            res = requests.get(url, timeout=10).json()
+            status = res.get("status_code")
             if status == "FINISHED":
-                break
-            elif status in ("ERROR", "EXPIRED"):
-                print(f"[!] Container processing failed on Meta: {status_res}")
-                return ""
-            attempts += 1
+                return True
+            elif status == "ERROR":
+                print(f"[!] Meta processing failed for container {container_id}")
+                return False
+            time.sleep(5)
+        return False
 
-        if status != "FINISHED":
-            print("[!] Media processing timed out on Meta servers.")
-            return ""
-
-        # Step 3: Publish Media
-        publish_endpoint = f"{self.graph_url}/{self.ig_user_id}/media_publish"
-        publish_res = requests.post(
-            publish_endpoint,
-            data={"creation_id": creation_id, "access_token": self.access_token},
-            timeout=15,
-        ).json()
-
-        print(f"[+] Publish response: {publish_res}")
-
-        if "id" in publish_res:
-            media_id = publish_res["id"]
-            posted_runs.append(target_run_id)
-            
-            # Ensure folder structure exists for queue writing
-            queue_file.parent.mkdir(parents=True, exist_ok=True)
-            with open(queue_file, "w", encoding="utf-8") as f:
-                json.dump({"posted": posted_runs}, f, indent=4)
-                
-            print(f"[SUCCESS] Published reel '{target_run_id}' to Instagram! Media ID: {media_id}")
-            return media_id
-
-        return ""
+    def _publish_container(self, container_id):
+        url = f"{self.base_url}/{self.user_id}/media_publish"
+        payload = {
+            "creation_id": container_id,
+            "access_token": self.access_token
+        }
+        res = requests.post(url, data=payload, timeout=15)
+        return res.json().get("id")
 
 if __name__ == "__main__":
     publisher = InstagramPublisher()
-    publisher.publish_latest_vault_reel()
+    publisher.publish_pending_reels()
