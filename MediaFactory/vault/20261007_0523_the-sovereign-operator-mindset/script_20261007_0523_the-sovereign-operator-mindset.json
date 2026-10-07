@@ -1,0 +1,33 @@
+{
+    "title": "THE SOVEREIGN OPERATOR MINDSET",
+    "voiceover_full": "Identity is not what you say. It is what you execute daily when no one is watching. Build systems. Reclaim sovereignty.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Identity is not what you say.",
+            "text_overlay": "IDENTITY IS EXECUTION",
+            "visual_prompt": "dark aesthetic minimalist",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "It is what you execute daily when no one is watching.",
+            "text_overlay": "SILENT WORK",
+            "visual_prompt": "dark aesthetic minimalist",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Build systems. Reclaim sovereignty.",
+            "text_overlay": "RECLAIM SOVEREIGNTY",
+            "visual_prompt": "dark aesthetic minimalist",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261007_0523_the-sovereign-operator-mindset",
+        "topic": "The Sovereign Operator Mindset",
+        "theme": "sovereign",
+        "timestamp": "20261007_0523"
+    }
+}
