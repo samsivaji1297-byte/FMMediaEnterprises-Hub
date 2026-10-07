@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOVEREIGN FLEET // COMMAND HUB</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --panel-bg: #1f2833;
+            --text-main: #c5c6c7;
+            --accent-cyan: #66fcf1;
+            --accent-dark-cyan: #45a29e;
+            --accent-gold: #d4af37;
+            --danger-red: #ff4d4d;
+            --border-color: #2c3540;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 24px;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--accent-cyan);
+            padding-bottom: 16px;
+            margin-bottom: 24px;
+        }
+
+        h1 {
+            color: var(--accent-cyan);
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .status-badge {
+            background-color: rgba(102, 252, 241, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 6px 14px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+        }
+
+        .card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .col-4 { grid-column: span 4; }
+        .col-8 { grid-column: span 8; }
+        .col-12 { grid-column: span 12; }
+
+        .card-header {
+            color: var(--accent-gold);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .stat-number {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-top: 8px;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--accent-dark-cyan);
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.85rem;
+        }
+
+        th {
+            color: var(--accent-dark-cyan);
+            text-transform: uppercase;
+        }
+
+        tr:hover {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        .btn {
+            background-color: transparent;
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            padding: 10px 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn:hover {
+            background-color: var(--accent-cyan);
+            color: var(--bg-color);
+            box-shadow: 0 0 12px rgba(102, 252, 241, 0.4);
+        }
+
+        .log-terminal {
+            background-color: #050608;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 14px;
+            height: 220px;
+            overflow-y: auto;
+            font-size: 0.8rem;
+            color: #8899a6;
+            line-height: 1.5;
+        }
+
+        .log-entry { margin-bottom: 6px; }
+        .log-success { color: var(--accent-cyan); }
+        .log-warn { color: var(--accent-gold); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>[ SYSTEM_OVERWATCH // FLEET COMMAND ]</h1>
+        <div class="status-badge">● NETWORK OPERATIONAL</div>
+    </header>
+
+    <div class="grid">
+        <!-- Fleet Stats -->
+        <div class="card col-4">
+            <div class="card-header">Target Conversion (CEI)</div>
+            <div class="stat-number">94.8%</div>
+            <div class="stat-label">Capital Efficiency Index</div>
+        </div>
+
+        <div class="card col-4">
+            <div class="card-header">Vault Inventory</div>
+            <div class="stat-number" id="vaultCount">Ready</div>
+            <div class="stat-label">Renders Stocked in Vault</div>
+        </div>
+
+        <div class="card col-4">
+            <div class="card-header">Active Fleet Units</div>
+            <div class="stat-number">4 BOTS</div>
+            <div class="stat-label">Strategist | Scriptwright | Miner | Publisher</div>
+        </div>
+
+        <!-- Terminal Logs -->
+        <div class="card col-12">
+            <div class="card-header">
+                <span>System Execution Log</span>
+                <button class="btn" onclick="triggerBatch()">Deploy Generation Batch</button>
+            </div>
+            <div class="log-terminal" id="terminal">
+                <div class="log-entry log-success">[SYSTEM]: Core pipeline initialized. Path anchoring locked.</div>
+                <div class="log-entry">[AGENTS]: SovereignStrategist & KineticScriptwright online.</div>
+                <div class="log-entry log-warn">[VAULT]: MediaFactory/vault synchronized with GitHub CDN.</div>
+                <div class="log-entry">[STATUS]: Awaiting batch triggers or scheduled cron execution.</div>
+            </div>
+        </div>
+
+        <!-- Intelligence Table -->
+        <div class="card col-12">
+            <div class="card-header">Intelligence & Content Queue</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Topic Seed</th>
+                        <th>Agent Hook</th>
+                        <th>Target Friction</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>The Calendly Effect</td>
+                        <td>"Stop wasting 4 messages to schedule 1 call."</td>
+                        <td>Micro-friction & Asymmetric Leverage</td>
+                        <td><span style="color: var(--accent-cyan);">READY</span></td>
+                    </tr>
+                    <tr>
+                        <td>Comfort Trap</td>
+                        <td>"Comfort is the hidden killer of progress."</td>
+                        <td>Cheap Dopamine & Soft Execution</td>
+                        <td><span style="color: var(--accent-gold);">PUBLISHED</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        function triggerBatch() {
+            const terminal = document.getElementById('terminal');
+            const entry = document.createElement('div');
+            entry.className = 'log-entry log-success';
+            entry.innerText = `[TRIGGER]: Manual batch generation dispatched at ${new Date().toLocaleTimeString()}...`;
+            terminal.appendChild(entry);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+    </script>
+</body>
+</html>
