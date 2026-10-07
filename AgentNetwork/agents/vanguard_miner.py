@@ -1,8 +1,11 @@
 import os
 import json
 import random
+from pathlib import Path
 
-QUEUE_PATH = "vault/queue.json"
+# Resolve path relative to repo root to avoid directory execution bugs
+REPO_ROOT = Path(__file__).resolve().parent.parent.parent
+QUEUE_PATH = REPO_ROOT / "vault" / "queue.json"
 
 FRICTION_SEEDS = [
     {
@@ -24,26 +27,26 @@ FRICTION_SEEDS = [
 
 class VanguardMiner:
     def __init__(self, queue_path=QUEUE_PATH):
-        self.queue_path = queue_path
+        self.queue_path = Path(queue_path)
 
     def mine_friction(self):
         print("=== [VANGUARD MINER]: SCRAPING HIGH-FRICTION TARGETS ===")
         selected = random.choice(FRICTION_SEEDS)
         print(f"[+] Friction Isolated: '{selected['friction_point']}'")
         
-        # Construct pipeline queue entry
+        # Construct pipeline queue entry with PENDING status for publisher consumption
         payload = {
             "title": f"Friction Solution - {selected['friction_point'][:20]}",
             "hook_text": selected["hook"],
             "core_text": f"Daily friction like {selected['friction_point'].lower()} drains energy and halts growth.",
             "cta_text": selected["solution_cta"],
             "broll_query": "office laptop focus dark aesthetic",
-            "status": "READY_FOR_RENDER"
+            "status": "PENDING"
         }
 
-        os.makedirs(os.path.dirname(self.queue_path), exist_ok=True)
+        self.queue_path.parent.mkdir(parents=True, exist_ok=True)
         queue = []
-        if os.path.exists(self.queue_path):
+        if self.queue_path.exists():
             try:
                 with open(self.queue_path, "r", encoding="utf-8") as f:
                     queue = json.load(f)
