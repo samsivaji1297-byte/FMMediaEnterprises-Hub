@@ -1,0 +1,41 @@
+name: War Room Autonomous Campaign
+
+on:
+  schedule:
+    # Runs twice daily at 00:00 and 12:00 UTC
+    - cron: '0 0,12 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  run-war-room:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Codebase
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Execute War Room Orchestrator
+        env:
+          IG_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          python -m AgentNetwork.council.war_room_orchestrator
+
+      - name: Commit State & Log Updates
+        run: |
+          git config --global user.name "WarRoom-Bot"
+          git config --global user.email "bot@warroom.local"
+          git add vault/war_map_state.json vault/conversion_log.json
+          git diff-index --quiet HEAD || git commit -m "auto(war-room): sync war map state and conversion logs [skip ci]"
+          git push
