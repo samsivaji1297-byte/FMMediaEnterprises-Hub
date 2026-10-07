@@ -2,7 +2,7 @@ name: Digital War Room Multi-Agent Fleet Network
 
 on:
   schedule:
-    - cron: '0 */6 * * *'  # Runs every 6 hours
+    - cron: '0 */4 * * *'  # Runs every 6 hours
   workflow_dispatch:
 
 jobs:
