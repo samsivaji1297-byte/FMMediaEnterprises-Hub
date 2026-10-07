@@ -97,9 +97,9 @@ def run_war_room_pipeline():
         from MediaFactory.src.video_builder import build_video
         output_video_path = renders_dir / f"{title}.mp4"
         build_video(
-            script_data=blueprint, 
-            audio_path=str(audio_path),
-            output_filename=f"{title}.mp4"
+            blueprint, 
+            str(audio_path),
+            str(output_video_path)
         )
         print(f"\n[SUCCESS] Render Complete: {output_video_path}")
     except Exception as e:
