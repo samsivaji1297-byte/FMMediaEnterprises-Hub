@@ -82,7 +82,7 @@ jobs:
 
       - name: Commit Updated Vault Queue & Intelligence Memory
         run: |
-          git add MediaFactory/vault/ queue.json vault/
+          git add MediaFactory/vault/ vault/
           git commit -m "vault: update published queue & analytics intelligence state [skip ci]" || echo "No changes to commit"
           git pull --rebase origin main
           git push
