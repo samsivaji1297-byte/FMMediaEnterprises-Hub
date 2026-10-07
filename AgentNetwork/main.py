@@ -3,6 +3,7 @@ import os
 import json
 import argparse
 from pathlib import Path
+from datetime import datetime
 
 # Anchor repo root to sys.path
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -72,8 +73,12 @@ def run_war_room_pipeline():
 
     # 5. MediaFactory Vault Renders
     print("\n=== [MEDIAFACTORY]: Generating Audio & Video Assets ===")
+    
     title_raw = blueprint.get("title", "relentless_execution")
-    title = "".join(c for c in title_raw if c.isalnum() or c in ("_", "-")).lower()
+    clean_title = "".join(c for c in title_raw if c.isalnum() or c in ("_", "-")).lower()
+    # Guarantees a unique filename EVERY execution so collision/rename hacks are never needed
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    title = f"{clean_title}_{timestamp}"
 
     vault_dir = REPO_ROOT / "vault"
     renders_dir = REPO_ROOT / "MediaFactory" / "vault" / "renders"
