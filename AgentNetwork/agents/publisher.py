@@ -2,6 +2,7 @@ import os
 import json
 import requests
 import time
+import uuid
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -38,12 +39,35 @@ class InstagramPublisher:
             except Exception:
                 published_log = []
 
-        already_published = {item.get("filename") for item in published_log if isinstance(item, dict)}
+        # Build a set of filenames that have already been SUCCESSFULLY published
+        already_published = {
+            item.get("filename") 
+            for item in published_log 
+            if isinstance(item, dict) and item.get("status") in ["PUBLISHED", "MOCK_PUBLISHED"]
+        }
 
         for video_path in video_files:
             filename = video_path.name
+            
+            # If the filename collides with a previously logged entry, generate a unique variant
             if filename in already_published:
-                continue
+                print(f"[!] Warning: '{filename}' already marked as published. Regenerating unique asset signature...")
+                unique_suffix = f"_{int(time.time())}_{uuid.uuid4().hex[:4]}"
+                new_stem = f"{video_path.stem}{unique_suffix}"
+                new_video_path = video_path.with_name(f"{new_stem}.mp4")
+                
+                # Rename the mp4 file
+                video_path.rename(new_video_path)
+                
+                # Rename associated .txt caption file if present
+                txt_path = video_path.with_suffix(".txt")
+                if txt_path.exists():
+                    new_txt_path = txt_path.with_name(f"{new_stem}.txt")
+                    txt_path.rename(new_txt_path)
+                
+                video_path = new_video_path
+                filename = video_path.name
+                print(f"[✓] Renamed asset to: '{filename}'")
 
             txt_path = video_path.with_suffix(".txt")
             caption = ""
@@ -93,6 +117,8 @@ class InstagramPublisher:
         }
         res = requests.post(url, data=payload, timeout=15)
         data = res.json()
+        if "error" in data:
+            print(f"[!] Container Creation Error: {data['error'].get('message')}")
         return data.get("id")
 
     def _wait_for_container(self, container_id, max_attempts=12):
@@ -115,7 +141,10 @@ class InstagramPublisher:
             "access_token": self.access_token
         }
         res = requests.post(url, data=payload, timeout=15)
-        return res.json().get("id")
+        data = res.json()
+        if "error" in data:
+            print(f"[!] Publish Container Error: {data['error'].get('message')}")
+        return data.get("id")
 
 if __name__ == "__main__":
     publisher = InstagramPublisher()
