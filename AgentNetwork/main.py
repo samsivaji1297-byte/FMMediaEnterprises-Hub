@@ -13,6 +13,7 @@ from AgentNetwork.agents.grand_strategist import GrandStrategist
 from AgentNetwork.agents.revenue_enforcer import RevenueEnforcer
 from AgentNetwork.agents.vanguard_miner import VanguardMiner
 from AgentNetwork.agents.mindset_agents import SovereignStrategist, KineticScriptwright
+from AgentNetwork.agents.analytics_agent import InstagramAnalyticsAgent
 
 def generate_voiceover_failsafe(text: str, output_path: str):
     """Generates TTS audio with zero dependency on local sub-modules."""
@@ -72,10 +73,11 @@ def run_war_room_pipeline():
     title_raw = blueprint.get("title", "relentless_execution")
     title = "".join(c for c in title_raw if c.isalnum() or c in ("_", "-")).lower()
 
-    vault_dir = REPO_ROOT / "MediaFactory" / "vault"
-    renders_dir = vault_dir / "renders"
-    audio_dir = vault_dir / "audio"
+    vault_dir = REPO_ROOT / "vault"
+    renders_dir = REPO_ROOT / "MediaFactory" / "vault" / "renders"
+    audio_dir = REPO_ROOT / "MediaFactory" / "vault" / "audio"
 
+    vault_dir.mkdir(parents=True, exist_ok=True)
     renders_dir.mkdir(parents=True, exist_ok=True)
     audio_dir.mkdir(parents=True, exist_ok=True)
 
@@ -99,7 +101,10 @@ def run_war_room_pipeline():
         print(f"\n[SUCCESS] Render Complete: {output_video_path}")
     except Exception as e:
         print(f"[!] Video Rendering failed: {e}")
-        raise e
+
+    # 6. Instagram Analytics Agent: Scrape Performance & Train Intelligence Memory
+    analytics_agent = InstagramAnalyticsAgent()
+    analytics_agent.update_intelligence()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Digital War Room Fleet Pipeline.")
