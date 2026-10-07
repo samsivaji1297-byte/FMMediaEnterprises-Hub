@@ -1,0 +1,43 @@
+{
+    "last_analytics_run": "2026-10-07T03:25:28.848005",
+    "top_performing_hooks": [
+        {
+            "media_id": "17972331006170700",
+            "hook": "Unknown Hook",
+            "plays": 2215,
+            "saves": 150,
+            "shares": 150,
+            "score": 1121.5
+        },
+        {
+            "media_id": "18018928190732657",
+            "hook": "Unknown Hook",
+            "plays": 6767,
+            "saves": 61,
+            "shares": 11,
+            "score": 892.7
+        },
+        {
+            "media_id": "17972244783157700",
+            "hook": "Unknown Hook",
+            "plays": 7970,
+            "saves": 320,
+            "shares": 201,
+            "score": 2360.0
+        },
+        {
+            "media_id": "17983913403086345",
+            "hook": "Unknown Hook",
+            "plays": 2312,
+            "saves": 202,
+            "shares": 122,
+            "score": 1203.2
+        }
+    ],
+    "underperforming_hooks": [],
+    "aggregate_stats": {
+        "total_plays": 19264,
+        "total_saves": 733,
+        "total_shares": 484
+    }
+}
