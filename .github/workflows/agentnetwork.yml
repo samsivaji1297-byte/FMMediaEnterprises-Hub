@@ -49,19 +49,21 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f MediaFactory/requirements.txt ]; then pip install -r MediaFactory/requirements.txt; fi
 
-      - name: Execute Agent Network Generation
+      - name: Execute Full War Room Fleet Pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          INSTAGRAM_ACCOUNT_ID: ${{ secrets.IG_USER_ID || secrets.INSTAGRAM_ACCOUNT_ID }}
+          INSTAGRAM_ACCESS_TOKEN: ${{ secrets.IG_ACCESS_TOKEN || secrets.INSTAGRAM_ACCESS_TOKEN || secrets.META_ACCESS_TOKEN }}
         run: |
           python -m AgentNetwork.main --mode ${{ github.event.inputs.mode || 'single' }} --count ${{ github.event.inputs.count || '1' }}
 
-      - name: Commit & Push Rendered Assets to Vault
+      - name: Commit & Push Rendered Assets & Vault Memory
         run: |
           git config --global user.name "AgentNetwork Bot"
           git config --global user.email "bot@agentnetwork.local"
-          git add MediaFactory/vault/
-          git commit -m "vault: archive rendered assets [skip ci]" || echo "No changes to commit"
+          git add MediaFactory/vault/ vault/
+          git commit -m "vault: archive rendered assets and update War Map state [skip ci]" || echo "No changes to commit"
           git pull --rebase origin main
           git push
 
@@ -78,10 +80,10 @@ jobs:
         run: |
           python -m AgentNetwork.agents.publisher
 
-      - name: Commit Updated Vault Queue State
+      - name: Commit Updated Vault Queue & Intelligence Memory
         run: |
-          git add MediaFactory/vault/queue.json
-          git commit -m "vault: update published queue state [skip ci]" || echo "No changes to commit"
+          git add MediaFactory/vault/ queue.json vault/
+          git commit -m "vault: update published queue & analytics intelligence state [skip ci]" || echo "No changes to commit"
           git pull --rebase origin main
           git push
 
@@ -93,4 +95,5 @@ jobs:
           path: |
             MediaFactory/vault/*/*.mp4
             MediaFactory/vault/*/*.txt
+            vault/*.json
           retention-days: 7
