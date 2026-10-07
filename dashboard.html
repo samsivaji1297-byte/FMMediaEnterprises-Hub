@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOVEREIGN FLEET // COMMAND HUB</title>
+    <title>DIGITAL WAR ROOM // GRAND STRATEGIST HUD</title>
     <style>
         :root {
-            --bg-color: #0b0c10;
-            --panel-bg: #1f2833;
-            --text-main: #c5c6c7;
-            --accent-cyan: #66fcf1;
-            --accent-dark-cyan: #45a29e;
-            --accent-gold: #d4af37;
-            --danger-red: #ff4d4d;
-            --border-color: #2c3540;
+            --bg-color: #08090c;
+            --panel-bg: #12161f;
+            --panel-border: #1e2636;
+            --text-main: #d1d5db;
+            --text-dim: #6b7280;
+            --accent-cyan: #00f2fe;
+            --accent-gold: #f59e0b;
+            --accent-emerald: #10b981;
+            --danger-red: #ef4444;
         }
 
         * {
@@ -26,7 +27,7 @@
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding: 24px;
+            padding: 20px;
             min-height: 100vh;
         }
 
@@ -35,96 +36,139 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 2px solid var(--accent-cyan);
-            padding-bottom: 16px;
-            margin-bottom: 24px;
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+        }
+
+        .title-block {
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
         h1 {
             color: var(--accent-cyan);
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             letter-spacing: 2px;
             text-transform: uppercase;
         }
 
         .status-badge {
-            background-color: rgba(102, 252, 241, 0.1);
-            color: var(--accent-cyan);
-            border: 1px solid var(--accent-cyan);
-            padding: 6px 14px;
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--accent-emerald);
+            border: 1px solid var(--accent-emerald);
+            padding: 4px 10px;
             border-radius: 4px;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             letter-spacing: 1px;
         }
 
         .grid {
             display: grid;
             grid-template-columns: repeat(12, 1fr);
-            gap: 20px;
+            gap: 16px;
         }
 
         .card {
             background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--panel-border);
             border-radius: 6px;
-            padding: 20px;
+            padding: 16px;
         }
 
+        .col-3 { grid-column: span 3; }
         .col-4 { grid-column: span 4; }
+        .col-6 { grid-column: span 6; }
         .col-8 { grid-column: span 8; }
         .col-12 { grid-column: span 12; }
 
         .card-header {
             color: var(--accent-gold);
-            font-size: 1rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1.5px;
-            margin-bottom: 16px;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .stat-number {
-            font-size: 2.2rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #fff;
-            margin-top: 8px;
+            margin-top: 4px;
         }
 
         .stat-label {
-            font-size: 0.8rem;
-            color: var(--accent-dark-cyan);
+            font-size: 0.75rem;
+            color: var(--text-dim);
             text-transform: uppercase;
+            margin-top: 4px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        /* War Map Node Visualizer */
+        .war-map-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
             margin-top: 10px;
         }
 
-        th, td {
-            text-align: left;
-            padding: 12px;
-            border-bottom: 1px solid var(--border-color);
-            font-size: 0.85rem;
-        }
-
-        th {
-            color: var(--accent-dark-cyan);
-            text-transform: uppercase;
-        }
-
-        tr:hover {
+        .map-node {
             background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--panel-border);
+            border-radius: 4px;
+            padding: 12px;
         }
+
+        .node-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 8px;
+        }
+
+        .progress-bar-bg {
+            background-color: #1a202c;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 6px;
+        }
+
+        .progress-bar-fill {
+            background-color: var(--accent-cyan);
+            height: 100%;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        /* Terminal Logs */
+        .log-terminal {
+            background-color: #040507;
+            border: 1px solid var(--panel-border);
+            border-radius: 4px;
+            padding: 12px;
+            height: 200px;
+            overflow-y: auto;
+            font-size: 0.78rem;
+            color: #8899a6;
+            line-height: 1.6;
+        }
+
+        .log-entry { margin-bottom: 4px; }
+        .log-success { color: var(--accent-cyan); }
+        .log-warn { color: var(--accent-gold); }
+        .log-danger { color: var(--danger-red); }
 
         .btn {
             background-color: transparent;
             color: var(--accent-cyan);
             border: 1px solid var(--accent-cyan);
-            padding: 10px 20px;
-            font-size: 0.9rem;
+            padding: 8px 16px;
+            font-size: 0.8rem;
             cursor: pointer;
             border-radius: 4px;
             transition: all 0.2s ease;
@@ -135,91 +179,144 @@
         .btn:hover {
             background-color: var(--accent-cyan);
             color: var(--bg-color);
-            box-shadow: 0 0 12px rgba(102, 252, 241, 0.4);
+            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
         }
 
-        .log-terminal {
-            background-color: #050608;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 14px;
-            height: 220px;
-            overflow-y: auto;
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 8px;
+        }
+
+        th, td {
+            text-align: left;
+            padding: 10px;
+            border-bottom: 1px solid var(--panel-border);
             font-size: 0.8rem;
-            color: #8899a6;
-            line-height: 1.5;
         }
 
-        .log-entry { margin-bottom: 6px; }
-        .log-success { color: var(--accent-cyan); }
-        .log-warn { color: var(--accent-gold); }
+        th {
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
 
     <header>
-        <h1>[ SYSTEM_OVERWATCH // FLEET COMMAND ]</h1>
-        <div class="status-badge">● NETWORK OPERATIONAL</div>
+        <div class="title-block">
+            <h1>[ DIGITAL WAR ROOM // SYSTEM OVERWATCH ]</h1>
+        </div>
+        <div class="status-badge">● FLEET ACTIVE // 7 UNITS</div>
     </header>
 
     <div class="grid">
-        <!-- Fleet Stats -->
-        <div class="card col-4">
-            <div class="card-header">Target Conversion (CEI)</div>
-            <div class="stat-number">94.8%</div>
-            <div class="stat-label">Capital Efficiency Index</div>
+        <!-- Revenue Enforcer HUD -->
+        <div class="card col-3">
+            <div class="card-header">Revenue Enforcer</div>
+            <div class="stat-number" style="color: var(--accent-emerald);">$1 / Day</div>
+            <div class="stat-label">Daily Minimum Target</div>
         </div>
 
-        <div class="card col-4">
+        <div class="card col-3">
+            <div class="card-header">Enforcement Mode</div>
+            <div class="stat-number" style="color: var(--accent-cyan);">NOMINAL</div>
+            <div class="stat-label">Target Checkpoint Active</div>
+        </div>
+
+        <div class="card col-3">
+            <div class="card-header">Capital Efficiency (CEI)</div>
+            <div class="stat-number">98.4%</div>
+            <div class="stat-label">Conversion Rate Ratio</div>
+        </div>
+
+        <div class="card col-3">
             <div class="card-header">Vault Inventory</div>
-            <div class="stat-number" id="vaultCount">Ready</div>
-            <div class="stat-label">Renders Stocked in Vault</div>
+            <div class="stat-number" style="color: var(--accent-gold);">STOCKED</div>
+            <div class="stat-label">MediaFactory Renders</div>
         </div>
 
-        <div class="card col-4">
-            <div class="card-header">Active Fleet Units</div>
-            <div class="stat-number">4 BOTS</div>
-            <div class="stat-label">Strategist | Scriptwright | Miner | Publisher</div>
-        </div>
-
-        <!-- Terminal Logs -->
+        <!-- War Map: Platform & Domain Expansion -->
         <div class="card col-12">
             <div class="card-header">
-                <span>System Execution Log</span>
-                <button class="btn" onclick="triggerBatch()">Deploy Generation Batch</button>
+                <span>The Grand Strategist // War Map Frontlines</span>
+                <span style="font-size: 0.75rem; color: var(--text-dim);">ATTENTION DOMAINS</span>
             </div>
-            <div class="log-terminal" id="terminal">
-                <div class="log-entry log-success">[SYSTEM]: Core pipeline initialized. Path anchoring locked.</div>
-                <div class="log-entry">[AGENTS]: SovereignStrategist & KineticScriptwright online.</div>
-                <div class="log-entry log-warn">[VAULT]: MediaFactory/vault synchronized with GitHub CDN.</div>
-                <div class="log-entry">[STATUS]: Awaiting batch triggers or scheduled cron execution.</div>
+            <div class="war-map-container">
+                <div class="map-node">
+                    <div class="node-header">
+                        <span>INSTAGRAM REELS</span>
+                        <span style="color: var(--accent-emerald);">ACTIVE</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-dim);">Niche: Time Friction / Automation</div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: 78%;"></div>
+                    </div>
+                </div>
+
+                <div class="map-node">
+                    <div class="node-header">
+                        <span>YOUTUBE SHORTS</span>
+                        <span style="color: var(--accent-gold);">EXPANDING</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-dim);">Niche: Sovereign Mindset / Execution</div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: 45%; background-color: var(--accent-gold);"></div>
+                    </div>
+                </div>
+
+                <div class="map-node">
+                    <div class="node-header">
+                        <span>TIKTOK / THREADS</span>
+                        <span style="color: var(--text-dim);">QUEUED</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: var(--text-dim);">Niche: Asymmetric Value / SaaS</div>
+                    <div class="progress-bar-bg">
+                        <div class="progress-bar-fill" style="width: 15%; background-color: var(--text-dim);"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Intelligence Table -->
+        <!-- System Execution Feed -->
         <div class="card col-12">
-            <div class="card-header">Intelligence & Content Queue</div>
+            <div class="card-header">
+                <span>Agent Network Command Stream</span>
+                <button class="btn" onclick="triggerEmergencyPivot()">Force Revenue Check</button>
+            </div>
+            <div class="log-terminal" id="terminal">
+                <div class="log-entry log-success">[SYSTEM]: All 7 agent nodes synchronized in pipeline.</div>
+                <div class="log-entry">[GRAND STRATEGIST]: War map initialized. Attention domains online.</div>
+                <div class="log-entry">[FRICTION MINER]: Scraped $3B Calendly friction paradigm signal.</div>
+                <div class="log-entry log-warn">[REVENUE ENFORCER]: Daily target baseline set to 1 conversion/day minimum.</div>
+                <div class="log-entry">[VANGUARD PRIME]: Automated CI/CD runner verified. Ready for batch dispatch.</div>
+            </div>
+        </div>
+
+        <!-- Friction Mining & Offer Table -->
+        <div class="card col-12">
+            <div class="card-header">Friction Miner // Offer Engine Pipeline</div>
             <table>
                 <thead>
                     <tr>
-                        <th>Topic Seed</th>
-                        <th>Agent Hook</th>
                         <th>Target Friction</th>
-                        <th>Status</th>
+                        <th>Psychological Hook</th>
+                        <th>Offer Deliverable</th>
+                        <th>Revenue Status</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>The Calendly Effect</td>
-                        <td>"Stop wasting 4 messages to schedule 1 call."</td>
-                        <td>Micro-friction & Asymmetric Leverage</td>
-                        <td><span style="color: var(--accent-cyan);">READY</span></td>
+                        <td>Scheduling Overhead ($3B Calendly)</td>
+                        <td>"Stop wasting 4 emails to align 1 meeting."</td>
+                        <td>Operational Automation Blueprint</td>
+                        <td><span style="color: var(--accent-cyan);">ACTIVE CTA</span></td>
                     </tr>
                     <tr>
-                        <td>Comfort Trap</td>
+                        <td>Comfort & Passive Delay</td>
                         <td>"Comfort is the hidden killer of progress."</td>
-                        <td>Cheap Dopamine & Soft Execution</td>
-                        <td><span style="color: var(--accent-gold);">PUBLISHED</span></td>
+                        <td>Operator Mindset Kit</td>
+                        <td><span style="color: var(--accent-emerald);">CONVERTING</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -227,11 +324,11 @@
     </div>
 
     <script>
-        function triggerBatch() {
+        function triggerEmergencyPivot() {
             const terminal = document.getElementById('terminal');
             const entry = document.createElement('div');
-            entry.className = 'log-entry log-success';
-            entry.innerText = `[TRIGGER]: Manual batch generation dispatched at ${new Date().toLocaleTimeString()}...`;
+            entry.className = 'log-entry log-warn';
+            entry.innerText = `[REVENUE ENFORCER]: Manual conversion check dispatched at ${new Date().toLocaleTimeString()}. Evaluating threshold...`;
             terminal.appendChild(entry);
             terminal.scrollTop = terminal.scrollHeight;
         }
