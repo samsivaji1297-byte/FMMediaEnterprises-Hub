@@ -29,8 +29,18 @@ class InstagramAnalyticsAgent:
             res = requests.get(url, timeout=10)
             data = res.json()
             
+            # Handle API-level errors (e.g. missing permissions or unsupported metrics)
+            if "error" in data:
+                err_msg = data["error"].get("message", "Unknown API error")
+                err_code = data["error"].get("code")
+                if err_code == 10:
+                    print(f"[!] Analytics scope missing for Reel {media_id}. (Requires instagram_manage_insights). Skipping.")
+                else:
+                    print(f"[!] Meta API Error ({err_code}) for Reel {media_id}: {err_msg}")
+                return None
+
             if "data" not in data:
-                print(f"[!] Error pulling metrics for {media_id}: {data}")
+                print(f"[!] No metrics payload returned for {media_id}: {data}")
                 return None
 
             results = {}
@@ -81,6 +91,10 @@ class InstagramAnalyticsAgent:
                 pass
 
         for item in published_items:
+            # Handle cases where published_items contains strings or invalid objects
+            if isinstance(item, str):
+                continue
+                
             media_id = item.get("media_id")
             hook_text = item.get("hook_text", "Unknown Hook")
             
