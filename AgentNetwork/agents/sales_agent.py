@@ -2,6 +2,7 @@ import os
 import json
 import requests
 import time
+from datetime import datetime, timedelta
 from pathlib import Path
 
 # Resolve paths relative to repository root
@@ -41,6 +42,41 @@ class SalesDMOperator:
         self.api_version = "v19.0"
         self.base_url = f"https://graph.facebook.com/{self.api_version}"
 
+    def get_active_reels_to_sweep(self, published_log, max_reels=5, active_hours=72):
+        """
+        STOPGAP FILTER: Only sweeps reels published within the last 72 hours,
+        and caps total API calls to a maximum of 5 reels per execution.
+        """
+        cutoff_time = datetime.utcnow() - timedelta(hours=active_hours)
+        active_reels = []
+
+        # Ensure we only evaluate valid dictionary entries
+        valid_items = [item for item in published_log if isinstance(item, dict)]
+
+        # Sort so newest published posts come first
+        sorted_log = sorted(
+            valid_items,
+            key=lambda x: x.get("published_at", ""),
+            reverse=True
+        )
+
+        for item in sorted_log:
+            pub_date_str = item.get("published_at")
+            if pub_date_str:
+                try:
+                    # Standard ISO parsing for publication timestamps
+                    pub_date = datetime.strptime(pub_date_str, "%Y-%m-%dT%H:%M:%SZ")
+                    if pub_date < cutoff_time:
+                        continue  # Skip archived reels older than 72 hours
+                except ValueError:
+                    pass
+
+            active_reels.append(item)
+            if len(active_reels) >= max_reels:
+                break
+
+        return active_reels
+
     def run_sales_sweep(self):
         print("\n=== [SALES & DM OPERATOR]: EXECUTING INBOUND CONVERSION SWEEP ===")
 
@@ -61,9 +97,13 @@ class SalesDMOperator:
             print(f"[!] Error loading published reels: {e}")
             return
 
+        # APPLY STOPGAP FILTER: Max 5 reels, published within last 72 hours
+        reels_to_sweep = self.get_active_reels_to_sweep(published, max_reels=5, active_hours=72)
+        print(f"[*] Stopgap Active: Sweeping {len(reels_to_sweep)} recent reels (Max 5, <72h old).")
+
         processed_comments = self._load_processed_comments()
 
-        for reel in published:
+        for reel in reels_to_sweep:
             media_id = reel.get("media_id")
             if not media_id or media_id.startswith("mock_"):
                 continue
