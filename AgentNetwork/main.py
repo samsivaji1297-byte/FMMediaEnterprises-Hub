@@ -13,6 +13,7 @@ from AgentNetwork.agents.grand_strategist import GrandStrategist
 from AgentNetwork.agents.revenue_enforcer import RevenueEnforcer
 from AgentNetwork.agents.vanguard_miner import VanguardMiner
 from AgentNetwork.agents.mindset_agents import SovereignStrategist, KineticScriptwright
+from AgentNetwork.agents.publisher import InstagramPublisher
 from AgentNetwork.agents.analytics_agent import InstagramAnalyticsAgent
 from AgentNetwork.agents.sales_agent import SalesDMOperator
 
@@ -103,11 +104,16 @@ def run_war_room_pipeline():
     except Exception as e:
         print(f"[!] Video Rendering failed: {e}")
 
-    # 6. Instagram Analytics Agent: Scrape Performance & Train Intelligence Memory
+    # 6. Instagram Publisher: Dispatch Pending Reels to Instagram via Meta Graph API
+    print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING PENDING REELS ===")
+    publisher = InstagramPublisher()
+    publisher.publish_pending_reels()
+
+    # 7. Instagram Analytics Agent: Scrape Performance & Train Intelligence Memory
     analytics_agent = InstagramAnalyticsAgent()
     analytics_agent.update_intelligence()
 
-    # 7. SalesDMOperator: Scans inbound post comments, dispatches conversion DMs, and feeds sales logs back to RevenueEnforcer
+    # 8. SalesDMOperator: Scans inbound post comments, dispatches conversion DMs, and feeds sales logs back to RevenueEnforcer
     print("\n[+] Triggering Direct-Response Sales & DM Operator...")
     sales_op = SalesDMOperator()
     sales_op.run_sales_sweep()
