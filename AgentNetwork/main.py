@@ -14,6 +14,7 @@ from AgentNetwork.agents.revenue_enforcer import RevenueEnforcer
 from AgentNetwork.agents.vanguard_miner import VanguardMiner
 from AgentNetwork.agents.mindset_agents import SovereignStrategist, KineticScriptwright
 from AgentNetwork.agents.analytics_agent import InstagramAnalyticsAgent
+from AgentNetwork.agents.sales_agent import SalesDMOperator
 
 def generate_voiceover_failsafe(text: str, output_path: str):
     """Generates TTS audio with zero dependency on local sub-modules."""
@@ -105,6 +106,11 @@ def run_war_room_pipeline():
     # 6. Instagram Analytics Agent: Scrape Performance & Train Intelligence Memory
     analytics_agent = InstagramAnalyticsAgent()
     analytics_agent.update_intelligence()
+
+    # 7. SalesDMOperator: Scans inbound post comments, dispatches conversion DMs, and feeds sales logs back to RevenueEnforcer
+    print("\n[+] Triggering Direct-Response Sales & DM Operator...")
+    sales_op = SalesDMOperator()
+    sales_op.run_sales_sweep()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Run Digital War Room Fleet Pipeline.")
