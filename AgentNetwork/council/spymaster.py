@@ -1,7 +1,5 @@
-import json
-from pathlib import Path
-from datetime import datetime
-from AgentNetwork.council.state_manager import StateManager
+json import Path
+datetime StateManager
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 PUBLISHED_REELS_PATH = REPO_ROOT / "vault" / "published_reels.json"
@@ -10,7 +8,7 @@ class HighReconSpymaster:
     def __init__(self):
         self.state_mgr = StateManager()
 
-    def gather_recon_intelligence((self) -> dict:
+    def gather_recon_intelligence(self) -> dict:
         print("\n=== [HIGH RECON SPYMASTER]: EXECUTING INTEL & AUDIENCE RECONNAISSANCE ===")
         
         reels_data = []
