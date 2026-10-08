@@ -1,5 +1,15 @@
 {
     "target_daily_conversions": 1,
-    "conversions": [],
-    "processed_comments": []
+    "conversions": [
+        {
+            "timestamp": "2026-10-08T11:14:36Z",
+            "username": "Unknown",
+            "trigger_keyword": "DIRECT_ENGAGEMENT",
+            "offer": "War Room Command Vault",
+            "status": "DM_FAILED"
+        }
+    ],
+    "processed_comments": [
+        "18100480937456628"
+    ]
 }
