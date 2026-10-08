@@ -1,0 +1,33 @@
+{
+    "title": "Sovereign Execution",
+    "voiceover_full": "Most people wait for permission. The sovereign just decides. They don't negotiate with their feelings. When the decree is made, execution is absolute. Stop seeking consensus. Rule your actions, or be ruled by your excuses.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Most people wait for permission. The sovereign just decides.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A lone figure standing on a concrete rooftop at dusk, looking over a dark, foggy city skyline. Low angle, dramatic shadows.",
+            "text_overlay": "NO PERMISSION NEEDED",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "They don't negotiate with their feelings. When the decree is made, execution is absolute.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. Extreme close-up of hands typing on a sleek black mechanical keyboard in a dimly lit studio, sharp focus, moody ambient light.",
+            "text_overlay": "ABSOLUTE EXECUTION",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Stop seeking consensus. Rule your actions, or be ruled by your excuses.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist. A sharp silhouette of a person walking purposefully down a long, brutalist concrete hallway towards a bright, blinding vertical slit of light.",
+            "text_overlay": "RULE YOUR ACTIONS",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261008_1708_sovereign-execution",
+        "topic": "Sovereign Execution",
+        "theme": "sovereign",
+        "timestamp": "20261008_1708"
+    }
+}
