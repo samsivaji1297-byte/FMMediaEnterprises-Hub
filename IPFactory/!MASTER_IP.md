@@ -91,3 +91,4 @@
 - Sovereign Glacis Geometry — A strategic mental fortification framework that employs sloped cognitive boundaries to naturally deflect and dissipate incoming psychological influence before it can reach the core identity.
 - Sovereign Hydrostatic Shell — A pressurized psychological perimeter that distributes external cognitive stress evenly across the identity architecture to prevent structural collapse.
 - Sovereign Clinostat Dynamics — A cognitive calibration framework that neutralizes external psychological gravity, allowing the operator to maintain a self-determined vertical axis of authority regardless of environmental tilt or pressure.
+- Sovereign Telluric Anchor — A deep-grounding cognitive framework that locks the operator's core identity into the unyielding, foundational currents of their own self-authored reality, neutralizing external psychological displacement.
