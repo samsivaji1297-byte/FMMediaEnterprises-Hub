@@ -2,9 +2,8 @@ name: Aurelian War Room Autonomous Campaign
 
 on:
   schedule:
-    # Runs twice daily at 00:00 and 12:00 UTC (11:00 AM and 11:00 PM AEDT)
-    - cron: '0 0,12 * * *'
-  workflow_dispatch: # Allows manual dispatch directly from Chrome GitHub UI
+    - cron: '0 0,12 * * *'  # Runs twice daily at 00:00 and 12:00 UTC
+  workflow_dispatch:
 
 jobs:
   run-war-room:
@@ -41,7 +40,9 @@ jobs:
       - name: Commit State, Directives & Log Updates
         run: |
           git config --global user.name "Aurelian-WarRoom-Bot"
-          git config --global user.email "bot@aurelian.local"
-          git add vault/war_map_state.json vault/operator_directives.json vault/rogue_harvest_vault.json vault/conversion_log.json vault/published_reels.json
-          git diff-index --quiet HEAD || git commit -m "auto(aurelian): sync war map state, harvester vault, and directive logs [skip ci]"
+          git config --global user.email "bot@aurelian.internal"
+          mkdir -p vault MediaFactory/vault
+          git add vault/ MediaFactory/vault/
+          git diff-index --quiet HEAD || git commit -m "auto(aurelian): sync war map state and harvester vault [skip ci]"
+          git pull --rebase origin main
           git push
