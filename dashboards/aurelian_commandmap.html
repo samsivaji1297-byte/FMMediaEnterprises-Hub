@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>Aurelian Command Map</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap">
+<style>
+:root{--bg:#110d08;--card:#1a140d;--ink:#eadfc4;--dim:#a39378;--line:#3a2d1c;--gold:#cda24a;--ember:#c4533b;--teal:#6a9aa0;--on:#1a1208;--land:#201810;--sea:#0d0a07;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:light){:root:not([data-theme="dark"]){--bg:#e9dcba;--card:#f3e9cd;--ink:#2a1d0e;--dim:#6e5b3c;--line:#b99e63;--gold:#7d5a12;--ember:#9a2f1e;--teal:#2f6770;--on:#f6ecd0;--land:#d8c48d;--sea:#cdbf98}}
+:root[data-theme="light"]{--bg:#e9dcba;--card:#f3e9cd;--ink:#2a1d0e;--dim:#6e5b3c;--line:#b99e63;--gold:#7d5a12;--ember:#9a2f1e;--teal:#2f6770;--on:#f6ecd0;--land:#d8c48d;--sea:#cdbf98}
+:root[data-theme="dark"]{--bg:#110d08;--card:#1a140d;--ink:#eadfc4;--dim:#a39378;--line:#3a2d1c;--gold:#cda24a;--ember:#c4533b;--teal:#6a9aa0;--on:#1a1208;--land:#201810;--sea:#0d0a07}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 "EB Garamond",Georgia,serif;overflow-x:hidden}
+.mist{position:fixed;inset:-20%;z-index:0;pointer-events:none;background:radial-gradient(40% 30% at 25% 35%,rgba(205,190,150,.07),transparent 70%),radial-gradient(45% 35% at 78% 65%,rgba(205,190,150,.06),transparent 70%);animation:dr 70s ease-in-out infinite alternate}
+@keyframes dr{from{transform:translate3d(-6%,0,0)}to{transform:translate3d(6%,3%,0)}}
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:28px 18px 80px}
+h1{font:700 clamp(26px,7vw,46px)/1.08 Cinzel,Georgia,serif;margin:0;color:var(--gold);letter-spacing:.04em}
+h2{font:600 16px Cinzel,Georgia,serif;letter-spacing:.14em;color:var(--gold);margin:38px 0 4px}
+.cap{font-style:italic;color:var(--dim);margin:0 0 14px;font-size:15px}
+.top{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin:10px 0 0}
+.pill{font:600 12px Cinzel,serif;letter-spacing:.1em;padding:4px 12px;border:1px solid currentColor}
+.ok{color:var(--gold)}.bad{color:var(--ember)}.mut{color:var(--dim)}
+.frame{border:1px solid var(--gold);outline:1px solid var(--line);outline-offset:4px;background:var(--card);padding:12px;margin:0 4px}
+.two{display:grid;gap:22px}
+@media(min-width:820px){.two{grid-template-columns:1.4fr 1fr}.two.c{grid-template-columns:1fr 1fr}}
+svg{width:100%;height:auto;display:block}
+.sea{fill:var(--sea)}.land{fill:var(--land);stroke:var(--gold);stroke-width:1}
+.prov{stroke:var(--gold);stroke-width:1.2;cursor:pointer;transition:fill-opacity .4s}
+.prov.held{fill:var(--gold);fill-opacity:.25;filter:drop-shadow(0 0 5px var(--gold))}
+.prov.lost{fill:var(--ember);fill-opacity:.15;stroke:var(--ember);stroke-dasharray:4 3}
+.prov.planned{fill:var(--gold);fill-opacity:.07;stroke-dasharray:2 4}
+.prov.fog{fill:var(--dim);fill-opacity:.07;stroke-dasharray:1 6;stroke:var(--dim)}
+.prov.sel{stroke:var(--ink);stroke-width:2.4}
+.pn{font:600 9.5px Cinzel,serif;fill:var(--ink);text-anchor:middle;pointer-events:none;letter-spacing:.05em}
+button:focus-visible,.prov:focus-visible,summary:focus-visible,textarea:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+h3{font:600 21px Cinzel,serif;margin:0 0 2px}
+.rows{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.rows li{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid var(--line)}
+.rows li span:first-child{color:var(--dim)}.rows b{font:600 15px Cinzel,serif;text-align:right;overflow-wrap:anywhere}
+.tag{font-style:italic;color:var(--dim);font-size:15px;margin:2px 0 12px}
+.vault{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+@media(min-width:760px){.vault{grid-template-columns:repeat(4,1fr)}}
+.vc{border:1px solid var(--line);background:var(--card);padding:8px}
+.vc.next{border-color:var(--gold)}
+.pv{aspect-ratio:9/16;width:100%;background:var(--sea);border:1px solid var(--line);display:grid;place-items:center;text-align:center;font-size:13px;color:var(--dim);padding:8px;overflow:hidden;position:relative}
+.pv video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vc h4{font:600 14px/1.3 Cinzel,serif;margin:8px 0 2px}
+.vc p{margin:0;font-size:14px;color:var(--dim)}
+.nx{font:600 11px Cinzel,serif;letter-spacing:.12em;color:var(--gold)}
+.strip{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.strip i{width:16px;height:16px;border-radius:50%;display:block}
+.c0{background:var(--gold)}.c1{background:var(--teal)}.c2{background:var(--ember)}.c3{background:var(--ink)}
+.log{margin:0;padding:12px;border:1px solid var(--line);font:12.5px/1.6 ui-monospace,Menlo,monospace;color:var(--dim);overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+textarea{width:100%;min-height:76px;font:400 16px "EB Garamond",serif;color:var(--ink);background:transparent;border:1px solid var(--line);padding:10px}
+.btn{font:600 12px Cinzel,serif;letter-spacing:.1em;color:var(--on);background:var(--gold);border:0;padding:12px 16px;min-height:44px;cursor:pointer;margin-top:8px}
+.snap{border:1px solid var(--ember);color:var(--ember);padding:10px 14px;margin-top:14px;font-size:15px}
+@media(prefers-reduced-motion:reduce){.mist{animation:none}}
+</style>
+</head>
+<body>
+<div class="mist" aria-hidden="true"></div>
+<main>
+  <h1>Aurelian Command Map</h1>
+  <div class="top" id="top"></div>
+  <div class="snap" id="snap" hidden></div>
+ 
+  <h2>THE TERRITORY</h2>
+  <p class="cap">Touch a province. Instagram is read live from the vault. The rest is sample.</p>
+  <div class="two">
+    <div class="frame"><svg viewBox="0 0 400 270" id="map" role="group" aria-label="Territory map"><rect class="sea" width="400" height="270"/><g id="provs"></g></svg></div>
+    <div class="frame" id="panel" aria-live="polite"></div>
+  </div>
+ 
+  <h2>THE STOCK VAULT</h2>
+  <p class="cap" id="vcap"></p>
+  <div class="vault" id="vault"></div>
+  <h2 style="font-size:13px;margin-top:22px">THE LAST POSTS, OLDEST TO NEWEST</h2>
+  <div class="strip" id="strip"></div>
+  <p class="cap" id="burst"></p>
+ 
+  <h2>THE COUNCIL</h2>
+  <div class="two c" id="council"></div>
+ 
+  <h2>ORDERS</h2>
+  <p class="cap">Directives the bots will read from operator_directives.json.</p>
+  <div class="two c">
+    <div class="frame" id="ords"></div>
+    <div class="frame">
+      <h3>Issue a directive</h3>
+      <p class="tag">Writes nothing yet. Copy the JSON and commit it, until the issue-to-directive action exists.</p>
+      <textarea id="dtext" aria-label="Directive" placeholder="Why are no sales being made? Give a root cause."></textarea>
+      <button class="btn" id="dbtn">COPY DIRECTIVE JSON</button>
+      <pre class="log" id="dout" hidden></pre>
+    </div>
+  </div>
+ 
+  <h2>COMMAND STREAM</h2>
+  <pre class="log" id="stream"></pre>
+</main>
+ 
+<script>
+/* CONFIG: paths are relative to dashboards/ in the repo */
+const VAULT="../vault/", MEDIA="../MediaFactory/vault/renders/", STALE_HOURS=5, GAP_MIN=10;
+ 
+/* Snapshot: the exact files shared in chat, used only when the vault cannot be reached */
+const SNAP={
+state:{system_meta:{version:"2.1.0",kingdom:"Aurelian",last_executed:"2026-10-09T01:20:07.609989+00:00",global_status:"CAPITAL_DEFICIT"},
+sovereign_kpis:{conversions_today:0,target_minimum:1,target_status:"UNSATISFIED // FORCING_DIRECT_CTA",current_top_angle:"Manual Labor vs Autonomous Pipeline Architecture",active_offer:"Operator Mindset Kit"},
+council_telemetry:{MasterOfCoin:{status:"ACTIVE",mode:"DEFICIT // FORCING DIRECT CTA",revenue_status:"DEFICIT"},HighReconSpymaster:{status:"ACTIVE",primary_angle:"Manual Labor vs Autonomous Pipeline Architecture",confidence:"94.2%"},TemporalArchitect:{status:"ACTIVE",current_cadence:"4h",dispatch_window:"STRIKE_READY"}},
+tactical_nodes:{rogue_harvester:{status:"STANDBY // READY FOR DEPLOYMENT",latest_axioms_mined:0,active_knowledge_vault:["Leverage vs Labor","Friction Elimination"]},media_factory:{status:"ONLINE // DISPATCH ACTIVE",queued_renders:1,last_published_id:"REEL_AURELIAN_001"}},
+active_directives:{last_operator_command:null,council_response:"Aurelian High Council operating on standard 4h cadence. Systems nominal.",escalation_level:"LEVEL_0_NOMINAL"},
+execution_log:["[SYSTEM]: Aurelian Orchestrator cycle executed at 2026-10-09T01:20:07.609989+00:00.","[DIRECTIVE BUS]: Escalation posture sitting at LEVEL_0_NOMINAL.","[MASTER OF COIN]: Conversion status evaluated (0/1). Posture: DEFICIT // FORCING DIRECT CTA.","[TEMPORAL ARCHITECT]: 4h dispatch window verified."]},
+dirs:{active_directives:[],completed_directives:[],system_override:{force_status:null,manual_escalation_level:0}},
+reels:[["escape_the_manual_work_trap.mp4","17972331006170700","2026-10-07T01:58:05Z"],["the_high-execution_leverage_rule.mp4","18018928190732657","2026-10-07T01:58:45Z"],["stop_doing_manual_work.mp4","17972244783157700","2026-10-07T01:59:22Z"],["unlock_high_execution_leverage.mp4","17983913403086345","2026-10-07T02:00:00Z"],["the_high-execution_leverage_rule_1791409307_d298.mp4","18001742171800961","2026-10-07T22:01:34Z"],["stop_doing_manual_work_1791409313_9ccc.mp4","18139805068627998","2026-10-07T22:02:10Z"],["unlock_high_execution_leverage_1791409319_1dd8.mp4","18145240744595035","2026-10-07T22:03:17Z"],["escape_the_manual_work_trap_1791409286_b242.mp4","18192598318396432","2026-10-07T22:37:51Z"],["unlock_high_execution_leverage_1791409319_1dd8_1791412720_8773.mp4","17992396923024693","2026-10-08T04:00:22Z"],["the_high-execution_leverage_rule_1791409307_d298_1791412671_d94f.mp4","17875056780582141","2026-10-08T04:00:58Z"],["stop_doing_manual_work_1791409313_9ccc_1791412709_c1b9.mp4","17884204206511061","2026-10-08T04:01:35Z"],["escape_the_manual_work_trap_1791409286_b242_1791431971_26c3.mp4","18335410237277028","2026-10-08T11:13:28Z"],["unlock_high_execution_leverage_1791409319_1dd8_1791412720_8773_1791457935_a968.mp4","17890445061456157","2026-10-08T18:20:00Z"],["the_high-execution_leverage_rule_1791409307_d298_1791412671_d94f_1791458008_2574.mp4","17932997592404961","2026-10-08T18:20:42Z"],["stop_doing_manual_work_1791409313_9ccc_1791412709_c1b9_1791458014_72ee.mp4","18078102971400866","2026-10-08T18:21:17Z"],["escape_the_manual_work_trap_1791409286_b242_1791431971_26c3_1791483677_b6b0.mp4","18117756220788527","2026-10-09T00:09:23Z"]].map(r=>({filename:r[0],media_id:r[1],published_at:r[2],status:"PUBLISHED"}))};
+ 
+const $=i=>document.getElementById(i);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ago=t=>{const m=Math.max(0,(Date.now()-new Date(t))/6e4);return m<60?Math.round(m)+" min ago":m<1440?(m/60).toFixed(1)+" h ago":(m/1440).toFixed(1)+" days ago"};
+const R=(a,b,bad)=>"<li><span>"+esc(a)+"</span><b"+(bad?' class="bad"':"")+">"+(b==null||b===""?"No data":esc(b))+"</b></li>";
+const base=f=>f.replace(/(_\d{10}_[0-9a-f]{4})+(?=\.mp4$)/,"");
+const human=f=>{const s=base(f).replace(/\.mp4$/,"").replace(/[_-]+/g," ");return s[0].toUpperCase()+s.slice(1)};
+const levelNum=s=>{const m=/LEVEL_(\d+)/.exec(s||"");return m?+m[1]:null};
+let D={state:null,dirs:null,reels:null,live:false},sel="ig";
+ 
+async function get(n){const r=await fetch(VAULT+n+"?t="+Date.now(),{cache:"no-store"});if(!r.ok)throw new Error(n);return r.json()}
+async function load(){
+  const [a,b,c]=await Promise.allSettled([get("war_map_state.json"),get("operator_directives.json"),get("published_reels.json")]);
+  D.live=a.status==="fulfilled";
+  D.state=D.live?a.value:SNAP.state;
+  D.dirs=b.status==="fulfilled"?b.value:(D.live?null:SNAP.dirs);
+  D.reels=c.status==="fulfilled"?c.value:(D.live?null:SNAP.reels);
+  draw();
+}
+ 
+/* derive the vault from the published log */
+function vault(){
+  const rs=D.reels;if(!Array.isArray(rs))return null;
+  const by={},order=[];
+  rs.forEach(r=>{const k=base(r.filename);if(!by[k]){by[k]={k,posts:[],first:r.published_at};order.push(k)}by[k].posts.push(r)});
+  const list=order.map(k=>({...by[k],last:by[k].posts.reduce((a,r)=>r.published_at>a?r.published_at:a,"")}));
+  const next=[...list].sort((a,b)=>a.last<b.last?-1:1)[0];
+  const sorted=[...rs].sort((a,b)=>a.published_at<b.published_at?-1:1);
+  const bursts=[];sorted.forEach(r=>{const t=+new Date(r.published_at),b=bursts[bursts.length-1];if(b&&t-b.end<GAP_MIN*6e4){b.n++;b.end=t}else bursts.push({n:1,start:t,end:t})});
+  return {list,next,sorted,bursts,newest:sorted[sorted.length-1]};
+}
+ 
+const P=[
+{id:"ig",n:"Instagram",st:"held",pts:"40,70 120,40 185,70 175,140 110,165 45,135",c:[110,108]},
+{id:"x",n:"X",st:"lost",pts:"185,70 250,50 300,90 285,150 225,165 175,140",c:[237,108],note:"Posting pipeline broke in March."},
+{id:"sub",n:"Substack",st:"planned",pts:"110,165 175,140 225,165 215,225 150,245 100,215",c:[160,200],note:"Planned."},
+{id:"blog",n:"Blogger",st:"planned",pts:"225,165 285,150 335,185 320,245 255,260 215,225",c:[272,208],note:"Planned."},
+{id:"ai",n:"AI Tooling",st:"fog",pts:"120,40 170,8 240,14 250,50 185,70",c:[185,36],note:"Unscouted."},
+{id:"short",n:"Short Video",st:"fog",pts:"300,90 355,65 385,125 335,185 285,150",c:[336,124],note:"Unscouted."},
+{id:"dist",n:"Partners",st:"fog",pts:"45,135 110,165 100,215 50,200 20,160",c:[66,172],note:"Unscouted."}];
+const NS="http://www.w3.org/2000/svg";
+function mk(t,a,p){const e=document.createElementNS(NS,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+ 
+function head(){
+  const s=D.state,m=s.system_meta||{},hrs=(Date.now()-new Date(m.last_executed))/36e5,stale=D.live&&hrs>STALE_HOURS;
+  const gs=m.global_status;
+  $("top").innerHTML="<span class='pill "+(gs&&gs.includes("DEFICIT")?"bad":"ok")+"'>"+esc(gs||"No status")+"</span><span class='pill "+(stale?"bad":"mut")+"'>LAST CYCLE "+(m.last_executed?esc(ago(m.last_executed)).toUpperCase():"UNKNOWN")+"</span><span class='pill mut'>"+(D.live?"LIVE":"SNAPSHOT")+"</span>"+(stale?"<span class='bad'>No cycle for "+hrs.toFixed(1)+" hours. Cadence says every "+esc(s.council_telemetry?.TemporalArchitect?.current_cadence||"?")+".</span>":"");
+  const sn=$("snap");sn.hidden=D.live;
+  if(!D.live)sn.textContent="The vault could not be reached from here, so this shows the exact files you pasted into the chat. Put this page in dashboards/ and serve it from the repo to go live.";
+}
+function map(){
+  const g=$("provs");g.innerHTML="";
+  P.forEach(p=>{
+    const e=mk("polygon",{points:p.pts,class:"prov "+p.st+(p.id===sel?" sel":""),tabindex:0,role:"button","aria-label":p.n},g);
+    e.onclick=()=>{sel=p.id;draw()};e.onkeydown=ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();e.onclick()}};
+    mk("text",{x:p.c[0],y:p.c[1],class:"pn"},g).textContent=p.n.toUpperCase();
+  });
+}
+function panel(){
+  const p=P.find(x=>x.id===sel),s=D.state,k=s.sovereign_kpis||{},V=vault();let rows="";
+  if(p.id==="ig"){
+    const q=s.tactical_nodes?.media_factory;
+    rows=R("Conversions today",(k.conversions_today??"")+" of "+(k.target_minimum??"?"),(k.conversions_today??0)<(k.target_minimum??1))
+      +R("Active offer",k.active_offer)+R("Top angle",k.current_top_angle)
+      +(V?R("Posts logged",V.sorted.length)+R("Unique videos",V.list.length)+R("Last posted",ago(V.newest.published_at))+R("Posting pattern",V.bursts.length+" bursts, largest "+Math.max(...V.bursts.map(b=>b.n))+" posts",V.bursts.length>1&&V.bursts.some(b=>b.n>1)):R("Posts logged",null))
+      +R("Queued renders",q?.queued_renders)+R("Cadence",s.council_telemetry?.TemporalArchitect?.current_cadence);
+  }else rows=R("Status",p.st==="lost"?"Lost ground":p.st==="planned"?"Planned":"Unscouted")+R("Detail",p.note)+R("Source","Sample. Not in the vault yet.");
+  $("panel").innerHTML="<h3>"+esc(p.n)+"</h3><p class='tag'>"+(p.id==="ig"?"Read from the vault.":"Sample data.")+"</p><ul class='rows'>"+rows+"</ul>";
+}
+function vaultView(){
+  const V=vault();
+  if(!V){$("vcap").textContent="No data. published_reels.json could not be read.";$("vault").innerHTML="";$("strip").innerHTML="";$("burst").textContent="";return}
+  $("vcap").textContent=V.sorted.length+" posts, "+V.list.length+" unique videos, "+(V.sorted.length/V.list.length).toFixed(1)+" passes through the vault. Gold border marks the next in the cycle.";
+  $("vault").innerHTML=V.list.map((v,i)=>"<div class='vc"+(v===V.next?" next":"")+"'><div class='pv' data-f='"+esc(v.k)+"'>Looking for "+esc(v.k)+"</div><h4>"+esc(human(v.k))+"</h4><p>"+v.posts.length+" posts</p><p>Last "+esc(ago(v.last))+"</p>"+(v===V.next?"<p class='nx'>NEXT IN THE CYCLE</p>":"")+"</div>").join("");
+  document.querySelectorAll(".pv").forEach(el=>{
+    const v=document.createElement("video");v.src=MEDIA+el.dataset.f;v.muted=true;v.controls=true;v.playsInline=true;v.preload="metadata";
+    v.onloadeddata=()=>{el.textContent="";el.appendChild(v)};
+    v.onerror=()=>{el.textContent="No preview file found at "+MEDIA+el.dataset.f};
+  });
+  const idx=Object.fromEntries(V.list.map((v,i)=>[v.k,i]));
+  $("strip").innerHTML=V.sorted.map(r=>"<i class='c"+(idx[base(r.filename)]%4)+"' title='"+esc(human(r.filename))+" at "+esc(r.published_at)+"'></i>").join("");
+  const big=V.bursts.filter(b=>b.n>1).length;
+  $("burst").textContent=V.bursts.length+" bursts (posts under "+GAP_MIN+" minutes apart). "+big+" of them had several posts at once.";
+}
+function council(){
+  const s=D.state,t=s.council_telemetry||{},n=s.tactical_nodes||{},V=vault(),mf=n.media_factory||{},h=n.rogue_harvester||{};
+  const mism=V&&mf.last_published_id&&mf.last_published_id!==V.newest.media_id;
+  const box=(ti,rows)=>"<div class='frame'><h3>"+ti+"</h3><ul class='rows'>"+rows+"</ul></div>";
+  $("council").innerHTML=
+   box("Master of Coin",R("Status",t.MasterOfCoin?.status)+R("Mode",t.MasterOfCoin?.mode)+R("Revenue",t.MasterOfCoin?.revenue_status,t.MasterOfCoin?.revenue_status==="DEFICIT"))
+  +box("High Recon Spymaster",R("Status",t.HighReconSpymaster?.status)+R("Angle",t.HighReconSpymaster?.primary_angle)+R("Confidence",t.HighReconSpymaster?.confidence))
+  +box("Temporal Architect",R("Status",t.TemporalArchitect?.status)+R("Cadence",t.TemporalArchitect?.current_cadence)+R("Dispatch window",t.TemporalArchitect?.dispatch_window))
+  +box("Rogue Harvester",R("Status",h.status)+R("Axioms mined",h.latest_axioms_mined)+R("Knowledge vault",(h.active_knowledge_vault||[]).join(", ")))
+  +box("Media Factory",R("Status",mf.status)+R("Queued renders",mf.queued_renders)+R("Its last published ID",mf.last_published_id,mism)+(V?R("Newest real reel ID",V.newest.media_id):"")+(mism?R("Check","Does not match the published log",true):""));
+  $("stream").textContent=(s.execution_log||[]).join("\n")||"No data";
+}
+function orders(){
+  const d=D.dirs,s=D.state;
+  if(!d){$("ords").innerHTML="<p class='tag'>No data. operator_directives.json could not be read.</p>";return}
+  const a=d.active_directives||[],o=d.system_override||{},lv=levelNum(s.active_directives?.escalation_level),mism=lv!=null&&o.manual_escalation_level!=null&&lv!==o.manual_escalation_level;
+  $("ords").innerHTML="<h3>"+a.length+" active, "+(d.completed_directives||[]).length+" completed</h3><ul class='rows'>"+(a.length?a.map(x=>R(x.id+" "+x.command,x.target_agent+", "+x.priority+", "+x.status)).join(""):R("Active directives","None"))+R("Forced status",o.force_status||"None")+R("Manual escalation",o.manual_escalation_level)+R("State escalation",s.active_directives?.escalation_level,mism)+(mism?R("Check","Override and state disagree",true):"")+"</ul>";
+}
+function draw(){head();map();panel();vaultView();council();orders()}
+$("dbtn").onclick=()=>{
+  const t=$("dtext").value.trim();if(!t)return;
+  const j=JSON.stringify({id:"DIR-"+Date.now(),command:t,priority:"HIGH",target_agent:"",status:"PENDING",issued_at:new Date().toISOString()},null,2);
+  const o=$("dout");o.hidden=false;o.textContent=j;
+  if(navigator.clipboard)navigator.clipboard.writeText(j).catch(()=>{});
+};
+load();setInterval(load,60000);
+</script>
+</body>
+</html>
+ 
+Claude finished the response
