@@ -162,7 +162,7 @@
     async function refreshDashboard() {
       try {
         const [stateRes, reelsRes, directivesRes] = await Promise.allSettled([
-          fetch('vault/war_map_state.json'),
+          fetch(`vault/war_map_state.json?t=${new Date().getTime()}`, { cache: 'no-store' }),
           fetch('vault/published_reels.json'),
           fetch('vault/operator_directives.json')
         ]);
