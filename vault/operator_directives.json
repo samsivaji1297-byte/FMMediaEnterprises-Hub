@@ -1,17 +1,8 @@
 {
-  "active_directives": [
-    {
-      "id": "DIR-001",
-      "command": "FORCE_DISPATCH_REEL",
-      "priority": "HIGH",
-      "target_agent": "MediaFactory",
-      "status": "PENDING"
-    }
-  ],
+  "active_directives": [],
   "completed_directives": [],
   "system_override": {
-    "force_status": "CAPITAL_DEFICIT",
-    "manual_escalation_level": 1
-  },
-  "last_operator_input": "2026-10-09T12:41:00Z"
+    "force_status": null,
+    "manual_escalation_level": 0
+  }
 }
