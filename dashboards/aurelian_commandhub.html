@@ -132,18 +132,26 @@
             font-family: var(--font-mono);
             font-size: 0.75rem;
             color: #8a99ad;
-            max-height: 180px;
+            max-height: 220px;
             overflow-y: auto;
             border-radius: 2px;
         }
 
         .log-entry {
-            margin-bottom: 6px;
+            margin-bottom: 8px;
             border-bottom: 1px solid #111622;
-            padding-bottom: 4px;
+            padding-bottom: 6px;
+            line-height: 1.4;
         }
 
         .log-entry:last-child { border-bottom: none; }
+        
+        code {
+            color: var(--accent-blue);
+            background: rgba(0, 136, 255, 0.1);
+            padding: 2px 6px;
+            border-radius: 2px;
+        }
     </style>
 </head>
 <body>
@@ -173,7 +181,7 @@
         <!-- HIGH RECON SPYMASTER -->
         <div class="card blue">
             <div class="card-header">High Recon Spymaster</div>
-            <div id="spymaster-hook" class="metric-large" style="font-size: 1.1rem; min-height: 2.2rem; word-break: break-word;">NO_DATA_INGESTED</div>
+            <div id="spymaster-hook" class="metric-large" style="font-size: 1.05rem; min-height: 2.2rem; word-break: break-word;">NO_DATA_INGESTED</div>
             <div id="spymaster-confidence" class="sub-text">CONFIDENCE: --.-%</div>
         </div>
 
@@ -194,9 +202,9 @@
 
     <!-- PUBLISHED REELS INVENTORY -->
     <div class="card blue" style="margin-bottom: 16px;">
-        <div class="card-header">Published Reels Dispatch Log (MediaFactory)</div>
+        <div class="card-header">Published Reels Dispatch Log (vault/published_reels.json)</div>
         <div id="reels-log" class="log-box">
-            <div class="log-entry">Awaiting MediaFactory vault sync...</div>
+            <div class="log-entry">Awaiting vault/published_reels.json sync...</div>
         </div>
     </div>
 
@@ -253,33 +261,31 @@
                 document.getElementById('last-sync').innerText = "LAST SYNC: FAIL AEDT";
             }
 
-            // 2. Fetch MediaFactory Reels Log
+            // 2. Fetch Published Reels Log
             try {
-                let reelsData;
-                try {
-                    reelsData = await fetchJSON('MediaFactory/vault/published_reels.json');
-                } catch {
-                    reelsData = await fetchJSON('vault/published_reels.json');
-                }
-
+                const reelsList = await fetchJSON('vault/published_reels.json');
                 const logContainer = document.getElementById('reels-log');
-                const reelsList = Array.isArray(reelsData) ? reelsData : (reelsData.published_reels || []);
 
-                if (reelsList.length === 0) {
-                    logContainer.innerHTML = '<div class="log-entry">No published reels recorded in vault logs.</div>';
+                if (!Array.isArray(reelsList) || reelsList.length === 0) {
+                    logContainer.innerHTML = '<div class="log-entry">No published reels recorded in vault/published_reels.json</div>';
                 } else {
-                    logContainer.innerHTML = reelsList.map(r => `
+                    // Render latest dispatches at the top
+                    logContainer.innerHTML = reelsList.slice().reverse().map(r => `
                         <div class="log-entry">
-                            <strong>[${r.timestamp || 'N/A'}]</strong> ID: ${r.media_id || r.id || 'N/A'} | Caption: ${r.caption ? r.caption.substring(0, 50) + '...' : 'No caption'}
+                            <span style="color: var(--accent-gold);">[${r.published_at || 'N/A'}]</span> 
+                            <strong>${r.filename || 'UNNAMED_FILE'}</strong> | 
+                            ID: <code>${r.media_id || 'N/A'}</code> | 
+                            STATUS: <span style="color: #00c853;">${r.status || 'PUBLISHED'}</span>
                         </div>
                     `).join('');
                 }
             } catch (err) {
-                document.getElementById('reels-log').innerHTML = '<div class="log-entry" style="color: var(--alert-red);">LOG_ERROR: Unable to load published_reels.json</div>';
+                console.error("Reels Log Fetch Failed:", err);
+                document.getElementById('reels-log').innerHTML = '<div class="log-entry" style="color: var(--alert-red);">LOG_ERROR: Unable to load vault/published_reels.json</div>';
             }
         }
 
-        // Run immediately on page load and continuously pool every 10s
+        // Run immediately on page load and continuously poll every 10 seconds
         refreshDashboard();
         setInterval(refreshDashboard, 10000);
     </script>
