@@ -3,208 +3,359 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aurelian Command Hub // War Room Overwatch</title>
+    <title>AURELIAN COMMAND HUB // WAR ROOM OVERWATCH</title>
     <style>
         :root {
-            --bg-color: #0a0c10;
-            --panel-bg: rgba(16, 20, 28, 0.85);
-            --border-color: #1e2638;
+            --bg-base: #07090e;
+            --panel-bg: rgba(13, 17, 23, 0.92);
+            --panel-border: #161b22;
+            --border-highlight: #30363d;
             --accent-gold: #d4af37;
             --accent-blue: #0088ff;
+            --accent-cyan: #00f0ff;
             --alert-red: #ff3344;
-            --text-main: #e2e8f0;
-            --text-muted: #64748b;
-            --font-mono: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+            --status-green: #00e676;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
+            --font-mono: 'JetBrains Mono', 'Fira Code', 'Roboto Mono', monospace;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            background-color: var(--bg-color);
+            background-color: var(--bg-base);
             color: var(--text-main);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             padding: 24px;
             min-height: 100vh;
+            background-image: 
+                radial-gradient(circle at 50% 0%, rgba(0, 136, 255, 0.05), transparent 70%),
+                linear-gradient(rgba(22, 27, 34, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(22, 27, 34, 0.2) 1px, transparent 1px);
+            background-size: 100% 100%, 20px 20px, 20px 20px;
         }
 
+        /* HEADER SECTION */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 16px;
+            border-bottom: 1px solid var(--panel-border);
+            padding-bottom: 20px;
             margin-bottom: 24px;
         }
 
-        .title-group h1 {
-            font-size: 1.4rem;
-            letter-spacing: 2px;
+        .brand-block h1 {
+            font-size: 1.35rem;
+            letter-spacing: 3px;
             color: var(--accent-gold);
+            font-family: var(--font-mono);
+            font-weight: 700;
             text-transform: uppercase;
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.2);
         }
 
-        .title-group p {
-            font-size: 0.8rem;
+        .brand-block p {
+            font-size: 0.75rem;
             color: var(--text-muted);
             font-family: var(--font-mono);
+            letter-spacing: 1px;
             margin-top: 4px;
         }
 
-        .status-badge {
-            background: rgba(255, 51, 68, 0.1);
-            border: 1px solid var(--alert-red);
-            color: var(--alert-red);
-            padding: 6px 12px;
-            font-size: 0.75rem;
-            font-family: var(--font-mono);
-            letter-spacing: 1px;
-            border-radius: 2px;
+        .telemetry-status {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
         }
 
-        .status-badge.nominal {
-            background: rgba(0, 200, 83, 0.1);
-            border-color: #00c853;
-            color: #00c853;
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 51, 68, 0.08);
+            border: 1px solid var(--alert-red);
+            color: var(--alert-red);
+            padding: 6px 14px;
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            letter-spacing: 1.5px;
+            border-radius: 2px;
+            font-weight: 600;
+        }
+
+        .badge.nominal {
+            background: rgba(0, 230, 118, 0.08);
+            border-color: var(--status-green);
+            color: var(--status-green);
+        }
+
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: currentColor;
+            box-shadow: 0 0 8px currentColor;
         }
 
         .sync-time {
             font-family: var(--font-mono);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
-            margin-top: 4px;
-            text-align: right;
         }
 
+        /* GRID LAYOUT */
         .grid-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 16px;
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .card {
             background: var(--panel-bg);
-            border: 1px solid var(--border-color);
-            padding: 18px;
+            border: 1px solid var(--panel-border);
             border-radius: 4px;
+            padding: 20px;
             position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: border-color 0.2s ease;
+        }
+
+        .card:hover {
+            border-color: var(--border-highlight);
         }
 
         .card::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 3px; height: 100%;
-            background: var(--border-color);
+            top: 0; left: 0; width: 100%; height: 2px;
+            background: var(--panel-border);
         }
 
-        .card.gold::before { background: var(--accent-gold); }
-        .card.blue::before { background: var(--accent-blue); }
-        .card.red::before { background: var(--alert-red); }
+        .card.gold::before { background: var(--accent-gold); box-shadow: 0 0 10px var(--accent-gold); }
+        .card.blue::before { background: var(--accent-blue); box-shadow: 0 0 10px var(--accent-blue); }
+        .card.red::before { background: var(--alert-red); box-shadow: 0 0 10px var(--alert-red); }
+        .card.cyan::before { background: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan); }
 
         .card-header {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-family: var(--font-mono);
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 12px;
+            letter-spacing: 1.5px;
+            margin-bottom: 14px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
-        .metric-large {
-            font-size: 1.8rem;
+        .card-value {
+            font-size: 1.75rem;
             font-weight: 700;
             font-family: var(--font-mono);
             color: var(--text-main);
-            margin: 8px 0;
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
         }
 
-        .sub-text {
-            font-size: 0.8rem;
+        .card-sub {
+            font-size: 0.78rem;
             color: var(--text-muted);
             font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* LOG PANELS */
+        .full-width-panel {
+            grid-column: 1 / -1;
         }
 
         .log-box {
-            background: #05070a;
-            border: 1px solid var(--border-color);
-            padding: 12px;
+            background: #030407;
+            border: 1px solid var(--panel-border);
+            padding: 14px;
             font-family: var(--font-mono);
             font-size: 0.75rem;
-            color: #8a99ad;
-            max-height: 220px;
+            color: #919eab;
+            max-height: 240px;
             overflow-y: auto;
-            border-radius: 2px;
+            border-radius: 3px;
         }
 
         .log-entry {
-            margin-bottom: 8px;
-            border-bottom: 1px solid #111622;
-            padding-bottom: 6px;
-            line-height: 1.4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(22, 27, 34, 0.8);
+            transition: background 0.15s ease;
+        }
+
+        .log-entry:hover {
+            background: rgba(255, 255, 255, 0.02);
         }
 
         .log-entry:last-child { border-bottom: none; }
-        
-        code {
-            color: var(--accent-blue);
-            background: rgba(0, 136, 255, 0.1);
+
+        .log-tag {
             padding: 2px 6px;
             border-radius: 2px;
+            font-size: 0.68rem;
+            font-weight: 600;
+        }
+
+        .log-tag.published {
+            background: rgba(0, 230, 118, 0.12);
+            color: var(--status-green);
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        /* DIRECTIVE DISPATCHER INPUT */
+        .directive-builder {
+            display: flex;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .directive-input {
+            flex: 1;
+            background: #030407;
+            border: 1px solid var(--panel-border);
+            color: var(--text-main);
+            padding: 10px 14px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .directive-input:focus {
+            border-color: var(--accent-blue);
+        }
+
+        .dispatch-btn {
+            background: var(--accent-blue);
+            color: #fff;
+            border: none;
+            padding: 0 18px;
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .dispatch-btn:hover {
+            opacity: 0.9;
+        }
+
+        code {
+            color: var(--accent-cyan);
+            background: rgba(0, 240, 255, 0.08);
+            padding: 2px 6px;
+            border-radius: 2px;
+            font-size: 0.72rem;
         }
     </style>
 </head>
 <body>
 
+    <!-- OVERWATCH HEADER -->
     <div class="header">
-        <div class="title-group">
-            <h1>Aurelian Command Hub // War Room Overwatch</h1>
-            <p>SOVEREIGN AGENT FLEET • AUTONOMOUS TELEMETRY & DIRECTIVE INTERCEPTOR</p>
+        <div class="brand-block">
+            <h1>Aurelian Command Hub</h1>
+            <p>WAR ROOM OVERWATCH • AUTONOMOUS AGENT FLEET TELEMETRY</p>
         </div>
-        <div>
-            <div id="system-status-badge" class="status-badge">INITIALIZING_OVERWATCH</div>
+        <div class="telemetry-status">
+            <div id="system-status-badge" class="badge">
+                <span class="badge-dot"></span>
+                <span id="badge-text">CONNECTING_TELEMETRY...</span>
+            </div>
             <div id="last-sync" class="sync-time">LAST SYNC: --:--:-- AEDT</div>
         </div>
     </div>
 
+    <!-- METRIC CARDS -->
     <div class="grid-container">
         <!-- MASTER OF COIN -->
         <div class="card gold">
             <div class="card-header">
                 <span>Master Of Coin</span>
-                <span id="capital-target-label">-- / --</span>
+                <span id="capital-target-label" style="color: var(--accent-gold);">-- / --</span>
             </div>
-            <div id="capital-deficit-value" class="metric-large">--</div>
-            <div id="capital-status-text" class="sub-text">WAITING_FOR_DATA</div>
+            <div id="capital-deficit-value" class="card-value">--</div>
+            <div id="capital-status-text" class="card-sub">PULLING CAPITAL METRICS...</div>
         </div>
 
         <!-- HIGH RECON SPYMASTER -->
         <div class="card blue">
-            <div class="card-header">High Recon Spymaster</div>
-            <div id="spymaster-hook" class="metric-large" style="font-size: 1.05rem; min-height: 2.2rem; word-break: break-word;">NO_DATA_INGESTED</div>
-            <div id="spymaster-confidence" class="sub-text">CONFIDENCE: --.-%</div>
+            <div class="card-header">
+                <span>High Recon Spymaster</span>
+                <span id="spymaster-confidence" style="color: var(--accent-blue);">--.-%</span>
+            </div>
+            <div id="spymaster-hook" class="card-value" style="font-size: 1rem; line-height: 1.3; min-height: 2.4rem;">SEARCHING_FOR_HOOK...</div>
+            <div id="spymaster-status" class="card-sub">ACTIVE RECONNAISSANCE</div>
         </div>
 
-        <!-- ROGUE HARVESTER -->
-        <div class="card gold">
-            <div class="card-header">Rogue Harvester Node</div>
-            <div id="harvester-count" class="metric-large">0</div>
-            <div id="harvester-status" class="sub-text">AXIOMS MINED & CHECKED</div>
+        <!-- ROGUE HARVESTER NODE -->
+        <div class="card cyan">
+            <div class="card-header">
+                <span>Rogue Harvester</span>
+                <span style="color: var(--accent-cyan);">NODE_01</span>
+            </div>
+            <div id="harvester-count" class="card-value">0</div>
+            <div id="harvester-status" class="card-sub">MINED VALUE AXIOMS</div>
         </div>
 
         <!-- ESCALATION POSTURE -->
         <div class="card red">
-            <div class="card-header">Escalation Engine</div>
-            <div id="escalation-posture" class="metric-large">--</div>
-            <div id="directive-count" class="sub-text">Directives Ingested: 0</div>
+            <div class="card-header">
+                <span>Escalation Engine</span>
+                <span style="color: var(--alert-red);">POSTURE</span>
+            </div>
+            <div id="escalation-posture" class="card-value">--</div>
+            <div id="directive-count" class="card-sub">Directives Ingested: 0</div>
         </div>
     </div>
 
-    <!-- PUBLISHED REELS INVENTORY -->
-    <div class="card blue" style="margin-bottom: 16px;">
-        <div class="card-header">Published Reels Dispatch Log (vault/published_reels.json)</div>
-        <div id="reels-log" class="log-box">
-            <div class="log-entry">Awaiting vault/published_reels.json sync...</div>
+    <!-- PUBLISHED REELS DISPATCH LOG -->
+    <div class="grid-container">
+        <div class="card blue full-width-panel">
+            <div class="card-header">
+                <span>MediaFactory Dispatch Stream (vault/published_reels.json)</span>
+                <span id="reels-count-tag" style="color: var(--accent-blue);">0 DISPATCHES</span>
+            </div>
+            <div id="reels-log" class="log-box">
+                <div class="log-entry" style="justify-content: center; color: var(--text-muted);">
+                    Inbound dispatch stream loading...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DIRECTIVE BUS COMMAND DISPATCHER -->
+    <div class="grid-container">
+        <div class="card gold full-width-panel">
+            <div class="card-header">
+                <span>Inbound Directive Bus (vault/operator_directives.json)</span>
+                <span style="color: var(--accent-gold);">OPERATOR INTERCEPTOR</span>
+            </div>
+            <p style="font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); margin-bottom: 10px;">
+                Copy a generated command payload to update local state or stage directives for the orchestrator:
+            </p>
+            <div class="directive-builder">
+                <input type="text" id="directive-input-cmd" class="directive-input" placeholder="e.g. FORCE_DISPATCH_REEL" value="FORCE_DISPATCH_REEL">
+                <button class="dispatch-btn" onclick="copyDirectivePayload()">COPY DIRECTIVE JSON</button>
+            </div>
         </div>
     </div>
 
@@ -216,76 +367,110 @@
         }
 
         async function refreshDashboard() {
-            // 1. Fetch Primary War Map State
+            // 1. Fetch Master War Map State
             try {
                 const state = await fetchJSON('vault/war_map_state.json');
 
                 // Timestamp
                 document.getElementById('last-sync').innerText = `LAST SYNC: ${state.system_status?.last_sync || 'UNKNOWN'} AEDT`;
 
-                // System Badge
+                // Badge Status
                 const badge = document.getElementById('system-status-badge');
-                const rawStatus = state.system_status?.state || 'UNKNOWN_STATE';
-                badge.innerText = `STATUS: ${rawStatus}`;
-                if (rawStatus.includes('NOMINAL') || rawStatus.includes('ACTIVE')) {
-                    badge.className = 'status-badge nominal';
+                const badgeText = document.getElementById('badge-text');
+                const rawStatus = state.system_status?.state || 'ONLINE';
+                
+                badgeText.innerText = `STATUS: ${rawStatus}`;
+                if (rawStatus.includes('NOMINAL') || rawStatus.includes('ACTIVE') || rawStatus.includes('ONLINE')) {
+                    badge.className = 'badge nominal';
                 } else {
-                    badge.className = 'status-badge';
+                    badge.className = 'badge';
                 }
 
                 // Master of Coin
                 const coin = state.master_of_coin || {};
-                document.getElementById('capital-target-label').innerText = `${coin.conversions || 0} / ${coin.target || 0}`;
-                document.getElementById('capital-deficit-value').innerText = coin.deficit_state ? "DEFICIT" : "BALANCED";
-                document.getElementById('capital-status-text').innerText = coin.strategy || "NO_STRATEGY_FOUND";
+                document.getElementById('capital-target-label').innerText = `CONVERSIONS: ${coin.conversions || 0} / ${coin.target || 0}`;
+                document.getElementById('capital-deficit-value').innerText = coin.deficit_state ? "CAPITAL_DEFICIT" : "NOMINAL_YIELD";
+                document.getElementById('capital-status-text').innerText = coin.strategy || "ACTIVE_STRATEGY_EXECUTING";
 
                 // High Recon Spymaster
                 const spy = state.high_recon || {};
-                document.getElementById('spymaster-hook').innerText = spy.active_hook || "NO_HOOK_FOUND";
-                const confVal = typeof spy.confidence === 'number' ? (spy.confidence * 100).toFixed(1) + '%' : '--.-%';
-                document.getElementById('spymaster-confidence').innerText = `CONFIDENCE: ${confVal} • HOOK_STATUS: ${spy.hook_status || 'UNKNOWN'}`;
+                document.getElementById('spymaster-hook').innerText = spy.active_hook || "NO_ACTIVE_HOOK_INGESTED";
+                const confVal = typeof spy.confidence === 'number' ? (spy.confidence * 100).toFixed(1) + '%' : 'N/A';
+                document.getElementById('spymaster-confidence').innerText = `CONFIDENCE: ${confVal}`;
+                document.getElementById('spymaster-status').innerText = `HOOK STATUS: ${spy.hook_status || 'NOMINAL'}`;
 
                 // Rogue Harvester
                 const harvester = state.rogue_harvester || {};
                 document.getElementById('harvester-count').innerText = harvester.axiom_count ?? 0;
-                document.getElementById('harvester-status').innerText = `STATUS: ${harvester.status || 'UNKNOWN'}`;
+                document.getElementById('harvester-status').innerText = `AXIOMS CHECKED • STATUS: ${harvester.status || 'ACTIVE'}`;
 
                 // Escalation Engine
                 const esc = state.escalation_engine || {};
-                document.getElementById('escalation-posture').innerText = esc.posture || "NO_POSTURE";
+                document.getElementById('escalation-posture').innerText = esc.posture || "LEVEL_0_NOMINAL";
                 document.getElementById('directive-count').innerText = `Directives Ingested: ${state.directives_log?.length || 0}`;
 
             } catch (err) {
-                console.error("War Map Fetch Failed:", err);
-                document.getElementById('system-status-badge').innerText = "DISCONNECTED // WAR_MAP_UNREACHABLE";
-                document.getElementById('last-sync').innerText = "LAST SYNC: FAIL AEDT";
+                console.error("War Map Fetch Failure:", err);
+                const badge = document.getElementById('system-status-badge');
+                document.getElementById('badge-text').innerText = "DISCONNECTED // PATH_ERROR";
+                badge.className = 'badge';
+                document.getElementById('last-sync').innerText = "LAST SYNC: DISCONNECTED";
             }
 
             // 2. Fetch Published Reels Log
             try {
                 const reelsList = await fetchJSON('vault/published_reels.json');
                 const logContainer = document.getElementById('reels-log');
+                const countTag = document.getElementById('reels-count-tag');
 
                 if (!Array.isArray(reelsList) || reelsList.length === 0) {
-                    logContainer.innerHTML = '<div class="log-entry">No published reels recorded in vault/published_reels.json</div>';
+                    logContainer.innerHTML = '<div class="log-entry" style="justify-content: center;">No published dispatches found in vault/published_reels.json</div>';
+                    countTag.innerText = '0 DISPATCHES';
                 } else {
-                    // Render latest dispatches at the top
+                    countTag.innerText = `${reelsList.length} DISPATCHES RECORDED`;
                     logContainer.innerHTML = reelsList.slice().reverse().map(r => `
                         <div class="log-entry">
-                            <span style="color: var(--accent-gold);">[${r.published_at || 'N/A'}]</span> 
-                            <strong>${r.filename || 'UNNAMED_FILE'}</strong> | 
-                            ID: <code>${r.media_id || 'N/A'}</code> | 
-                            STATUS: <span style="color: #00c853;">${r.status || 'PUBLISHED'}</span>
+                            <div>
+                                <span style="color: var(--accent-gold); font-weight: 600;">[${r.published_at || 'N/A'}]</span>
+                                <strong style="margin-ml: 8px; color: var(--text-main);">${r.filename || 'UNNAMED_MEDIA'}</strong>
+                            </div>
+                            <div>
+                                <code>ID: ${r.media_id || 'N/A'}</code>
+                                <span class="log-tag published">${r.status || 'PUBLISHED'}</span>
+                            </div>
                         </div>
                     `).join('');
                 }
             } catch (err) {
-                console.error("Reels Log Fetch Failed:", err);
-                document.getElementById('reels-log').innerHTML = '<div class="log-entry" style="color: var(--alert-red);">LOG_ERROR: Unable to load vault/published_reels.json</div>';
+                document.getElementById('reels-log').innerHTML = '<div class="log-entry" style="color: var(--alert-red); justify-content: center;">LOG_ERROR: Unable to reach vault/published_reels.json</div>';
             }
         }
 
-        // Run immediately on page load and continuously poll every 10 seconds
+        function copyDirectivePayload() {
+            const cmd = document.getElementById('directive-input-cmd').value || "FORCE_DISPATCH_REEL";
+            const payload = {
+                "active_directives": [
+                    {
+                        "id": `DIR-${Date.now()}`,
+                        "command": cmd,
+                        "priority": "HIGH",
+                        "target_agent": "MediaFactory",
+                        "status": "PENDING"
+                    }
+                ],
+                "completed_directives": [],
+                "system_override": {
+                    "force_status": "CAPITAL_DEFICIT",
+                    "manual_escalation_level": 1
+                },
+                "last_operator_input": new Date().toISOString()
+            };
+
+            navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+            alert("Directive JSON copied to clipboard. Paste into vault/operator_directives.json to dispatch.");
+        }
+
+        // Initialize immediately and poll every 10 seconds
         refreshDashboard();
         setInterval(refreshDashboard, 10000);
     </script>
