@@ -2,7 +2,7 @@ name: Aurelian War Room Autonomous Campaign
 
 on:
   schedule:
-    - cron: '0 0,12 * * *'  # Runs twice daily at 00:00 and 12:00 UTC
+    - cron: '0 * * * *'  # Runs twice daily at 00:00 and 12:00 UTC
   workflow_dispatch:
 
 jobs:
