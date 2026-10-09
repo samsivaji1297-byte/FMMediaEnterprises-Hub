@@ -1,0 +1,20 @@
+{
+  "node_status": "ONLINE // HARVEST_ACTIVE",
+  "last_harvest_timestamp": "2026-10-09T01:20:07.576223+00:00",
+  "mined_axioms": [
+    {
+      "id": "ax_001",
+      "source": "Leverage Codex",
+      "axiom": "Stop selling time in hours; sell the automated elimination of operational friction.",
+      "hook_angle": "Manual Labor vs Autonomous Pipeline Architecture",
+      "yield_score": 0.96
+    },
+    {
+      "id": "ax_002",
+      "source": "Sovereign Circuit",
+      "axiom": "Complexity is the refuge of non-executors. Zero-friction speed is sovereign.",
+      "hook_angle": "Zero-Friction Execution Protocols",
+      "yield_score": 0.92
+    }
+  ]
+}

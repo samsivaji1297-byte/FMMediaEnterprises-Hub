@@ -1,33 +1,58 @@
 {
-    "last_updated": "2026-10-09T00:06:21.212099",
-    "macro_directives": [
-        "Monetize high-frequency operational time-sinks",
-        "Expand visual reach via dynamic B-roll and kinetic safe-zone text",
-        "Maintain zero-tolerance daily conversion baseline"
-    ],
-    "active_fronts": [
-        {
-            "id": "front_01",
-            "name": "Time-Sinks & Friction",
-            "status": "ENGAGED",
-            "target_niche": "Automation / Productivity",
-            "reach_score": 91,
-            "conversion_heat": "HIGH"
-        },
-        {
-            "id": "front_02",
-            "name": "Mindset & Sovereignty",
-            "status": "EXPANDING",
-            "target_niche": "Personal Sovereignty / Operator Mindset",
-            "reach_score": 70,
-            "conversion_heat": "MEDIUM"
-        }
-    ],
-    "system_metrics": {
-        "total_content_rendered": 0,
-        "daily_conversions": 0,
-        "target_conversions": 1,
-        "enforcer_status": "EMERGENCY_PIVOT"
+  "system_meta": {
+    "version": "2.1.0",
+    "kingdom": "Aurelian",
+    "last_executed": "2026-10-09T01:20:07.609989+00:00",
+    "global_status": "CAPITAL_DEFICIT"
+  },
+  "sovereign_kpis": {
+    "conversions_today": 0,
+    "target_minimum": 1,
+    "target_status": "UNSATISFIED // FORCING_DIRECT_CTA",
+    "current_top_angle": "Manual Labor vs Autonomous Pipeline Architecture",
+    "active_offer": "Operator Mindset Kit"
+  },
+  "council_telemetry": {
+    "MasterOfCoin": {
+      "status": "ACTIVE",
+      "mode": "DEFICIT // FORCING DIRECT CTA",
+      "revenue_status": "DEFICIT"
     },
-    "override_instruction": "FORCE_HIGH_CONVERTING_DIRECT_CTA"
+    "HighReconSpymaster": {
+      "status": "ACTIVE",
+      "primary_angle": "Manual Labor vs Autonomous Pipeline Architecture",
+      "confidence": "94.2%"
+    },
+    "TemporalArchitect": {
+      "status": "ACTIVE",
+      "current_cadence": "4h",
+      "dispatch_window": "STRIKE_READY"
+    }
+  },
+  "tactical_nodes": {
+    "rogue_harvester": {
+      "status": "STANDBY // READY FOR DEPLOYMENT",
+      "latest_axioms_mined": 0,
+      "active_knowledge_vault": [
+        "Leverage vs Labor",
+        "Friction Elimination"
+      ]
+    },
+    "media_factory": {
+      "status": "ONLINE // DISPATCH ACTIVE",
+      "queued_renders": 1,
+      "last_published_id": "REEL_AURELIAN_001"
+    }
+  },
+  "active_directives": {
+    "last_operator_command": null,
+    "council_response": "Aurelian High Council operating on standard 4h cadence. Systems nominal.",
+    "escalation_level": "LEVEL_0_NOMINAL"
+  },
+  "execution_log": [
+    "[SYSTEM]: Aurelian Orchestrator cycle executed at 2026-10-09T01:20:07.609989+00:00.",
+    "[DIRECTIVE BUS]: Escalation posture sitting at LEVEL_0_NOMINAL.",
+    "[MASTER OF COIN]: Conversion status evaluated (0/1). Posture: DEFICIT // FORCING DIRECT CTA.",
+    "[TEMPORAL ARCHITECT]: 4h dispatch window verified."
+  ]
 }
