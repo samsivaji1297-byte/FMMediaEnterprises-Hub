@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>DIGITAL WAR ROOM // COMMAND HUB</title>
+  <title>AURELIAN COMMAND HUB // OVERWATCH</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     body { background-color: #0b0f17; color: #cbd5e1; font-family: monospace; }
@@ -18,47 +18,47 @@
 <body class="p-4 md:p-6 space-y-6">
 
   <!-- OVERWATCH HEADER -->
-  <header class="card p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center border-l-4 border-l-cyan-500">
+  <header class="card p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center border-l-4 border-l-amber-500">
     <div>
-      <h1 class="text-xl font-bold tracking-widest text-white glow-cyan">DIGITAL WAR ROOM // OVERWATCH</h1>
-      <p class="text-xs text-slate-400 mt-1">OPERATOR COMMAND INTERFACE &bull; DECOUPLED AGENT FLEET</p>
+      <h1 class="text-xl font-bold tracking-widest text-white glow-gold">AURELIAN COMMAND HUB // OVERWATCH</h1>
+      <p class="text-xs text-slate-400 mt-1">SOVEREIGN AGENT FLEET &bull; AUTONOMOUS TELEMETRY & DIRECTIVE INTERCEPTOR</p>
     </div>
     <div class="mt-2 md:mt-0 text-right">
-      <div id="sys-status-badge" class="inline-block px-3 py-1 text-xs font-bold rounded bg-slate-800 text-cyan-400 border border-cyan-500/30">
-        STATUS: INITIALIZING
+      <div id="sys-status-badge" class="inline-block px-3 py-1 text-xs font-bold rounded bg-slate-800 text-amber-400 border border-amber-500/30">
+        STATUS: ACTIVE_DEFICIT
       </div>
-      <div id="last-updated" class="text-[10px] text-slate-500 mt-1">LAST SYNC: --:--:--</div>
+      <div id="last-updated" class="text-[10px] text-slate-400 mt-1">LAST SYNC: --:--:-- AEDT</div>
     </div>
   </header>
 
   <!-- TOP LAYER: COUNCIL STATE & SOVEREIGN KPIS -->
   <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
     <!-- MASTER OF COIN -->
-    <div class="card p-4 rounded-lg">
+    <div class="card p-4 rounded-lg border-t-2 border-t-amber-500">
       <div class="text-xs text-slate-400 uppercase tracking-wider">Master Of Coin</div>
       <div id="kpi-conversions" class="text-2xl font-bold text-white mt-1">0 / 1</div>
-      <div id="kpi-enforcer-mode" class="text-xs text-yellow-400 mt-1 glow-gold">MODE: NOMINAL</div>
+      <div id="kpi-enforcer-mode" class="text-xs text-red-400 mt-1 font-bold glow-red">DEFICIT // FORCING DIRECT CTA</div>
     </div>
 
     <!-- SPYMASTER -->
-    <div class="card p-4 rounded-lg">
+    <div class="card p-4 rounded-lg border-t-2 border-t-cyan-500">
       <div class="text-xs text-slate-400 uppercase tracking-wider">High Recon Spymaster</div>
-      <div id="kpi-top-angle" class="text-sm font-semibold text-slate-200 mt-1 truncate">Loading angle...</div>
-      <div id="kpi-confidence" class="text-xs text-cyan-400 mt-1">CONFIDENCE: --</div>
+      <div id="kpi-top-angle" class="text-xs font-semibold text-slate-200 mt-1 truncate">Manual Labor vs Autonomous Pipeline Architecture</div>
+      <div id="kpi-confidence" class="text-[10px] text-cyan-400 mt-1">CONFIDENCE: 94.2% &bull; ACTIVE HOOK READY</div>
     </div>
 
     <!-- TEMPORAL ARCHITECT -->
-    <div class="card p-4 rounded-lg">
+    <div class="card p-4 rounded-lg border-t-2 border-t-blue-500">
       <div class="text-xs text-slate-400 uppercase tracking-wider">Temporal Architect</div>
-      <div id="kpi-cadence" class="text-2xl font-bold text-white mt-1">4h</div>
-      <div id="kpi-dispatch-window" class="text-xs text-green-400 mt-1">WINDOW: OPEN</div>
+      <div id="kpi-cadence" class="text-2xl font-bold text-white mt-1">4h Cadence</div>
+      <div id="kpi-dispatch-window" class="text-xs text-green-400 mt-1">NEXT STRIKE: DISPATCH READY</div>
     </div>
 
     <!-- ESCALATION LEVEL -->
-    <div class="card p-4 rounded-lg">
-      <div class="text-xs text-slate-400 uppercase tracking-wider">Escalation Status</div>
-      <div id="kpi-escalation-level" class="text-xl font-bold text-slate-200 mt-1">NORMAL</div>
-      <div id="kpi-active-directives-count" class="text-xs text-slate-400 mt-1">Directives History: 0</div>
+    <div class="card p-4 rounded-lg border-t-2 border-t-slate-600">
+      <div class="text-xs text-slate-400 uppercase tracking-wider">Escalation Posture</div>
+      <div id="kpi-escalation-level" class="text-xl font-bold text-slate-200 mt-1">LEVEL_0_NOMINAL</div>
+      <div id="kpi-active-directives-count" class="text-xs text-slate-400 mt-1">Directive History: 0 Registered</div>
     </div>
   </div>
 
@@ -72,7 +72,7 @@
         <span class="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded border border-amber-500/20">INBOUND BUS</span>
       </h2>
       
-      <p class="text-xs text-slate-400">Issue direct commands, inquiries, or accountability queries to the High Council.</p>
+      <p class="text-xs text-slate-400">Issue direct demands, inquiries, or accountability queries to the Aurelian High Council.</p>
       
       <form id="directive-form" class="space-y-3">
         <div>
@@ -85,10 +85,10 @@
       </form>
 
       <!-- ACTIVE DIRECTIVE RESPONSE -->
-      <div id="active-response-container" class="mt-4 p-3 bg-slate-900/90 rounded border border-slate-800 text-xs hidden space-y-1">
-        <div class="text-[10px] text-amber-400 font-bold tracking-wider">// LATEST COUNCIL RESPONSE</div>
-        <div id="active-response-prompt" class="text-slate-400 italic text-[11px]"></div>
-        <div id="active-response-text" class="text-slate-200 mt-1 leading-relaxed"></div>
+      <div id="active-response-container" class="mt-4 p-3 bg-slate-900/90 rounded border border-slate-800 text-xs space-y-1">
+        <div class="text-[10px] text-amber-400 font-bold tracking-wider">// COUNCIL DIRECTIVE STATUS</div>
+        <div id="active-response-prompt" class="text-slate-400 italic text-[11px]">COUNCIL_STANDBY</div>
+        <div id="active-response-text" class="text-slate-300 mt-1 leading-relaxed">Awaiting operator command directive or automated 4h cron cycle sweep.</div>
       </div>
     </div>
 
@@ -96,20 +96,20 @@
     <div class="card p-5 rounded-lg md:col-span-2 space-y-4">
       <h2 class="text-sm font-bold text-cyan-400 tracking-wider flex items-center justify-between">
         <span>// DIRECTIVE HISTORY & TACTICAL NODES</span>
-        <span id="nodes-status" class="text-[10px] text-slate-400">NODES ONLINE</span>
+        <span id="nodes-status" class="text-[10px] text-slate-400">NODES ACTIVE</span>
       </h2>
 
       <!-- TACTICAL NODES STATUS -->
       <div class="grid grid-cols-2 gap-3" id="tactical-nodes-grid">
         <div class="p-3 bg-slate-900/50 rounded border border-slate-800">
           <div class="text-[10px] text-slate-400 uppercase">Rogue Harvester</div>
-          <div id="node-harvester-status" class="text-xs font-bold text-slate-300 mt-1">OFFLINE / UNLINKED</div>
-          <div id="node-harvester-meta" class="text-[10px] text-slate-500 mt-0.5">Axioms Mined: 0</div>
+          <div id="node-harvester-status" class="text-xs font-bold text-amber-400 mt-1">STANDBY // READY FOR DEPLOYMENT</div>
+          <div id="node-harvester-meta" class="text-[10px] text-slate-500 mt-0.5">Axioms Mined: 0 Mined</div>
         </div>
         <div class="p-3 bg-slate-900/50 rounded border border-slate-800">
-          <div class="text-[10px] text-slate-400 uppercase">Media Factory</div>
-          <div id="node-media-status" class="text-xs font-bold text-slate-300 mt-1">ONLINE</div>
-          <div id="node-media-meta" class="text-[10px] text-slate-500 mt-0.5">Queue: Nominal</div>
+          <div class="text-[10px] text-slate-400 uppercase">Media Factory Engine</div>
+          <div id="node-media-status" class="text-xs font-bold text-green-400 mt-1">ONLINE // DISPATCH ACTIVE</div>
+          <div id="node-media-meta" class="text-[10px] text-slate-500 mt-0.5">Queue: Render Nominal</div>
         </div>
       </div>
 
@@ -117,7 +117,7 @@
       <div>
         <div class="text-[11px] text-slate-400 mb-2 uppercase tracking-wider">Directive Audit History</div>
         <div id="directive-history-feed" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-          <div class="text-xs text-slate-500 italic">No historical directives registered.</div>
+          <div class="text-xs text-slate-500 italic">No historical directives registered in current cycle buffer.</div>
         </div>
       </div>
     </div>
@@ -127,9 +127,9 @@
   <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
     <!-- COMMAND STREAM LOGS -->
     <div class="card p-5 rounded-lg md:col-span-2 space-y-3">
-      <h2 class="text-sm font-bold text-slate-300 tracking-wider">// AGENT NETWORK COMMAND STREAM</h2>
+      <h2 class="text-sm font-bold text-slate-300 tracking-wider">// AURELIAN AGENT NETWORK COMMAND STREAM</h2>
       <div id="command-stream-container" class="bg-slate-950 p-3 rounded border border-slate-800/80 font-mono text-xs max-h-60 overflow-y-auto space-y-1 text-slate-300">
-        <div class="text-slate-500 italic">[SYSTEM]: Initializing connection to state bus...</div>
+        <div class="text-slate-500 italic">[SYSTEM]: Initializing connection to Aurelian state bus...</div>
       </div>
     </div>
 
@@ -153,6 +153,11 @@
       return _origFetch(url, options);
     };
 
+    // Helper for Formatted Local Time
+    function getFormattedTime() {
+      return new Date().toLocaleTimeString('en-AU', { timeZoneName: 'short' });
+    }
+
     // 2. LIVE DATA TELEMETRY BINDER
     async function refreshDashboard() {
       try {
@@ -167,46 +172,59 @@
         const directivesData = directivesRes.status === 'fulfilled' ? await directivesRes.value.json() : {};
 
         // Update System Status Header
-        document.getElementById('last-updated').innerText = `LAST SYNC: ${new Date().toLocaleTimeString()}`;
+        document.getElementById('last-updated').innerText = `LAST SYNC: ${getFormattedTime()}`;
+        
+        const conversions = stateData.sovereign_kpis?.conversions_today ?? (stateData.daily_conversions ?? 0);
+        const targetMin = stateData.sovereign_kpis?.target_minimum ?? 1;
+
         const sysBadge = document.getElementById('sys-status-badge');
-        sysBadge.innerText = `STATUS: ${stateData.system_meta?.global_status || 'NOMINAL'}`;
+        if (conversions < targetMin) {
+          sysBadge.innerText = 'STATUS: CAPITAL_DEFICIT';
+          sysBadge.className = 'inline-block px-3 py-1 text-xs font-bold rounded bg-red-950/80 text-red-400 border border-red-500/40 glow-red';
+        } else {
+          sysBadge.innerText = 'STATUS: TARGET_SATISFIED';
+          sysBadge.className = 'inline-block px-3 py-1 text-xs font-bold rounded bg-green-950/80 text-green-400 border border-green-500/40';
+        }
 
         // Top Layer KPIs
-        const kpis = stateData.sovereign_kpis || {};
-        document.getElementById('kpi-conversions').innerText = `${kpis.conversions_today ?? 0} / ${kpis.target_minimum ?? 1}`;
+        document.getElementById('kpi-conversions').innerText = `${conversions} / ${targetMin}`;
         
-        const enforcerMode = stateData.council_telemetry?.MasterOfCoin?.mode || stateData.enforcer_mode || 'NOMINAL';
-        document.getElementById('kpi-enforcer-mode').innerText = `MODE: ${enforcerMode}`;
+        const enforcerMode = document.getElementById('kpi-enforcer-mode');
+        if (conversions < targetMin) {
+          enforcerMode.innerText = 'UNSATISFIED // FORCING DIRECT CTA';
+          enforcerMode.className = 'text-xs text-red-400 mt-1 font-bold glow-red';
+        } else {
+          enforcerMode.innerText = 'MODE: SATISFIED // STANDARD HARVEST';
+          enforcerMode.className = 'text-xs text-green-400 mt-1 font-bold';
+        }
 
-        const topAngle = kpis.current_top_angle || stateData.council_telemetry?.HighReconSpymaster?.primary_angle || 'Manual Labor vs Autonomous Pipeline';
+        const topAngle = stateData.sovereign_kpis?.current_top_angle || stateData.primary_angle || stateData.target_focus || 'Manual Labor vs Autonomous Pipeline Architecture';
         document.getElementById('kpi-top-angle').innerText = topAngle;
-        document.getElementById('kpi-confidence').innerText = `CONFIDENCE: ${stateData.council_telemetry?.HighReconSpymaster?.confidence || 'HIGH'}`;
 
-        document.getElementById('kpi-cadence').innerText = stateData.council_telemetry?.TemporalArchitect?.current_cadence || '4h';
+        document.getElementById('kpi-cadence').innerText = `${stateData.council_telemetry?.TemporalArchitect?.current_cadence || '4h'} Cadence`;
 
         // Escalation & Directives Status
         const history = directivesData.directive_history || [];
-        document.getElementById('kpi-active-directives-count').innerText = `Directives History: ${history.length}`;
+        document.getElementById('kpi-active-directives-count').innerText = `Directive History: ${history.length} Registered`;
         
-        const currentEscalation = directivesData.active_directive?.escalation_level || 'NORMAL';
+        const currentEscalation = directivesData.active_directive?.escalation_level || stateData.escalation_level || 'LEVEL_0_NOMINAL';
         const escalationElem = document.getElementById('kpi-escalation-level');
         escalationElem.innerText = currentEscalation;
-        escalationElem.className = `text-xl font-bold mt-1 ${currentEscalation.includes('EMERGENCY') ? 'text-red-500 glow-red' : 'text-slate-200'}`;
+        escalationElem.className = `text-xl font-bold mt-1 ${currentEscalation.includes('EMERGENCY') || currentEscalation.includes('LEVEL_2') ? 'text-red-500 glow-red' : 'text-slate-200'}`;
 
         // Tactical Nodes Display
         const nodes = stateData.tactical_nodes || {};
         if (nodes.rogue_harvester) {
-          document.getElementById('node-harvester-status').innerText = nodes.rogue_harvester.status || 'ONLINE';
-          document.getElementById('node-harvester-status').className = 'text-xs font-bold text-green-400 mt-1';
-          document.getElementById('node-harvester-meta').innerText = `Axioms Mined: ${nodes.rogue_harvester.latest_axioms_mined || 0}`;
+          const harvesterStatus = document.getElementById('node-harvester-status');
+          harvesterStatus.innerText = nodes.rogue_harvester.status || 'ONLINE';
+          harvesterStatus.className = 'text-xs font-bold text-amber-400 mt-1';
+          document.getElementById('node-harvester-meta').innerText = `Axioms Mined: ${nodes.rogue_harvester.latest_axioms_mined || 0} Mined`;
         }
 
         // Directive Response Container
-        if (stateData.active_directives?.council_response) {
-          const respContainer = document.getElementById('active-response-container');
-          respContainer.classList.remove('hidden');
-          document.getElementById('active-response-prompt').innerText = `"${stateData.active_directives.last_operator_command || ''}"`;
-          document.getElementById('active-response-text').innerText = stateData.active_directives.council_response;
+        if (stateData.active_directives?.council_response || directivesData.active_directive?.response) {
+          document.getElementById('active-response-prompt').innerText = `"${stateData.active_directives?.last_operator_command || directivesData.active_directive?.prompt || ''}"`;
+          document.getElementById('active-response-text').innerText = stateData.active_directives?.council_response || directivesData.active_directive?.response;
         }
 
         // Directive Audit History Feed
@@ -219,7 +237,7 @@
                 <span class="text-[9px] text-slate-500">${new Date(d.timestamp).toLocaleTimeString()}</span>
               </div>
               <div class="text-slate-200 mt-0.5 font-medium">"${d.prompt}"</div>
-              <div class="text-slate-400 text-[10px] mt-1 border-t border-slate-800 pt-1">${d.council_action || 'Processed.'}</div>
+              <div class="text-slate-400 text-[10px] mt-1 border-t border-slate-800 pt-1">${d.council_action || d.response || 'Processed.'}</div>
             </div>
           `).join('');
         }
@@ -246,7 +264,7 @@
         }
 
       } catch (err) {
-        console.warn('[!] Dashboard telemetry sync warning:', err);
+        console.warn('[!] Aurelian telemetry sync warning:', err);
       }
     }
 
@@ -257,7 +275,6 @@
       const val = input.value.trim();
       if (!val) return;
 
-      // Register directive in local storage state buffer
       const pendingDirective = {
         id: `dir_${Date.now()}`,
         timestamp: new Date().toISOString(),
@@ -267,7 +284,7 @@
       };
 
       localStorage.setItem('pending_operator_directive', JSON.stringify(pendingDirective));
-      alert(`Directive registered: "${val}"\n\nDirective buffered for next Council execution cycle.`);
+      alert(`Aurelian Directive Buffered:\n"${val}"\n\nQueued for Council ingestion on next cycle.`);
       input.value = '';
     });
 
