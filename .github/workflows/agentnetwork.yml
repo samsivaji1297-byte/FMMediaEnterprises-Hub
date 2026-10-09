@@ -45,7 +45,8 @@ jobs:
         run: |
           git config --global user.name "WarRoom-Bot"
           git config --global user.email "bot@warroom.internal"
-          git add MediaFactory/vault/ vault/
-          git commit -m "vault: update published queue, conversion logs & analytics intelligence state [skip ci]" || echo "No changes to commit"
+          mkdir -p vault MediaFactory/vault
+          git add vault/ MediaFactory/vault/
+          git diff-index --quiet HEAD || git commit -m "vault(aurelian): sync state, directives, and media factory queue [skip ci]"
           git pull --rebase origin main
           git push
