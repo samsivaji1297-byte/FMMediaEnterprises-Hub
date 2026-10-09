@@ -1,0 +1,33 @@
+{
+    "title": "Signal Over Noise",
+    "voiceover_full": "The world is screaming for your attention. But success isn't about doing more. It\u2019s about ignoring almost everything, and focusing entirely on the signal. Cut the noise.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "The world is screaming for your attention.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic. Close-up of a smartphone screen glowing in a pitch-black room, notifications rapidly flooding the screen, motion blur, moody atmospheric lighting.",
+            "text_overlay": "TOO MUCH NOISE",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "But success isn't about doing more. It\u2019s about ignoring almost everything...",
+            "visual_prompt": "Cinematic vertical 9:16 dark minimalist aesthetic. A focused, stylish individual putting on sleek matte black headphones in slow motion, chaotic background lights fading into a soft, calm bokeh.",
+            "text_overlay": "IGNORE THE STATIC",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "...and focusing entirely on the signal. Cut the noise.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic. A single, sharp, glowing gold line cutting through a dark, chaotic digital waveform, minimalist composition, ultra-premium look.",
+            "text_overlay": "FIND THE SIGNAL",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261009_1646_signal-over-noise",
+        "topic": "Signal Over Noise",
+        "theme": "sovereign",
+        "timestamp": "20261009_1646"
+    }
+}
