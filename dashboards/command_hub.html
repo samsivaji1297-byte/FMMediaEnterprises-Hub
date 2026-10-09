@@ -1,349 +1,280 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>
-  // Dynamic Vault Path Resolver
-  const _origFetch = window.fetch;
-  window.fetch = (url, options) => {
-    if (typeof url === 'string' && url.includes('vault/')) {
-      // Strips leading slash/dot and prepends relative climb
-      const cleanPath = url.replace(/^(\.\/|\/)/, '');
-      url = '../' + cleanPath + (cleanPath.includes('?') ? '&' : '?') + 't=' + Date.now();
-    }
-    return _origFetch(url, options);
-  };
-</script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIGITAL WAR ROOM // GRAND STRATEGIST HUD</title>
-    <style>
-        :root {
-            --bg-color: #08090c;
-            --panel-bg: #12161f;
-            --panel-border: #1e2636;
-            --text-main: #d1d5db;
-            --text-dim: #6b7280;
-            --accent-cyan: #00f2fe;
-            --accent-gold: #f59e0b;
-            --accent-emerald: #10b981;
-            --danger-red: #ef4444;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
-        }
-
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            padding: 20px;
-            min-height: 100vh;
-        }
-
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid var(--accent-cyan);
-            padding-bottom: 14px;
-            margin-bottom: 20px;
-        }
-
-        .title-block {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        h1 {
-            color: var(--accent-cyan);
-            font-size: 1.3rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .status-badge {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--accent-emerald);
-            border: 1px solid var(--accent-emerald);
-            padding: 4px 10px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(12, 1fr);
-            gap: 16px;
-        }
-
-        .card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--panel-border);
-            border-radius: 6px;
-            padding: 16px;
-        }
-
-        .col-3 { grid-column: span 3; }
-        .col-4 { grid-column: span 4; }
-        .col-6 { grid-column: span 6; }
-        .col-8 { grid-column: span 8; }
-        .col-12 { grid-column: span 12; }
-
-        .card-header {
-            color: var(--accent-gold);
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #fff;
-            margin-top: 4px;
-        }
-
-        .stat-label {
-            font-size: 0.75rem;
-            color: var(--text-dim);
-            text-transform: uppercase;
-            margin-top: 4px;
-        }
-
-        /* War Map Node Visualizer */
-        .war-map-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 10px;
-        }
-
-        .map-node {
-            background-color: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--panel-border);
-            border-radius: 4px;
-            padding: 12px;
-        }
-
-        .node-header {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.8rem;
-            color: var(--accent-cyan);
-            margin-bottom: 8px;
-        }
-
-        .progress-bar-bg {
-            background-color: #1a202c;
-            height: 6px;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 6px;
-        }
-
-        .progress-bar-fill {
-            background-color: var(--accent-cyan);
-            height: 100%;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
-        /* Terminal Logs */
-        .log-terminal {
-            background-color: #040507;
-            border: 1px solid var(--panel-border);
-            border-radius: 4px;
-            padding: 12px;
-            height: 200px;
-            overflow-y: auto;
-            font-size: 0.78rem;
-            color: #8899a6;
-            line-height: 1.6;
-        }
-
-        .log-entry { margin-bottom: 4px; }
-        .log-success { color: var(--accent-cyan); }
-        .log-warn { color: var(--accent-gold); }
-        .log-danger { color: var(--danger-red); }
-
-        .btn {
-            background-color: transparent;
-            color: var(--accent-cyan);
-            border: 1px solid var(--accent-cyan);
-            padding: 8px 16px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .btn:hover {
-            background-color: var(--accent-cyan);
-            color: var(--bg-color);
-            box-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 8px;
-        }
-
-        th, td {
-            text-align: left;
-            padding: 10px;
-            border-bottom: 1px solid var(--panel-border);
-            font-size: 0.8rem;
-        }
-
-        th {
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DIGITAL WAR ROOM // COMMAND HUB</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0b0f17; color: #cbd5e1; font-family: monospace; }
+    .card { background: rgba(15, 23, 42, 0.75); border: 1px solid #1e293b; }
+    .glow-gold { text-shadow: 0 0 8px rgba(234, 179, 8, 0.5); }
+    .glow-cyan { text-shadow: 0 0 8px rgba(6, 182, 212, 0.5); }
+    .glow-red { text-shadow: 0 0 8px rgba(239, 68, 68, 0.5); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-thumb { background: #334155; border-radius: 2px; }
+  </style>
 </head>
-<body>
+<body class="p-4 md:p-6 space-y-6">
 
-    <header>
-        <div class="title-block">
-            <h1>[ DIGITAL WAR ROOM // SYSTEM OVERWATCH ]</h1>
-        </div>
-        <div class="status-badge">● FLEET ACTIVE // 7 UNITS</div>
-    </header>
+  <!-- OVERWATCH HEADER -->
+  <header class="card p-4 rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center border-l-4 border-l-cyan-500">
+    <div>
+      <h1 class="text-xl font-bold tracking-widest text-white glow-cyan">DIGITAL WAR ROOM // OVERWATCH</h1>
+      <p class="text-xs text-slate-400 mt-1">OPERATOR COMMAND INTERFACE &bull; DECOUPLED AGENT FLEET</p>
+    </div>
+    <div class="mt-2 md:mt-0 text-right">
+      <div id="sys-status-badge" class="inline-block px-3 py-1 text-xs font-bold rounded bg-slate-800 text-cyan-400 border border-cyan-500/30">
+        STATUS: INITIALIZING
+      </div>
+      <div id="last-updated" class="text-[10px] text-slate-500 mt-1">LAST SYNC: --:--:--</div>
+    </div>
+  </header>
 
-    <div class="grid">
-        <!-- Revenue Enforcer HUD -->
-        <div class="card col-3">
-            <div class="card-header">Revenue Enforcer</div>
-            <div class="stat-number" style="color: var(--accent-emerald);">$1 / Day</div>
-            <div class="stat-label">Daily Minimum Target</div>
-        </div>
-
-        <div class="card col-3">
-            <div class="card-header">Enforcement Mode</div>
-            <div class="stat-number" style="color: var(--accent-cyan);">NOMINAL</div>
-            <div class="stat-label">Target Checkpoint Active</div>
-        </div>
-
-        <div class="card col-3">
-            <div class="card-header">Capital Efficiency (CEI)</div>
-            <div class="stat-number">98.4%</div>
-            <div class="stat-label">Conversion Rate Ratio</div>
-        </div>
-
-        <div class="card col-3">
-            <div class="card-header">Vault Inventory</div>
-            <div class="stat-number" style="color: var(--accent-gold);">STOCKED</div>
-            <div class="stat-label">MediaFactory Renders</div>
-        </div>
-
-        <!-- War Map: Platform & Domain Expansion -->
-        <div class="card col-12">
-            <div class="card-header">
-                <span>The Grand Strategist // War Map Frontlines</span>
-                <span style="font-size: 0.75rem; color: var(--text-dim);">ATTENTION DOMAINS</span>
-            </div>
-            <div class="war-map-container">
-                <div class="map-node">
-                    <div class="node-header">
-                        <span>INSTAGRAM REELS</span>
-                        <span style="color: var(--accent-emerald);">ACTIVE</span>
-                    </div>
-                    <div style="font-size: 0.75rem; color: var(--text-dim);">Niche: Time Friction / Automation</div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 78%;"></div>
-                    </div>
-                </div>
-
-                <div class="map-node">
-                    <div class="node-header">
-                        <span>YOUTUBE SHORTS</span>
-                        <span style="color: var(--accent-gold);">EXPANDING</span>
-                    </div>
-                    <div style="font-size: 0.75rem; color: var(--text-dim);">Niche: Sovereign Mindset / Execution</div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 45%; background-color: var(--accent-gold);"></div>
-                    </div>
-                </div>
-
-                <div class="map-node">
-                    <div class="node-header">
-                        <span>TIKTOK / THREADS</span>
-                        <span style="color: var(--text-dim);">QUEUED</span>
-                    </div>
-                    <div style="font-size: 0.75rem; color: var(--text-dim);">Niche: Asymmetric Value / SaaS</div>
-                    <div class="progress-bar-bg">
-                        <div class="progress-bar-fill" style="width: 15%; background-color: var(--text-dim);"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- System Execution Feed -->
-        <div class="card col-12">
-            <div class="card-header">
-                <span>Agent Network Command Stream</span>
-                <button class="btn" onclick="triggerEmergencyPivot()">Force Revenue Check</button>
-            </div>
-            <div class="log-terminal" id="terminal">
-                <div class="log-entry log-success">[SYSTEM]: All 7 agent nodes synchronized in pipeline.</div>
-                <div class="log-entry">[GRAND STRATEGIST]: War map initialized. Attention domains online.</div>
-                <div class="log-entry">[FRICTION MINER]: Scraped $3B Calendly friction paradigm signal.</div>
-                <div class="log-entry log-warn">[REVENUE ENFORCER]: Daily target baseline set to 1 conversion/day minimum.</div>
-                <div class="log-entry">[VANGUARD PRIME]: Automated CI/CD runner verified. Ready for batch dispatch.</div>
-            </div>
-        </div>
-
-        <!-- Friction Mining & Offer Table -->
-        <div class="card col-12">
-            <div class="card-header">Friction Miner // Offer Engine Pipeline</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Target Friction</th>
-                        <th>Psychological Hook</th>
-                        <th>Offer Deliverable</th>
-                        <th>Revenue Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Scheduling Overhead ($3B Calendly)</td>
-                        <td>"Stop wasting 4 emails to align 1 meeting."</td>
-                        <td>Operational Automation Blueprint</td>
-                        <td><span style="color: var(--accent-cyan);">ACTIVE CTA</span></td>
-                    </tr>
-                    <tr>
-                        <td>Comfort & Passive Delay</td>
-                        <td>"Comfort is the hidden killer of progress."</td>
-                        <td>Operator Mindset Kit</td>
-                        <td><span style="color: var(--accent-emerald);">CONVERTING</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+  <!-- TOP LAYER: COUNCIL STATE & SOVEREIGN KPIS -->
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+    <!-- MASTER OF COIN -->
+    <div class="card p-4 rounded-lg">
+      <div class="text-xs text-slate-400 uppercase tracking-wider">Master Of Coin</div>
+      <div id="kpi-conversions" class="text-2xl font-bold text-white mt-1">0 / 1</div>
+      <div id="kpi-enforcer-mode" class="text-xs text-yellow-400 mt-1 glow-gold">MODE: NOMINAL</div>
     </div>
 
-    <script>
-        function triggerEmergencyPivot() {
-            const terminal = document.getElementById('terminal');
-            const entry = document.createElement('div');
-            entry.className = 'log-entry log-warn';
-            entry.innerText = `[REVENUE ENFORCER]: Manual conversion check dispatched at ${new Date().toLocaleTimeString()}. Evaluating threshold...`;
-            terminal.appendChild(entry);
-            terminal.scrollTop = terminal.scrollHeight;
+    <!-- SPYMASTER -->
+    <div class="card p-4 rounded-lg">
+      <div class="text-xs text-slate-400 uppercase tracking-wider">High Recon Spymaster</div>
+      <div id="kpi-top-angle" class="text-sm font-semibold text-slate-200 mt-1 truncate">Loading angle...</div>
+      <div id="kpi-confidence" class="text-xs text-cyan-400 mt-1">CONFIDENCE: --</div>
+    </div>
+
+    <!-- TEMPORAL ARCHITECT -->
+    <div class="card p-4 rounded-lg">
+      <div class="text-xs text-slate-400 uppercase tracking-wider">Temporal Architect</div>
+      <div id="kpi-cadence" class="text-2xl font-bold text-white mt-1">4h</div>
+      <div id="kpi-dispatch-window" class="text-xs text-green-400 mt-1">WINDOW: OPEN</div>
+    </div>
+
+    <!-- ESCALATION LEVEL -->
+    <div class="card p-4 rounded-lg">
+      <div class="text-xs text-slate-400 uppercase tracking-wider">Escalation Status</div>
+      <div id="kpi-escalation-level" class="text-xl font-bold text-slate-200 mt-1">NORMAL</div>
+      <div id="kpi-active-directives-count" class="text-xs text-slate-400 mt-1">Directives History: 0</div>
+    </div>
+  </div>
+
+  <!-- MIDDLE LAYER: DIRECTIVE INTERCEPTOR & COMMAND BUS -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    
+    <!-- DIRECTIVE ISSUANCE PANEL -->
+    <div class="card p-5 rounded-lg md:col-span-1 space-y-4 border-t-2 border-t-amber-500">
+      <h2 class="text-sm font-bold text-amber-400 tracking-wider flex items-center justify-between">
+        <span>// DIRECTIVE INTERCEPTOR</span>
+        <span class="text-[10px] bg-amber-500/10 text-amber-300 px-2 py-0.5 rounded border border-amber-500/20">INBOUND BUS</span>
+      </h2>
+      
+      <p class="text-xs text-slate-400">Issue direct commands, inquiries, or accountability queries to the High Council.</p>
+      
+      <form id="directive-form" class="space-y-3">
+        <div>
+          <label class="block text-[10px] text-slate-400 mb-1 uppercase">Command Directive</label>
+          <textarea id="directive-input" rows="3" class="w-full bg-slate-900 border border-slate-700 rounded p-2 text-xs text-white focus:outline-none focus:border-amber-500" placeholder="e.g. Why are no sales being made this morning? Give immediate root cause analysis."></textarea>
+        </div>
+        <button type="submit" class="w-full py-2 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold text-xs rounded transition duration-150 uppercase tracking-wider">
+          Dispatch Directive
+        </button>
+      </form>
+
+      <!-- ACTIVE DIRECTIVE RESPONSE -->
+      <div id="active-response-container" class="mt-4 p-3 bg-slate-900/90 rounded border border-slate-800 text-xs hidden space-y-1">
+        <div class="text-[10px] text-amber-400 font-bold tracking-wider">// LATEST COUNCIL RESPONSE</div>
+        <div id="active-response-prompt" class="text-slate-400 italic text-[11px]"></div>
+        <div id="active-response-text" class="text-slate-200 mt-1 leading-relaxed"></div>
+      </div>
+    </div>
+
+    <!-- DIRECTIVE HISTORY & TACTICAL NODES -->
+    <div class="card p-5 rounded-lg md:col-span-2 space-y-4">
+      <h2 class="text-sm font-bold text-cyan-400 tracking-wider flex items-center justify-between">
+        <span>// DIRECTIVE HISTORY & TACTICAL NODES</span>
+        <span id="nodes-status" class="text-[10px] text-slate-400">NODES ONLINE</span>
+      </h2>
+
+      <!-- TACTICAL NODES STATUS -->
+      <div class="grid grid-cols-2 gap-3" id="tactical-nodes-grid">
+        <div class="p-3 bg-slate-900/50 rounded border border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">Rogue Harvester</div>
+          <div id="node-harvester-status" class="text-xs font-bold text-slate-300 mt-1">OFFLINE / UNLINKED</div>
+          <div id="node-harvester-meta" class="text-[10px] text-slate-500 mt-0.5">Axioms Mined: 0</div>
+        </div>
+        <div class="p-3 bg-slate-900/50 rounded border border-slate-800">
+          <div class="text-[10px] text-slate-400 uppercase">Media Factory</div>
+          <div id="node-media-status" class="text-xs font-bold text-slate-300 mt-1">ONLINE</div>
+          <div id="node-media-meta" class="text-[10px] text-slate-500 mt-0.5">Queue: Nominal</div>
+        </div>
+      </div>
+
+      <!-- DIRECTIVE HISTORY FEED -->
+      <div>
+        <div class="text-[11px] text-slate-400 mb-2 uppercase tracking-wider">Directive Audit History</div>
+        <div id="directive-history-feed" class="space-y-2 max-h-48 overflow-y-auto pr-1">
+          <div class="text-xs text-slate-500 italic">No historical directives registered.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM LAYER: EXECUTION STREAM LOG & PUBLISHED REELS -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <!-- COMMAND STREAM LOGS -->
+    <div class="card p-5 rounded-lg md:col-span-2 space-y-3">
+      <h2 class="text-sm font-bold text-slate-300 tracking-wider">// AGENT NETWORK COMMAND STREAM</h2>
+      <div id="command-stream-container" class="bg-slate-950 p-3 rounded border border-slate-800/80 font-mono text-xs max-h-60 overflow-y-auto space-y-1 text-slate-300">
+        <div class="text-slate-500 italic">[SYSTEM]: Initializing connection to state bus...</div>
+      </div>
+    </div>
+
+    <!-- LIVE REELS INVENTORY -->
+    <div class="card p-5 rounded-lg md:col-span-1 space-y-3">
+      <h2 class="text-sm font-bold text-slate-300 tracking-wider">// PUBLISHED REELS INVENTORY</h2>
+      <div id="reels-container" class="space-y-2 max-h-60 overflow-y-auto pr-1 text-xs">
+        <div class="text-slate-500 italic">Loading reel dispatch logs...</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // 1. DYNAMIC PATH INTERCEPTOR & CACHE BUSTER
+    const _origFetch = window.fetch;
+    window.fetch = (url, options) => {
+      if (typeof url === 'string' && url.includes('vault/')) {
+        const cleanPath = url.replace(/^(\.\/|\/)/, '');
+        url = '../' + cleanPath + (cleanPath.includes('?') ? '&' : '?') + 't=' + Date.now();
+      }
+      return _origFetch(url, options);
+    };
+
+    // 2. LIVE DATA TELEMETRY BINDER
+    async function refreshDashboard() {
+      try {
+        const [stateRes, reelsRes, directivesRes] = await Promise.allSettled([
+          fetch('vault/war_map_state.json'),
+          fetch('vault/published_reels.json'),
+          fetch('vault/operator_directives.json')
+        ]);
+
+        const stateData = stateRes.status === 'fulfilled' ? await stateRes.value.json() : {};
+        const reelsData = reelsRes.status === 'fulfilled' ? await reelsRes.value.json() : [];
+        const directivesData = directivesRes.status === 'fulfilled' ? await directivesRes.value.json() : {};
+
+        // Update System Status Header
+        document.getElementById('last-updated').innerText = `LAST SYNC: ${new Date().toLocaleTimeString()}`;
+        const sysBadge = document.getElementById('sys-status-badge');
+        sysBadge.innerText = `STATUS: ${stateData.system_meta?.global_status || 'NOMINAL'}`;
+
+        // Top Layer KPIs
+        const kpis = stateData.sovereign_kpis || {};
+        document.getElementById('kpi-conversions').innerText = `${kpis.conversions_today ?? 0} / ${kpis.target_minimum ?? 1}`;
+        
+        const enforcerMode = stateData.council_telemetry?.MasterOfCoin?.mode || stateData.enforcer_mode || 'NOMINAL';
+        document.getElementById('kpi-enforcer-mode').innerText = `MODE: ${enforcerMode}`;
+
+        const topAngle = kpis.current_top_angle || stateData.council_telemetry?.HighReconSpymaster?.primary_angle || 'Manual Labor vs Autonomous Pipeline';
+        document.getElementById('kpi-top-angle').innerText = topAngle;
+        document.getElementById('kpi-confidence').innerText = `CONFIDENCE: ${stateData.council_telemetry?.HighReconSpymaster?.confidence || 'HIGH'}`;
+
+        document.getElementById('kpi-cadence').innerText = stateData.council_telemetry?.TemporalArchitect?.current_cadence || '4h';
+
+        // Escalation & Directives Status
+        const history = directivesData.directive_history || [];
+        document.getElementById('kpi-active-directives-count').innerText = `Directives History: ${history.length}`;
+        
+        const currentEscalation = directivesData.active_directive?.escalation_level || 'NORMAL';
+        const escalationElem = document.getElementById('kpi-escalation-level');
+        escalationElem.innerText = currentEscalation;
+        escalationElem.className = `text-xl font-bold mt-1 ${currentEscalation.includes('EMERGENCY') ? 'text-red-500 glow-red' : 'text-slate-200'}`;
+
+        // Tactical Nodes Display
+        const nodes = stateData.tactical_nodes || {};
+        if (nodes.rogue_harvester) {
+          document.getElementById('node-harvester-status').innerText = nodes.rogue_harvester.status || 'ONLINE';
+          document.getElementById('node-harvester-status').className = 'text-xs font-bold text-green-400 mt-1';
+          document.getElementById('node-harvester-meta').innerText = `Axioms Mined: ${nodes.rogue_harvester.latest_axioms_mined || 0}`;
         }
-    </script>
+
+        // Directive Response Container
+        if (stateData.active_directives?.council_response) {
+          const respContainer = document.getElementById('active-response-container');
+          respContainer.classList.remove('hidden');
+          document.getElementById('active-response-prompt').innerText = `"${stateData.active_directives.last_operator_command || ''}"`;
+          document.getElementById('active-response-text').innerText = stateData.active_directives.council_response;
+        }
+
+        // Directive Audit History Feed
+        const historyFeed = document.getElementById('directive-history-feed');
+        if (history.length > 0) {
+          historyFeed.innerHTML = history.slice(-5).reverse().map(d => `
+            <div class="p-2 bg-slate-900/80 rounded border border-slate-800 text-[11px]">
+              <div class="flex justify-between items-center text-slate-400">
+                <span class="text-amber-400 font-bold">${d.type || 'DIRECTIVE'}</span>
+                <span class="text-[9px] text-slate-500">${new Date(d.timestamp).toLocaleTimeString()}</span>
+              </div>
+              <div class="text-slate-200 mt-0.5 font-medium">"${d.prompt}"</div>
+              <div class="text-slate-400 text-[10px] mt-1 border-t border-slate-800 pt-1">${d.council_action || 'Processed.'}</div>
+            </div>
+          `).join('');
+        }
+
+        // Command Stream Log
+        const streamContainer = document.getElementById('command-stream-container');
+        const logs = stateData.execution_log || stateData.command_stream || [];
+        if (logs.length > 0) {
+          streamContainer.innerHTML = logs.map(log => `<div class="py-0.5 border-b border-slate-900/80 text-slate-300">${log}</div>`).join('');
+        }
+
+        // Published Reels
+        const reelsContainer = document.getElementById('reels-container');
+        if (Array.isArray(reelsData) && reelsData.length > 0) {
+          reelsContainer.innerHTML = reelsData.slice(0, 5).map(r => `
+            <div class="p-2 bg-slate-900/60 rounded border border-slate-800 space-y-1">
+              <div class="flex justify-between text-[10px] text-slate-400">
+                <span class="text-blue-400 font-mono">ID: ${r.media_id || r.id || 'N/A'}</span>
+                <span>${new Date(r.timestamp || Date.now()).toLocaleTimeString()}</span>
+              </div>
+              <div class="text-slate-300 font-medium truncate">${r.caption || 'Reel Dispatch'}</div>
+            </div>
+          `).join('');
+        }
+
+      } catch (err) {
+        console.warn('[!] Dashboard telemetry sync warning:', err);
+      }
+    }
+
+    // 3. DIRECTIVE FORM DISPATCH
+    document.getElementById('directive-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const input = document.getElementById('directive-input');
+      const val = input.value.trim();
+      if (!val) return;
+
+      // Register directive in local storage state buffer
+      const pendingDirective = {
+        id: `dir_${Date.now()}`,
+        timestamp: new Date().toISOString(),
+        type: "ACCOUNTABILITY_QUERY",
+        prompt: val,
+        status: "PENDING"
+      };
+
+      localStorage.setItem('pending_operator_directive', JSON.stringify(pendingDirective));
+      alert(`Directive registered: "${val}"\n\nDirective buffered for next Council execution cycle.`);
+      input.value = '';
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      refreshDashboard();
+      setInterval(refreshDashboard, 15000); // 15s auto-refresh
+    });
+  </script>
 </body>
 </html>
