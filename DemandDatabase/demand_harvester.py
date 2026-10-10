@@ -61,11 +61,12 @@ class DemandHarvester:
 if __name__ == "__main__":
     harvester = DemandHarvester()
     
-    # Refined evergreen seeds (tightened to eliminate noise)
+    # Balanced seeds targeting both execution/automation and psychological readiness
     seeds = [
         "how to automate my business",
-        "how to know if i am ready to launch my business",
+        "how do i know if i am ready to start a project",
         "time management system for entrepreneurs",
-        "ai agents for sales outreach"
+        "ai agents for sales outreach",
+        "overcoming hesitation to start building"
     ]
     harvester.run_harvest_cycle(seeds)
