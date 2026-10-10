@@ -72,7 +72,7 @@ if __name__ == "__main__":
         "stop procrastinating on *",
         "overcoming fear of starting *",
         "time management system for entrepreneurs",
-        "when to quit day job for *"
+        "when to quit day job for *",
         "overcoming hesitation to start building"
     ]
     harvester.run_harvest_cycle(seeds)
