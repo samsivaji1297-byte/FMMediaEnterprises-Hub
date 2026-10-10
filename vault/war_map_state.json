@@ -2,7 +2,7 @@
   "system_meta": {
     "version": "2.1.0",
     "kingdom": "Aurelian",
-    "last_executed": "2026-10-09T20:27:37.404906+00:00",
+    "last_executed": "2026-10-10T00:26:08.505258+00:00",
     "global_status": "CAPITAL_DEFICIT"
   },
   "sovereign_kpis": {
@@ -30,17 +30,13 @@
     }
   },
   "tactical_nodes": {
-    "demand_engine": {
-      "status": "STANDBY // PENDING INITIALIZATION",
-      "active_clusters": 0,
-      "top_search_intent": null,
-      "last_harvested": null
-    },
-    "sales_fleet": {
-      "status": "STANDBY",
-      "active_bots": 0,
-      "daily_yield_target": "$100",
-      "current_yield_today": "$0"
+    "rogue_harvester": {
+      "status": "STANDBY // READY FOR DEPLOYMENT",
+      "latest_axioms_mined": 0,
+      "active_knowledge_vault": [
+        "Leverage vs Labor",
+        "Friction Elimination"
+      ]
     },
     "media_factory": {
       "status": "ONLINE // DISPATCH ACTIVE",
@@ -54,7 +50,7 @@
     "escalation_level": "LEVEL_0_NOMINAL"
   },
   "execution_log": [
-    "[SYSTEM]: Aurelian Orchestrator cycle executed at 2026-10-09T20:27:37.404906+00:00.",
+    "[SYSTEM]: Aurelian Orchestrator cycle executed at 2026-10-10T00:26:08.505258+00:00.",
     "[DIRECTIVE BUS]: Escalation posture sitting at LEVEL_0_NOMINAL.",
     "[MASTER OF COIN]: Conversion status evaluated (0/1). Posture: DEFICIT // FORCING DIRECT CTA.",
     "[TEMPORAL ARCHITECT]: 4h dispatch window verified."
