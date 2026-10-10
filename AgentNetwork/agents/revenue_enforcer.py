@@ -2,60 +2,72 @@ import os
 import json
 from datetime import datetime
 
-WAR_MAP_STATE = "vault/war_map_state.json"
-CONVERSION_LOG = "vault/conversion_log.json"
+STATE_FILE = "vault/war_map_state.json"
 
 class RevenueEnforcer:
-    def __init__(self, target_daily_conversions=1):
-        self.target = target_daily_conversions
+    def __init__(self, state_path=STATE_FILE):
+        self.state_path = state_path
 
-    def get_today_conversions(self):
-        if not os.path.exists(CONVERSION_LOG):
-            return 0
-        try:
-            with open(CONVERSION_LOG, "r", encoding="utf-8") as f:
-                logs = json.load(f)
-                today_str = datetime.utcnow().strftime("%Y-%m-%d")
-                return sum(1 for log in logs if log.get("date") == today_str and log.get("converted"))
-        except Exception as e:
-            print(f"[!] Warning reading conversion logs: {e}")
-            return 0
+    def load_state(self):
+        with open(self.state_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+
+    def save_state(self, state):
+        now_iso = datetime.utcnow().isoformat()
+        state["last_updated"] = now_iso
+        if "system_meta" in state and isinstance(state["system_meta"], dict):
+            state["system_meta"]["last_executed"] = now_iso
+            
+        with open(self.state_path, "w", encoding="utf-8") as f:
+            json.dump(state, f, indent=4)
 
     def enforce(self):
         print("=== [REVENUE ENFORCER]: EXECUTING ZERO-TOLERANCE CHECK ===")
-        today_conversions = self.get_today_conversions()
-        print(f"[*] Current Daily Conversions: {today_conversions} / Target: {self.target}")
+        state = self.load_state()
 
-        state_data = {}
-        if os.path.exists(WAR_MAP_STATE):
-            with open(WAR_MAP_STATE, "r", encoding="utf-8") as f:
-                state_data = json.load(f)
+        # 1. Safely locate KPI structures (dual-schema fallback)
+        sovereign_kpis = state.get("sovereign_kpis", {})
+        system_metrics = state.get("system_metrics", {})
 
-        if today_conversions < self.target:
+        # Extract today's conversions with fallbacks across schema versions
+        today_conversions = sovereign_kpis.get("conversions_today", system_metrics.get("daily_conversions", 0))
+        target_minimum = sovereign_kpis.get("target_minimum", system_metrics.get("target_conversions", 1))
+
+        # Safe Log Inspection (handles list of strings or list of dicts)
+        execution_log = state.get("execution_log", [])
+        for log in execution_log:
+            if isinstance(log, dict) and log.get("type") == "conversion":
+                today_conversions += 1
+            elif isinstance(log, str) and "conversion" in log.lower() and "executed" in log.lower():
+                pass # Already counted or string audit log
+
+        print(f"[*] Current Daily Conversions: {today_conversions} / Target: {target_minimum}")
+
+        # 2. Evaluate Target Status
+        if today_conversions < target_minimum:
             print("[!] STATUS: BELOW TARGET. Triggering Direct-Response Emergency Mode!")
-            enforcer_status = "EMERGENCY_PIVOT"
-            # Command MediaFactory / Script Generator to use hard-hitting CTA templates
-            override_instruction = "FORCE_HIGH_CONVERTING_DIRECT_CTA"
+            mode_status = "DEFICIT // FORCING DIRECT CTA"
+            target_status = "UNSATISFIED // FORCING_DIRECT_CTA"
         else:
-            print("[+] STATUS: TARGET MET. System operating in Nominal expansion mode.")
-            enforcer_status = "NOMINAL"
-            override_instruction = "STANDARD_HYBRID_CONTENT"
+            print("[+] STATUS: TARGET SATISFIED. Baseline Revenue Secured.")
+            mode_status = "SATISFIED // SCALING"
+            target_status = "SATISFIED"
 
-        # Update global state for War Map & Orchestrator
-        if state_data:
-            state_data["system_metrics"]["daily_conversions"] = today_conversions
-            state_data["system_metrics"]["enforcer_status"] = enforcer_status
-            state_data["override_instruction"] = override_instruction
-            with open(WAR_MAP_STATE, "w", encoding="utf-8") as f:
-                json.dump(state_data, f, indent=4)
+        # 3. Safely sync updates back without crashing on missing keys
+        if "sovereign_kpis" in state:
+            state["sovereign_kpis"]["conversions_today"] = today_conversions
+            state["sovereign_kpis"]["target_status"] = target_status
 
-        return {
-            "conversions": today_conversions,
-            "target": self.target,
-            "status": enforcer_status,
-            "instruction": override_instruction
-        }
+        if "system_metrics" in state:
+            state["system_metrics"]["daily_conversions"] = today_conversions
+
+        if "council_telemetry" in state and "MasterOfCoin" in state["council_telemetry"]:
+            state["council_telemetry"]["MasterOfCoin"]["mode"] = mode_status
+
+        self.save_state(state)
+        print("[+] Revenue enforcement posture updated.")
+        return state
 
 if __name__ == "__main__":
-    enforcer = RevenueEnforcer(target_daily_conversions=1)
+    enforcer = RevenueEnforcer()
     enforcer.enforce()
