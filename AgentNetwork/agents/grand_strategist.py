@@ -14,6 +14,12 @@ class GrandStrategist:
         os.makedirs(os.path.dirname(self.state_path), exist_ok=True)
         if not os.path.exists(self.state_path):
             initial_state = {
+                "system_meta": {
+                    "version": "2.1.0",
+                    "kingdom": "Aurelian",
+                    "last_executed": datetime.utcnow().isoformat(),
+                    "global_status": "CAPITAL_DEFICIT"
+                },
                 "last_updated": datetime.utcnow().isoformat(),
                 "macro_directives": [
                     "Monetize high-frequency operational time-sinks",
@@ -52,20 +58,46 @@ class GrandStrategist:
             return json.load(f)
 
     def save_state(self, state):
-        state["last_updated"] = datetime.utcnow().isoformat()
+        now_iso = datetime.utcnow().isoformat()
+        
+        # Keep both top-level and nested system_meta timestamps in sync
+        state["last_updated"] = now_iso
+        if "system_meta" in state and isinstance(state["system_meta"], dict):
+            state["system_meta"]["last_executed"] = now_iso
+            
         with open(self.state_path, "w", encoding="utf-8") as f:
             json.dump(state, f, indent=4)
 
     def evaluate_strategy(self):
         state = self.load_state()
         print("=== [GRAND STRATEGIST]: EVALUATING WAR MAP ===")
-        last_updated = state.get('last_updated', state.get('timestamp', 'N/A'))
-        print(f"[*] Last State Update: {last_updated}")
-        print(f"[*] Active Directives: {len(state['macro_directives'])}")
-        print(f"[*] Active Fronts Engaged: {len(state['active_fronts'])}")
         
-        # Here Grand Strategist updates campaign priorities
-        # For instance, boosting friction mining priorities if conversion heat is high
+        # 1. Safe Last State Update extraction
+        system_meta = state.get('system_meta', {})
+        last_updated = system_meta.get('last_executed', state.get('last_updated', 'N/A'))
+        print(f"[*] Last State Update: {last_updated}")
+        
+        # 2. Safe Directives extraction
+        directives = state.get('macro_directives', state.get('active_directives', []))
+        if isinstance(directives, dict):
+            directive_count = len(directives)
+        elif isinstance(directives, list):
+            directive_count = len(directives)
+        else:
+            directive_count = 0
+        print(f"[*] Active Directives: {directive_count}")
+        
+        # 3. Safe Active Fronts / Tactical Nodes extraction
+        fronts = state.get('active_fronts', state.get('tactical_nodes', []))
+        if isinstance(fronts, dict):
+            front_count = len(fronts)
+        elif isinstance(fronts, list):
+            front_count = len(fronts)
+        else:
+            front_count = 0
+        print(f"[*] Active Fronts / Nodes Engaged: {front_count}")
+        
+        # Grand Strategist updates campaign priorities safely
         self.save_state(state)
         print("[+] Strategy state synchronized successfully.")
         return state
