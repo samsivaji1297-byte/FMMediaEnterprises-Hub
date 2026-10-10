@@ -29,7 +29,7 @@ jobs:
         run: |
           git config --global user.name "Aurelian Automaton"
           git config --global user.email "automaton@fmmmedia.internal"
-          git add DemandDatabase/
+          git add DemandDatabase/ vault/
           git status
           git diff --quiet && git diff --staged --quiet || git commit -m "Auto: Update upstream demand database harvest [skip ci]"
           git push
