@@ -63,10 +63,16 @@ if __name__ == "__main__":
     
     # Balanced seeds targeting both execution/automation and psychological readiness
     seeds = [
-        "how to automate my business",
-        "how do i know if i am ready to start a project",
+        # Automation & Systems
+        "how to automate * business",
+        "ai agents for *",
+
+        # Psychological Readiness & Mindset
+        "how to know if ready to *",
+        "stop procrastinating on *",
+        "overcoming fear of starting *",
         "time management system for entrepreneurs",
-        "ai agents for sales outreach",
+        "when to quit day job for *"
         "overcoming hesitation to start building"
     ]
     harvester.run_harvest_cycle(seeds)
