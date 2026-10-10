@@ -5,8 +5,9 @@ from datetime import datetime
 STATE_FILE = "vault/war_map_state.json"
 
 class RevenueEnforcer:
-    def __init__(self, state_path=STATE_FILE):
+    def __init__(self, state_path=STATE_FILE, target_daily_conversions=1, *args, **kwargs):
         self.state_path = state_path
+        self.target_daily_conversions = target_daily_conversions
 
     def load_state(self):
         with open(self.state_path, "r", encoding="utf-8") as f:
@@ -31,7 +32,7 @@ class RevenueEnforcer:
 
         # Extract today's conversions with fallbacks across schema versions
         today_conversions = sovereign_kpis.get("conversions_today", system_metrics.get("daily_conversions", 0))
-        target_minimum = sovereign_kpis.get("target_minimum", system_metrics.get("target_conversions", 1))
+        target_minimum = sovereign_kpis.get("target_minimum", system_metrics.get("target_conversions", self.target_daily_conversions))
 
         # Safe Log Inspection (handles list of strings or list of dicts)
         execution_log = state.get("execution_log", [])
@@ -39,7 +40,7 @@ class RevenueEnforcer:
             if isinstance(log, dict) and log.get("type") == "conversion":
                 today_conversions += 1
             elif isinstance(log, str) and "conversion" in log.lower() and "executed" in log.lower():
-                pass # Already counted or string audit log
+                pass 
 
         print(f"[*] Current Daily Conversions: {today_conversions} / Target: {target_minimum}")
 
