@@ -6,6 +6,9 @@ DEMAND_DIR = os.path.dirname(os.path.abspath(__file__))
 CLUSTERS_FILE = os.path.join(DEMAND_DIR, "keyword_clusters.json")
 VAULT_SUMMARY_FILE = os.path.join(os.path.dirname(DEMAND_DIR), "vault", "active_demand_summary.json")
 
+# Blacklist terms to strip out gaming or irrelevant search noise
+NOISE_BLACKLIST = ["gta", "roblox", "fortnite", "ps5", "xbox", "movie", "trailer"]
+
 class DemandSynthesizer:
     def __init__(self, clusters_path=CLUSTERS_FILE, output_path=VAULT_SUMMARY_FILE):
         self.clusters_path = clusters_path
@@ -26,8 +29,11 @@ class DemandSynthesizer:
         for seed, data in clusters.items():
             intents = data.get("extracted_intents", [])
             for intent in intents:
-                # Filter out pure noise / generic duplicates
-                if intent.strip() and intent.lower() != seed.lower():
+                intent_lower = intent.lower()
+                # Check against blacklist noise
+                is_noisy = any(term in intent_lower for term in NOISE_BLACKLIST)
+                
+                if intent.strip() and intent_lower != seed.lower() and not is_noisy:
                     high_priority_intents.append({
                         "source_seed": seed,
                         "intent_phrase": intent,
@@ -37,7 +43,7 @@ class DemandSynthesizer:
         summary_payload = {
             "last_synthesized": datetime.utcnow().isoformat(),
             "total_active_intents": len(high_priority_intents),
-            "top_demand_angles": high_priority_intents[:15],  # Top 15 actionable angles
+            "top_demand_angles": high_priority_intents[:15],  # Top 15 clean actionable angles
             "primary_focus_niche": "Automation, Sovereignty & Execution Readiness"
         }
 
@@ -45,7 +51,7 @@ class DemandSynthesizer:
         with open(self.output_path, "w", encoding="utf-8") as f:
             json.dump(summary_payload, f, indent=4)
 
-        print(f"[+] Active demand summary written to downstream barrier: {self.output_path}")
+        print(f"[+] Cleaned active demand summary written to downstream barrier: {self.output_path}")
         return summary_payload
 
 if __name__ == "__main__":
