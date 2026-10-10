@@ -30,13 +30,17 @@
     }
   },
   "tactical_nodes": {
-    "rogue_harvester": {
-      "status": "STANDBY // READY FOR DEPLOYMENT",
-      "latest_axioms_mined": 0,
-      "active_knowledge_vault": [
-        "Leverage vs Labor",
-        "Friction Elimination"
-      ]
+    "demand_engine": {
+      "status": "STANDBY // PENDING INITIALIZATION",
+      "active_clusters": 0,
+      "top_search_intent": null,
+      "last_harvested": null
+    },
+    "sales_fleet": {
+      "status": "STANDBY",
+      "active_bots": 0,
+      "daily_yield_target": "$100",
+      "current_yield_today": "$0"
     },
     "media_factory": {
       "status": "ONLINE // DISPATCH ACTIVE",
