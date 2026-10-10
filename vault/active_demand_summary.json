@@ -1,81 +1,81 @@
 {
-    "last_synthesized": "2026-10-10T02:33:57.004003",
-    "total_active_intents": 53,
+    "last_synthesized": "2026-10-10T02:39:18.892742",
+    "total_active_intents": 51,
     "top_demand_angles": [
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business with ai",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business processes with ai",
-            "harvested_at": "2026-10-10T02:33:56.531878"
-        },
-        {
-            "source_seed": "how to automate * business",
-            "intent_phrase": "how to automate business in gta 5 online",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business whatsapp",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business tasks",
-            "harvested_at": "2026-10-10T02:33:56.531878"
-        },
-        {
-            "source_seed": "how to automate * business",
-            "intent_phrase": "how to automate businesses in gta 5",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business with claude",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business development",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate whatsapp business messages",
-            "harvested_at": "2026-10-10T02:33:56.531878"
+            "harvested_at": "2026-10-10T02:39:18.481364"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for beginners",
-            "harvested_at": "2026-10-10T02:33:56.585647"
+            "harvested_at": "2026-10-10T02:39:18.536744"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for beginners microsoft",
-            "harvested_at": "2026-10-10T02:33:56.585647"
+            "harvested_at": "2026-10-10T02:39:18.536744"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for coding",
-            "harvested_at": "2026-10-10T02:33:56.585647"
+            "harvested_at": "2026-10-10T02:39:18.536744"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for real estate",
-            "harvested_at": "2026-10-10T02:33:56.585647"
+            "harvested_at": "2026-10-10T02:39:18.536744"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for marketing",
-            "harvested_at": "2026-10-10T02:33:56.585647"
+            "harvested_at": "2026-10-10T02:39:18.536744"
+        },
+        {
+            "source_seed": "ai agents for *",
+            "intent_phrase": "ai agents for trading",
+            "harvested_at": "2026-10-10T02:39:18.536744"
+        },
+        {
+            "source_seed": "ai agents for *",
+            "intent_phrase": "ai agents for economic research",
+            "harvested_at": "2026-10-10T02:39:18.536744"
         }
     ],
     "primary_focus_niche": "Automation, Sovereignty & Execution Readiness"
