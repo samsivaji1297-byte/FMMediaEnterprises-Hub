@@ -23,6 +23,7 @@ jobs:
       - name: Run Upstream Demand Harvester
         run: |
           python DemandDatabase/demand_harvester.py
+          python DemandDatabase/demand_synthesizer.py
 
       - name: Commit and Push Demand Data
         run: |
