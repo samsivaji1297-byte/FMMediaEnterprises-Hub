@@ -96,3 +96,4 @@
 - Sovereign Tectonic Decoupling — An operational framework designed to sever the transmission of external societal stresses, ensuring the operator's core identity remains structurally insulated from collective cultural shifts.
 - Sovereign Catenary Architecture — An internal identity framework that translates incoming environmental and psychological pressures into pure structural compression, permanently locking the operator into an unshakeable locus of self-directed command.
 - Isochoric Sovereign Architecture — A mental stabilization framework that maintains an unyielding volume of interior command regardless of external pressure spikes or environmental volatility.
+- Refractory Sovereign Stator — A non-reactive identity architecture that provides an immovable structural axis, allowing the operator to exert absolute command without absorbing external cognitive friction.
