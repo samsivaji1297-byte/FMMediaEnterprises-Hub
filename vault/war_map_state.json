@@ -2,7 +2,7 @@
     "system_meta": {
         "version": "2.1.0",
         "kingdom": "Aurelian",
-        "last_executed": "2026-10-10T00:50:45.411527",
+        "last_executed": "2026-10-10T03:00:21.841493",
         "global_status": "CAPITAL_DEFICIT"
     },
     "sovereign_kpis": {
@@ -55,5 +55,5 @@
         "[MASTER OF COIN]: Conversion status evaluated (0/1). Posture: DEFICIT // FORCING DIRECT CTA.",
         "[TEMPORAL ARCHITECT]: 4h dispatch window verified."
     ],
-    "last_updated": "2026-10-10T00:50:45.411527"
+    "last_updated": "2026-10-10T03:00:21.841493"
 }
