@@ -59,7 +59,8 @@ class GrandStrategist:
     def evaluate_strategy(self):
         state = self.load_state()
         print("=== [GRAND STRATEGIST]: EVALUATING WAR MAP ===")
-        print(f"[*] Last State Update: {state['last_updated']}")
+        last_updated = state.get('last_updated', state.get('timestamp', 'N/A'))
+        print(f"[*] Last State Update: {last_updated}")
         print(f"[*] Active Directives: {len(state['macro_directives'])}")
         print(f"[*] Active Fronts Engaged: {len(state['active_fronts'])}")
         
