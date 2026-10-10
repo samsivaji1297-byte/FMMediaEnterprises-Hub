@@ -1,58 +1,59 @@
 {
-  "system_meta": {
-    "version": "2.1.0",
-    "kingdom": "Aurelian",
-    "last_executed": "2026-10-10T00:26:08.505258+00:00",
-    "global_status": "CAPITAL_DEFICIT"
-  },
-  "sovereign_kpis": {
-    "conversions_today": 0,
-    "target_minimum": 1,
-    "target_status": "UNSATISFIED // FORCING_DIRECT_CTA",
-    "current_top_angle": "Manual Labor vs Autonomous Pipeline Architecture",
-    "active_offer": "Operator Mindset Kit"
-  },
-  "council_telemetry": {
-    "MasterOfCoin": {
-      "status": "ACTIVE",
-      "mode": "DEFICIT // FORCING DIRECT CTA",
-      "revenue_status": "DEFICIT"
+    "system_meta": {
+        "version": "2.1.0",
+        "kingdom": "Aurelian",
+        "last_executed": "2026-10-10T00:50:45.411527",
+        "global_status": "CAPITAL_DEFICIT"
     },
-    "HighReconSpymaster": {
-      "status": "ACTIVE",
-      "primary_angle": "Manual Labor vs Autonomous Pipeline Architecture",
-      "confidence": "94.2%"
+    "sovereign_kpis": {
+        "conversions_today": 0,
+        "target_minimum": 1,
+        "target_status": "UNSATISFIED // FORCING_DIRECT_CTA",
+        "current_top_angle": "Manual Labor vs Autonomous Pipeline Architecture",
+        "active_offer": "Operator Mindset Kit"
     },
-    "TemporalArchitect": {
-      "status": "ACTIVE",
-      "current_cadence": "4h",
-      "dispatch_window": "STRIKE_READY"
-    }
-  },
-  "tactical_nodes": {
-    "rogue_harvester": {
-      "status": "STANDBY // READY FOR DEPLOYMENT",
-      "latest_axioms_mined": 0,
-      "active_knowledge_vault": [
-        "Leverage vs Labor",
-        "Friction Elimination"
-      ]
+    "council_telemetry": {
+        "MasterOfCoin": {
+            "status": "ACTIVE",
+            "mode": "DEFICIT // FORCING DIRECT CTA",
+            "revenue_status": "DEFICIT"
+        },
+        "HighReconSpymaster": {
+            "status": "ACTIVE",
+            "primary_angle": "Manual Labor vs Autonomous Pipeline Architecture",
+            "confidence": "94.2%"
+        },
+        "TemporalArchitect": {
+            "status": "ACTIVE",
+            "current_cadence": "4h",
+            "dispatch_window": "STRIKE_READY"
+        }
     },
-    "media_factory": {
-      "status": "ONLINE // DISPATCH ACTIVE",
-      "queued_renders": 1,
-      "last_published_id": "REEL_AURELIAN_001"
-    }
-  },
-  "active_directives": {
-    "last_operator_command": null,
-    "council_response": "Aurelian High Council operating on standard 4h cadence. Systems nominal.",
-    "escalation_level": "LEVEL_0_NOMINAL"
-  },
-  "execution_log": [
-    "[SYSTEM]: Aurelian Orchestrator cycle executed at 2026-10-10T00:26:08.505258+00:00.",
-    "[DIRECTIVE BUS]: Escalation posture sitting at LEVEL_0_NOMINAL.",
-    "[MASTER OF COIN]: Conversion status evaluated (0/1). Posture: DEFICIT // FORCING DIRECT CTA.",
-    "[TEMPORAL ARCHITECT]: 4h dispatch window verified."
-  ]
+    "tactical_nodes": {
+        "rogue_harvester": {
+            "status": "STANDBY // READY FOR DEPLOYMENT",
+            "latest_axioms_mined": 0,
+            "active_knowledge_vault": [
+                "Leverage vs Labor",
+                "Friction Elimination"
+            ]
+        },
+        "media_factory": {
+            "status": "ONLINE // DISPATCH ACTIVE",
+            "queued_renders": 1,
+            "last_published_id": "REEL_AURELIAN_001"
+        }
+    },
+    "active_directives": {
+        "last_operator_command": null,
+        "council_response": "Aurelian High Council operating on standard 4h cadence. Systems nominal.",
+        "escalation_level": "LEVEL_0_NOMINAL"
+    },
+    "execution_log": [
+        "[SYSTEM]: Aurelian Orchestrator cycle executed at 2026-10-10T00:26:08.505258+00:00.",
+        "[DIRECTIVE BUS]: Escalation posture sitting at LEVEL_0_NOMINAL.",
+        "[MASTER OF COIN]: Conversion status evaluated (0/1). Posture: DEFICIT // FORCING DIRECT CTA.",
+        "[TEMPORAL ARCHITECT]: 4h dispatch window verified."
+    ],
+    "last_updated": "2026-10-10T00:50:45.411527"
 }
