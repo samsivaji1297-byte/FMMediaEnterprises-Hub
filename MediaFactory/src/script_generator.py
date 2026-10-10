@@ -4,6 +4,7 @@ import io
 import sys
 import json
 import time
+import random
 from datetime import datetime, timezone
 from pathlib import Path
 from PIL import Image
@@ -20,8 +21,39 @@ from config import get_client, call_with_fallback
 
 # Output destination directory for generated scene assets
 OUTPUT_DIR = PROJECT_ROOT / "MediaFactory" / "output"
+VAULT_DEMAND_PATH = PROJECT_ROOT / "vault" / "active_demand_summary.json"
 
 client = get_client()
+
+
+def resolve_dynamic_topic(provided_topic: str = None) -> str:
+    """
+    Resolves the script topic dynamically.
+    1. Uses provided_topic if explicitly passed.
+    2. Otherwise reads active search demand from vault/active_demand_summary.json.
+    3. Gracefully falls back to hardcoded default if vault is unavailable.
+    """
+    if provided_topic and provided_topic.strip():
+        return provided_topic
+
+    fallback_topic = "Execution vs Strategy"
+
+    if VAULT_DEMAND_PATH.exists():
+        try:
+            with open(VAULT_DEMAND_PATH, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                angles = data.get("top_demand_angles", [])
+                if angles:
+                    selected = random.choice(angles)
+                    phrase = selected.get("intent_phrase")
+                    source = selected.get("source_seed")
+                    print(f"[+] [DEMAND READER]: Dynamic demand angle loaded -> '{phrase}' (Source: {source})")
+                    return phrase
+        except Exception as e:
+            print(f"[!] [DEMAND READER]: Vault read error ({e}). Utilizing fallback.")
+
+    print(f"[*] [DEMAND READER]: Utilizing fallback topic -> '{fallback_topic}'")
+    return fallback_topic
 
 
 def clean_json_text(text: str) -> str:
@@ -56,11 +88,13 @@ def build_script_prompt(topic: str) -> str:
     """
 
 
-def generate_reel_content(topic: str) -> dict:
+def generate_reel_content(topic: str = None) -> dict:
     """
     Generates a structured Reel script using the config.py model cascade,
     and attempts background image layer generation via Imagen.
     """
+    # Resolve dynamic demand topic if None or blank passed
+    topic = resolve_dynamic_topic(topic)
     prompt = build_script_prompt(topic)
 
     def _api_call_builder(target_model: str):
@@ -139,8 +173,7 @@ def generate_reel_content(topic: str) -> dict:
 
 
 if __name__ == "__main__":
-    test_topic = "Execution vs Strategy"
-    print(f"Executing MediaFactory Script Generator for: '{test_topic}'")
-    result = generate_reel_content(test_topic)
+    # Test dynamic resolution: passing None forces the script to pull live search demand from vault/
+    result = generate_reel_content()
     print("\n--- Final Generated Script Output ---")
     print(json.dumps(result, indent=2))
