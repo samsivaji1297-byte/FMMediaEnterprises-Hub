@@ -1,0 +1,55 @@
+{
+    "how to automate my business": {
+        "extracted_intents": [
+            "how to automate my business",
+            "how to automate my business with ai",
+            "how to automate my business processes",
+            "how to automate your business for free",
+            "how to automate my small business",
+            "how to automate my cleaning business",
+            "how to automate my whatsapp business",
+            "how to automate my credit repair business",
+            "how to automate your whatsapp business",
+            "how to automate your ecommerce business"
+        ],
+        "intent_count": 10,
+        "last_scraped": "2026-10-10T02:19:54.934243"
+    },
+    "how do i know if im ready to start": {
+        "extracted_intents": [
+            "how do i know if i'm about to start my period",
+            "how do i know when i m ready to start dating again",
+            "how to know if im about to start my period",
+            "how do you know if your about to start period",
+            "how do i know if i m pregnant or about to start my period",
+            "how to know if your about to start period",
+            "how do you know when you are about to start menopause",
+            "how do you know when you are about to start puberty",
+            "how do you know if you're about to start your period",
+            "how do you know if you re about to start your"
+        ],
+        "intent_count": 10,
+        "last_scraped": "2026-10-10T02:19:55.030273"
+    },
+    "time management template for founders": {
+        "extracted_intents": [],
+        "intent_count": 0,
+        "last_scraped": "2026-10-10T02:19:55.114989"
+    },
+    "ai agents for sales": {
+        "extracted_intents": [
+            "ai agents for sales",
+            "ai agents for sales and marketing",
+            "ai agents for sales teams",
+            "ai agents for salesforce",
+            "ai agents for sales automation",
+            "ai agents for sales outreach",
+            "ai agents for sales prospecting",
+            "ai agents for sales calls",
+            "ai agents for sales reps",
+            "ai agents for sales operations"
+        ],
+        "intent_count": 10,
+        "last_scraped": "2026-10-10T02:19:55.194058"
+    }
+}
