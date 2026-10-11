@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261011_010738
+Topic: how to automate business
+Title: Autonomous Business Infrastructure
+Hook: The hardest workers are outperformed by single-file scripts.
+Voiceover Script: The hardest workers are outperformed by single-file scripts. Stop duct-taping manual tasks together. Replace fragmented labor with autonomous sovereign infrastructure. One deployed pipeline runs your ops and distribution twenty-four seven. Comment OPERATOR to deploy the architecture.
+Call to Action: Comment OPERATOR to deploy the architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: The hardest workers are outperformed by single-file scripts.
+  Visual Prompt: cyberpunk terminal code execution dark charcoal UI
+
+Scene 2:
+  Text: The hardest workers are outperformed by single-file scripts. Stop duct-taping manual tasks together. Replace fragmented labor with autonomous sovereign infrastructure. One deployed pipeline runs your ops and distribution twenty-four seven. Comment OPERATOR to deploy the architecture.
+  Visual Prompt: minimalist automated pipeline workflow network glowing cyan
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
