@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261011_103243
+Topic: how to automate business
+Title: Deploy Automated Infrastructure
+Hook: Stop running your business manually in 2026.
+Voiceover Script: You are losing twenty hours every single week running operations manually. Stop being your own bottleneck. Replace fragmented tasks with sovereign automated infrastructure that executes without your permission. Comment OPERATOR to deploy the full war room architecture.
+Call to Action: Comment OPERATOR to deploy the automated war room architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Stop running your business manually in 2026.
+  Visual Prompt: dark charcoal cyberpunk terminal code screen
+
+Scene 2:
+  Text: You are losing twenty hours every single week running operations manually. Stop being your own bottleneck. Replace fragmented tasks with sovereign automated infrastructure that executes without your permission. Comment OPERATOR to deploy the full war room architecture.
+  Visual Prompt: obsidian UI minimalist automation workflow graph
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated war room architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
