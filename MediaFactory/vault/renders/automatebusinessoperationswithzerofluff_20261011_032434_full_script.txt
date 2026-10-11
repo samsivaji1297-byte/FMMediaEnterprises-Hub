@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261011_032434
+Topic: how to automate business
+Title: Automate Business Operations With Zero Fluff
+Hook: You're losing twenty hours weekly running operations manually.
+Voiceover Script: You're losing twenty hours weekly running operations manually. Stop grinding through busywork that lightweight code solves instantly. Deploy automated infrastructure across your entire pipeline to reclaim total operator leverage. Comment OPERATOR to get the automated execution framework sent to your DMs.
+Call to Action: Comment OPERATOR to get the automated execution framework sent to your DMs.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You're losing twenty hours weekly running operations manually.
+  Visual Prompt: cyberpunk terminal code execution dark charcoal UI
+
+Scene 2:
+  Text: You're losing twenty hours weekly running operations manually. Stop grinding through busywork that lightweight code solves instantly. Deploy automated infrastructure across your entire pipeline to reclaim total operator leverage. Comment OPERATOR to get the automated execution framework sent to your DMs.
+  Visual Prompt: obsidian minimalist glowing cyan data architecture
+
+Scene 3:
+  Text: Comment OPERATOR to get the automated execution framework sent to your DMs.
+  Visual Prompt: obsidian dashboard gold highlights
+
