@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261011_171222
+Topic: how to automate business
+Title: The Sovereign Automation Architecture
+Hook: You're losing twenty hours weekly running operations manually.
+Voiceover Script: You're losing twenty hours weekly running operations manually. Stop grinding like an employee in your own company. Replace intake, dispatch, and reporting with headless infrastructure. Build autonomous systems, not manual traps. Comment OPERATOR for the blueprinted scripts.
+Call to Action: Comment OPERATOR to deploy the automated war room architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You're losing twenty hours weekly running operations manually.
+  Visual Prompt: dark minimalist terminal screen cyan text stream
+
+Scene 2:
+  Text: You're losing twenty hours weekly running operations manually. Stop grinding like an employee in your own company. Replace intake, dispatch, and reporting with headless infrastructure. Build autonomous systems, not manual traps. Comment OPERATOR for the blueprinted scripts.
+  Visual Prompt: obsidian server rack cinematic cyberpunk lighting
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated war room architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
