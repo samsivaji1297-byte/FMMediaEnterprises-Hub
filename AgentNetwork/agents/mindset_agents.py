@@ -38,18 +38,32 @@ def _generate_with_cascade(prompt: str) -> str:
         return ""
 
 
+def _load_virality_dossier() -> str:
+    """Loads virality guidelines from vault/virality_dossier.md if available."""
+    dossier_path = REPO_ROOT / "vault" / "virality_dossier.md"
+    if dossier_path.exists():
+        try:
+            return dossier_path.read_text(encoding="utf-8").strip()
+        except Exception as e:
+            print(f"[!] Could not read virality dossier: {e}")
+    return ""
+
+
 class SovereignStrategist:
     """Generates direct-response narrative angles and ruthless hooks."""
 
     def generate_strategy(self, friction_point: str) -> dict:
+        dossier_context = _load_virality_dossier()
+        dossier_prompt = f"\nUse these viral hook frameworks for tone and pacing:\n{dossier_context}\n" if dossier_context else ""
+
         prompt = f"""
 You are the SovereignStrategist for an aggressive direct-response media engine.
 Friction point to target: '{friction_point}'
-
+{dossier_prompt}
 Provide a strict JSON object with these exact keys:
-- "hook": Relentless, high-friction opening line
-- "core_message": Concise direct-response pitch
-- "call_to_action": Explicit, urgent command to act
+- "hook": Relentless, high-friction opening line (under 12 words)
+- "core_message": Concise direct-response pitch explaining why manual work is failure
+- "call_to_action": Explicit, urgent command to act (e.g., "Comment 'PIPELINE' now")
 
 Rules:
 - Respond with JSON ONLY.
@@ -94,6 +108,7 @@ Provide a strict JSON object with these exact keys:
 Rules:
 - Respond with JSON ONLY.
 - Do NOT include markdown code fences (```json), explanations, or surrounding text.
+- Ensure visual_prompts specify dark charcoal, high-contrast, kinetic cyberpunk/operator aesthetics.
 """
         raw_response = _generate_with_cascade(prompt)
 
