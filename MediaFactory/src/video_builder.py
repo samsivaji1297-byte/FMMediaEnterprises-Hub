@@ -1,6 +1,7 @@
 import os
 import sys
 import textwrap
+import random
 from pathlib import Path
 
 # Resolve internal imports regardless of entry point
@@ -34,13 +35,11 @@ def _crop_and_center_video(clip: VideoFileClip, target_w: int, target_h: int) ->
     orig_aspect = orig_w / orig_h
 
     if orig_aspect > target_aspect:
-        # Video is wider than 9:16 -> Crop sides
         new_w = int(orig_h * target_aspect)
         x_center = orig_w / 2
         x1 = int(x_center - (new_w / 2))
         cropped = clip.cropped(x1=x1, y1=0, width=new_w, height=orig_h)
     else:
-        # Video is taller or already vertical -> Crop top/bottom
         new_h = int(orig_w / target_aspect)
         y_center = orig_h / 2
         y1 = int(y_center - (new_h / 2))
@@ -54,6 +53,18 @@ def _wrap_text_for_reels(text: str, max_chars_per_line: int = 24) -> str:
     text = text.upper().strip()
     wrapped_lines = textwrap.wrap(text, width=max_chars_per_line)
     return "\n".join(wrapped_lines)
+
+
+def _process_micro_chunks(text: str, max_words_per_chunk: int = 12) -> list[str]:
+    """Splits heavy text blocks into fast-paced micro-captions for high-retention editing."""
+    words = text.split()
+    if not words:
+        return [text]
+    chunks = []
+    for i in range(0, len(words), max_words_per_chunk):
+        chunk = " ".join(words[i:i + max_words_per_chunk])
+        chunks.append(chunk)
+    return chunks if chunks else [text]
 
 
 def _synthesize_scenes_from_script(script_data: dict) -> list:
@@ -114,8 +125,8 @@ def build_video(
     scene_clips = []
 
     # Instagram Safe-Zone Dimensions (1080 x 1920 Canvas)
-    MAX_TEXT_WIDTH = 840   # 120px safe margin left/right (prevents UI cutoff)
-    MAX_TEXT_HEIGHT = 800  # Allows up to 5-6 lines of readable text
+    MAX_TEXT_WIDTH = 840   # 120px safe margin left/right
+    MAX_TEXT_HEIGHT = 800  # Allows up to 5-6 lines
 
     for i, scene in enumerate(scenes):
         search_query = scene.get("search_query") or scene.get("text_overlay", "dark aesthetic")
@@ -123,7 +134,7 @@ def build_video(
 
         bg_video_path = fetch_background_video(search_query, i, duration_per_scene)
 
-        # 1. Background Layer Execution (NO MORE theme override bypassing B-roll!)
+        # 1. Background Layer Execution
         if bg_video_path and os.path.exists(bg_video_path):
             try:
                 raw_bg = VideoFileClip(bg_video_path).without_audio()
@@ -147,43 +158,46 @@ def build_video(
                 duration=duration_per_scene,
             )
 
-        # Contrast mask overlay (Ensures text readability over video background)
+        # Contrast mask overlay
         dark_overlay = ColorClip(
             size=(CANVAS_WIDTH, CANVAS_HEIGHT),
             color=(0, 0, 0),
             duration=duration_per_scene,
         ).with_opacity(theme_config.get("mask_opacity", 0.55))
 
-        # 2. Typography Assembly with Safe Line Wrapping
+        # 2. Micro-Caption Chunking (Plug-and-Play Pacing)
         raw_text = scene.get("text_overlay", "").strip()
-        formatted_text = _wrap_text_for_reels(raw_text, max_chars_per_line=22)
+        text_chunks = _process_micro_chunks(raw_text, max_words_per_chunk=12)
+        chunk_duration = duration_per_scene / max(len(text_chunks), 1)
 
-        # Dynamic Font Scaling based on length
-        line_count = len(formatted_text.split("\n"))
-        font_size = 48 if line_count <= 3 else (40 if line_count <= 5 else 34)
+        for chunk_idx, chunk in enumerate(text_chunks):
+            formatted_text = _wrap_text_for_reels(chunk, max_chars_per_line=22)
+            line_count = len(formatted_text.split("\n"))
+            font_size = 52 if line_count <= 2 else (44 if line_count <= 4 else 36)
 
-        text_subclips = []
+            text_subclips = []
+            try:
+                txt = TextClip(
+                    text=formatted_text,
+                    font_size=font_size,
+                    color=theme_config.get("text", "white"),
+                    font=font_path,
+                    stroke_color="black",
+                    stroke_width=3,
+                    method="caption",
+                    size=(MAX_TEXT_WIDTH, MAX_TEXT_HEIGHT),
+                ).with_duration(chunk_duration).with_position(("center", "center"))
+                
+                text_subclips.append(txt)
+            except Exception as e:
+                print(f"[!] TextClip rendering error on scene {i+1}, chunk {chunk_idx}: {e}")
 
-        try:
-            txt = TextClip(
-                text=formatted_text,
-                font_size=font_size,
-                color=theme_config.get("text", "white"),
-                font=font_path,
-                stroke_color="black",
-                stroke_width=3,
-                method="caption",
-                size=(MAX_TEXT_WIDTH, MAX_TEXT_HEIGHT),
-            ).with_duration(duration_per_scene).with_position(("center", "center"))
-            
-            text_subclips.append(txt)
-        except Exception as e:
-            print(f"[!] TextClip rendering error on scene {i+1}: {e}")
+            # Slice the background/overlay for this specific micro-chunk duration
+            sub_bg = bg_clip.subclipped(chunk_idx * chunk_duration, min((chunk_idx + 1) * chunk_duration, duration_per_scene))
+            sub_overlay = dark_overlay.subclipped(0, chunk_duration)
 
-        scene_composite = CompositeVideoClip([bg_clip, dark_overlay] + text_subclips).with_duration(
-            duration_per_scene
-        )
-        scene_clips.append(scene_composite)
+            chunk_composite = CompositeVideoClip([sub_bg, sub_overlay] + text_subclips).with_duration(chunk_duration)
+            scene_clips.append(chunk_composite)
 
     if not scene_clips:
         fallback_bg = ColorClip(
@@ -207,5 +221,5 @@ def build_video(
         threads=4,
         logger=None,
     )
-    print(f"[+] [{active_theme.upper()}] Reel generated with B-Roll -> {target_output}")
+    print(f"[+] [{active_theme.upper()}] Stylized micro-caption Reel generated -> {target_output}")
     return target_output
