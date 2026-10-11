@@ -13,7 +13,8 @@ if str(REPO_ROOT) not in sys.path:
 from AgentNetwork.agents.grand_strategist import GrandStrategist
 from AgentNetwork.agents.revenue_enforcer import RevenueEnforcer
 from AgentNetwork.agents.vanguard_miner import VanguardMiner
-from AgentNetwork.agents.mindset_agents import SovereignStrategist, KineticScriptwright
+from AgentNetwork.agents.writer import ScriptEngineAgent
+from AgentNetwork.core.schemas import SignalPayload
 from AgentNetwork.agents.publisher import InstagramPublisher
 from AgentNetwork.agents.analytics_agent import InstagramAnalyticsAgent
 from AgentNetwork.agents.sales_agent import SalesDMOperator
@@ -73,20 +74,49 @@ def run_war_room_pipeline():
 
     print(f"[+] Selected Demand Execution Topic: '{topic}'")
 
-    # 4. Sovereign Strategist & Kinetic Scriptwright Generation
-    print("\n=== [MINDSET ENGINE]: Drafting Hooks & Kinetic Scene Map ===")
+    # 4. Writer Engine via ScriptEngineAgent (Native JSON Enforcement)
+    print("\n=== [WRITER ENGINE]: Generating Dynamic Script & Blueprint ===")
     
     if enforce_status.get("status") == "EMERGENCY_PIVOT":
-        print("[!] EMERGENCY PIVOT DETECTED: Forcing direct-response CTA template.")
+        print("[!] EMERGENCY PIVOT DETECTED: Forcing direct-response execution angle.")
         topic += " - FORCE IMMEDIATE DIRECT CONVERSION"
 
-    sovereign = SovereignStrategist()
-    strategy = sovereign.generate_strategy(topic)
+    signal = SignalPayload(
+        universal_pain_point=topic,
+        search_query=topic,
+        target_hook=f"Stop losing hours to manual {topic}.",
+        actionable_takeaway="Deploy automated infrastructure.",
+        content_pillar="operator_sovereignty"
+    )
 
-    scriptwright = KineticScriptwright()
-    blueprint = scriptwright.compile_blueprint(strategy)
+    writer_agent = ScriptEngineAgent()
+    script_payload = writer_agent.generate_script(signal)
 
-    # 5. MediaFactory Vault Renders
+    # Map ScriptPayload to dictionary blueprint structure required by video_builder
+    blueprint = {
+        "title": script_payload.title,
+        "hook": script_payload.hook_text,
+        "caption": f"{script_payload.hook_text}\n\n{script_payload.voiceover_script}\n\n{script_payload.call_to_action}\n\n#execution #automation #mindset #operator",
+        "scenes": [
+            {
+                "scene_id": 1, 
+                "text": script_payload.hook_text, 
+                "visual_prompt": script_payload.visual_search_queries[0] if script_payload.visual_search_queries else "dark cyberpunk terminal"
+            },
+            {
+                "scene_id": 2, 
+                "text": script_payload.voiceover_script, 
+                "visual_prompt": script_payload.visual_search_queries[1] if len(script_payload.visual_search_queries) > 1 else "glowing data feeds"
+            },
+            {
+                "scene_id": 3, 
+                "text": script_payload.call_to_action, 
+                "visual_prompt": "obsidian dashboard gold highlights"
+            }
+        ]
+    }
+
+    # 5. MediaFactory Vault Renders & Debug Dump
     print("\n=== [MEDIAFACTORY]: Generating Audio & Video Assets ===")
     
     title_raw = blueprint.get("title", "relentless_execution")
@@ -106,8 +136,27 @@ def run_war_room_pipeline():
     caption_text = blueprint.get("caption", f"{title.replace('_', ' ').title()}\n\n#execution #mindset #operator")
     (renders_dir / f"{title}.txt").write_text(caption_text, encoding="utf-8")
 
+    # Write Full Script Debug Dump TXT file
+    script_debug_path = renders_dir / f"{title}_full_script.txt"
+    debug_dump = f"""=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: {timestamp}
+Topic: {topic}
+Title: {script_payload.title}
+Hook: {script_payload.hook_text}
+Voiceover Script: {script_payload.voiceover_script}
+Call to Action: {script_payload.call_to_action}
+Theme: {script_payload.theme}
+
+--- SCENES ---
+"""
+    for scene in blueprint.get("scenes", []):
+        debug_dump += f"Scene {scene.get('scene_id')}:\n  Text: {scene.get('text')}\n  Visual Prompt: {scene.get('visual_prompt')}\n\n"
+
+    script_debug_path.write_text(debug_dump, encoding="utf-8")
+    print(f"[✓] Full script debug dump saved to: {script_debug_path.name}")
+
     # Audio & Video Generation
-    full_voiceover_text = " ".join([s.get("text", "") for s in blueprint.get("scenes", [])])
+    full_voiceover_text = script_payload.voiceover_script
     audio_path = audio_dir / f"{title}_audio.mp3"
     
     generate_voiceover_failsafe(text=full_voiceover_text, output_path=str(audio_path))
@@ -150,7 +199,10 @@ def run_war_room_pipeline():
                     caption_file = render_file.with_suffix(".txt")
                     if caption_file.exists():
                         caption_file.rename(archive_dir / caption_file.name)
-                    print(f"[✓] Archived published asset: {render_file.name}")
+                    debug_txt_file = render_file.with_name(render_file.stem + "_full_script.txt")
+                    if debug_txt_file.exists():
+                        debug_txt_file.rename(archive_dir / debug_txt_file.name)
+                    print(f"[✓] Archived published asset & debug dump: {render_file.name}")
         except Exception as e:
             print(f"[!] Archival Check Warning: {e}")
 
