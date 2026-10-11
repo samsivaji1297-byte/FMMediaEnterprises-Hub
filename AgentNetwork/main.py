@@ -53,17 +53,16 @@ def run_war_room_pipeline():
     enforcer = RevenueEnforcer(target_daily_conversions=1)
     enforce_status = enforcer.enforce()
 
-    # 3. Active Demand Intake (Upstream DemandDatabase -> Vanguard Miner Fallback)
+    # 3. Active Demand Intake (Directly targeting 'top_demand_angles' -> 'intent_phrase')
     demand_summary_path = REPO_ROOT / "vault" / "active_demand_summary.json"
     topic = None
 
     if demand_summary_path.exists():
         try:
             demand_data = json.loads(demand_summary_path.read_text(encoding="utf-8"))
-            if isinstance(demand_data, list) and len(demand_data) > 0:
-                topic = demand_data[0].get("topic") or demand_data[0].get("demand_angle")
-            elif isinstance(demand_data, dict) and "topics" in demand_data:
-                topic = demand_data["topics"][0]
+            angles = demand_data.get("top_demand_angles", [])
+            if isinstance(angles, list) and len(angles) > 0:
+                topic = angles[0].get("intent_phrase") or angles[0].get("source_seed")
         except Exception as e:
             print(f"[!] DemandDatabase parse error: {e}")
 
@@ -95,7 +94,7 @@ def run_war_room_pipeline():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     title = f"{clean_title}_{timestamp}"
 
-    vault_dir = REPO_ROOT / "vault"
+    vault_dir = REPO_ROOT / "vault" / "renders" / "archived"
     renders_dir = REPO_ROOT / "MediaFactory" / "vault" / "renders"
     audio_dir = REPO_ROOT / "MediaFactory" / "vault" / "audio"
 
@@ -130,7 +129,7 @@ def run_war_room_pipeline():
     publisher = InstagramPublisher()
     publisher.publish_pending_reels()
 
-    # AUTO-ARCHIVE: Clean up successfully processed renders to keep the active queue pristine
+    # AUTO-ARCHIVE (Hardened against dictionary structures)
     archive_dir = renders_dir / "archived"
     archive_dir.mkdir(parents=True, exist_ok=True)
     published_tracker = REPO_ROOT / "vault" / "published_reels.json"
@@ -138,7 +137,12 @@ def run_war_room_pipeline():
     if published_tracker.exists():
         try:
             published_data = json.loads(published_tracker.read_text(encoding="utf-8"))
-            published_files = set(published_data.keys()) if isinstance(published_data, dict) else set(published_data)
+            if isinstance(published_data, dict):
+                published_files = set(published_data.keys())
+            elif isinstance(published_data, list):
+                published_files = set(str(item) for item in published_data)
+            else:
+                published_files = set()
             
             for render_file in renders_dir.glob("*.mp4"):
                 if render_file.name in published_files or any(f in render_file.name for f in published_files):
