@@ -53,14 +53,30 @@ def run_war_room_pipeline():
     enforcer = RevenueEnforcer(target_daily_conversions=1)
     enforce_status = enforcer.enforce()
 
-    # 3. Vanguard Miner: Extract Friction Seed
-    miner = VanguardMiner()
-    friction_payload = miner.mine_friction()
+    # 3. Active Demand Intake (Upstream DemandDatabase -> Vanguard Miner Fallback)
+    demand_summary_path = REPO_ROOT / "vault" / "active_demand_summary.json"
+    topic = None
+
+    if demand_summary_path.exists():
+        try:
+            demand_data = json.loads(demand_summary_path.read_text(encoding="utf-8"))
+            if isinstance(demand_data, list) and len(demand_data) > 0:
+                topic = demand_data[0].get("topic") or demand_data[0].get("demand_angle")
+            elif isinstance(demand_data, dict) and "topics" in demand_data:
+                topic = demand_data["topics"][0]
+        except Exception as e:
+            print(f"[!] DemandDatabase parse error: {e}")
+
+    if not topic:
+        miner = VanguardMiner()
+        friction_payload = miner.mine_friction()
+        topic = friction_payload.get("friction_point", "wasting time seeking comfort")
+
+    print(f"[+] Selected Demand Execution Topic: '{topic}'")
 
     # 4. Sovereign Strategist & Kinetic Scriptwright Generation
     print("\n=== [MINDSET ENGINE]: Drafting Hooks & Kinetic Scene Map ===")
     
-    topic = friction_payload.get("friction_point", "wasting time seeking comfort")
     if enforce_status.get("status") == "EMERGENCY_PIVOT":
         print("[!] EMERGENCY PIVOT DETECTED: Forcing direct-response CTA template.")
         topic += " - FORCE IMMEDIATE DIRECT CONVERSION"
@@ -76,7 +92,6 @@ def run_war_room_pipeline():
     
     title_raw = blueprint.get("title", "relentless_execution")
     clean_title = "".join(c for c in title_raw if c.isalnum() or c in ("_", "-")).lower()
-    # Guarantees a unique filename EVERY execution so collision/rename hacks are never needed
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     title = f"{clean_title}_{timestamp}"
 
@@ -114,6 +129,26 @@ def run_war_room_pipeline():
     print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING PENDING REELS ===")
     publisher = InstagramPublisher()
     publisher.publish_pending_reels()
+
+    # AUTO-ARCHIVE: Clean up successfully processed renders to keep the active queue pristine
+    archive_dir = renders_dir / "archived"
+    archive_dir.mkdir(parents=True, exist_ok=True)
+    published_tracker = REPO_ROOT / "vault" / "published_reels.json"
+
+    if published_tracker.exists():
+        try:
+            published_data = json.loads(published_tracker.read_text(encoding="utf-8"))
+            published_files = set(published_data.keys()) if isinstance(published_data, dict) else set(published_data)
+            
+            for render_file in renders_dir.glob("*.mp4"):
+                if render_file.name in published_files or any(f in render_file.name for f in published_files):
+                    render_file.rename(archive_dir / render_file.name)
+                    caption_file = render_file.with_suffix(".txt")
+                    if caption_file.exists():
+                        caption_file.rename(archive_dir / caption_file.name)
+                    print(f"[✓] Archived published asset: {render_file.name}")
+        except Exception as e:
+            print(f"[!] Archival Check Warning: {e}")
 
     # 7. Instagram Analytics Agent: Scrape Performance & Train Intelligence Memory
     analytics_agent = InstagramAnalyticsAgent()
