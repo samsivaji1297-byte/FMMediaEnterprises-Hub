@@ -81,12 +81,16 @@ def run_war_room_pipeline():
         print("[!] EMERGENCY PIVOT DETECTED: Forcing direct-response execution angle.")
         topic += " - FORCE IMMEDIATE DIRECT CONVERSION"
 
+    timestamp_id = datetime.now().strftime("%Y%m%d_%H%M%S")
     signal = SignalPayload(
+        signal_id=f"sig_{timestamp_id}",
         universal_pain_point=topic,
         search_query=topic,
         target_hook=f"Stop losing hours to manual {topic}.",
         actionable_takeaway="Deploy automated infrastructure.",
-        content_pillar="operator_sovereignty"
+        content_pillar="operator_sovereignty",
+        demand_type="high_friction",
+        visual_keywords=["dark tech matrix", "high contrast code UI"]
     )
 
     writer_agent = ScriptEngineAgent()
