@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261012_204500
+Topic: how to automate business
+Title: How to Automate Business Infrastructure
+Hook: Hard workers get slaughtered by single-file automated pipelines.
+Voiceover Script: Hard workers get slaughtered by single-file automated pipelines. If you're managing ops manually, your business is leaking profit. Replace human friction with sovereign infrastructure that scales silently. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Hard workers get slaughtered by single-file automated pipelines.
+  Visual Prompt: dark mode terminal python automation UI
+
+Scene 2:
+  Text: Hard workers get slaughtered by single-file automated pipelines. If you're managing ops manually, your business is leaking profit. Replace human friction with sovereign infrastructure that scales silently. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: cyberpunk obsidian server metrics dashboard
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
