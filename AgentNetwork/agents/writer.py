@@ -7,6 +7,7 @@ from AgentNetwork.core.schemas import SignalPayload, ScriptPayload
 # Anchor repo root
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 
+
 def _load_virality_dossier() -> str:
     """Loads virality guidelines from vault/virality_dossier.md if available."""
     dossier_path = REPO_ROOT / "vault" / "virality_dossier.md"
@@ -18,17 +19,41 @@ def _load_virality_dossier() -> str:
     return ""
 
 
+def _enforce_direct_response_cta(data: dict, keyword: str = "OPERATOR") -> dict:
+    """Guarantees that both the voiceover script and the CTA explicitly contain the conversion keyword."""
+    cta_text = data.get("call_to_action", "").strip()
+    voiceover = data.get("voiceover_script", "").strip()
+
+    keyword_trigger = f"Comment '{keyword}' below to get access."
+
+    # Enforce keyword in CTA overlay text
+    if not cta_text or keyword.lower() not in cta_text.lower():
+        data["call_to_action"] = f"Comment '{keyword}' below to unlock the system."
+
+    # Enforce keyword spoken in the voiceover script for audio synthesis
+    if keyword.lower() not in voiceover.lower():
+        if voiceover and not voiceover.endswith((".", "!", "?")):
+            voiceover += "."
+        data["voiceover_script"] = f"{voiceover} {keyword_trigger}".strip()
+
+    return data
+
+
 class ScriptEngineAgent:
     def __init__(self):
         self.client = get_client()
 
     def generate_script(self, signal: SignalPayload) -> ScriptPayload:
         dossier_context = _load_virality_dossier()
-        dossier_prompt = f"\nVIRALITY & HOOK FRAMEWORKS TO ENFORCE:\n{dossier_context}\n" if dossier_context else ""
+        dossier_prompt = (
+            f"\nVIRALITY & HOOK FRAMEWORKS TO ENFORCE:\n{dossier_context}\n"
+            if dossier_context
+            else ""
+        )
 
         prompt = f"""
 You are a Master Short-Form Video Scriptwriter for Instagram Reels and YouTube Shorts.
-Convert this friction signal into a high-retention, fast-paced 15-20 second video script.
+Convert this friction signal into a high-retention, fast-paced 15-20 second video script optimized for DIRECT-RESPONSE CONVERSIONS.
 
 SIGNAL DATA:
 - Universal Pain Point: {signal.universal_pain_point}
@@ -37,11 +62,12 @@ SIGNAL DATA:
 - Actionable Takeaway: {signal.actionable_takeaway}
 - Content Pillar: {signal.content_pillar}
 {dossier_prompt}
-RETENTION RULES:
+RETENTION & CONVERSION RULES:
 1. HOOK (0-3s): Punchy, provocative, or pattern-breaking. Max 10 words.
-2. VOICEOVER: Spoken script. No intro greetings. Start immediately with the core problem. Max 45 words total.
+2. VOICEOVER: Spoken script. No intro greetings. Start immediately with the core problem. Max 55 words total.
+   CRITICAL: The voiceover MUST end with an explicit spoken directive: "Comment 'OPERATOR' below to get the access link."
 3. VISUAL BULLETS: 2-3 short text overlays to display during the body.
-4. CALL TO ACTION: Single sentence driving saves, shares, or direct comments.
+4. CALL TO ACTION: Single high-intent command instructing viewers to comment 'OPERATOR'.
 5. THEME: Select one of ['sovereign', 'ambient', 'kinetic'].
 
 Return JSON matching this schema:
@@ -61,9 +87,12 @@ Return JSON matching this schema:
                 res = self.client.models.generate_content(
                     model=model_name,
                     contents=prompt,
-                    config=types.GenerateContentConfig(response_mime_type="application/json")
+                    config=types.GenerateContentConfig(
+                        response_mime_type="application/json"
+                    ),
                 )
                 return res.text
+
             return execute
 
         raw_json = ""
@@ -71,25 +100,60 @@ Return JSON matching this schema:
             raw_json = call_with_fallback(make_api_call)
             if raw_json:
                 data = json.loads(raw_json)
+
+                # Post-process to ensure CTA keyword is spoken and displayed
+                data = _enforce_direct_response_cta(data, keyword="OPERATOR")
+
                 return ScriptPayload(
                     title=data.get("title", "relentless_execution"),
-                    hook_text=data.get("hook_text", f"Stop wasting hours on {signal.universal_pain_point}."),
-                    voiceover_script=data.get("voiceover_script", f"Manual processes are operational leaks. Automate {signal.universal_pain_point} now."),
-                    body_points=data.get("body_points", ["Identify manual bottleneck", "Deploy automated trigger"]),
-                    call_to_action=data.get("call_to_action", "Comment 'PIPELINE' to deploy the framework."),
+                    hook_text=data.get(
+                        "hook_text",
+                        f"Stop wasting hours on {signal.universal_pain_point}.",
+                    ),
+                    voiceover_script=data.get("voiceover_script"),
+                    body_points=data.get(
+                        "body_points",
+                        [
+                            "Identify manual bottleneck",
+                            "Deploy automated trigger",
+                        ],
+                    ),
+                    call_to_action=data.get("call_to_action"),
                     theme=data.get("theme", "kinetic"),
-                    visual_search_queries=data.get("visual_search_queries", ["technology server core", "dark code matrix"])
+                    visual_search_queries=data.get(
+                        "visual_search_queries",
+                        ["technology server core", "dark code matrix"],
+                    ),
                 )
         except Exception as e:
             print(f"[!] ScriptEngineAgent parsing / execution error: {e}")
 
-        # Safe Fallback ScriptPayload
+        # Safe Direct-Response Fallback ScriptPayload
+        fallback_data = {
+            "title": "relentless_execution",
+            "hook_text": f"Stop wasting hours on {signal.universal_pain_point}.",
+            "voiceover_script": f"Manual processes are operational leaks. Eliminate {signal.universal_pain_point} and scale execution.",
+            "body_points": [
+                "Isolate manual toil",
+                "Execute automated flow",
+            ],
+            "call_to_action": "Comment 'OPERATOR' below to deploy the framework.",
+            "theme": "kinetic",
+            "visual_search_queries": [
+                "dark tech network",
+                "cyberpunk code terminal",
+            ],
+        }
+        fallback_data = _enforce_direct_response_cta(
+            fallback_data, keyword="OPERATOR"
+        )
+
         return ScriptPayload(
-            title="relentless_execution",
-            hook_text=f"Stop wasting hours on {signal.universal_pain_point}.",
-            voiceover_script=f"Manual processes are operational leaks. Eliminate {signal.universal_pain_point} and scale execution.",
-            body_points=["Isolate manual toil", "Execute automated flow"],
-            call_to_action="Comment 'PIPELINE' now to get the complete workflow.",
-            theme="kinetic",
-            visual_search_queries=["dark tech network", "cyberpunk code terminal"]
+            title=fallback_data["title"],
+            hook_text=fallback_data["hook_text"],
+            voiceover_script=fallback_data["voiceover_script"],
+            body_points=fallback_data["body_points"],
+            call_to_action=fallback_data["call_to_action"],
+            theme=fallback_data["theme"],
+            visual_search_queries=fallback_data["visual_search_queries"],
         )
