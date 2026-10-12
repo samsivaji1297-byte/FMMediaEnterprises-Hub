@@ -101,3 +101,4 @@
 - Collimated Volition Aperture — A precise cognitive focusing mechanism that aligns scattered psychic impulses into an ultra-dense, non-divergent beam of sovereign execution.
 - Sovereign Deadband Architecture — A control-systems framework that establishes an intentional buffer of non-reactivity around the operator, preventing ambient environmental friction from inducing internal cognitive displacement or involuntary operational expenditure.
 - Isogeodesic Sovereignty Architecture — A strategic identity framework that calculates and enforces the path of absolute internal gravity across high-friction cognitive terrain.
+- Non-Reciprocal Sovereign Isolator — An asymmetric cognitive transmission architecture that projects unilateral strategic intent outward while completely attenuating inbound memetic and emotional interference.
