@@ -1,24 +1,16 @@
-**REEL HOOK:** Stop working 60-hour weeks expecting a proportional raise. The market no longer pays for physical or mental exertion.
-**REEL CAPTION:** Why traditional effort tracking is destroying high performers in the AI era—and how to shift from sweat equity to leveraged outcome capture. Read the breakdown below. 👇
+**Reel Hook:** You aren't lazy, unmotivated, or undisciplined.  
+**Caption:** Your system requires more cognitive fuel to maintain than the actual work takes to execute. Here is the hidden tax of "productivity inflation."
 
 ---
 
-**1/4**
-The dirty secret of knowledge work today: The link between how hard you work and how much value (or income) you generate is completely broken. 
+1/ You don't have an execution problem. You have a meta-work tax.  
+Every time you introduce a tag, a database relation, or a color-coded priority tier, you introduce cognitive friction. When maintaining the system demands more bandwidth than doing the work, paralysis isn't failure—it's your brain’s self-defense mechanism.
 
-If you are still relying on sweat equity to scale your career, you are playing a rigged game designed for an industrial era that no longer exists.
+2/ Most productivity architectures are designed for "hypothetical humans in sterile laboratories."  
+They assume you wake up with 100% executive function every morning. The moment an unexpected meeting hits or your energy dips, the system shatters. Then comes the shame spiral: you blame your character instead of the friction engine you built.
 
-**2/4**
-Psychologists and researchers call this **Effort-Performance Decoupling**. 
+3/ Productive avoidance is the most dangerous form of procrastination because it feels virtuous.  
+Spending three hours organizing Notion databases, linking Obsidian nodes, or testing new task apps tricks your dopaminergic system into feeling accomplished—without exposing you to the vulnerability of real output.
 
-When modern leverage (like AI and automation) enters the system, 1 hour of high-leverage positioning produces 100x the enterprise value of 80 hours of raw grinding. Yet most companies still enforce "Effort Control"—monitoring your hours, commits, and activity instead of your actual output.
-
-**3/4**
-This mismatch triggers a psychological crisis: **Effort Discounting**. 
-
-When your brain realizes that extra effort yields zero extra control or marginal reward, your subconscious systematically devalues the work. The result isn't just laziness—it's severe burnout, quiet quitting, and a deep existential dread that no amount of coffee can fix.
-
-**4/4**
-The fix isn't trying harder. It's shifting from *Effort Control* to *Outcome Arbitrage*. 
-
-Decouple your value from your time. Stop selling raw exertion to management tools that track keystrokes. Build owned assets, leverage systemic tooling, and position yourself strictly where outcome value is captured, not where labor is expended.
+4/ The test of a real system: Can it survive your worst, lowest-energy Tuesday?  
+If your setup requires perfect conditions to function, it’s not an operating system; it’s an ornament. Scrap the databases. Grab a single sheet of scratch paper. Write down three non-negotiables. Execute. Trash it.
