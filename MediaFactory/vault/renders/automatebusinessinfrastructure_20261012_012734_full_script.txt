@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261012_012734
+Topic: how to automate business
+Title: Automate Business Infrastructure
+Hook: You are losing twenty hours weekly running operations manually.
+Voiceover Script: You are losing twenty hours weekly running operations manually. Stop grinding through repetitive tasks. Deploy sovereign automated infrastructure. Connect lead intake, sync client pipelines, and let headless scripts handle execution. Stop trading your hours for basic operational output.
+Call to Action: Comment OPERATOR to deploy the automated war room architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are losing twenty hours weekly running operations manually.
+  Visual Prompt: cyberpunk terminal code execution dark UI
+
+Scene 2:
+  Text: You are losing twenty hours weekly running operations manually. Stop grinding through repetitive tasks. Deploy sovereign automated infrastructure. Connect lead intake, sync client pipelines, and let headless scripts handle execution. Stop trading your hours for basic operational output.
+  Visual Prompt: obsidian dashboard automated workflow nodes
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated war room architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
