@@ -1,7 +1,6 @@
 import os
 import sys
 import textwrap
-import random
 from pathlib import Path
 
 # Resolve internal imports regardless of entry point
@@ -55,7 +54,7 @@ def _wrap_text_for_reels(text: str, max_chars_per_line: int = 24) -> str:
     return "\n".join(wrapped_lines)
 
 
-def _process_micro_chunks(text: str, max_words_per_chunk: int = 12) -> list[str]:
+def _process_micro_chunks(text: str, max_words_per_chunk: int = 10) -> list[str]:
     """Splits heavy text blocks into fast-paced micro-captions for high-retention editing."""
     words = text.split()
     if not words:
@@ -65,40 +64,6 @@ def _process_micro_chunks(text: str, max_words_per_chunk: int = 12) -> list[str]
         chunk = " ".join(words[i:i + max_words_per_chunk])
         chunks.append(chunk)
     return chunks if chunks else [text]
-
-
-def _synthesize_scenes_from_script(script_data: dict) -> list:
-    """Constructs scene structure if root dictionary fields are passed."""
-    scenes = []
-
-    hook_text = script_data.get("hook_text") or script_data.get("hook")
-    if hook_text:
-        scenes.append({
-            "text_overlay": str(hook_text),
-            "search_query": script_data.get("visual_search_queries", ["abstract dark"])[0] if script_data.get("visual_search_queries") else "abstract dark"
-        })
-
-    body_points = script_data.get("body_points") or script_data.get("body_bullets") or []
-    visual_queries = script_data.get("visual_search_queries") or script_data.get("visual_keywords") or []
-
-    for idx, point in enumerate(body_points):
-        q = visual_queries[min(idx + 1, len(visual_queries) - 1)] if visual_queries else "focus execution"
-        scenes.append({
-            "text_overlay": str(point),
-            "search_query": str(q)
-        })
-
-    cta_text = script_data.get("call_to_action") or script_data.get("cta")
-    if cta_text:
-        scenes.append({
-            "text_overlay": str(cta_text),
-            "search_query": "action execution"
-        })
-
-    if not scenes:
-        scenes = [{"text_overlay": script_data.get("title", "EXECUTE"), "search_query": "dark aesthetic"}]
-
-    return scenes
 
 
 def build_video(
@@ -115,89 +80,91 @@ def build_video(
     audio = AudioFileClip(audio_path)
     total_duration = audio.duration
 
-    scenes = script_data.get("scenes", [])
-    if not scenes:
-        scenes = _synthesize_scenes_from_script(script_data)
+    # Extract full voiceover script for 1:1 audio-visual sync
+    raw_voiceover = script_data.get("voiceover_script", "").strip()
+    if not raw_voiceover:
+        raw_voiceover = f"{script_data.get('hook_text', '')} {' '.join(script_data.get('body_points', []))} {script_data.get('call_to_action', '')}".strip()
+    if not raw_voiceover:
+        raw_voiceover = script_data.get("title", "EXECUTE")
 
-    scene_count = len(scenes)
-    duration_per_scene = total_duration / max(scene_count, 1)
+    # Generate micro-captions from the exact spoken script
+    text_chunks = _process_micro_chunks(raw_voiceover, max_words_per_chunk=10)
+    chunk_count = len(text_chunks)
+    chunk_duration = total_duration / max(chunk_count, 1)
 
+    visual_queries = script_data.get("visual_search_queries") or ["dark aesthetic"]
     scene_clips = []
 
     # Instagram Safe-Zone Dimensions (1080 x 1920 Canvas)
     MAX_TEXT_WIDTH = 840   # 120px safe margin left/right
     MAX_TEXT_HEIGHT = 800  # Allows up to 5-6 lines
 
-    for i, scene in enumerate(scenes):
-        search_query = scene.get("search_query") or scene.get("text_overlay", "dark aesthetic")
-        search_query = str(search_query).lower()
+    for chunk_idx, chunk in enumerate(text_chunks):
+        # Rotate or map visual search query across chunks
+        q_idx = min(int((chunk_idx / chunk_count) * len(visual_queries)), len(visual_queries) - 1)
+        search_query = str(visual_queries[q_idx]).lower()
 
-        bg_video_path = fetch_background_video(search_query, i, duration_per_scene)
+        bg_video_path = fetch_background_video(search_query, chunk_idx, chunk_duration)
 
         # 1. Background Layer Execution
         if bg_video_path and os.path.exists(bg_video_path):
             try:
                 raw_bg = VideoFileClip(bg_video_path).without_audio()
-                if raw_bg.duration < duration_per_scene:
-                    raw_bg = raw_bg.loop(duration=duration_per_scene)
+                if raw_bg.duration < chunk_duration:
+                    try:
+                        raw_bg = raw_bg.loop(duration=chunk_duration)
+                    except AttributeError:
+                        # Fallback for MoviePy version differences
+                        raw_bg = raw_bg.subclipped(0, min(raw_bg.duration, chunk_duration))
                 else:
-                    raw_bg = raw_bg.subclipped(0, duration_per_scene)
+                    raw_bg = raw_bg.subclipped(0, chunk_duration)
 
                 bg_clip = _crop_and_center_video(raw_bg, CANVAS_WIDTH, CANVAS_HEIGHT)
             except Exception as e:
-                print(f"[!] Background crop/render error for scene {i+1}: {e}. Falling back to color clip.")
+                print(f"[!] Background crop/render error for chunk {chunk_idx+1}: {e}. Falling back to color clip.")
                 bg_clip = ColorClip(
                     size=(CANVAS_WIDTH, CANVAS_HEIGHT),
                     color=theme_config.get("bg", (15, 15, 18)),
-                    duration=duration_per_scene,
+                    duration=chunk_duration,
                 )
         else:
             bg_clip = ColorClip(
                 size=(CANVAS_WIDTH, CANVAS_HEIGHT),
                 color=theme_config.get("bg", (15, 15, 18)),
-                duration=duration_per_scene,
+                duration=chunk_duration,
             )
 
         # Contrast mask overlay
         dark_overlay = ColorClip(
             size=(CANVAS_WIDTH, CANVAS_HEIGHT),
             color=(0, 0, 0),
-            duration=duration_per_scene,
+            duration=chunk_duration,
         ).with_opacity(theme_config.get("mask_opacity", 0.55))
 
-        # 2. Micro-Caption Chunking (Plug-and-Play Pacing)
-        raw_text = scene.get("text_overlay", "").strip()
-        text_chunks = _process_micro_chunks(raw_text, max_words_per_chunk=12)
-        chunk_duration = duration_per_scene / max(len(text_chunks), 1)
+        # 2. Typography Assembly with Safe Line Wrapping
+        formatted_text = _wrap_text_for_reels(chunk, max_chars_per_line=22)
+        line_count = len(formatted_text.split("\n"))
+        font_size = 52 if line_count <= 2 else (44 if line_count <= 4 else 36)
 
-        for chunk_idx, chunk in enumerate(text_chunks):
-            formatted_text = _wrap_text_for_reels(chunk, max_chars_per_line=22)
-            line_count = len(formatted_text.split("\n"))
-            font_size = 52 if line_count <= 2 else (44 if line_count <= 4 else 36)
+        text_subclips = []
+        try:
+            txt = TextClip(
+                text=formatted_text,
+                font_size=font_size,
+                color=theme_config.get("text", "white"),
+                font=font_path,
+                stroke_color="black",
+                stroke_width=3,
+                method="caption",
+                size=(MAX_TEXT_WIDTH, MAX_TEXT_HEIGHT),
+            ).with_duration(chunk_duration).with_position(("center", "center"))
+            
+            text_subclips.append(txt)
+        except Exception as e:
+            print(f"[!] TextClip rendering error on chunk {chunk_idx+1}: {e}")
 
-            text_subclips = []
-            try:
-                txt = TextClip(
-                    text=formatted_text,
-                    font_size=font_size,
-                    color=theme_config.get("text", "white"),
-                    font=font_path,
-                    stroke_color="black",
-                    stroke_width=3,
-                    method="caption",
-                    size=(MAX_TEXT_WIDTH, MAX_TEXT_HEIGHT),
-                ).with_duration(chunk_duration).with_position(("center", "center"))
-                
-                text_subclips.append(txt)
-            except Exception as e:
-                print(f"[!] TextClip rendering error on scene {i+1}, chunk {chunk_idx}: {e}")
-
-            # Slice the background/overlay for this specific micro-chunk duration
-            sub_bg = bg_clip.subclipped(chunk_idx * chunk_duration, min((chunk_idx + 1) * chunk_duration, duration_per_scene))
-            sub_overlay = dark_overlay.subclipped(0, chunk_duration)
-
-            chunk_composite = CompositeVideoClip([sub_bg, sub_overlay] + text_subclips).with_duration(chunk_duration)
-            scene_clips.append(chunk_composite)
+        chunk_composite = CompositeVideoClip([bg_clip, dark_overlay] + text_subclips).with_duration(chunk_duration)
+        scene_clips.append(chunk_composite)
 
     if not scene_clips:
         fallback_bg = ColorClip(
@@ -221,5 +188,5 @@ def build_video(
         threads=4,
         logger=None,
     )
-    print(f"[+] [{active_theme.upper()}] Stylized micro-caption Reel generated -> {target_output}")
+    print(f"[+] [{active_theme.upper()}] Synchronized micro-caption Reel generated -> {target_output}")
     return target_output
