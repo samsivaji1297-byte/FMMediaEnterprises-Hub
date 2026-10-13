@@ -3,6 +3,7 @@ import json
 import requests
 import time
 import uuid
+from datetime import datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
@@ -49,14 +50,31 @@ class InstagramPublisher:
         for video_path in video_files:
             filename = video_path.name
             
-            # If the filename collides with a previously logged entry, generate a unique variant
+            # If the filename collides with a previously logged entry, generate a clean, non-bloated variant
             if filename in already_published:
                 print(f"[!] Warning: '{filename}' already marked as published. Regenerating unique asset signature...")
-                unique_suffix = f"_{int(time.time())}_{uuid.uuid4().hex[:4]}"
-                new_stem = f"{video_path.stem}{unique_suffix}"
+                
+                # Strip out historical numeric chunks/timestamps to isolate the clean core slug
+                stem = video_path.stem
+                parts = stem.split("_")
+                clean_parts = [p for p in parts if not (p.isdigit() or (len(p) in {4, 8, 10, 12, 16} and p.isalnum()))]
+                
+                if not clean_parts:
+                    clean_parts = parts[:2] if len(parts) >= 2 else ["reel"]
+
+                # Keep slug compact (max 30 chars)
+                short_slug = "_".join(clean_parts)[:30].strip("_")
+                if not short_slug:
+                    short_slug = "execution_reel"
+
+                # Timestamp first and foremost + short cryptographic suffix
+                timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+                short_hash = uuid.uuid4().hex[:4]
+                new_stem = f"{timestamp_str}_{short_slug}_{short_hash}"
+
                 new_video_path = video_path.with_name(f"{new_stem}.mp4")
                 
-                # Rename the mp4 file
+                # Rename the mp4 file safely
                 video_path.rename(new_video_path)
                 
                 # Rename associated .txt caption file if present
