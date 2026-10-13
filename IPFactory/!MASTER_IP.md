@@ -103,3 +103,4 @@
 - Isogeodesic Sovereignty Architecture — A strategic identity framework that calculates and enforces the path of absolute internal gravity across high-friction cognitive terrain.
 - Non-Reciprocal Sovereign Isolator — An asymmetric cognitive transmission architecture that projects unilateral strategic intent outward while completely attenuating inbound memetic and emotional interference.
 - Supercavitating Volition Architecture — An operational mechanics framework that envelops executive intent within a self-generated low-drag vacuum, enabling frictionless velocity and unilateral execution across high-resistance cognitive environments.
+- Sovereign Roche Threshold — The inviolable gravitational perimeter within which external narratives and hostile frames are structurally disintegrated and metabolized into the operator's internal mass.
