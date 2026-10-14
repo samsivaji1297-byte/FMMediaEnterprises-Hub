@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261014_091500
+Topic: how to automate business
+Title: Automate Your Business Operations
+Hook: Stop running your business operations manually in 2026.
+Voiceover Script: Stop running your business operations manually in 2026. The most profitable operators don't work harder—they deploy automated infrastructure that handles pipeline triage, fulfillment, and lead routing automatically. Build your sovereign stack. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Stop running your business operations manually in 2026.
+  Visual Prompt: dark charcoal terminal screen automation python code
+
+Scene 2:
+  Text: Stop running your business operations manually in 2026. The most profitable operators don't work harder—they deploy automated infrastructure that handles pipeline triage, fulfillment, and lead routing automatically. Build your sovereign stack. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist obsidian ui data pipeline glowing cyan
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
