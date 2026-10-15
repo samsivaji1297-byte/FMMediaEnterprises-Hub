@@ -104,3 +104,4 @@
 - Non-Reciprocal Sovereign Isolator — An asymmetric cognitive transmission architecture that projects unilateral strategic intent outward while completely attenuating inbound memetic and emotional interference.
 - Supercavitating Volition Architecture — An operational mechanics framework that envelops executive intent within a self-generated low-drag vacuum, enabling frictionless velocity and unilateral execution across high-resistance cognitive environments.
 - Sovereign Roche Threshold — The inviolable gravitational perimeter within which external narratives and hostile frames are structurally disintegrated and metabolized into the operator's internal mass.
+- Sovereign Hill Sphere Dynamics — The calibration and expansion of an operator’s endogenous gravitational field to ensure that all internal assets, thoughts, and secondary directives remain irreversibly bound to self-command, even while navigating the ambient pull of massive external systems.
