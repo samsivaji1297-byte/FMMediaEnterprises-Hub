@@ -107,3 +107,4 @@
 - Sovereign Hill Sphere Dynamics — The calibration and expansion of an operator’s endogenous gravitational field to ensure that all internal assets, thoughts, and secondary directives remain irreversibly bound to self-command, even while navigating the ambient pull of massive external systems.
 - Metacentric Volition Equilibrium Architecture — An internal structural framework that generates continuous self-righting momentum, enabling an operator's identity to automatically regain stability against catastrophic external forces.
 - Endorheic Sovereign Watershed — An internal cognitive framework that redirects all psychological momentum inward to establish a self-contained, unassailable reservoir of personal authority.
+- Diamagnetic Sovereign Exclusion — The total repulsion of foreign psychosocial influence through an internally generated counter-field that denies external authorities any inductive purchase within the operator's cognitive domain.
