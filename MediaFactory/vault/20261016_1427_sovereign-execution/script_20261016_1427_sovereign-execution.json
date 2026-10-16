@@ -1,0 +1,33 @@
+{
+    "title": "Sovereign Execution",
+    "voiceover_full": "Most people wait for permission to act. The sovereign creator acts and forces the world to adapt. Sovereign execution means zero hesitation, absolute ownership, and relentless speed. Stop asking for the roadmap. Build the path as you walk it.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "Most people wait for permission to act. The sovereign creator acts and forces the world to adapt.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist shot of a single figure standing in a moody dark minimalist concrete hall, illuminated by a stark vertical beam of light.",
+            "text_overlay": "STOP WAITING FOR PERMISSION",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "Sovereign execution means zero hesitation, absolute ownership, and relentless speed.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist silhouette of a person opening a glowing futuristic glass tablet in a dark moody room overlooking a rain-slicked city.",
+            "text_overlay": "ZERO HESITATION",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Stop asking for the roadmap. Build the path as you walk it.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist macro shot of hands typing with sharp focus on a sleek metallic interface, stark white lights cutting through deep shadows.",
+            "text_overlay": "BUILD THE PATH",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261016_1427_sovereign-execution",
+        "topic": "Sovereign Execution",
+        "theme": "sovereign",
+        "timestamp": "20261016_1427"
+    }
+}
