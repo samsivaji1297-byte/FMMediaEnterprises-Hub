@@ -14,10 +14,18 @@
             "trigger_keyword": "DIRECT_ENGAGEMENT",
             "offer": "War Room Command Vault",
             "status": "DM_FAILED"
+        },
+        {
+            "timestamp": "2026-10-16T08:47:37Z",
+            "username": "Unknown",
+            "trigger_keyword": "DIRECT_ENGAGEMENT",
+            "offer": "War Room Command Vault",
+            "status": "DM_FAILED"
         }
     ],
     "processed_comments": [
         "18100480937456628",
-        "17950961319294645"
+        "17950961319294645",
+        "18002048750800737"
     ]
 }

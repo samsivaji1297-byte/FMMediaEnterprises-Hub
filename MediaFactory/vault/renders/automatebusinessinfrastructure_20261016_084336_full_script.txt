@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261016_084336
+Topic: how to automate business
+Title: Automate Business Infrastructure
+Hook: You are losing 20 hours weekly running operations manually.
+Voiceover Script: You are losing 20 hours weekly running operations manually. Replace manual bottlenecks with automated infrastructure that captures leads, routes data, and executes 24/7 without friction. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are losing 20 hours weekly running operations manually.
+  Visual Prompt: dark charcoal terminal code matrix UI
+
+Scene 2:
+  Text: You are losing 20 hours weekly running operations manually. Replace manual bottlenecks with automated infrastructure that captures leads, routes data, and executes 24/7 without friction. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian gold automated pipeline dashboard
+
+Scene 3:
+  Text: Comment 'OPERATOR' to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
