@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261016_010454
+Topic: how to automate business
+Title: Deploy Automated Infrastructure
+Hook: You are losing 20 hours weekly to manual tasks.
+Voiceover Script: You are losing twenty hours weekly to manual tasks. Hard work doesn't scale; automated infrastructure does. Replace bloated manual routines with sovereign, event-driven pipelines that run autonomously 24/7. Stop managing chaos. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are losing 20 hours weekly to manual tasks.
+  Visual Prompt: cyberpunk dark terminal code high contrast obsidian gold
+
+Scene 2:
+  Text: You are losing twenty hours weekly to manual tasks. Hard work doesn't scale; automated infrastructure does. Replace bloated manual routines with sovereign, event-driven pipelines that run autonomously 24/7. Stop managing chaos. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist dark charcoal automation data pipeline UI
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
