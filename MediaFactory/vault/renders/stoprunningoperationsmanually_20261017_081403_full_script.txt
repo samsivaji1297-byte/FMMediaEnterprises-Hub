@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261017_081403
+Topic: how to automate business
+Title: Stop Running Operations Manually
+Hook: Stop running your business manually in 2026.
+Voiceover Script: Stop running your business manually. The most profitable operators don't work harder—they deploy autonomous infrastructure to run operations on autopilot. Eliminate friction forever. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Stop running your business manually in 2026.
+  Visual Prompt: dark charcoal terminal script automation UI
+
+Scene 2:
+  Text: Stop running your business manually. The most profitable operators don't work harder—they deploy autonomous infrastructure to run operations on autopilot. Eliminate friction forever. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist obsidian cyber dashboard glowing cyan
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
