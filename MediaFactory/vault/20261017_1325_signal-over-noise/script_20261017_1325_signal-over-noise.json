@@ -1,0 +1,33 @@
+{
+    "title": "Signal Over Noise",
+    "voiceover_full": "99% of what consumes your attention is pure static designed to keep you distracted. The signal never shouts. It is the boring, timeless work done in total silence. Mute the chaos. Master the vital few. Find your signal.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "99% of what consumes your attention is pure static designed to keep you distracted.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist shot of a chaotic neon-lit city street at night, heavy motion blur, digital static glitches flickering across a shadowy silhouette.",
+            "text_overlay": "THE NOISE IS A TRAP",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "The signal never shouts. It is the boring, timeless work done in total silence.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist frame of a solitary figure working at a monolithic concrete desk, single warm overhead spotlight cutting through deep black shadows, slow push-in.",
+            "text_overlay": "SILENCE OVER HYPE",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Mute the chaos. Master the vital few. Find your signal.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist macro shot of a sharp coherent laser beam slicing perfectly through total pitch darkness with crystalline clarity.",
+            "text_overlay": "FIND THE SIGNAL",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261017_1325_signal-over-noise",
+        "topic": "Signal Over Noise",
+        "theme": "sovereign",
+        "timestamp": "20261017_1325"
+    }
+}
