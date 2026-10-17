@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261017_023303
+Topic: how to automate business
+Title: Automate Business Operations Instantly
+Hook: You are losing twenty hours weekly running operations manually.
+Voiceover Script: You are losing twenty hours weekly running operations manually. True scale demands sovereign infrastructure, not brute force. Kill manual handoffs with automated backends that run 24/7 without error. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are losing twenty hours weekly running operations manually.
+  Visual Prompt: dark obsidian terminal screen high contrast code execution
+
+Scene 2:
+  Text: You are losing twenty hours weekly running operations manually. True scale demands sovereign infrastructure, not brute force. Kill manual handoffs with automated backends that run 24/7 without error. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist dark charcoal ui data pipeline dashboard cyan gold
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
