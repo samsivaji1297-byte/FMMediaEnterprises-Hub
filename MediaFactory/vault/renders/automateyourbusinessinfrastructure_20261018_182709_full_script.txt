@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261018_182709
+Topic: how to automate business
+Title: Automate Your Business Infrastructure
+Hook: You lose twenty hours every week running tasks manually.
+Voiceover Script: You lose twenty hours every week running tasks manually. Hard work won't scale. Autonomous infrastructure does. Replace manual bottlenecks with background execution pipelines that close leads on autopilot. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' to receive the automated architecture blueprint.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You lose twenty hours every week running tasks manually.
+  Visual Prompt: cyberpunk terminal code glowing cyan obsidian UI
+
+Scene 2:
+  Text: You lose twenty hours every week running tasks manually. Hard work won't scale. Autonomous infrastructure does. Replace manual bottlenecks with background execution pipelines that close leads on autopilot. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: dark high tech automated workflow analytics dashboard
+
+Scene 3:
+  Text: Comment 'OPERATOR' to receive the automated architecture blueprint.
+  Visual Prompt: obsidian dashboard gold highlights
+
