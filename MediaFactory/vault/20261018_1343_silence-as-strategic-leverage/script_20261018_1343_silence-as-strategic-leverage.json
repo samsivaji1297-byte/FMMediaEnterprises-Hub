@@ -1,0 +1,33 @@
+{
+    "title": "Silence as Strategic Leverage",
+    "voiceover_full": "The most dangerous person in the room never rushes to speak. When you refuse to fill the void, their discomfort forces them to reveal their hand. Silence isn't weakness. It is an interrogation.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "The most dangerous person in the room never rushes to speak.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, sharp silhouette of a figure seated at a dark marble table, slow dramatic push-in, moody amber backlight",
+            "text_overlay": "NEVER RUSH TO SPEAK",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "When you refuse to fill the void, their discomfort forces them to reveal their hand.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, intense macro close-up of calm unblinking eyes in deep shadow, film grain, hyper-focused gaze",
+            "text_overlay": "LET THEM BREAK FIRST",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Silence isn't weakness. It is an interrogation.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, slow tilt up to the figure leaning back calmly, stark side lighting, cold luxury atmosphere",
+            "text_overlay": "SILENCE IS LEVERAGE",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261018_1343_silence-as-strategic-leverage",
+        "topic": "Silence as Strategic Leverage",
+        "theme": "ambient",
+        "timestamp": "20261018_1343"
+    }
+}
