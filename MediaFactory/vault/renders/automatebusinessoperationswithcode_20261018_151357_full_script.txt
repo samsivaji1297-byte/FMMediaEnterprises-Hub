@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261018_151357
+Topic: how to automate business
+Title: Automate Business Operations With Code
+Hook: You're losing twenty hours weekly running business operations manually.
+Voiceover Script: You're losing twenty hours weekly running business operations manually. Stop hiring headcount to patch broken workflows. Deploy automated infrastructure that executes client onboarding and fulfillment autonomously. Sovereign systems run on code, not burnout. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' to receive the automated architecture templates.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You're losing twenty hours weekly running business operations manually.
+  Visual Prompt: dark charcoal terminal automated script running
+
+Scene 2:
+  Text: You're losing twenty hours weekly running business operations manually. Stop hiring headcount to patch broken workflows. Deploy automated infrastructure that executes client onboarding and fulfillment autonomously. Sovereign systems run on code, not burnout. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: cyberpunk code interface data flow obsidian UI
+
+Scene 3:
+  Text: Comment 'OPERATOR' to receive the automated architecture templates.
+  Visual Prompt: obsidian dashboard gold highlights
+
