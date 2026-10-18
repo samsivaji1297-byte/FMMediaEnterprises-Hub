@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261018_083145
+Topic: how to automate business
+Title: Automate Your Business Infrastructure
+Hook: Stop running your business manually like it's 2012.
+Voiceover Script: Stop running your business manually like it's 2012. Elite operators don't hire bloated teams. They deploy autonomous infrastructure to run lead capture, onboarding, and operations on autopilot. Kill the busywork. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Stop running your business manually like it's 2012.
+  Visual Prompt: dark charcoal terminal automation code streaming
+
+Scene 2:
+  Text: Stop running your business manually like it's 2012. Elite operators don't hire bloated teams. They deploy autonomous infrastructure to run lead capture, onboarding, and operations on autopilot. Kill the busywork. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: futuristic obsidian ui automated workflow glowing cyan
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
