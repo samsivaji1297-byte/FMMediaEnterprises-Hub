@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261018_221118
+Topic: how to automate business
+Title: Kill Manual Operations: Deploy Automated Infrastructure
+Hook: Hard workers are outperformed by simple automation scripts.
+Voiceover Script: Hard workers are getting outperformed by single automation scripts. If you're manually handling leads, fulfillment, or reporting, you're bleeding capital. Deploy automated infrastructure once and reclaim your time. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Hard workers are outperformed by simple automation scripts.
+  Visual Prompt: cyberpunk terminal code glowing cyan obsidian ui
+
+Scene 2:
+  Text: Hard workers are getting outperformed by single automation scripts. If you're manually handling leads, fulfillment, or reporting, you're bleeding capital. Deploy automated infrastructure once and reclaim your time. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: dark futuristic dashboard automated data stream
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
