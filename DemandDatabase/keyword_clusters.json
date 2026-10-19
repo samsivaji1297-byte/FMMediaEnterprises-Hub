@@ -13,7 +13,7 @@
             "how to automate whatsapp business messages"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-18T08:32:49.050848"
+        "last_scraped": "2026-10-19T09:35:46.571225"
     },
     "ai agents for *": {
         "extracted_intents": [
@@ -29,23 +29,23 @@
             "ai agents for sales"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-18T08:32:49.113591"
+        "last_scraped": "2026-10-19T09:35:46.655804"
     },
     "how to know if ready to *": {
         "extracted_intents": [
             "how to know when carrots ready to harvest",
             "how to know when potatoes ready to harvest",
             "how to know if your about to be pregnant",
+            "how to know when garlic ready to harvest",
             "how to know when onions ready to harvest",
             "how to know if appendix about to burst",
             "how to know if your about to be drunk",
             "how to know if you are about to have diarrhea",
             "how to know if you are about to have a fever",
-            "how to know if you are about to have diabetes",
-            "how to know if you are about to have food poisoning"
+            "how to know if you are about to have diabetes"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-18T08:32:49.184758"
+        "last_scraped": "2026-10-19T09:35:46.750701"
     },
     "stop procrastinating on *": {
         "extracted_intents": [
@@ -61,7 +61,7 @@
             "how to stop.procrastinating on phone"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-18T08:32:49.245569"
+        "last_scraped": "2026-10-19T09:35:46.841717"
     },
     "overcoming fear of starting *": {
         "extracted_intents": [
@@ -77,12 +77,12 @@
             "how to overcome fear of everything"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-18T08:32:49.314363"
+        "last_scraped": "2026-10-19T09:35:46.940147"
     },
     "time management system for entrepreneurs": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-18T08:32:49.378018"
+        "last_scraped": "2026-10-19T09:35:47.031532"
     },
     "when to quit day job for *": {
         "extracted_intents": [
@@ -91,11 +91,11 @@
             "how to quit a job the day of"
         ],
         "intent_count": 3,
-        "last_scraped": "2026-10-18T08:32:49.464001"
+        "last_scraped": "2026-10-19T09:35:47.133792"
     },
     "overcoming hesitation to start building": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-18T08:32:49.524843"
+        "last_scraped": "2026-10-19T09:35:47.208481"
     }
 }
