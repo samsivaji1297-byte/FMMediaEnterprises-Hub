@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261019_024926
+Topic: how to automate business
+Title: Automate Your Operations Pipeline
+Hook: You lose twenty hours weekly running operations manually.
+Voiceover Script: You lose twenty hours weekly running operations manually. Stop duct-taping bloated apps together. Real leverage comes from deploying lean, automated infrastructure that runs your entire pipeline on autopilot. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You lose twenty hours weekly running operations manually.
+  Visual Prompt: dark mode code editor terminal automation
+
+Scene 2:
+  Text: You lose twenty hours weekly running operations manually. Stop duct-taping bloated apps together. Real leverage comes from deploying lean, automated infrastructure that runs your entire pipeline on autopilot. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: cyberpunk server room glowing data streams
+
+Scene 3:
+  Text: Comment 'OPERATOR' to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
