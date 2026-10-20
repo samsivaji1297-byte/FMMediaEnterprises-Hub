@@ -1,25 +1,12 @@
-**Reel Hook:** You aren’t a perfectionist waiting for the right moment. You’re hiding behind revisions because an unlaunched project can never technically fail.
+Reel Hook: You’re not a perfectionist with high standards. You’re terrified of finding out your best idea is average.
+Caption: Overthinking isn't a cognitive trait; it’s an ego-defense mechanism. Here is why you haven't shipped that project yet (and how to break the loop today). 
 
-**Caption:** "Polishing" is often just socially acceptable cowardice disguised as craftsmanship. If you never launch, you never have to face the market's verdict. Here is the uncomfortable truth about why you're stuck in the sandbox—and how to kill the loop today.
+1/ Overthinking isn’t a process problem. It’s an identity bunker. 
+As long as your project stays in draft mode, its potential remains infinite. The moment you press "publish," its value is collapsed into a measurable, criticizable reality. You aren't tuning details—you are postponing market judgment.
 
----
+2/ Productive procrastination is the most sophisticated form of cowardice. 
+Reorganizing your Notion workspace, tweaking your CSS margins for the tenth time, and reading another case study feel like work. They aren't. They are socially acceptable rituals designed to simulate momentum without risking exposure.
 
-**Post 1:**
-As long as your project remains unlaunched, it retains infinite potential. 
+3/ High standards look like rapid iteration based on empirical market data. Low self-worth disguised as perfectionism looks like endless solo refinement behind closed doors. Stop confusing your fear of being seen starting small with "having an eye for quality."
 
-The moment you ship, that infinite potential collapses into cold, measurable reality. That collapse terrifies your ego—so you disguise your fear as "one last round of edits."
-
-**Post 2:**
-"High standards" are frequently high-end cowardice. 
-
-Tweaking your CSS, refactoring working code, or rewriting an outline for the twelfth time isn't work. It’s an expensive firewall between your self-image and real-world feedback.
-
-**Post 3:**
-Perfectionism isn't a pursuit of excellence; it's an avoidance of grief. 
-
-You fear the silence that might follow your launch far more than you hate the exhaustion of never finishing. But market silence is data. Eternal delay is just slow-motion decay.
-
-**Post 4:**
-Professional competence isn't shipping when everything is pristine. 
-
-It’s developing the emotional tolerance to ship something bare, functional, and vulnerable. If your first version doesn’t make your stomach drop slightly, you didn’t refine it—you hid behind it.
+4/ The cure for overthinking isn't more confidence; it's asymmetric downside tolerance. Ship the ugly version on a strict timebox. If it fails, your ego takes a minor hit. If you sit on it for another six months, you murder your agency in silence.
