@@ -1,0 +1,33 @@
+{
+    "title": "Silence as Strategic Leverage",
+    "voiceover_full": "The most dangerous person in the room never rushes to speak. When you pause, people project their insecurities into the void and negotiate against themselves. Silence isn't empty. It's the ultimate trap.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "The most dangerous person in the room never rushes to speak.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, extreme close-up of a shadowy figure in a tailored suit in a dim boardroom, sharp chiaroscuro lighting slicing across cold focused eyes, slow push in.",
+            "text_overlay": "NEVER RUSH TO SPEAK",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "When you pause, people project their insecurities into the void and negotiate against themselves.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, top-down macro shot of a black obsidian chess king resting on polished dark marble, thick volumetric smoke drifting across the surface under a single stark spotlight.",
+            "text_overlay": "LET THEM FILL THE VOID",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Silence isn't empty. It's the ultimate trap.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist, low-angle shot of a silhouette standing before a vast rain-streaked penthouse window at night, city lights blurred in cold monochrome tones, subtle confident posture.",
+            "text_overlay": "SILENCE IS LEVERAGE",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261020_1437_silence-as-strategic-leverage",
+        "topic": "Silence as Strategic Leverage",
+        "theme": "ambient",
+        "timestamp": "20261020_1437"
+    }
+}
