@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261021_234503
+Topic: how to automate business
+Title: Automate Your Business Infrastructure
+Hook: Hard workers get crushed by single-file automated scripts.
+Voiceover Script: Hard workers get crushed by single-file automated scripts. Stop burning hours on manual routing and operations. Sovereign operators deploy modular infrastructure once and let the system scale execution. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Hard workers get crushed by single-file automated scripts.
+  Visual Prompt: dark charcoal code terminal interface streaming data
+
+Scene 2:
+  Text: Hard workers get crushed by single-file automated scripts. Stop burning hours on manual routing and operations. Sovereign operators deploy modular infrastructure once and let the system scale execution. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: cyberpunk executive workspace automated server metrics
+
+Scene 3:
+  Text: Comment OPERATOR below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
