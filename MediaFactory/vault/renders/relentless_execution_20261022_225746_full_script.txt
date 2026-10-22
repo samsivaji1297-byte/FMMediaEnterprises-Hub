@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261022_225746
+Topic: how to automate business
+Title: relentless_execution
+Hook: Stop wasting hours on how to automate business.
+Voiceover Script: Manual processes are operational leaks. Eliminate how to automate business and scale execution. Comment 'OPERATOR' below to get access.
+Call to Action: Comment 'OPERATOR' below to deploy the framework.
+Theme: kinetic
+
+--- SCENES ---
+Scene 1:
+  Text: Stop wasting hours on how to automate business.
+  Visual Prompt: dark tech network
+
+Scene 2:
+  Text: Manual processes are operational leaks. Eliminate how to automate business and scale execution. Comment 'OPERATOR' below to get access.
+  Visual Prompt: cyberpunk code terminal
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to deploy the framework.
+  Visual Prompt: obsidian dashboard gold highlights
+
