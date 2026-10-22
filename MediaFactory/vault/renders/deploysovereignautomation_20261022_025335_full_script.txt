@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261022_025335
+Topic: how to automate business
+Title: Deploy Sovereign Automation
+Hook: You are losing twenty hours weekly to manual operations.
+Voiceover Script: You are losing twenty hours weekly to manual operations. Real leverage isn't working harder—it's deploying automated infrastructure that runs silently. Eliminate the human bottleneck. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are losing twenty hours weekly to manual operations.
+  Visual Prompt: dark minimalist code terminal scrolling green cyan text
+
+Scene 2:
+  Text: You are losing twenty hours weekly to manual operations. Real leverage isn't working harder—it's deploying automated infrastructure that runs silently. Eliminate the human bottleneck. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: futuristic obsidian data dashboard analytics automation
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
