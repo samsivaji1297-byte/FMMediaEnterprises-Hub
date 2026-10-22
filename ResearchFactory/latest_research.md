@@ -1,96 +1,58 @@
-# SEO Research Signal: overthinking project launch perfectionism
-**Generated:** 2026-10-21 14:19:00 UTC
+# SEO Research Signal: income control vs effort disconnect
+**Generated:** 2026-10-22 14:17:20 UTC
 **Engine:** DuckDuckGo Dual-Layer Scraper (Web + Forum Hybrid)
 ---
 
 ## 1. Web SERP Articles & Insights
 
-### 1. How to Stop Overthinking and Take the First Step
-- **URL:** https://www.diefreestudios.com/studio-notes/perfectionism-overthinking
-- **Snippet:** Overthinking and perfectionism can keep you stuck before you even begin. Learn how to stop trying to solve every future problem, take the first step, and build momentum through action.
+### 1. Measuring AI Value: Effort vs Income Disconnect - LinkedIn
+- **URL:** https://www.linkedin.com/posts/yonman_the-8-software-engineering-metrics-ai-broke-activity-7480912391535280128-8V5a
+- **Snippet:** As AI adoption matures leader realize a deeper problem: our industry is not very good at measuring the relation between effort and value. We can easily tell how many dollars went into the machine ...
 
-### 2. How to Beat Perfectionism and Stop Procrastinating
-- **URL:** https://trygraymatter.com/blogs/science/beat-perfectionism-stop-procrastinating
-- **Snippet:** Understand why perfectionism causes procrastination and learn evidence-based ways to stop overthinking, overcome analysis paralysis, and build steady progress naturally.
+### 2. Outcome Control vs. Effort Control ~ Future of CIO
+- **URL:** https://futureofcio.blogspot.com/2024/10/outcome-control-vs-effort-control.html
+- **Snippet:** Outcome control is centered around achieving specific results with greater autonomy for agents, while effort control focuses on monitoring the actions taken to achieve those results with closer oversight. Outcome control emphasizes measuring and rewarding the end results of a change initiative.
 
-### 3. The Perfectionist's Guide to Managing Overthinking
-- **URL:** https://www.mariancooper.com/post/the-perfectionist-s-guide-to-managing-overthinking
-- **Snippet:** Takeaway:Perfectionists often get caught in cycles of overthinking, but the habit can be managed. By recognizing how perfectionism fuels rumination, practicing small daily shifts like setting limits on decisions and embracing "good enough," and building long-term habits such as mindfulness or journaling, it's possible to quiet the mental noise and regain clarity.Why Perfectionists ...
+### 3. When effort fails: Instances and reasons for effort-performance ...
+- **URL:** https://www.sciencedirect.com/science/article/pii/S0149763426004355
+- **Snippet:** We highlight how they can account for apparent non-linearities, including trade-offs and plateaus in the effort-performance relationship. This perspective can serve as a transdisciplinary agenda for studying effort-performance dynamics, helping researchers and practitioners to better describe, report, and understand effort-performance (de)coupling.
 
-### 4. How to Stop Overthinking and Start Shipping Your Ideas
-- **URL:** https://livingsimplycreative.com/stop-overthinking-start-shipping-ideas/
-- **Snippet:** Understanding how to stop overthinking and start shipping your ideas revolves largely around this principle: keep moving forward so progress becomes inevitable instead of optional. Conclusion Shifting from cautious perfectionism to bold action-taking is the game changer in overcoming overthinking and start shipping ideas.
+### 4. Does effort increase or decrease reward valuation? Considerations from ...
+- **URL:** https://onlinelibrary.wiley.com/doi/full/10.1111/psyp.14536
+- **Snippet:** Our research integrated two contrasting hypotheses for how effort influences reward valuation. The hypotheses were effort justification and effort discounting. Perceived control (low vs. high) should...
 
-### 5. The Psychology of Perfectionism and Overthinking
-- **URL:** https://www.unpluggedpsych.com/the-psychology-of-perfectionism-and-overthinking/
-- **Snippet:** FAQs What is perfectionism? Perfectionism is a personality trait characterized by setting extremely high standards for oneself and striving for flawlessness. It often involves critical self-evaluation and concerns about others' evaluations. What is overthinking? Overthinking, also known as rumination, is the act of continuously thinking about the same thoughts, often in a negative or ...
+### 5. Effort, efficiency, and incentives in economic organizations
+- **URL:** https://www.sciencedirect.com/science/article/pii/0147596782900336
+- **Snippet:** Specifically, by adding to standard costs the manager's effort cost, defined as the marginal rate of substitution between effort and income (the price of effort) times the quantity of effort supplied, profit maximization becomes synonymous with utility maximization, and the efficiency of competitive markets is regained.
 
 ---
 ## 2. Reddit Community Friction Signals
 
-### 1. How I avoid perfectionism and overplanning : r/Entrepreneur
-- **URL:** https://www.reddit.com/r/Entrepreneur/comments/14an4cn/how_i_avoid_perfectionism_and_overplanning/
-- **Snippet:** Timeboxing tasks and avoiding perfectionism prevent me from getting stuck and wasting time on one task. These techniques allow me to increase productivity and make meaningful progress toward my goals without wasting excessive time.
-
-### 2. I want to help no-code founders launch their projects and ...
-- **URL:** https://www.reddit.com/r/nocode/comments/uzdsdj/i_want_to_help_nocode_founders_launch_their/
-- **Snippet:** I want to help no-code founders launch their projects and overcome procrastination, perfectionism and fear of failure.
-
-### 3. Perfectionism - Desperate for advice : r/MEPEngineering - Reddit
-- **URL:** https://www.reddit.com/r/MEPEngineering/comments/wxhmq1/perfectionism_desperate_for_advice/
-- **Snippet:** I have three recommendations to streamline your workflow: Every project will be different but that doesn't mean your process needs to be. Develop a systematic approach to each project type or project component and follow it religiously.
-
-### 4. I keep overthinking when working on my projects : r ... - Reddit
-- **URL:** https://www.reddit.com/r/learnprogramming/comments/xdojdl/i_keep_overthinking_when_working_on_my_projects/
-- **Snippet:** I was given some advice a few weeks ago to just stop overthinking and while it worked for a few days, it's overwhelmed me again. Sometimes, programming is the only thing that's in my mind and it's hard to take my focus off of it, especially if I'm currently working on a project.
-
-### 5. Any tips on how to beat perfectionism and overthinking?
-- **URL:** https://www.reddit.com/r/Advice/comments/kwfhd9/any_tips_on_how_to_beat_perfectionism_and/
-- **Snippet:** Perfectionism is most likely caused by an internal process, where in an attempt to avoid failure, you strive to achieve perfection, in many activities that you do. While often viewed as a positive trait, when driven to perfection, it can cause low self esteem, depression and procrastination.
+> No Reddit community results captured.
 
 ---
 ## Raw Intelligence Context
 ```text
 === GENERAL WEB CONTEXT ===
-Title: How to Stop Overthinking and Take the First Step
-URL: https://www.diefreestudios.com/studio-notes/perfectionism-overthinking
-Body: Overthinking and perfectionism can keep you stuck before you even begin. Learn how to stop trying to solve every future problem, take the first step, and build momentum through action.
+Title: Measuring AI Value: Effort vs Income Disconnect - LinkedIn
+URL: https://www.linkedin.com/posts/yonman_the-8-software-engineering-metrics-ai-broke-activity-7480912391535280128-8V5a
+Body: As AI adoption matures leader realize a deeper problem: our industry is not very good at measuring the relation between effort and value. We can easily tell how many dollars went into the machine ...
 
-Title: How to Beat Perfectionism and Stop Procrastinating
-URL: https://trygraymatter.com/blogs/science/beat-perfectionism-stop-procrastinating
-Body: Understand why perfectionism causes procrastination and learn evidence-based ways to stop overthinking, overcome analysis paralysis, and build steady progress naturally.
+Title: Outcome Control vs. Effort Control ~ Future of CIO
+URL: https://futureofcio.blogspot.com/2024/10/outcome-control-vs-effort-control.html
+Body: Outcome control is centered around achieving specific results with greater autonomy for agents, while effort control focuses on monitoring the actions taken to achieve those results with closer oversight. Outcome control emphasizes measuring and rewarding the end results of a change initiative.
 
-Title: The Perfectionist's Guide to Managing Overthinking
-URL: https://www.mariancooper.com/post/the-perfectionist-s-guide-to-managing-overthinking
-Body: Takeaway:Perfectionists often get caught in cycles of overthinking, but the habit can be managed. By recognizing how perfectionism fuels rumination, practicing small daily shifts like setting limits on decisions and embracing "good enough," and building long-term habits such as mindfulness or journaling, it's possible to quiet the mental noise and regain clarity.Why Perfectionists ...
+Title: When effort fails: Instances and reasons for effort-performance ...
+URL: https://www.sciencedirect.com/science/article/pii/S0149763426004355
+Body: We highlight how they can account for apparent non-linearities, including trade-offs and plateaus in the effort-performance relationship. This perspective can serve as a transdisciplinary agenda for studying effort-performance dynamics, helping researchers and practitioners to better describe, report, and understand effort-performance (de)coupling.
 
-Title: How to Stop Overthinking and Start Shipping Your Ideas
-URL: https://livingsimplycreative.com/stop-overthinking-start-shipping-ideas/
-Body: Understanding how to stop overthinking and start shipping your ideas revolves largely around this principle: keep moving forward so progress becomes inevitable instead of optional. Conclusion Shifting from cautious perfectionism to bold action-taking is the game changer in overcoming overthinking and start shipping ideas.
+Title: Does effort increase or decrease reward valuation? Considerations from ...
+URL: https://onlinelibrary.wiley.com/doi/full/10.1111/psyp.14536
+Body: Our research integrated two contrasting hypotheses for how effort influences reward valuation. The hypotheses were effort justification and effort discounting. Perceived control (low vs. high) should...
 
-Title: The Psychology of Perfectionism and Overthinking
-URL: https://www.unpluggedpsych.com/the-psychology-of-perfectionism-and-overthinking/
-Body: FAQs What is perfectionism? Perfectionism is a personality trait characterized by setting extremely high standards for oneself and striving for flawlessness. It often involves critical self-evaluation and concerns about others' evaluations. What is overthinking? Overthinking, also known as rumination, is the act of continuously thinking about the same thoughts, often in a negative or ...
+Title: Effort, efficiency, and incentives in economic organizations
+URL: https://www.sciencedirect.com/science/article/pii/0147596782900336
+Body: Specifically, by adding to standard costs the manager's effort cost, defined as the marginal rate of substitution between effort and income (the price of effort) times the quantity of effort supplied, profit maximization becomes synonymous with utility maximization, and the efficiency of competitive markets is regained.
 
 === REDDIT FRICTION CONTEXT ===
-Title: How I avoid perfectionism and overplanning : r/Entrepreneur
-URL: https://www.reddit.com/r/Entrepreneur/comments/14an4cn/how_i_avoid_perfectionism_and_overplanning/
-Body: Timeboxing tasks and avoiding perfectionism prevent me from getting stuck and wasting time on one task. These techniques allow me to increase productivity and make meaningful progress toward my goals without wasting excessive time.
-
-Title: I want to help no-code founders launch their projects and ...
-URL: https://www.reddit.com/r/nocode/comments/uzdsdj/i_want_to_help_nocode_founders_launch_their/
-Body: I want to help no-code founders launch their projects and overcome procrastination, perfectionism and fear of failure.
-
-Title: Perfectionism - Desperate for advice : r/MEPEngineering - Reddit
-URL: https://www.reddit.com/r/MEPEngineering/comments/wxhmq1/perfectionism_desperate_for_advice/
-Body: I have three recommendations to streamline your workflow: Every project will be different but that doesn't mean your process needs to be. Develop a systematic approach to each project type or project component and follow it religiously.
-
-Title: I keep overthinking when working on my projects : r ... - Reddit
-URL: https://www.reddit.com/r/learnprogramming/comments/xdojdl/i_keep_overthinking_when_working_on_my_projects/
-Body: I was given some advice a few weeks ago to just stop overthinking and while it worked for a few days, it's overwhelmed me again. Sometimes, programming is the only thing that's in my mind and it's hard to take my focus off of it, especially if I'm currently working on a project.
-
-Title: Any tips on how to beat perfectionism and overthinking?
-URL: https://www.reddit.com/r/Advice/comments/kwfhd9/any_tips_on_how_to_beat_perfectionism_and/
-Body: Perfectionism is most likely caused by an internal process, where in an attempt to avoid failure, you strive to achieve perfection, in many activities that you do. While often viewed as a positive trait, when driven to perfection, it can cause low self esteem, depression and procrastination.
-
 ```
