@@ -127,3 +127,4 @@
 - Sovereign Null-Steering Architecture — An adaptive cognitive framework that projects absolute zero-gain nulls toward incoming psychological interference while maintaining unattenuated amplification of endogenous command.
 - Sovereign Ergosphere Extraction Architecture — A strategic command framework that harvests and transmutes hostile external momentum along the outermost boundary of consciousness, converting incoming disruption into endogenous kinetic power without compromising the invariant identity core.
 - Sidereal Sovereign Ephemeris — An internal navigation architecture that calculates immutable self-governance trajectories independent of local psychological or environmental turbulence.
+- Sovereign Castrametation Protocol — The operational discipline of rapidly surveying, fortifying, and imposing inviolable administrative order over newly entered mental territory amidst hostile or chaotic psychological environments.
