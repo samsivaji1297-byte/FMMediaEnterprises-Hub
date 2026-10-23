@@ -1,0 +1,33 @@
+{
+    "title": "The Identity Shift",
+    "voiceover_full": "You don't lack discipline. You lack an identity that demands it. Stop trying to force new habits onto an old version of yourself. Decide who you are, and self-mastery ceases to be a struggle.",
+    "scenes": [
+        {
+            "scene_id": 1,
+            "narration": "You don't lack discipline. You lack an identity that demands it.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist silhouette of a man staring into a dark fractured glass reflection, sharp moody rim lighting, ultra-realistic",
+            "text_overlay": "YOU DON'T LACK DISCIPLINE",
+            "image_path": null
+        },
+        {
+            "scene_id": 2,
+            "narration": "Stop trying to force new habits onto an old version of yourself.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist lone figure stepping out of deep shadows into a sharp cold spotlight, volumetric fog, dramatic chiaroscuro",
+            "text_overlay": "KILL THE OLD VERSION",
+            "image_path": null
+        },
+        {
+            "scene_id": 3,
+            "narration": "Decide who you are, and self-mastery ceases to be a struggle.",
+            "visual_prompt": "Cinematic vertical 9:16 high contrast dark aesthetic minimalist extreme close-up of focused intense eyes in deep shadow, subtle amber rim light, perfectly steady gaze",
+            "text_overlay": "DECIDE WHO YOU ARE",
+            "image_path": null
+        }
+    ],
+    "meta": {
+        "run_id": "20261023_1522_identity-self-mastery",
+        "topic": "Identity & Self-Mastery",
+        "theme": "sovereign",
+        "timestamp": "20261023_1522"
+    }
+}
