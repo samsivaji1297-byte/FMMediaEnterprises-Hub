@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261023_090451
+Topic: how to automate business
+Title: Automate Your Business Infrastructure
+Hook: You are bleeding twenty hours weekly running operations manually.
+Voiceover Script: You are bleeding twenty hours weekly running operations manually. Stop working inside the machine. Deploy sovereign automated infrastructure that eliminates repetitive labor and scales your pipeline on pure autopilot. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are bleeding twenty hours weekly running operations manually.
+  Visual Prompt: cyberpunk terminal code matrix dark charcoal screen
+
+Scene 2:
+  Text: You are bleeding twenty hours weekly running operations manually. Stop working inside the machine. Deploy sovereign automated infrastructure that eliminates repetitive labor and scales your pipeline on pure autopilot. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: dark mode automated workflow dashboard analytics neon cyan
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
