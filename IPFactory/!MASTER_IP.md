@@ -130,3 +130,4 @@
 - Sovereign Castrametation Protocol — The operational discipline of rapidly surveying, fortifying, and imposing inviolable administrative order over newly entered mental territory amidst hostile or chaotic psychological environments.
 - Counterscarp Sovereign Citadel — A structural cognitive architecture that absorbs and deflects external psychological siege vectors before they can penetrate the core territory of autonomous self-governance.
 - Sovereign Vitrification Matrix — An identity defense protocol that flash-hardens incoming volatile affect and external psychological shocks into an inert, load-bearing bedrock of internal sovereignty.
+- Sovereign Pomerium Protocol — The inviolable psycho-territorial boundary demarcation that strips incoming external mandates and foreign narratives of all jurisdiction before they can cross into the internal seat of rule.
