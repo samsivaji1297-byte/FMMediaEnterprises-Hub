@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261023_165614
+Topic: how to automate business
+Title: Automate Your Operations in 60 Seconds
+Hook: Hard workers are getting crushed by three automated scripts.
+Voiceover Script: Hard workers are getting crushed by three automated scripts. Stop trading twelve hours a day running tasks by hand. Deploy sovereign infrastructure that handles lead intake, fulfillment, and reporting on pure autopilot. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Hard workers are getting crushed by three automated scripts.
+  Visual Prompt: dark terminal code execution cyberpunk interface
+
+Scene 2:
+  Text: Hard workers are getting crushed by three automated scripts. Stop trading twelve hours a day running tasks by hand. Deploy sovereign infrastructure that handles lead intake, fulfillment, and reporting on pure autopilot. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist obsidian ui analytics data stream
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
