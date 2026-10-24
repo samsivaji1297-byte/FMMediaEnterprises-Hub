@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261024_151735
+Topic: how to automate business
+Title: How to Automate Your Business Operations
+Hook: You're losing twenty hours weekly doing manual busywork.
+Voiceover Script: You're losing twenty hours weekly doing manual busywork. Stop managing operations by hand. Elite founders replace friction with autonomous infrastructure that scales without payroll. Automate your pipeline today. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR to get the direct execution templates.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You're losing twenty hours weekly doing manual busywork.
+  Visual Prompt: dark charcoal minimalist terminal automation script executing
+
+Scene 2:
+  Text: You're losing twenty hours weekly doing manual busywork. Stop managing operations by hand. Elite founders replace friction with autonomous infrastructure that scales without payroll. Automate your pipeline today. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: futuristic obsidian cybernetic analytics dashboard with gold accents
+
+Scene 3:
+  Text: Comment OPERATOR to get the direct execution templates.
+  Visual Prompt: obsidian dashboard gold highlights
+
