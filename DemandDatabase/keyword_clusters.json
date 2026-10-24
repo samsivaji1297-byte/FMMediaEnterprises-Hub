@@ -13,7 +13,7 @@
             "how to automate whatsapp business messages"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-23T09:05:54.460950"
+        "last_scraped": "2026-10-24T08:38:22.243038"
     },
     "ai agents for *": {
         "extracted_intents": [
@@ -29,7 +29,7 @@
             "ai agents for sales"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-23T09:05:54.502629"
+        "last_scraped": "2026-10-24T08:38:22.280733"
     },
     "how to know if ready to *": {
         "extracted_intents": [
@@ -45,7 +45,7 @@
             "how to know if you are about to have diabetes"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-23T09:05:54.556140"
+        "last_scraped": "2026-10-24T08:38:22.329853"
     },
     "stop procrastinating on *": {
         "extracted_intents": [
@@ -61,7 +61,7 @@
             "how to stop.procrastinating on phone"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-23T09:05:54.596762"
+        "last_scraped": "2026-10-24T08:38:22.367932"
     },
     "overcoming fear of starting *": {
         "extracted_intents": [
@@ -77,12 +77,12 @@
             "how to overcome fear of everything"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-23T09:05:54.645326"
+        "last_scraped": "2026-10-24T08:38:22.415341"
     },
     "time management system for entrepreneurs": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-23T09:05:54.682718"
+        "last_scraped": "2026-10-24T08:38:22.451121"
     },
     "when to quit day job for *": {
         "extracted_intents": [
@@ -90,11 +90,11 @@
             "how to quit job after first day"
         ],
         "intent_count": 2,
-        "last_scraped": "2026-10-23T09:05:54.752165"
+        "last_scraped": "2026-10-24T08:38:22.515605"
     },
     "overcoming hesitation to start building": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-23T09:05:54.788661"
+        "last_scraped": "2026-10-24T08:38:22.552289"
     }
 }
