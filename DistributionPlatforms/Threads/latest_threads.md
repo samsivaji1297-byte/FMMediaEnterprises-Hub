@@ -1,31 +1,10 @@
-**Reel Hook:** You were trained to believe sweat equals security. That lie is why you’re exhausted and underpaid.
-**Caption:** The industrial model rewarded hours; the leverage model rewards outcome density. If your income is still tied to your stamina, you don’t have a career—you have an endurance test. Here is why working harder is yielding diminishing returns. 👇
+**Reel Hook:** You aren't afraid of starting a business. You’re addicted to the safety of your own untapped potential.  
+**Reel Caption:** As long as you never launch, you get to live in the fantasy where you *could* be successful if you tried. Launching kills the fantasy. Read this to break the loop ⬇️
 
----
+1/ You’re not procrastinating because you don’t have enough information. You’re procrastinating because as long as your side project stays an "idea," its upside is infinite and your ego is 100% safe. 
 
-**1/4**
-Most people don't suffer from a lack of discipline. They suffer from the Effort-Income Disconnect. 
+2/ The moment you put a price tag on your work, you force reality to grade your competence. That isn't fear of financial failure; it’s terror of market indifference. You'd rather fail by default (never starting) than fail by verdict (shipping to zero sales).
 
-We were indoctrinated to believe in linear return: 
-Input X hours → receive Y compensation. 
+3/ Notice how you replace actual distribution with administrative cosplay: designing logos, tweaking landing page colors, buying LLCs, and reading more books. You are burning calories to simulate progress without risking exposure.
 
-When that equation breaks, our instinct is to double down on input. That is how elite performers burn out inside broken architectures.
-
-**2/4**
-Psychology calls this "Effort Justification"—we assign higher moral value to things that hurt to produce. 
-
-Markets do not care about your pain. 
-
-Markets only price asymmetry. The second leverage (software, distribution, AI) enters an ecosystem, the link between human exertion and economic yield drops to zero.
-
-**3/4**
-There are two ways institutions govern work:
-• Effort Control: Monitoring keystrokes, hours, and visible struggle.
-• Outcome Control: Measuring pure market delta, completely indifferent to how long it took.
-
-If you are managed by Effort Control, your income has a hard biological ceiling: 24 hours in a day.
-
-**4/4**
-Stop confusing stamina with strategy. 
-
-To bridge the gap between effort and income, you must stop selling linear units of your vitality. Decouple your compensation from your calendar, or spend the next decade running full sprint on a stationary bike.
+4/ The cure isn’t "confidence." Confidence is an outcome, not a prerequisite. The cure is shrinking the blast radius: launch something so microscopically small that zero sales doesn’t mean *you* failed—it just means that specific hypothesis was wrong. Separate your identity from the asset.
