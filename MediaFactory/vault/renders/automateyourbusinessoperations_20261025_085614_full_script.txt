@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261025_085614
+Topic: how to automate business
+Title: Automate Your Business Operations
+Hook: You're losing forty hours weekly managing operations manually.
+Voiceover Script: You're losing forty hours weekly managing operations manually. The hardest workers are getting crushed by lean, automated infrastructure. Replace repetitive tasks with autonomous background pipelines and regain your sovereignty. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR to deploy the automated war room architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You're losing forty hours weekly managing operations manually.
+  Visual Prompt: dark cyberpunk terminal dashboard analytics
+
+Scene 2:
+  Text: You're losing forty hours weekly managing operations manually. The hardest workers are getting crushed by lean, automated infrastructure. Replace repetitive tasks with autonomous background pipelines and regain your sovereignty. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist obsidian server interface code stream
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated war room architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
