@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261025_024508
+Topic: how to automate business
+Title: Stop Running Your Business Manually
+Hook: You are losing twenty hours weekly to manual operations.
+Voiceover Script: You are losing twenty hours weekly to manual operations. Hard work will not save a leaking pipeline. Elite operators do not hire bloated teams; they deploy automated infrastructure that scales without friction. Reclaim your sovereignty. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are losing twenty hours weekly to manual operations.
+  Visual Prompt: cyberpunk terminal code glowing cyan charcoal ui
+
+Scene 2:
+  Text: You are losing twenty hours weekly to manual operations. Hard work will not save a leaking pipeline. Elite operators do not hire bloated teams; they deploy automated infrastructure that scales without friction. Reclaim your sovereignty. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: dark obsidian dashboard automated system analytics
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
