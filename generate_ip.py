@@ -41,7 +41,6 @@ def build_prompt(existing_names: list[str]) -> str:
     """Constructs demand-driven, sovereign IP generation prompt."""
     existing_list = "\n".join(f"- {name}" for name in existing_names)
 
-    # Evergreen human demand vectors mapped to operator domains
     demand_vectors = [
         "Wealth Generation & Capital Accumulation (Money, leverage, high-margin asset building)",
         "Sovereign Career & Professional Dominance (Career velocity, negotiating leverage, corporate decoupling)",
@@ -133,7 +132,7 @@ def git_commit(filepath: Path) -> None:
         
         subprocess.run(["git", "add", str(rel_filepath)], check=True)
         subprocess.run(
-            ["git", "commit", -1 if False else ["-m", f"Add demand-driven IP framework to IPLab2: {rel_filepath.name}"]], 
+            ["git", "commit", "-m", f"Add demand-driven IP framework to IPLab2: {rel_filepath.name}"], 
             check=True
         )
         print(f"[Git] Successfully committed {rel_filepath.name}")
