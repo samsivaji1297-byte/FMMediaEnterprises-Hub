@@ -1,0 +1,56 @@
+name: Migrate IPLab1 Archive
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  migrate-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Execute File Movement & Create README
+        run: |
+          python3 -c "
+          from pathlib import Path
+          
+          root = Path('.')
+          ip_factory = root / 'IPFactory'
+          ip_lab_1 = ip_factory / 'IPLab1'
+          
+          # 1. Create IPLab1 directory
+          ip_lab_1.mkdir(parents=True, exist_ok=True)
+          
+          # 2. Move loose .md files into IPLab1 (skip !MASTER_IP.md and subdirectories)
+          moved_count = 0
+          for file_path in ip_factory.glob('*.md'):
+              if file_path.name == '!MASTER_IP.md':
+                  continue
+              
+              dest_path = ip_lab_1 / file_path.name
+              file_path.rename(dest_path)
+              moved_count += 1
+          
+          # 3. Create the archive README.md
+          readme_path = ip_lab_1 / 'README.md'
+          readme_content = '# IPLab1: The Pure Vortex Archive\n\nThese files were created initially in a vortex, without being tied to market demand / human demands desires etc, this was just a pure creation workflow.\n'
+          readme_path.write_text(readme_content, encoding='utf-8')
+          
+          print(f'[Success] Moved {moved_count} files into IPLab1 and generated archive README.')
+          "
+
+      - name: Commit and Push Migration
+        run: |
+          git add IPFactory/
+          git commit -m "Migrate pure-vortex IP files into IPLab1 archive and add README"
+          git push origin HEAD:${{ github.ref_name }}
