@@ -33,7 +33,7 @@ You have been provided raw forum text scraped from high-context communities (Red
 Your Job:
 1. Extract the core HUMAN FRICTION (the unspoken emotional/psychological bottleneck).
 2. Identify the UNDERLYING MECHANISM (why this friction exists, e.g., Decision Fatigue, Effort-Income Disconnect).
-3. Transform this insight into 3 distinct, high-converting assets separated by exact delimitations:
+3. Transform this insight into 3 distinct, high-converting assets separated by exact delimitations, ensuring deep E-E-A-T (first-hand experiential authority, zero-fluff clarity, and high utility):
 
 ===THREADS_START===
 [Insert 3-4 standalone punchy posts designed to be read sequentially on Threads/X. Include a 2-line Reel Hook & Caption at the top.]
