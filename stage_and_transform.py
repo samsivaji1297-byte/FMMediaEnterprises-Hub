@@ -1,6 +1,7 @@
 import os
 import re
 import sys
+import json
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -20,6 +21,7 @@ from config import get_client, call_with_fallback
 RESEARCH_PRIMARY_PATH = PROJECT_ROOT / "ResearchFactory" / "latest_research.md"
 RESEARCH_FALLBACK_PATH = PROJECT_ROOT / "latest_research.md"
 DISTRIBUTION_DIR = PROJECT_ROOT / "DistributionPlatforms"
+HISTORY_FILE = DISTRIBUTION_DIR / "Blogger" / "posted_history.json"
 
 client = get_client()
 
@@ -86,6 +88,25 @@ RAW FORUM DATA PAYLOAD:
 """
 
 
+def get_recent_titles() -> list[str]:
+    """Loads recent titles to prevent repetitive content generation."""
+    if HISTORY_FILE.exists():
+        try:
+            return json.loads(HISTORY_FILE.read_text(encoding="utf-8"))
+        except Exception:
+            return []
+    return []
+
+
+def record_title(title: str):
+    """Saves newly generated title to local history (keeping last 20)."""
+    titles = get_recent_titles()
+    if title not in titles:
+        titles.insert(0, title)
+    HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
+    HISTORY_FILE.write_text(json.dumps(titles[:20], indent=2), encoding="utf-8")
+
+
 def extract_section(content: str, tag_name: str) -> str:
     """Extracts content between explicit delimiters using regex first, falling back to string splitting."""
     pattern = rf"===\s*{tag_name}_START\s*===\s*(.*?)\s*===\s*{tag_name}_END\s*==="
@@ -104,8 +125,17 @@ def extract_section(content: str, tag_name: str) -> str:
 
 
 def generate_recognition_assets(raw_payload: str) -> str:
-    """Executes prompt against model cascade with disabled automatic function calling warnings."""
-    prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload)
+    """Executes prompt against model cascade with anti-duplication blacklist injection."""
+    recent_titles = get_recent_titles()
+    blacklist_str = "\n".join([f"- {t}" for t in recent_titles]) if recent_titles else "None yet."
+
+    uniqueness_instruction = f"""
+CRITICAL UNESCAPABLE CONSTRAINT: 
+You have previously generated the following titles. Do NOT repeat these topics, angles, or phrasing under any circumstances. Pick a completely fresh, distinct psychological angle from the raw payload:
+{blacklist_str}
+"""
+
+    prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload) + "\n\n" + uniqueness_instruction
 
     def _api_func_builder(target_model: str):
         def _api_call():
@@ -140,17 +170,21 @@ def git_commit_assets(saved_paths: list[Path]) -> None:
         rel_paths = [
             str(p.relative_to(PROJECT_ROOT)) for p in saved_paths
         ]
-        subprocess.run(["git", "add"] + rel_paths, check=True)
+        # Include history file in git tracking if updated
+        if HISTORY_FILE.exists():
+            rel_paths.append(str(HISTORY_FILE.relative_to(PROJECT_ROOT)))
+
+        subprocess.run(["git", "add"] + list(set(rel_paths)), check=True)
         subprocess.run(
             [
                 "git",
                 "commit",
                 "-m",
-                f"Stage & transform research assets into {len(saved_paths)} distribution files",
+                f"Stage & transform research assets into {len(saved_paths)} distribution files [skip ci]",
             ],
             check=True,
         )
-        print(f"[Git] Successfully committed {len(saved_paths)} asset file(s)")
+        print(f"[Git] Successfully committed asset file(s) and history log")
     except Exception as e:
         print(f"[Git Warning] Automated commit skipped: {e}")
 
@@ -181,7 +215,14 @@ def process_latest_research():
     substack_content = extract_section(content, "SUBSTACK")
     blogger_content = extract_section(content, "BLOGGER")
 
-    # 4. UTC timestamp matching system standards
+    # 4. Extract generated title from blogger content frontmatter to record in history
+    title_match = re.search(r"title:\s*[\"']([^\"']+)[\"']", blogger_content)
+    if title_match:
+        new_title = title_match.group(1)
+        record_title(new_title)
+        print(f"[Anti-Duplication] Recorded new title to history: '{new_title}'")
+
+    # 5. UTC timestamp matching system standards
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H%M%S")
 
     targets = [
@@ -207,7 +248,7 @@ def process_latest_research():
 
     saved_paths: list[Path] = []
 
-    # 5. Save archive and pointer files
+    # 6. Save archive and pointer files
     for folder_path, timestamped_filename, latest_filename, body in targets:
         folder_path.mkdir(parents=True, exist_ok=True)
 
@@ -221,7 +262,7 @@ def process_latest_research():
         saved_paths.append(latest_file)
         print(f"[+] Updated pointer: {latest_file.relative_to(PROJECT_ROOT)}")
 
-    # 6. Auto-commit output files
+    # 7. Auto-commit output files
     git_commit_assets(saved_paths)
 
 
