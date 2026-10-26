@@ -18,8 +18,16 @@ MASTER_LAB2_FILE = IP_LAB_2_DIR / "!MASTER_IP.md"
 
 client = get_client()
 
-# --- Expanded Evergreen Human Demand Matrix ---
+# --- Expanded Evergreen Human Demand Matrix (Including Idea & Money IPs) ---
 EVERGREEN_DEMAND_MATRIX = [
+    {
+        "category": "Idea Generation & Meta-Cognition (Idea IP)",
+        "focus": "Frictionless ideation systems, pattern recognition, cognitive arbitrage, architectural thinking mechanics"
+    },
+    {
+        "category": "Capital Networks & Monetization Architecture (Money IP)",
+        "focus": "High-margin value capture, leverage loops, automated revenue systems, financial network positioning"
+    },
     {
         "category": "Wealth Generation & Capital Accumulation",
         "focus": "High-margin asset engines, leverage, capital efficiency, financial sovereignty, automated revenue"
