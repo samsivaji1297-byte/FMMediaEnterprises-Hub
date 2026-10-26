@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261026_180650
+Topic: how to automate business
+Title: Automate Your Business Infrastructure
+Hook: You are losing twenty hours weekly managing operations manually.
+Voiceover Script: You are losing twenty hours weekly managing operations manually. While you grind, single Python scripts outperform whole teams. Stop building bloated systems—deploy automated infrastructure today. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR to deploy the automated war room architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You are losing twenty hours weekly managing operations manually.
+  Visual Prompt: dark cyberpunk terminal code UI execution
+
+Scene 2:
+  Text: You are losing twenty hours weekly managing operations manually. While you grind, single Python scripts outperform whole teams. Stop building bloated systems—deploy automated infrastructure today. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard high contrast automation workflow
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated war room architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
