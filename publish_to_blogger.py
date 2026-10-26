@@ -4,6 +4,7 @@ import glob
 import time
 import re
 import yaml
+import json
 from pathlib import Path
 from google.oauth2.credentials import Credentials
 from google.auth.transport.requests import Request
@@ -83,6 +84,31 @@ def clean_html_output(raw_html: str) -> str:
     if match:
         return match.group(1).strip()
     return raw_html
+
+
+def inject_json_ld_schema(title: str, html_body: str) -> str:
+    """Injects Article and FAQPage JSON-LD schema into the HTML payload for GEO/SEO dominance."""
+    schema_script = f'''
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {json.dumps(title)},
+  "author": {{
+    "@type": "Person",
+    "name": "FM Media Enterprises"
+  }},
+  "publisher": {{
+    "@type": "Organization",
+    "name": "FM Media Enterprises"
+  }},
+  "mainEntityOfPage": {{
+    "@type": "WebPage"
+  }}
+}}
+</script>
+'''.strip()
+    return schema_script + "\n" + html_body
 
 
 # ==============================================================================
@@ -215,6 +241,9 @@ def main():
         if not html_content:
             print(f"[!] Skipping {filepath.name} due to transformation failure.\n")
             continue
+
+        # Inject JSON-LD Schema for Search & AI Crawler Dominance
+        html_content = inject_json_ld_schema(title, html_content)
 
         print("[*] Publishing to Blogger...")
         publish_post(service, title, html_content, tags, status)
