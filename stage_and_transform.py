@@ -68,7 +68,7 @@ status: publish
 [Provide actionable, technical, or psychological steps to resolve the bottleneck.]
 
 ---
-*Ready to compress timelines and eliminate operational friction? Secure the **[Operator Mindset Kit](https://gumroad.com)**—the definitive framework for autonomous system building and ruthless execution.*
+*Ready to compress timelines and eliminate operational friction? Secure the **[Operator Mindset Kit](https://fmframeworks.gumroad.com/l/90MProtocol)**—the definitive framework for autonomous system building and ruthless execution.*
 ---
 
 ## Frequently Asked Questions
@@ -80,7 +80,8 @@ A: [Concise, direct answer optimized for FAQ schema extraction.]
 A: [Concise, direct answer detailing system leverage.]
 
 ### Q: Where can I access the complete sovereign operating framework?
-A: [Direct answer linking to the $97 Operator Mindset Kit.]
+A: [Direct answer linking to the $27 Operator Mindset Kit: https://fmframeworks.gumroad.com/l/90MProtocol.]
+
 ===BLOGGER_END===
 
 RAW FORUM DATA PAYLOAD:
