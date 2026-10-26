@@ -212,10 +212,14 @@ def main():
     if target_input.is_file():
         md_files = [target_input]
     else:
-        print(f"[*] Searching for Markdown files in: {target_input}")
-        raw_files = list(target_input.glob("**/*.md")) if target_input.exists() else []
-        # Filter out timestamped archive files to avoid double posting historical runs
-        md_files = [f for f in set(raw_files) if "latest_blogger.md" in f.name or not re.search(r"\d{4}-\d{2}-\d{2}", f.name)]
+        # Strictly target the pointer file to ensure only the latest generated post publishes
+        latest_target = target_input / "latest_blogger.md"
+        if latest_target.is_file():
+            md_files = [latest_target]
+        else:
+            print(f"[*] Searching for Markdown files in: {target_input}")
+            raw_files = list(target_input.glob("**/*.md")) if target_input.exists() else []
+            md_files = [f for f in set(raw_files) if "latest_blogger.md" in f.name]
 
     if not md_files:
         print(f"[!] No Markdown files found for target: {target_input}.")
