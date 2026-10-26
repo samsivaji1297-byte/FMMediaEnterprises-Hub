@@ -1,20 +1,32 @@
-Reel Hook: You aren't burned out because the work is hard. You’re burned out because you're using physical exhaustion as an emotional proxy for progress.
-Caption: The market does not clear on sweat; it clears on systemic leverage. Stop treating perspiration as an asset class. Read the thread below to decouple your outputs from raw exertion.
+**Reel Hook:** Working 80 hours a week isn’t ambition—it’s an architectural failure.  
+**Caption:** If your income still requires your physical presence, you don’t have a career; you have an un-scalable operational bottleneck. Here is how to transition from effort control to sovereign asset velocity. 🧵👇
 
-1/ The market does not care how tired you are. 
+---
 
-The Beatles tracked 'A Hard Day’s Night' in under 15 hours. Boston spent five grueling years engineering 'More Than a Feeling'. Both sold millions of copies. 
+**1/4**  
+The hardest pill to swallow in modern economics:  
+The market does not reward sweat. It rewards leverage.  
 
-Value does not scale with suffering. Perspiration is not an equity stake.
+A 15-hour project can generate $10M in value, while a 5-year grind can produce $0. If your income scales linearly with your hours, you are playing a rigged industrial game designed to keep your margins at zero.
 
-2/ Modern enterprise conditioning relies on "Effort Control"—auditing inputs, clocking digital presence, and rewarding performative fatigue. 
+**2/4**  
+Corporate systems condition you to worship "effort control"—measuring hours logged, emails answered, and visible exhaustion.  
 
-Sovereign operators build around "Outcome Control"—architecting self-executing systems where operational yield has zero mathematical correlation to human physical presence.
+Sovereign operators only care about "outcome control."  
+They don't ask: *"How many hours did this take?"*  
+They ask: *"Does this asset generate compounding yield while the creator is completely disconnected from the machine?"*
 
-3/ When you tether your revenue strictly to your direct exertion, increasing your income requires accelerating your personal rate of biological depreciation. 
+**3/4**  
+When you hit the Effort-Performance Plateau, working harder guarantees burnout.  
+To break out:  
+1. Audit your linear tasks.  
+2. Package your domain logic into programmatic digital assets.  
+3. Decouple your distribution from your personal calendar.  
 
-That is not high performance. That is operational self-cannibalization disguised as ambition.
+Effort without asymmetric leverage is just organized self-sabotage.
 
-4/ If your pipeline cannot run, convert, and settle without your manual intervention for 30 consecutive days, you do not own an operation—you are an indentured technician to your own complexity.
+**4/4**  
+Stop trading your biological lifespan for a linear paycheck.  
+Move your operating model from manual execution to autonomous infrastructure.  
 
-Stop confusing sacrifice with strategy. Replace input-surveillance habits with sovereign asset architecture.
+The blueprint for sovereign systems architecture is right here: https://fmframeworks.gumroad.com/l/90MProtocol
