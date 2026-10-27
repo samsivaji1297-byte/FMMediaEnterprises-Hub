@@ -13,7 +13,7 @@
             "how to automate whatsapp business messages"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-26T09:42:11.440061"
+        "last_scraped": "2026-10-27T09:35:59.207255"
     },
     "ai agents for *": {
         "extracted_intents": [
@@ -29,7 +29,7 @@
             "ai agents for sales"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-26T09:42:11.519685"
+        "last_scraped": "2026-10-27T09:35:59.284853"
     },
     "how to know if ready to *": {
         "extracted_intents": [
@@ -45,7 +45,7 @@
             "how to know if you are about to have diabetes"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-26T09:42:11.619154"
+        "last_scraped": "2026-10-27T09:35:59.385232"
     },
     "stop procrastinating on *": {
         "extracted_intents": [
@@ -61,7 +61,7 @@
             "how to stop.procrastinating on phone"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-26T09:42:11.709387"
+        "last_scraped": "2026-10-27T09:35:59.466190"
     },
     "overcoming fear of starting *": {
         "extracted_intents": [
@@ -77,23 +77,24 @@
             "how to overcome fear of everything"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-26T09:42:11.809079"
+        "last_scraped": "2026-10-27T09:35:59.558553"
     },
     "time management system for entrepreneurs": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-26T09:42:11.892297"
+        "last_scraped": "2026-10-27T09:35:59.649859"
     },
     "when to quit day job for *": {
         "extracted_intents": [
-            "when to quit your job for day trading"
+            "when to quit your job for day trading",
+            "how to quit job after first day"
         ],
-        "intent_count": 1,
-        "last_scraped": "2026-10-26T09:42:12.079854"
+        "intent_count": 2,
+        "last_scraped": "2026-10-27T09:35:59.767217"
     },
     "overcoming hesitation to start building": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-26T09:42:12.165987"
+        "last_scraped": "2026-10-27T09:35:59.852068"
     }
 }
