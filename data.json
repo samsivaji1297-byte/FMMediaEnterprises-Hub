@@ -1,0 +1,137 @@
+[
+  {
+    "slug": "preventing-prompt-decay-in-claude-projects",
+    "category": "AI & Tool Stacks",
+    "vector": "Claude / System Architecture",
+    "target_keyword": "Claude Project Context Collapse Fix",
+    "friction_point": "Prompt Decay and Context Drift in Long-Horizon Claude Projects",
+    "target_audience": "AI Engineers, Content Systems Architects, and Technical Founders",
+    "schema_solution": "The Cognitive Skeleton Protocol"
+  },
+  {
+    "slug": "notion-database-bloat-performance-optimization",
+    "category": "Productivity & Tooling",
+    "vector": "Notion Systems",
+    "target_keyword": "How to fix slow Notion workspace with relations",
+    "friction_point": "Database Recursion and Sluggish Query Performance in Complex Notion Hubs",
+    "target_audience": "Operations Leads, Chief of Staff, and Remote Systems Architects",
+    "schema_solution": "The Headless Data Partition Schema"
+  },
+  {
+    "slug": "managing-invisible-scope-drift-corporate-management",
+    "category": "Corporate Career",
+    "vector": "Career Leverage & Politics",
+    "target_keyword": "Corporate Scope Drift Without Compensation",
+    "friction_point": "Silent Responsibility Accumulation Without Promotion Gates or Salary Realignment",
+    "target_audience": "Senior Managers, Staff Engineers, and Enterprise Leads",
+    "schema_solution": "The Executive Boundary & Audit Protocol"
+  },
+  {
+    "slug": "decision-fatigue-in-high-output-cycles",
+    "category": "Mindset & Performance",
+    "vector": "Mental Models",
+    "target_keyword": "Cognitive Overload in High-Velocity Execution Cycles",
+    "friction_point": "Decision Paralysis and Mental Drift During Peak Execution Sprints",
+    "target_audience": "Solo Founders, High-Output Creators, and Executives",
+    "schema_solution": "The Asymmetric Decision Filter"
+  },
+  {
+    "slug": "zero-headcount-scaling-high-margin-digital-engines",
+    "category": "Money & Leverage",
+    "vector": "Financial Architecture",
+    "target_keyword": "One-Person Business Scaling Without Hiring",
+    "friction_point": "Margin Erosion Caused by Premature Employee Hiring and Contractor Overhead",
+    "target_audience": "Bootstrapped Entrepreneurs and Digital Asset Operators",
+    "schema_solution": "The Multi-Agent Fleet Architecture"
+  },
+  {
+    "slug": "overcoming-imposter-syndrome-in-high-stakes-executive-transitions",
+    "category": "Mindset & Performance",
+    "vector": "Cognitive Framing",
+    "target_keyword": "Executive Imposter Syndrome Senior Leadership Transition",
+    "friction_point": "Cognitive Dissonance and Self-Doubt Following Rapid Senior Authority Expansion",
+    "target_audience": "Newly Promoted VP Level Executives, Technical Directors, and Founders",
+    "schema_solution": "The Authority Anchoring Matrix"
+  },
+  {
+    "slug": "mitigating-algorithmic-dependency-risk-for-solopreneurs",
+    "category": "Money & Leverage",
+    "vector": "Platform De-Risking",
+    "target_keyword": "How to insulate digital business from social algorithm changes",
+    "friction_point": "Revenue Instability and Distribution Collapse Due to Third-Party Platform Shifts",
+    "target_audience": "Digital Product Creators, Independent Consultants, and Media Operators",
+    "schema_solution": "The Sovereign Audience Funnel"
+  },
+  {
+    "slug": "recovering-from-burnout-while-maintaining-corporate-visibility",
+    "category": "Corporate Career",
+    "vector": "Energy & Output Management",
+    "target_keyword": "Corporate Burnout Recovery Without Taking Sabbatical",
+    "friction_point": "Severe Operational Burnout Coupled with the Pressure to Maintain High-Output Perceptions",
+    "target_audience": "Senior Corporate Strategists, Management Consultants, and Tech Leads",
+    "schema_solution": "The Asynchronous Output Shield"
+  },
+  {
+    "slug": "fixing-chatgpt-canvas-system-prompt-overwrites",
+    "category": "AI & Tool Stacks",
+    "vector": "ChatGPT / Custom GPTs",
+    "target_keyword": "ChatGPT Canvas losing formatting and custom instructions",
+    "friction_point": "Instruction Overwrites and Formatting Degradation in Multi-Turn Canvas Sessions",
+    "target_audience": "Prompt Engineers, AI Researchers, and Digital Product Builders",
+    "schema_solution": "The XML Tag Guardrail Framework"
+  },
+  {
+    "slug": "structured-knowledge-extraction-from-unstructured-meeting-transcripts",
+    "category": "Productivity & Tooling",
+    "vector": "Workflow Automation",
+    "target_keyword": "Extract actionable tasks from long Zoom transcripts automatically",
+    "friction_point": "Information Decay and Manual Synthesis Bottlenecks from Executive Meetings",
+    "target_audience": "Project Management Officers, Chiefs of Staff, and Fractional COOs",
+    "schema_solution": "The Signal Refinery Ingestion Pipeline"
+  },
+  {
+    "slug": "negotiating-equity-and-retention-during-corporate-restructuring",
+    "category": "Corporate Career",
+    "vector": "Negotiation & Equity",
+    "target_keyword": "How to negotiate severance or retention bonuses during layoffs",
+    "friction_point": "Information Asymmetry and Vulnerability During Corporate Downsizing and Reorgs",
+    "target_audience": "Director-Level Corporate Professionals and Principal Engineers",
+    "schema_solution": "The Leverage Amplification Framework"
+  },
+  {
+    "slug": "optimizing-gemini-2-5-flash-for-high-throughput-batch-json",
+    "category": "AI & Tool Stacks",
+    "vector": "Gemini API Optimization",
+    "target_keyword": "Gemini API structured JSON output parsing errors fix",
+    "friction_point": "JSON Schema Truncation and Syntax Failures in Large Batch Pipeline Calls",
+    "target_audience": "Full-Stack Developers, Automations Engineers, and SaaS Founders",
+    "schema_solution": "The Pydantic Schema Enforcer"
+  },
+  {
+    "slug": "building-cash-flow-buffer-for-lumpy-consulting-revenue",
+    "category": "Money & Leverage",
+    "vector": "Capital Management",
+    "target_keyword": "Managing irregular income for high-ticket solo consultants",
+    "friction_point": "Capital Inconsistency and Personal Runway Stress Caused by 60-Day Corporate Payment Terms",
+    "target_audience": "High-Ticket B2B Consultants, Fractional Executives, and Agencies",
+    "schema_solution": "The Corporate Retainer Stacking Protocol"
+  },
+  {
+    "slug": "hyper-focused-deep-work-in-open-office-environments",
+    "category": "Mindset & Performance",
+    "vector": "Environment & Focus",
+    "target_keyword": "How to enter deep work state in distracting corporate office",
+    "friction_point": "Constant Context-Switching and Attention Fragmentation in Open-Plan Workspaces",
+    "target_audience": "Software Architects, Data Scientists, and Senior Analysts",
+    "schema_solution": "The Cognitive Isolation Protocol"
+  },
+  {
+    "slug": "converting-notion-workspaces-into-headless-cms-backends",
+    "category": "Productivity & Tooling",
+    "vector": "Headless Architectures",
+    "target_keyword": "Use Notion as headless CMS for static site generator",
+    "friction_point": "API Rate Limits and Rich Text Formatting Degradation When Pulling Notion Data",
+    "target_audience": "Indie Hackers, Static Site Developers, and Content Engineers",
+    "schema_solution": "The Static Markdown Middleware Engine"
+  }
+]
