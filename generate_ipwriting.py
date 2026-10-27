@@ -14,14 +14,14 @@ if str(PROJECT_ROOT) not in sys.path:
 from config import get_client, call_with_fallback
 
 # --- Configuration & Directories ---
-IP_DIR = PROJECT_ROOT / "IPFactory"
-OUTPUT_DIR = PROJECT_ROOT / "WritingFactory" / "IPDriven"
+IP_DIR = PROJECT_ROOT / "IPFactory" / "IPLab2"
+OUTPUT_DIR = PROJECT_ROOT / "WritingFactory" / "IPDriven" / "IPLab2"
 
 client = get_client()
 
 
 def load_ips() -> list[str]:
-    """Scans IPFactory for valid IP framework Markdown files."""
+    """Scans IPFactory/IPLab2 for valid IP framework Markdown files."""
     if not IP_DIR.exists():
         return []
 
@@ -87,7 +87,7 @@ def generate_ip_writing(ip_name: str) -> str:
 
 
 def save_output(ip_name: str, text: str) -> Path:
-    """Saves generated expansion into WritingFactory/IPDriven with Sydney timestamp."""
+    """Saves generated expansion into WritingFactory/IPDriven/IPLab2 with Sydney timestamp."""
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
     # Local Sydney timestamp
@@ -124,7 +124,7 @@ def main():
     
     ips = load_ips()
     if not ips:
-        raise RuntimeError("No valid IP frameworks found in IPFactory.")
+        raise RuntimeError(f"No valid IP frameworks found in {IP_DIR}.")
 
     selected_ip = random.choice(ips)
     print(f"Selected Framework: {selected_ip}")
