@@ -9,7 +9,7 @@ if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
 # Pull centralized config (client initialization & fallback logic)
-from config import get_client, call_with_fallback, GEMINI_MODEL
+from config import get_client, call_with_fallback, GEMINI_MODELS
 
 # --- Configuration & Paths ---
 client = get_client()
@@ -49,12 +49,12 @@ for item in items:
     - Include structured JSON-LD FAQ schema inside <script type="application/ld+json"> in the <head>.
     """
 
-    print(f"Generating page for: {item['slug']} using model {GEMINI_MODEL}...")
+    print(f"Generating page for: {item['slug']} using model {GEMINI_MODELS}...")
     
     try:
         # Utilize your centralized call logic (or direct client call if preferred)
         response = client.models.generate_content(
-            model=GEMINI_MODEL,
+            model=GEMINI_MODELS,
             contents=prompt
         )
         
