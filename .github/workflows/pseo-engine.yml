@@ -1,10 +1,6 @@
 name: Run pSEO Engine & Deploy to Pages
 
 on:
-  push:
-    branches: ["main"]
-  schedule:
-    - cron: "0 0 * * *" # Runs daily at midnight
   workflow_dispatch:
 
 permissions:
