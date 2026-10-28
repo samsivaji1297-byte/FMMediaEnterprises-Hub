@@ -1,4 +1,4 @@
-name: New Niche Engine
+name: New Niche Sam
 
 on:
   workflow_dispatch: # Enables manual trigger button in GitHub browser UI
