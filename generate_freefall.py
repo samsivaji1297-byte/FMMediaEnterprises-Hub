@@ -100,9 +100,14 @@ def save_output(text: str) -> Path:
 
 
 def git_commit(filepath: Path) -> None:
-    """Commits created free-fall asset to local Git tracking using subprocess."""
+    """Commits created free-fall asset to local Git tracking using subprocess with auto-configured identity."""
     try:
         rel_filepath = filepath.relative_to(PROJECT_ROOT)
+        
+        # Ensure local git identity is configured to prevent 'Author identity unknown' errors
+        subprocess.run(["git", "config", "user.name", "github-actions[bot]"], check=True)
+        subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], check=True)
+
         subprocess.run(["git", "add", str(rel_filepath)], check=True)
         subprocess.run(
             ["git", "commit", "-m", f"Add FreeFall writing: {rel_filepath.name}"], 
