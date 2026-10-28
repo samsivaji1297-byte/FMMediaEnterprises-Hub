@@ -6,14 +6,14 @@
             "how to automate business processes with ai",
             "how to automate business in gta 5 online",
             "how to automate business whatsapp",
+            "how to automate business with claude",
             "how to automate business tasks",
             "how to automate businesses in gta 5",
-            "how to automate business with claude",
             "how to automate business development",
-            "how to automate whatsapp business messages"
+            "how to automate business page messenger response"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-27T09:35:59.207255"
+        "last_scraped": "2026-10-28T10:21:08.613867"
     },
     "ai agents for *": {
         "extracted_intents": [
@@ -24,17 +24,17 @@
             "ai agents for marketing",
             "ai agents for trading",
             "ai agents for economic research",
-            "ai agents for free",
             "ai agents forum",
+            "ai agents for free",
             "ai agents for sales"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-27T09:35:59.284853"
+        "last_scraped": "2026-10-28T10:21:08.651767"
     },
     "how to know if ready to *": {
         "extracted_intents": [
-            "how to know when carrots ready to harvest",
             "how to know when potatoes ready to harvest",
+            "how to know when carrots ready to harvest",
             "how to know if your about to be pregnant",
             "how to know when garlic ready to harvest",
             "how to know when onions ready to harvest",
@@ -45,7 +45,7 @@
             "how to know if you are about to have diabetes"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-27T09:35:59.385232"
+        "last_scraped": "2026-10-28T10:21:08.743430"
     },
     "stop procrastinating on *": {
         "extracted_intents": [
@@ -53,21 +53,21 @@
             "stop procrastinating in spanish",
             "stop procrastinating in tagalog",
             "stop procrastinating in 30 days",
-            "stop procrastinating in hindi",
             "stop procrastinating in french",
+            "stop procrastinating in hindi",
             "stop procrastinating in chinese",
             "stop procrastinating work on your art",
             "how to stop procrastinating on homework",
             "how to stop.procrastinating on phone"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-27T09:35:59.466190"
+        "last_scraped": "2026-10-28T10:21:08.781933"
     },
     "overcoming fear of starting *": {
         "extracted_intents": [
             "overcoming fear of starting a business",
             "how to get over fear of starting a new job",
-            "how to get over fear of starting",
+            "how to get over the fear of starting",
             "how to get over the fear of starting something new",
             "how to get over the fear of starting a conversation",
             "how to get over the fear of starting something",
@@ -77,12 +77,12 @@
             "how to overcome fear of everything"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-10-27T09:35:59.558553"
+        "last_scraped": "2026-10-28T10:21:08.829497"
     },
     "time management system for entrepreneurs": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-27T09:35:59.649859"
+        "last_scraped": "2026-10-28T10:21:08.870387"
     },
     "when to quit day job for *": {
         "extracted_intents": [
@@ -90,11 +90,11 @@
             "how to quit job after first day"
         ],
         "intent_count": 2,
-        "last_scraped": "2026-10-27T09:35:59.767217"
+        "last_scraped": "2026-10-28T10:21:08.938370"
     },
     "overcoming hesitation to start building": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-10-27T09:35:59.852068"
+        "last_scraped": "2026-10-28T10:21:08.977991"
     }
 }
