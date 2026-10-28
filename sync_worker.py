@@ -1,8 +1,7 @@
 import os
 from groq import Groq
 
-def test_groq_generation():
-    # Initialize Groq client using your environment secret
+def run_sync_worker():
     api_key = os.getenv("GROQ_API_KEY")
     if not api_key:
         raise ValueError("GROQ_API_KEY environment variable is missing.")
@@ -19,7 +18,7 @@ def test_groq_generation():
     Keep it sharp, clinical, and actionable. No conversational filler or introductory text.
     """
     
-    print("Firing prompt into Groq LPU engine...")
+    print("Executing system synchronization protocol via Groq LPU...")
     
     completion = client.chat.completions.create(
         model="openai/gpt-oss-120b",
@@ -30,9 +29,9 @@ def test_groq_generation():
         temperature=0.7,
     )
     
-    print("\n================ SCRIPT OUTPUT ================\n")
+    print("\n================ SYSTEM OUTPUT ================\n")
     print(completion.choices[0].message.content)
     print("\n===============================================\n")
 
 if __name__ == "__main__":
-    test_groq_generation()
+    run_sync_worker()
