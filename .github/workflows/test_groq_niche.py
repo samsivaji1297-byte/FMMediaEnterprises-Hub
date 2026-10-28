@@ -1,4 +1,4 @@
-name: Test Groq Niche Engine
+name: Run Niche Engine
 
 on:
   workflow_dispatch: # Enables manual trigger button in GitHub browser UI
