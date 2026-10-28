@@ -6,16 +6,27 @@ from google import genai
 from google.genai.errors import APIError
 from groq import Groq
 
-# --- Multi-Provider Fallback Cascade (Gemini Flash + Groq LPU Tiers) ---
-# Tries cutting-edge Gemini flash models first, then falls back to ultra-fast Groq models.
-HYBRID_MODEL_CASCADE = [
-    # Primary Gemini Tier
+# --- Standardized Multi-Provider Cascade Presets ---
+
+# Presets for high-velocity LPU execution first (Fallback to Gemini)
+GROQ_FIRST_CASCADE = [
+    {"provider": "groq", "model": "openai/gpt-oss-120b"},
+    {"provider": "groq", "model": "llama-3.1-8b-instant"},
     {"provider": "gemini", "model": "gemini-3.8-flash"},
     {"provider": "gemini", "model": "gemini-3.6-flash"},
-    # Secondary Groq LPU Tier (Using active production model IDs)
+]
+
+# Presets for Gemini native execution first (Fallback to Groq LPUs)
+GEMINI_FIRST_CASCADE = [
+    {"provider": "gemini", "model": "gemini-3.8-flash"},
+    {"provider": "gemini", "model": "gemini-3.6-flash"},
     {"provider": "groq", "model": "openai/gpt-oss-120b"},
     {"provider": "groq", "model": "llama-3.1-8b-instant"},
 ]
+
+# Default global cascade chain (currently defaulted to GROQ_FIRST_CASCADE for maximum throughput)
+DEFAULT_HYBRID_CASCADE = GROQ_FIRST_CASCADE
+
 
 def get_client() -> genai.Client:
     """Initializes and returns the standardized GenAI Client instance."""
@@ -24,6 +35,7 @@ def get_client() -> genai.Client:
         raise ValueError("GEMINI_API_KEY environment variable is missing.")
     return genai.Client(api_key=api_key)
 
+
 def get_groq_client() -> Groq:
     """Initializes and returns the Groq client instance if key is available."""
     api_key = os.getenv("GROQ_API_KEY")
@@ -31,10 +43,11 @@ def get_groq_client() -> Groq:
         raise ValueError("GROQ_API_KEY environment variable is missing.")
     return Groq(api_key=api_key)
 
+
 def call_with_fallback(
     gemini_api_func_builder: Callable[[str], Callable[[], Any]], 
     groq_api_func_builder: Callable[[str], Callable[[], Any]],
-    model_chain: list[dict] = HYBRID_MODEL_CASCADE,
+    model_chain: list[dict] = DEFAULT_HYBRID_CASCADE,
     max_retries_per_model: int = 3, 
     initial_delay: float = 2.0, 
     backoff_factor: float = 2.0
@@ -42,6 +55,8 @@ def call_with_fallback(
     """
     Executes an API call cascading across different providers and models 
     with exponential backoff and jittered retry logic.
+    
+    Accepts explicit `model_chain` overrides (e.g., GROQ_FIRST_CASCADE or GEMINI_FIRST_CASCADE).
     """
     for tier in model_chain:
         provider = tier["provider"]
@@ -49,13 +64,17 @@ def call_with_fallback(
         
         # Select the correct builder function based on provider
         if provider == "gemini":
+            if not os.getenv("GEMINI_API_KEY"):
+                print(f"[Skipping Gemini Tier {model}] GEMINI_API_KEY environment variable not found.")
+                continue
             api_func = gemini_api_func_builder(model)
+            
         elif provider == "groq":
-            # Safely skip groq tier if key is absent, or try to invoke
             if not os.getenv("GROQ_API_KEY"):
                 print(f"[Skipping Groq Tier {model}] GROQ_API_KEY environment variable not found.")
                 continue
             api_func = groq_api_func_builder(model)
+            
         else:
             continue
 
@@ -66,7 +85,7 @@ def call_with_fallback(
                 return api_func()
             except Exception as e:
                 err_str = str(e).lower()
-                is_rate_limit = "429" in err_str or "resource_exhausted" in err_str or "quota" in err_str or "rate limit" in err_str
+                is_rate_limit = any(term in err_str for term in ["429", "resource_exhausted", "quota", "rate limit"])
                 is_server_error = any(code in err_str for code in ["500", "502", "503", "504", "unavailable", "internal"])
                 
                 if is_rate_limit or is_server_error:
