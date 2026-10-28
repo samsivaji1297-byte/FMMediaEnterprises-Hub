@@ -1,10 +1,12 @@
-name: Test Groq Niche Engine
+name: System Data Sync Worker
 
 on:
-  workflow_dispatch: # Enables manual trigger button in GitHub browser UI
+  schedule:
+    - cron: "0 0 * * *"   # Runs daily (forces GitHub parser to index immediately)
+  workflow_dispatch:      # Allows manual trigger from the browser UI
 
 jobs:
-  run-groq-test:
+  sync-job:
     runs-on: ubuntu-latest
 
     steps:
@@ -19,7 +21,7 @@ jobs:
       - name: Install Dependencies
         run: pip install groq
 
-      - name: Execute Groq Niche Engine
+      - name: Execute Worker Script
         env:
           GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
-        run: python test_groq_niche.py
+        run: python sync_worker.py
