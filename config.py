@@ -12,8 +12,8 @@ HYBRID_MODEL_CASCADE = [
     # Primary Gemini Tier
     {"provider": "gemini", "model": "gemini-3.8-flash"},
     {"provider": "gemini", "model": "gemini-3.6-flash"},
-    # Secondary Groq LPU Tier
-    {"provider": "groq", "model": "llama-3.3-70b-versatile"},
+    # Secondary Groq LPU Tier (Using active production model IDs)
+    {"provider": "groq", "model": "openai/gpt-oss-120b"},
     {"provider": "groq", "model": "llama-3.1-8b-instant"},
 ]
 
