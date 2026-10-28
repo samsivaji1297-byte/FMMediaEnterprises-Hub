@@ -1,0 +1,37 @@
+name: Generate Reel Artifact
+
+on:
+  workflow_dispatch: # Enables manual trigger button in the GitHub browser UI
+
+jobs:
+  generate-reel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pip install groq
+
+      - name: Generate Reel HTML Artifact
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: python generate_reel_artifact.py
+
+      - name: Commit and Push Generated HTML
+        run: |
+          if [[ -n "$(git status --porcelain)" ]]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add groq_reel_test.html
+            git commit -m "Generate new Groq reel artifact HTML"
+            git push
+          else
+            echo "No changes to commit."
+          fi
