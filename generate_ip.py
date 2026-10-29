@@ -9,16 +9,14 @@ PROJECT_ROOT = Path(__file__).resolve().parent
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
-from config import get_client, call_with_fallback
+from config import get_client, get_groq_client, call_with_fallback
 
 # --- Configuration & Paths ---
 IP_FACTORY_DIR = PROJECT_ROOT / "IPFactory"
 IP_LAB_2_DIR = IP_FACTORY_DIR / "IPLab2"
 MASTER_LAB2_FILE = IP_LAB_2_DIR / "!MASTER_IP.md"
 
-client = get_client()
-
-# --- Expanded Evergreen Human Demand Matrix (Including Idea & Money IPs) ---
+# --- Expanded Evergreen Human Demand Matrix ---
 EVERGREEN_DEMAND_MATRIX = [
     {
         "category": "Idea Generation & Meta-Cognition (Idea IP)",
@@ -109,16 +107,17 @@ Rules:
 
 
 def generate_ip(prompt: str) -> str:
-    """Executes prompt against model cascade with disabled automatic function calling warnings."""
-    def _api_func_builder(target_model: str):
+    """Executes prompt against hybrid model cascade (Groq LPU + Gemini Flash)."""
+    def _gemini_func_builder(target_model: str):
         def _api_call():
-            print(f"Requesting demand-driven IP generation using model: {target_model}")
+            gemini_client = get_client()
+            print(f"Requesting demand-driven IP generation via Gemini model: {target_model}")
             
             gen_config = types.GenerateContentConfig(
                 automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
             )
             
-            response = client.models.generate_content(
+            response = gemini_client.models.generate_content(
                 model=target_model,
                 contents=prompt,
                 config=gen_config,
@@ -126,11 +125,30 @@ def generate_ip(prompt: str) -> str:
             return response.text.strip()
         return _api_call
 
-    return call_with_fallback(_api_func_builder)
+    def _groq_func_builder(target_model: str):
+        def _api_call():
+            groq_client = get_groq_client()
+            print(f"Requesting demand-driven IP generation via Groq model: {target_model}")
+            
+            completion = groq_client.chat.completions.create(
+                model=target_model,
+                messages=[
+                    {
+                        "role": "system", 
+                        "content": "You are a ruthless sovereign market strategist and IP framework architect."
+                    },
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.7,
+            )
+            return completion.choices[0].message.content.strip()
+        return _api_call
+
+    return call_with_fallback(_gemini_func_builder, _groq_func_builder)
 
 
 def parse_ip(ip_text: str) -> tuple[str, str]:
-    """Parses raw text returned from Gemini into Name and Definition strings."""
+    """Parses raw text returned from LLM into Name and Definition strings."""
     lines = [line.strip() for line in ip_text.splitlines() if line.strip()]
     
     if lines and "—" in lines[0]:
