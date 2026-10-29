@@ -1,5 +1,4 @@
 import sys
-import subprocess
 import random
 from pathlib import Path
 from google.genai import types
@@ -187,22 +186,6 @@ def update_master_ip(name: str, definition: str, demand_category: str) -> None:
         f.write(entry)
 
 
-def git_commit(filepath: Path) -> None:
-    """Commits created asset and updated master index to git tracking."""
-    try:
-        rel_filepath = filepath.relative_to(PROJECT_ROOT)
-        rel_master = MASTER_LAB2_FILE.relative_to(PROJECT_ROOT)
-        
-        subprocess.run(["git", "add", str(rel_filepath), str(rel_master)], check=True)
-        subprocess.run(
-            ["git", "commit", "-m", f"Add demand-driven IP to IPLab2: {rel_filepath.name}"], 
-            check=True
-        )
-        print(f"[Git] Successfully committed {rel_filepath.name} and !MASTER_IP.md")
-    except Exception as e:
-        print(f"[Git Warning] Automated commit skipped: {e}")
-
-
 # --- Main Engine Loop ---
 if __name__ == "__main__":
     print("Starting Demand-Driven IP Generator for IPLab2...")
@@ -216,8 +199,7 @@ if __name__ == "__main__":
     raw_ip = generate_ip(prompt)
     
     name, definition = parse_ip(raw_ip)
-    filename = save_ip(name, definition, target_demand['category'])
+    save_ip(name, definition, target_demand['category'])
     update_master_ip(name, definition, target_demand['category'])
     
-    git_commit(filename)
     print(f"Successfully generated demand-driven IP: {name}")
