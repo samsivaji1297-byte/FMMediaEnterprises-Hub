@@ -78,8 +78,8 @@ A: [Concise, direct answer optimized for FAQ schema extraction.]
 ### Q: How do autonomous pipelines solve manual content friction?
 A: [Concise, direct answer detailing system leverage.]
 
-### Q: Where can I access the complete sovereign operating framework?
-A: [Direct answer linking to the $97 Operator Mindset Kit: https://fmframeworks.gumroad.com/l/90MProtocol.]
+### Q: Where can I access the sovereign operating framework?
+A: [Direct answer linking to the $27 90-Minute Operating Protocol: https://fmframeworks.gumroad.com/l/90MProtocol.]
 ===BLOGGER_END===
 
 RAW FORUM DATA PAYLOAD:
