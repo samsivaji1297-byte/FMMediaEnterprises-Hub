@@ -15,15 +15,13 @@ if PROJECT_ROOT.name == "scripts":
 if str(PROJECT_ROOT) not in sys.path:
     sys.path.append(str(PROJECT_ROOT))
 
-from config import get_client, call_with_fallback
+from config import get_client, get_groq_client, call_with_fallback
 
 # --- Path Configurations ---
 RESEARCH_PRIMARY_PATH = PROJECT_ROOT / "ResearchFactory" / "latest_research.md"
 RESEARCH_FALLBACK_PATH = PROJECT_ROOT / "latest_research.md"
 DISTRIBUTION_DIR = PROJECT_ROOT / "DistributionPlatforms"
 HISTORY_FILE = DISTRIBUTION_DIR / "Blogger" / "posted_history.json"
-
-client = get_client()
 
 RECOGNITION_EVENT_PROMPT = """
 You are an elite Content Architect and Programmatic SEO Specialist specializing in high-intent organic traffic capture, search intent alignment, and sovereign monetization.
@@ -81,7 +79,7 @@ A: [Concise, direct answer optimized for FAQ schema extraction.]
 A: [Concise, direct answer detailing system leverage.]
 
 ### Q: Where can I access the complete sovereign operating framework?
-A: [Direct answer linking to the $27 Operator Mindset Kit: https://fmframeworks.gumroad.com/l/90MProtocol.]
+A: [Direct answer linking to the $97 Operator Mindset Kit: https://fmframeworks.gumroad.com/l/90MProtocol.]
 ===BLOGGER_END===
 
 RAW FORUM DATA PAYLOAD:
@@ -126,7 +124,7 @@ def extract_section(content: str, tag_name: str) -> str:
 
 
 def generate_recognition_assets(raw_payload: str) -> str:
-    """Executes prompt against model cascade with anti-duplication blacklist injection."""
+    """Executes prompt against hybrid model cascade (Groq LPU + Gemini Flash) with anti-duplication blacklist."""
     recent_titles = get_recent_titles()
     blacklist_str = "\n".join([f"- {t}" for t in recent_titles]) if recent_titles else "None yet."
 
@@ -138,28 +136,45 @@ You have previously generated the following titles. Do NOT repeat these topics, 
 
     prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload) + "\n\n" + uniqueness_instruction
 
-    def _api_func_builder(target_model: str):
+    def _gemini_func_builder(target_model: str):
         def _api_call():
-            print(f"Generating Recognition Event assets using model: {target_model}")
+            gemini_client = get_client()
+            print(f"Generating Recognition Event assets via Gemini model: {target_model}")
 
-            # Suppress SDK warning logs
             gen_config = types.GenerateContentConfig(
                 automatic_function_calling=types.AutomaticFunctionCallingConfig(
                     disable=True
                 )
             )
 
-            response = client.models.generate_content(
+            response = gemini_client.models.generate_content(
                 model=target_model,
                 contents=prompt,
                 config=gen_config,
             )
-
             return response.text.strip()
-
         return _api_call
 
-    return call_with_fallback(_api_func_builder)
+    def _groq_func_builder(target_model: str):
+        def _api_call():
+            groq_client = get_groq_client()
+            print(f"Generating Recognition Event assets via Groq model: {target_model}")
+
+            completion = groq_client.chat.completions.create(
+                model=target_model,
+                messages=[
+                    {
+                        "role": "system",
+                        "content": "You are an elite Content Architect and Programmatic SEO Specialist."
+                    },
+                    {"role": "user", "content": prompt}
+                ],
+                temperature=0.7,
+            )
+            return completion.choices[0].message.content.strip()
+        return _api_call
+
+    return call_with_fallback(_gemini_func_builder, _groq_func_builder)
 
 
 def git_commit_assets(saved_paths: list[Path]) -> None:
@@ -171,7 +186,6 @@ def git_commit_assets(saved_paths: list[Path]) -> None:
         rel_paths = [
             str(p.relative_to(PROJECT_ROOT)) for p in saved_paths
         ]
-        # Include history file in git tracking if updated
         if HISTORY_FILE.exists():
             rel_paths.append(str(HISTORY_FILE.relative_to(PROJECT_ROOT)))
 
@@ -193,7 +207,6 @@ def git_commit_assets(saved_paths: list[Path]) -> None:
 def process_latest_research():
     print("Starting Stage & Transform Engine...")
 
-    # 1. Resolve research payload path
     if RESEARCH_PRIMARY_PATH.exists():
         research_path = RESEARCH_PRIMARY_PATH
     elif RESEARCH_FALLBACK_PATH.exists():
@@ -208,22 +221,18 @@ def process_latest_research():
     )
     raw_payload = research_path.read_text(encoding="utf-8")
 
-    # 2. Generate content via central config.py model cascade
     content = generate_recognition_assets(raw_payload)
 
-    # 3. Extract target sections
     threads_content = extract_section(content, "THREADS")
     substack_content = extract_section(content, "SUBSTACK")
     blogger_content = extract_section(content, "BLOGGER")
 
-    # 4. Extract generated title from blogger content frontmatter to record in history
     title_match = re.search(r"title:\s*[\"']([^\"']+)[\"']", blogger_content)
     if title_match:
         new_title = title_match.group(1)
         record_title(new_title)
         print(f"[Anti-Duplication] Recorded new title to history: '{new_title}'")
 
-    # 5. UTC timestamp matching system standards
     timestamp = datetime.now(timezone.utc).strftime("%Y-%m-%d_%H%M%S")
 
     targets = [
@@ -249,7 +258,6 @@ def process_latest_research():
 
     saved_paths: list[Path] = []
 
-    # 6. Save archive and pointer files
     for folder_path, timestamped_filename, latest_filename, body in targets:
         folder_path.mkdir(parents=True, exist_ok=True)
 
@@ -263,7 +271,6 @@ def process_latest_research():
         saved_paths.append(latest_file)
         print(f"[+] Updated pointer: {latest_file.relative_to(PROJECT_ROOT)}")
 
-    # 7. Auto-commit output files
     git_commit_assets(saved_paths)
 
 
