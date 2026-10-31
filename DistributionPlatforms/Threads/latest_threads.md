@@ -1,21 +1,21 @@
-**Reel Hook:** “Your savings are *not* a death‑sentence. Here’s how to launch without losing a cent.”  
-**Caption:** “Turn catastrophic loss aversion into a launch‑fuel.”
+**Reel Hook:**  
+🚀 *Your side‑hustle is stuck on the launchpad. The hidden “activation energy” is killing your momentum.*  
+**Caption:** *Cut the friction tax in 4 quick moves →*  
 
-**Thread 1️⃣ – The Fear Trap**  
-🧠 Your brain treats a €10k loss like a life‑or‑death event. That’s *loss‑aversion* on steroids. The result? Paralysis.  
-💡 Break the trap: externalize the risk. Put the money in a **sandbox account** you can lose *without* hurting your main net‑worth.
+**Thread 1 – The Invisible Barrier**  
+> Most side‑hustles never get off the ground because the *first‑step cost* isn’t money—it’s mental energy. Email triage, version‑control chaos, and endless budgeting decisions create a hidden “friction tax” that eats 30‑40 % of your potential profit.  
 
-**Thread 2️⃣ – The Sandbox Playbook**  
-1️⃣ Create a **Micro‑Capital Pool** (5‑10 % of savings).  
-2️⃣ Validate with a **$100‑Ad Test** → 10‑day data sprint.  
-3️⃣ If the metric‑threshold isn’t met, you’ve *lost* only the sandbox, not your future.  
+**Thread 2 – Diagnose Your Friction Tax**  
+> Grab a simple spreadsheet and log every non‑revenue task for a week. You’ll see a pattern: repetitive client‑onboarding emails, manual invoice creation, and ad‑hoc content drafts. Quantify the hours → multiply by your hourly rate → that’s your hidden loss.  
 
-**Thread 3️⃣ – Automate the Feedback Loop**  
-⚙️ Use a **Zapier‑style trigger**: ad spend → Google Analytics → Slack alert.  
-🔁 When the KPI falls below 2 % conversion, the system auto‑pauses the spend. No more “what‑ifs.”
+**Thread 3 – Deploy an Automated Workflow**  
+> Plug the loss into a 3‑step system:  
+> 1️⃣ **Capture** – Use a Google Form + Zapier to auto‑collect client briefs.  
+> 2️⃣ **Process** – Route to Notion + Airtable for version control.  
+> 3️⃣ **Pay** – Auto‑invoice with Stripe + QuickBooks.  
+> Result: *90 % reduction in manual steps, 2‑hour weekly time‑save.*  
 
-**Thread 4️⃣ – Deploy the Sovereign Mindset**  
-🚀 Swap *“What if I lose everything?”* for *“What if I keep the sandbox and iterate?”*  
-💥 The result: a launch pipeline that *protects* capital *and* accelerates execution.  
+**Thread 4 – Scale Without Burnout**  
+> With the friction tax eliminated, you can **budget** side‑hustle income in YNAB using the “Earned‑Now, Allocate‑Later” rule. Set a 70/30 split: 70 % reinvest, 30 % personal. Watch confidence rise as control returns.  
 
-**CTA:** Grab the **Operator Mindset Kit** → a 7‑day, zero‑touch risk‑mitigation system. ⬇️ https://fmframeworks.gumroad.com/l/90MProtocol
+💡 *Ready to automate the whole pipeline? Grab the free “Side‑Hustle Friction‑Tax Calculator” in my bio.*
