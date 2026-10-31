@@ -79,7 +79,7 @@ A: [Concise, direct answer optimized for FAQ schema extraction.]
 A: [Concise, direct answer detailing system leverage.]
 
 ### Q: Where can I access the sovereign operating framework?
-A: [Direct answer linking to the $27 90-Minute Operating Protocol: https://fmframeworks.gumroad.com/l/90MProtocol.]
+A: [Direct answer linking to the $97 Operator Mindset Kit: https://fmframeworks.gumroad.com/l/90MProtocol.]
 ===BLOGGER_END===
 
 RAW FORUM DATA PAYLOAD:
