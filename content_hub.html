@@ -20,7 +20,7 @@
   <header class="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 mb-6 border-b border-gray-800 gap-4">
     <div>
       <h1 class="text-2xl font-bold text-white tracking-wide">⚡ SOVEREIGN CONTENT COMMAND HUB</h1>
-      <p class="text-xs text-gray-400 mt-1">Multi-Channel LPU Engine (Groq Direct + $197 Compression System Vectors)</p>
+      <p class="text-xs text-gray-400 mt-1">Multi-Channel LPU Engine (Programmatic SEO + $197 Compression System Vector)</p>
     </div>
     <div class="flex items-center gap-3 w-full md:w-auto">
       <input type="password" id="groqApiKey" placeholder="Enter Groq API Key (gsk_...)" class="bg-gray-900 border border-gray-700 text-xs text-white px-3 py-2 rounded w-full md:w-64 focus:outline-none focus:border-green-500">
@@ -35,7 +35,7 @@
     
     <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-3">
       <div class="text-xs text-gray-500">
-        Engine Preset: <span class="text-green-400 font-mono">GROQ (gpt-oss-120b / llama-3.1-8b)</span>
+        Engine Model: <span class="text-green-400 font-mono">GROQ (openai/gpt-oss-120b)</span>
       </div>
       <button onclick="generateContentBatch()" id="generateBtn" class="btn-primary w-full sm:w-auto px-6 py-2.5 text-sm rounded shadow-lg flex items-center justify-center gap-2">
         <span>🔥 GENERATE FRESH BATCH</span>
@@ -46,11 +46,11 @@
   <!-- Output Grid -->
   <div id="outputContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
 
-    <!-- Medium / Long-Form -->
+    <!-- Medium / Article -->
     <div class="card p-5 flex flex-col justify-between">
       <div>
         <div class="flex justify-between items-center mb-3">
-          <span class="text-xs font-bold text-yellow-400 tracking-wider">MEDIUM / ARTICLE</span>
+          <span class="text-xs font-bold text-yellow-400 tracking-wider">MEDIUM ARTICLE (ZERO HASHTAG syntax)</span>
           <button onclick="copyToClipboard('mediumContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
         </div>
         <div id="mediumContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
@@ -61,7 +61,7 @@
     <div class="card p-5 flex flex-col justify-between">
       <div>
         <div class="flex justify-between items-center mb-3">
-          <span class="text-xs font-bold text-orange-400 tracking-wider">SUBSTACK ESSAY</span>
+          <span class="text-xs font-bold text-orange-400 tracking-wider">SUBSTACK ESSAY (CLEAN MOBILE FORMAT)</span>
           <button onclick="copyToClipboard('substackContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
         </div>
         <div id="substackContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
@@ -93,7 +93,7 @@
     <!-- Blogger SEO Post (Full Width) -->
     <div class="card p-5 md:col-span-2">
       <div class="flex justify-between items-center mb-3">
-        <span class="text-xs font-bold text-green-400 tracking-wider">BLOGGER PROGRAMMATIC SEO (WITH GUMROAD HTML ANCHORS)</span>
+        <span class="text-xs font-bold text-green-400 tracking-wider">BLOGGER PROGRAMMATIC SEO (CLICKABLE HTML GUMROAD ANCHORS)</span>
         <button onclick="copyToClipboard('bloggerContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
       </div>
       <div id="bloggerContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
@@ -102,7 +102,6 @@
   </div>
 
   <script>
-    // Load stored key on start
     document.addEventListener("DOMContentLoaded", () => {
       const savedKey = localStorage.getItem("GROQ_API_KEY");
       if (savedKey) document.getElementById("groqApiKey").value = savedKey;
@@ -123,7 +122,7 @@
         return;
       }
       if (!payload) {
-        alert("Please paste some raw research payload text to generate from.");
+        alert("Please paste raw research payload text.");
         return;
       }
 
@@ -132,42 +131,74 @@
       btn.disabled = true;
 
       const prompt = `
-You are an elite Sovereign Content Architect. Transform this raw research into 5 distinct platform assets.
+You are an elite Content Architect and Programmatic SEO Specialist targeting striking-distance organic search intent, featured snippet ingestion, and sovereign digital product conversion.
 
-MONETIZATION VECTOR TO ANCHOR IN BLOGGER & SUBSTACK:
+MONETIZATION VECTOR:
 Product: Compression System ($197)
-HTML Link: <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>
+Gumroad URL Tag: <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>
+
+FORMATTING LAWS FOR MEDIUM & SUBSTACK:
+- DO NOT use markdown hashtag headers (#, ##, ###). Use clean BOLD UPPERCASE TEXT on its own line for headers instead.
+- DO NOT include social media hashtags (#Productivity, #Systems) anywhere in the body or footer.
+- Write short, punchy paragraphs (2-3 sentences max) separated by blank lines for seamless mobile reading and zero copy-paste editing.
+
+FORMATTING LAWS FOR BLOGGER:
+- Utilize programmatic SEO elements: High-CTR title, H1 repeat, 2-sentence Featured Snippet Executive Summary directly beneath H1, structured Markdown comparison table, FAQ schema block, and bulletproof HTML Gumroad link tags.
 
 ===MEDIUM_START===
-[Insert Medium story-driven article with punchy subheadings]
+[Insert Medium article. Use BOLD UPPERCASE for headers. NO markdown hashtags (#). Short paragraphs. Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
 ===MEDIUM_END===
 
 ===SUBSTACK_START===
-[Insert Substack long-form essay (400-600 words) using clean, simple markdown formatting, short mobile-friendly paragraphs]
+[Insert Substack long-form essay (400-600 words). Use BOLD UPPERCASE for headers. NO markdown hashtags (#). Clean mobile paragraphs. Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
 ===SUBSTACK_END===
 
 ===LINKEDIN_START===
-[Insert LinkedIn post with high executive authority, clear line breaks, zero fluff]
+[Insert LinkedIn post with high executive authority, punchy line breaks, zero fluff]
 ===LINKEDIN_END===
 
 ===THREADS_START===
-[Insert 3-5 sequential posts for X/Threads with Reel Hook]
+[Insert 3-5 sequential posts for X/Threads with Reel Hook & Caption]
 ===THREADS_END===
 
 ===BLOGGER_START===
 ---
-title: "[High-CTR Search Title]"
-tags: [Systems, Product, Execution]
+title: "[Insert High-CTR Long-Tail Search Intent Title]"
+tags: [Productivity, Systems, Sovereign Operator, Execution]
+status: publish
 ---
-# [Title]
-> **Executive Summary:** [2-sentence answer for Google Snippets]
-## Core Mechanism
-## Comparative Breakdown
-## Protocol
+
+# [Repeat Title as H1]
+
+> **Executive Summary:** [2-sentence answer summarizing mechanism and solution for Google Snippets and LLM citation ingestion.]
+
+## The Core Friction & Root Cause
+[Ruthless dissection of conventional systemic failure.]
+
+## Comparative Breakdown: Conventional vs. Sovereign
+| Operational Dimension | Conventional Approach | Sovereign Operator Architecture |
+| :--- | :--- | :--- |
+| **Strategy** | [Traditional method] | [Automated programmatic pipeline] |
+| **Execution** | [Manual friction] | [Zero-touch systems leverage] |
+| **Leverage** | [Linear effort] | [Asymmetric digital asset return] |
+
+## Step-by-Step Execution Protocol
+[Actionable technical protocol.]
+
 ---
-Secure the <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>.
+*Ready to compress timelines and eliminate operational friction? Secure the <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>—the definitive $197 framework for autonomous system building.*
 ---
-## FAQs
+
+## Frequently Asked Questions
+
+### Q: What is the primary bottleneck in conventional execution?
+A: [Concise answer for FAQ snippet extraction.]
+
+### Q: How do autonomous pipelines solve manual friction?
+A: [Concise answer detailing system leverage.]
+
+### Q: Where can I access the complete sovereign operating framework?
+A: [Direct answer linking to the $197 Compression System: <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
 ===BLOGGER_END===
 
 RAW RESEARCH PAYLOAD:
@@ -184,7 +215,7 @@ ${payload}
           body: JSON.stringify({
             model: "openai/gpt-oss-120b",
             messages: [
-              { role: "system", content: "You are an elite programmatic content engine." },
+              { role: "system", content: "You are an elite programmatic SEO and multi-channel content engine." },
               { role: "user", content: prompt }
             ],
             temperature: 0.7
@@ -194,7 +225,6 @@ ${payload}
         const data = await response.json();
         const content = data.choices[0].message.content;
 
-        // Parse and inject outputs
         document.getElementById("mediumContent").innerText = extractSection(content, "MEDIUM");
         document.getElementById("substackContent").innerText = extractSection(content, "SUBSTACK");
         document.getElementById("linkedinContent").innerText = extractSection(content, "LINKEDIN");
