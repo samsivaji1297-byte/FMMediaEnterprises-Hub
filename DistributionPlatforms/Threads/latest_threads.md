@@ -1,27 +1,29 @@
-**Reel Hook & Caption**  
-🚀 *Turn “busy‑work” into zero‑touch profit.*  
-💡 *Your side‑hustle’s hidden bandwidth tax is stealing your earnings – fix it in 4 posts.*  
+**Reel Hook:**  
+🧠 *Your side‑hustle’s biggest enemy isn’t competition – it’s the mental drag of “just‑do‑it” tasks.*  
 
----  
+**Caption:**  
+Turn the hidden “cognitive‑load tax” into a zero‑touch profit engine. 👇
 
-**Post 1️⃣ – The Bandwidth Tax Explained**  
-Your side‑hustle isn’t failing because the idea is bad – it’s because every “quick email” and “file‑version shuffle” adds up to a *mental tax* that costs you hours each week. Think of it as hidden rent on your brain’s limited bandwidth.  
+---
 
----  
+**1️⃣ The hidden tax you can’t see**  
+Every time you open an email, rename a file, or copy a receipt you pay *mental interest*. Freelancers report up to **40 %** of revenue eaten by “admin friction.”  
 
-**Post 2️⃣ – The Decision‑Fatigue Trap**  
-Every time you switch from drafting a pitch to answering a client’s Slack, you reset your focus. Studies show a 20‑30 % drop in productivity after just three context switches. That’s why most side‑hustlers hit a wall after the first month.  
+**2️⃣ Decision‑fatigue is a revenue leak**  
+Your brain has a limited bandwidth for “new ideas.” When it’s busy sorting inboxes, the next big product idea never gets born.  
 
----  
+**3️⃣ Automate the onboarding funnel**  
+✅ Use a Google Form → Zapier → Stripe → Notion pipeline.  
+✅ New client fills the form → payment captured → contract auto‑sent → welcome email fires. No manual clicks.  
 
-**Post 3️⃣ – One‑Click Onboarding Blueprint**  
-Stop building custom spreadsheets. Use a **Zapier‑powered client onboarding flow**: capture lead → auto‑send contract → schedule intro call → create project folder. One click, zero manual steps, 80 % less email noise.  
+**4️⃣ Offload cash‑flow tracking**  
+🔧 Build a “Revenue‑Tracker” sheet that pulls Stripe, PayPal, and bank CSVs via **Zapier** → Google Sheets → daily totals + forecast chart.  
 
----  
+**5️⃣ Kill email fatigue with AI filters**  
+🛡️ Set up Gmail “Smart Labels” + **ChatGPT‑powered** summarizer. Only high‑value threads hit your inbox; the rest land in a “Read‑Later” digest.  
 
-**Post 4️⃣ – The 2‑Minute Email‑Template Hack**  
-Create a 5‑template library (Welcome, Invoice, Follow‑up, Deliverable, Feedback). Pair each with a Gmail “canned response” and a keyboard shortcut. You’ll slash email time from 30 min to 2 min per client.  
+**6️⃣ The payoff**  
+Free 6–8 hours/week, boost focus, and watch side‑hustle revenue climb 30 % in 30 days.  
 
----  
-
-💥 *Implement any one of these and you’ll reclaim 5–10 hours/week – the exact bandwidth you need to finally scale.*
+💡 *Ready to replace mental tax with automated cash flow?*  
+👉 Swipe up for the **Cognitive‑Load Compression System** (only $197).
