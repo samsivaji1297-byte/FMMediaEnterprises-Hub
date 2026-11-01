@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sovereign Operator — Live Content Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    .card { background-color: #161b22; border: 1px solid #30363d; border-radius: 8px; }
+    .btn-primary { background-color: #238636; color: #ffffff; font-weight: 600; }
+    .btn-primary:hover { background-color: #2ea043; }
+    .btn-secondary { background-color: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
+    .btn-secondary:hover { background-color: #30363d; }
+  </style>
+</head>
+<body class="p-4 md:p-8 max-w-7xl mx-auto">
+
+  <!-- Header -->
+  <header class="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 mb-6 border-b border-gray-800 gap-4">
+    <div>
+      <h1 class="text-2xl font-bold text-white tracking-wide">⚡ SOVEREIGN CONTENT COMMAND HUB</h1>
+      <p class="text-xs text-gray-400 mt-1">Multi-Channel LPU Engine (Groq Direct + $197 Compression System Vectors)</p>
+    </div>
+    <div class="flex items-center gap-3 w-full md:w-auto">
+      <input type="password" id="groqApiKey" placeholder="Enter Groq API Key (gsk_...)" class="bg-gray-900 border border-gray-700 text-xs text-white px-3 py-2 rounded w-full md:w-64 focus:outline-none focus:border-green-500">
+      <button onclick="saveApiKey()" class="btn-secondary px-3 py-2 text-xs rounded">Save Key</button>
+    </div>
+  </header>
+
+  <!-- Control & Input Box -->
+  <section class="card p-5 mb-8">
+    <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Raw Research / Forum Data Payload</label>
+    <textarea id="rawPayload" rows="4" class="w-full bg-gray-900 border border-gray-700 text-sm text-gray-200 p-3 rounded focus:outline-none focus:border-green-500 font-mono" placeholder="Paste scraped forum thread, raw notes, or research payload here..."></textarea>
+    
+    <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-3">
+      <div class="text-xs text-gray-500">
+        Engine Preset: <span class="text-green-400 font-mono">GROQ (gpt-oss-120b / llama-3.1-8b)</span>
+      </div>
+      <button onclick="generateContentBatch()" id="generateBtn" class="btn-primary w-full sm:w-auto px-6 py-2.5 text-sm rounded shadow-lg flex items-center justify-center gap-2">
+        <span>🔥 GENERATE FRESH BATCH</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- Output Grid -->
+  <div id="outputContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
+
+    <!-- Medium / Long-Form -->
+    <div class="card p-5 flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-yellow-400 tracking-wider">MEDIUM / ARTICLE</span>
+          <button onclick="copyToClipboard('mediumContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
+        </div>
+        <div id="mediumContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Substack Essay -->
+    <div class="card p-5 flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-orange-400 tracking-wider">SUBSTACK ESSAY</span>
+          <button onclick="copyToClipboard('substackContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
+        </div>
+        <div id="substackContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- LinkedIn Post -->
+    <div class="card p-5 flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-blue-400 tracking-wider">LINKEDIN DISPATCH</span>
+          <button onclick="copyToClipboard('linkedinContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
+        </div>
+        <div id="linkedinContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- X / Threads Thread -->
+    <div class="card p-5 flex flex-col justify-between">
+      <div>
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs font-bold text-purple-400 tracking-wider">X.COM / THREADS</span>
+          <button onclick="copyToClipboard('threadsContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
+        </div>
+        <div id="threadsContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+      </div>
+    </div>
+
+    <!-- Blogger SEO Post (Full Width) -->
+    <div class="card p-5 md:col-span-2">
+      <div class="flex justify-between items-center mb-3">
+        <span class="text-xs font-bold text-green-400 tracking-wider">BLOGGER PROGRAMMATIC SEO (WITH GUMROAD HTML ANCHORS)</span>
+        <button onclick="copyToClipboard('bloggerContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
+      </div>
+      <div id="bloggerContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+    </div>
+
+  </div>
+
+  <script>
+    // Load stored key on start
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedKey = localStorage.getItem("GROQ_API_KEY");
+      if (savedKey) document.getElementById("groqApiKey").value = savedKey;
+    });
+
+    function saveApiKey() {
+      const key = document.getElementById("groqApiKey").value.trim();
+      localStorage.setItem("GROQ_API_KEY", key);
+      alert("Groq API Key saved to local browser storage!");
+    }
+
+    async function generateContentBatch() {
+      const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
+      const payload = document.getElementById("rawPayload").value.trim();
+
+      if (!apiKey) {
+        alert("Please enter your Groq API Key.");
+        return;
+      }
+      if (!payload) {
+        alert("Please paste some raw research payload text to generate from.");
+        return;
+      }
+
+      const btn = document.getElementById("generateBtn");
+      btn.innerText = "⚡ GENERATING BATCH...";
+      btn.disabled = true;
+
+      const prompt = `
+You are an elite Sovereign Content Architect. Transform this raw research into 5 distinct platform assets.
+
+MONETIZATION VECTOR TO ANCHOR IN BLOGGER & SUBSTACK:
+Product: Compression System ($197)
+HTML Link: <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>
+
+===MEDIUM_START===
+[Insert Medium story-driven article with punchy subheadings]
+===MEDIUM_END===
+
+===SUBSTACK_START===
+[Insert Substack long-form essay (400-600 words) using clean, simple markdown formatting, short mobile-friendly paragraphs]
+===SUBSTACK_END===
+
+===LINKEDIN_START===
+[Insert LinkedIn post with high executive authority, clear line breaks, zero fluff]
+===LINKEDIN_END===
+
+===THREADS_START===
+[Insert 3-5 sequential posts for X/Threads with Reel Hook]
+===THREADS_END===
+
+===BLOGGER_START===
+---
+title: "[High-CTR Search Title]"
+tags: [Systems, Product, Execution]
+---
+# [Title]
+> **Executive Summary:** [2-sentence answer for Google Snippets]
+## Core Mechanism
+## Comparative Breakdown
+## Protocol
+---
+Secure the <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>.
+---
+## FAQs
+===BLOGGER_END===
+
+RAW RESEARCH PAYLOAD:
+${payload}
+`;
+
+      try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: "openai/gpt-oss-120b",
+            messages: [
+              { role: "system", content: "You are an elite programmatic content engine." },
+              { role: "user", content: prompt }
+            ],
+            temperature: 0.7
+          })
+        });
+
+        const data = await response.json();
+        const content = data.choices[0].message.content;
+
+        // Parse and inject outputs
+        document.getElementById("mediumContent").innerText = extractSection(content, "MEDIUM");
+        document.getElementById("substackContent").innerText = extractSection(content, "SUBSTACK");
+        document.getElementById("linkedinContent").innerText = extractSection(content, "LINKEDIN");
+        document.getElementById("threadsContent").innerText = extractSection(content, "THREADS");
+        document.getElementById("bloggerContent").innerText = extractSection(content, "BLOGGER");
+
+        document.getElementById("outputContainer").classList.remove("hidden");
+      } catch (err) {
+        alert("Error generating content: " + err.message);
+      } finally {
+        btn.innerText = "🔥 GENERATE FRESH BATCH";
+        btn.disabled = false;
+      }
+    }
+
+    function extractSection(text, tag) {
+      const regex = new RegExp(`===\\s*${tag}_START\\s*===\\s*([\\s\\S]*?)\\s*===\\s*${tag}_END\\s*===`, 'i');
+      const match = text.match(regex);
+      return match ? match[1].trim() : "Section not found.";
+    }
+
+    function copyToClipboard(elementId) {
+      const text = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>
