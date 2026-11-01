@@ -1,31 +1,27 @@
-**🚀 Reel Hook:** *“Your side‑hustle is stealing your sanity – here’s the 3‑step hack to get the control back.”*  
-**Caption:** *Stop the mental tax. Automate. Scale. Sleep.*
+**Reel Hook & Caption**  
+🚀 *Turn “busy‑work” into zero‑touch profit.*  
+💡 *Your side‑hustle’s hidden bandwidth tax is stealing your earnings – fix it in 4 posts.*  
 
----
+---  
 
-**1️⃣ The hidden “friction tax”**  
-Every extra email, file‑version, or budgeting tweak is *mental currency* you’re paying without seeing a return. The brain treats each as a mini‑decision, and decision‑fatigue compounds. 🎯
+**Post 1️⃣ – The Bandwidth Tax Explained**  
+Your side‑hustle isn’t failing because the idea is bad – it’s because every “quick email” and “file‑version shuffle” adds up to a *mental tax* that costs you hours each week. Think of it as hidden rent on your brain’s limited bandwidth.  
 
-**2️⃣ Diagnose the control gap**  
-🔍 Ask yourself: *Which recurring task feels like a black‑hole?*  
-- Client onboarding emails?  
-- Invoicing & expense tracking?  
-- Content‑draft versioning?  
+---  
 
-If you can name it, you can automate it.
+**Post 2️⃣ – The Decision‑Fatigue Trap**  
+Every time you switch from drafting a pitch to answering a client’s Slack, you reset your focus. Studies show a 20‑30 % drop in productivity after just three context switches. That’s why most side‑hustlers hit a wall after the first month.  
 
-**3️⃣ Deploy a zero‑touch pipeline**  
-💡 **Step‑A:** Capture the task in a simple Zapier/Make scenario.  
-💡 **Step‑B:** Connect it to a Google Sheet “budget hub” that auto‑categorises income/expense via regex.  
-💡 **Step‑C:** Trigger a Slack/Telegram alert only when thresholds breach (e.g., >$500 pending invoices).  
+---  
 
-Result: *<5 minutes of daily oversight, 40 % more revenue retained.*  
+**Post 3️⃣ – One‑Click Onboarding Blueprint**  
+Stop building custom spreadsheets. Use a **Zapier‑powered client onboarding flow**: capture lead → auto‑send contract → schedule intro call → create project folder. One click, zero manual steps, 80 % less email noise.  
 
-**4️⃣ Scale without burnout**  
-🛠️ Use a **client‑management template** (download link 👉) that auto‑generates contracts, invoices, and version‑control folders.  
-⏱️ Free up *hours* each week to create, not admin.  
+---  
 
-**5️⃣ Take the next leap**  
-🔗 Grab the **Operator Mindset Kit** – a playbook that turns every friction point into a programmable asset.  
+**Post 4️⃣ – The 2‑Minute Email‑Template Hack**  
+Create a 5‑template library (Welcome, Invoice, Follow‑up, Deliverable, Feedback). Pair each with a Gmail “canned response” and a keyboard shortcut. You’ll slash email time from 30 min to 2 min per client.  
 
-💬 *What’s your biggest “email fatigue” moment? Drop it below and let’s automate it together!*
+---  
+
+💥 *Implement any one of these and you’ll reclaim 5–10 hours/week – the exact bandwidth you need to finally scale.*
