@@ -32,14 +32,14 @@ Your Job:
 1. Extract the core HUMAN FRICTION (the unspoken emotional/psychological bottleneck).
 2. Identify the UNDERLYING MECHANISM (why this friction exists, e.g., Decision Fatigue, Effort-Income Disconnect).
 3. Identify 2-3 high-intent commercial long-tail queries targeting striking-distance organic traffic (e.g., specific framework terms, execution bottlenecks).
-4. Transform this insight into 3 distinct, high-converting assets separated by exact delimitations, ensuring deep E-E-A-T (first-hand experiential authority, zero-fluff clarity, and high utility):
+4. Transform this insight into 3 distinct, high-converting assets separated by exact delimitations:
 
 ===THREADS_START===
 [Insert 3-4 standalone punchy posts designed to be read sequentially on Threads/X. Include a 2-line Reel Hook & Caption at the top.]
 ===THREADS_END===
 
 ===SUBSTACK_START===
-[Insert Substack Long-Form Essay (400-600 words) dissecting the psychological mechanism, titled with a high-agency curiosity hook.]
+[Insert Substack Long-Form Essay (400-600 words) dissecting the psychological mechanism. Keep the formatting basic, clean, and extremely easy to read on mobile. Use short, punchy paragraphs, simple markdown headers, and zero complex tables or bloated syntax so it is effortless to copy and paste directly into Substack.]
 ===SUBSTACK_END===
 
 ===BLOGGER_START===
@@ -67,7 +67,7 @@ status: publish
 [Provide actionable, technical, or psychological steps to resolve the bottleneck.]
 
 ---
-*Ready to compress timelines and eliminate operational friction? Secure the **[Operator Mindset Kit](https://fmframeworks.gumroad.com/l/90MProtocol)**—the definitive framework for autonomous system building and ruthless execution.*
+*Ready to compress timelines and eliminate operational friction? Secure the <a href="https://fmframeworks.gumroad.com/l/90MProtocol" target="_blank" rel="noopener"><strong>Operator Mindset Kit</strong></a>—the definitive framework for autonomous system building and ruthless execution.*
 ---
 
 ## Frequently Asked Questions
@@ -78,8 +78,8 @@ A: [Concise, direct answer optimized for FAQ schema extraction.]
 ### Q: How do autonomous pipelines solve manual content friction?
 A: [Concise, direct answer detailing system leverage.]
 
-### Q: Where can I access the sovereign operating framework?
-A: [Direct answer linking to the $97 Operator Mindset Kit: https://fmframeworks.gumroad.com/l/90MProtocol.]
+### Q: Where can I access the complete sovereign operating framework?
+A: [Direct answer linking to the $97 Operator Mindset Kit: <a href="https://fmframeworks.gumroad.com/l/90MProtocol" target="_blank" rel="noopener">Operator Mindset Kit</a>.]
 ===BLOGGER_END===
 
 RAW FORUM DATA PAYLOAD:
