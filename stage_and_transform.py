@@ -44,7 +44,7 @@ Your Job:
 
 ===BLOGGER_START===
 ---
-title: "[Insert a high-CTR, search-optimized title taring specific long-tail intent]"
+title: "[Insert a high-CTR, search-optimized title targeting specific long-tail intent]"
 tags: [Productivity, Systems, Sovereign Operator, Execution]
 status: publish
 ---
@@ -67,7 +67,7 @@ status: publish
 [Provide actionable, technical, or psychological steps to resolve the bottleneck.]
 
 ---
-*Ready to compress timelines and eliminate operational friction? Secure the <a href="https://fmframeworks.gumroad.com/l/90MProtocol" tar="_blank" rel="noopener"><strong>90-Minute Protocol</strong></a>—the definitive framework for autonomous system building and ruthless execution.*
+*Ready to compress timelines and eliminate operational friction? Secure the <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>—the definitive $197 framework for autonomous system building and ruthless execution.*
 ---
 
 ## Frequently Asked Questions
@@ -79,7 +79,7 @@ A: [Concise, direct answer optimized for FAQ schema extraction.]
 A: [Concise, direct answer detailing system leverage.]
 
 ### Q: Where can I access the complete sovereign operating framework?
-A: [Direct answer linking to the $97 Operator Mindset Kit: <a href="https://fmframeworks.gumroad.com/l/90MProtocol" tar="_blank" rel="noopener">Operator Mindset Kit</a>.]
+A: [Direct answer linking to the $197 Compression System: <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
 ===BLOGGER_END===
 
 RAW FORUM DATA PAYLOAD:
@@ -87,7 +87,7 @@ RAW FORUM DATA PAYLOAD:
 """
 
 
-def _recent_titles() -> list[str]:
+def get_recent_titles() -> list[str]:
     """Loads recent titles to prevent repetitive content generation."""
     if HISTORY_FILE.exists():
         try:
@@ -99,7 +99,7 @@ def _recent_titles() -> list[str]:
 
 def record_title(title: str):
     """Saves newly generated title to local history (keeping last 20)."""
-    titles = _recent_titles()
+    titles = get_recent_titles()
     if title not in titles:
         titles.insert(0, title)
     HISTORY_FILE.parent.mkdir(parents=True, exist_ok=True)
@@ -125,7 +125,7 @@ def extract_section(content: str, tag_name: str) -> str:
 
 def generate_recognition_assets(raw_payload: str) -> str:
     """Executes prompt against hybrid model cascade (Groq LPU + Gemini Flash) with anti-duplication blacklist."""
-    recent_titles = _recent_titles()
+    recent_titles = get_recent_titles()
     blacklist_str = "\n".join([f"- {t}" for t in recent_titles]) if recent_titles else "None yet."
 
     uniqueness_instruction = f"""
@@ -136,9 +136,9 @@ You have previously generated the following titles. Do NOT repeat these topics, 
 
     prompt = RECOGNITION_EVENT_PROMPT.format(raw_data_payload=raw_payload) + "\n\n" + uniqueness_instruction
 
-    def _gemini_func_builder(tar_model: str):
+    def _gemini_func_builder(target_model: str):
         def _api_call():
-            gemini_client = _client()
+            gemini_client = get_client()
             print(f"Generating Recognition Event assets via Gemini model: {target_model}")
 
             gen_config = types.GenerateContentConfig(
