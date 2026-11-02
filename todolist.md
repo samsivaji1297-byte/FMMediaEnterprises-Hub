@@ -5,3 +5,9 @@
 - Setup of Autonomous Data farm / factory inside of GitHub with Gemini API / data company, this goes for software company as well
 - IG Territory / Audience Growth Hub, and the 3-4 sections of IG to target, with Gemini API doing its thing of executing moves for said sections
 - Setup of YouTube production studio inside of GitHub
+- Daily Dossier + Voice Output of Said Dossier
+- Implement more LLM APIs into GitHub and offload light weight Gemini Content Creation Engines API to other LLMS
+- Autonomous Capability Engine (Gemini Chat)
+- Gemini API is the 2nd Brain / Orchestrator, open source is the muscle
+- Check CoPilot Chat - Innovations: Gemini SEO Engines and Gemini Documentation Engines
+- GitHub - Gemini - Blogger Platform Workflow Pipeline - Setup Autonomous Business Engine pipeline for Autonomous Business
