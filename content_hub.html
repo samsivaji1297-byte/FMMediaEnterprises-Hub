@@ -20,7 +20,8 @@
       --badge-bg: #1f6feb;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 16px; max-width: 800px; margin: 0 auto; }
+    body { background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 16px; min-height: 100vh; }
+    .main-wrapper { max-width: 1000px; margin: 0 auto; width: 100%; }
     header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
     h1 { font-size: 1.25rem; color: var(--text-heading); letter-spacing: -0.5px; }
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
@@ -35,98 +36,126 @@
     .btn-secondary:hover { background: var(--secondary-hover); }
     .btn-x { background: #1d9bf0; color: #fff; }
     .btn-x:hover { background: #1a8cd8; }
-    .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; background: var(--card-bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
-    .tab-btn { flex: 1; padding: 8px 12px; background: transparent; border: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
+    .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; background: var(--card-bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); flex-wrap: wrap; }
+    .tab-btn { flex: 1; min-width: 120px; padding: 8px 12px; background: transparent; border: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
     .tab-btn.active { background: var(--secondary); color: var(--text-heading); border: 1px solid var(--border); }
-    .content-box { font-size: 0.85rem; line-height: 1.5; color: var(--text); white-space: pre-wrap; font-family: monospace; background: var(--secondary); padding: 12px; border-radius: 6px; border: 1px solid var(--border); max-height: 400px; overflow-y: auto; margin-top: 8px; }
+    .content-box { font-size: 0.85rem; line-height: 1.5; color: var(--text); white-space: pre-wrap; font-family: monospace; background: var(--secondary); padding: 12px; border-radius: 6px; border: 1px solid var(--border); max-height: 450px; overflow-y: auto; margin-top: 8px; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
-  <header>
-    <h1>⚡ COMMANDHUB OS</h1>
-    <div style="display: flex; gap: 8px; align-items: center;">
-      <input type="password" id="groqApiKey" placeholder="Groq API Key (gsk_...)" style="width: 160px;">
-      <button onclick="saveApiKey()" class="btn btn-secondary" style="padding: 6px 10px; font-size: 0.75rem;">Save Key</button>
-    </div>
-  </header>
-
-  <!-- Universal Signal Capture -->
-  <section class="card">
-    <label for="rawPayload">
-      <span>Universal Signal Ingestion Payload</span>
-      <span style="color: var(--muted); font-weight: normal; font-size: 0.75rem;">Groq LPU Engine (openai/gpt-oss-120b)</span>
-    </label>
-    <textarea id="rawPayload" placeholder="Paste raw research, forum thread, or mental dump here..."></textarea>
-    
-    <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
-      <button onclick="generateContentBatch()" id="generateBtn" class="btn btn-primary" style="flex: 1;">🔥 Generate Multi-Channel Batch</button>
-      <button onclick="generateXHighIntentThread()" id="generateXBtn" class="btn btn-x" style="flex: 1;">🎯 X/Threads $197 Teardown</button>
-    </div>
-  </section>
-
-  <!-- Navigation Tabs -->
-  <div class="tab-bar">
-    <button id="tab-batch" class="tab-btn active" onclick="switchTab('batch')">Multi-Channel Outputs</button>
-    <button id="tab-x" class="tab-btn" onclick="switchTab('x')">X/Threads Teardowns</button>
-  </div>
-
-  <!-- Tab Content: Multi-Channel Batch -->
-  <div id="section-batch" class="deck-container">
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.8rem; font-weight: bold; color: #e3b341;">MEDIUM ARTICLE (ZERO HASHTAGS)</span>
-        <button onclick="copyToClipboard('mediumContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+  <div class="main-wrapper">
+    <!-- Header -->
+    <header>
+      <div>
+        <h1>⚡ COMMANDHUB OS</h1>
+        <div style="font-size: 0.75rem; color: var(--muted);" id="repo-status">Status: Autonomous Mode Ready</div>
       </div>
-      <div id="mediumContent" class="content-box">Awaiting generation batch...</div>
+      <div style="display: flex; gap: 8px; align-items: center;">
+        <input type="password" id="groqApiKey" placeholder="Groq API Key (gsk_...)" style="width: 160px;">
+        <button onclick="saveApiKey()" class="btn btn-secondary" style="padding: 6px 10px; font-size: 0.75rem;">Save Key</button>
+      </div>
+    </header>
+
+    <!-- Universal Signal Capture -->
+    <section class="card">
+      <label for="rawPayload">
+        <span>Universal Signal Ingestion Payload</span>
+        <span style="color: var(--muted); font-weight: normal; font-size: 0.75rem;">Groq LPU Engine (openai/gpt-oss-120b)</span>
+      </label>
+      <textarea id="rawPayload" placeholder="Paste raw research, forum thread, or mental dump here..."></textarea>
+      
+      <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+        <button onclick="generateContentBatch()" id="generateBtn" class="btn btn-primary" style="flex: 1; min-width: 200px;">🔥 Generate Multi-Channel Batch</button>
+        <button onclick="generateXHighIntentThread()" id="generateXBtn" class="btn btn-x" style="flex: 1; min-width: 200px;">🎯 X/Threads $197 Teardown</button>
+      </div>
+    </section>
+
+    <!-- Navigation Tabs -->
+    <div class="tab-bar">
+      <button id="tab-batch" class="tab-btn active" onclick="switchTab('batch')">Multi-Channel Outputs</button>
+      <button id="tab-x" class="tab-btn" onclick="switchTab('x')">X/Threads Teardowns</button>
+      <button id="tab-repo" class="tab-btn" onclick="switchTab('repo')">Repo File Viewer</button>
     </div>
 
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.8rem; font-weight: bold; color: #f0883e;">SUBSTACK ESSAY (CLEAN MOBILE FORMAT)</span>
-        <button onclick="copyToClipboard('substackContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+    <!-- Tab Content: Multi-Channel Batch -->
+    <div id="section-batch" class="deck-container">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #e3b341;">MEDIUM ARTICLE (ZERO HASHTAGS)</span>
+          <button onclick="copyToClipboard('mediumContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+        </div>
+        <div id="mediumContent" class="content-box">Awaiting generation batch...</div>
       </div>
-      <div id="substackContent" class="content-box">Awaiting generation batch...</div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #f0883e;">SUBSTACK ESSAY (CLEAN MOBILE FORMAT)</span>
+          <button onclick="copyToClipboard('substackContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+        </div>
+        <div id="substackContent" class="content-box">Awaiting generation batch...</div>
+      </div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #58a6ff;">LINKEDIN DISPATCH</span>
+          <button onclick="copyToClipboard('linkedinContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+        </div>
+        <div id="linkedinContent" class="content-box">Awaiting generation batch...</div>
+      </div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #bc8cff;">X.COM / THREADS (STANDARD)</span>
+          <button onclick="copyToClipboard('threadsContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+        </div>
+        <div id="threadsContent" class="content-box">Awaiting generation batch...</div>
+      </div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #3fb950;">BLOGGER PROGRAMMATIC SEO (HTML ANCHORS)</span>
+          <button onclick="copyToClipboard('bloggerContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+        </div>
+        <div id="bloggerContent" class="content-box">Awaiting generation batch...</div>
+      </div>
     </div>
 
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.8rem; font-weight: bold; color: #58a6ff;">LINKEDIN DISPATCH</span>
-        <button onclick="copyToClipboard('linkedinContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+    <!-- Tab Content: X / Threads Teardown -->
+    <div id="section-x" class="deck-container" style="display: none;">
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-INTENT SALES TEARDOWN ($197 VECTOR)</span>
+          <button onclick="copyToClipboard('xDedicatedContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+        </div>
+        <div id="xDedicatedContent" class="content-box">Awaiting high-intent teardown generation...</div>
       </div>
-      <div id="linkedinContent" class="content-box">Awaiting generation batch...</div>
     </div>
 
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.8rem; font-weight: bold; color: #bc8cff;">X.COM / THREADS (STANDARD)</span>
-        <button onclick="copyToClipboard('threadsContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+    <!-- Tab Content: Static Repo File Viewer -->
+    <div id="section-repo" class="deck-container" style="display: none;">
+      <div class="card">
+        <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+          <button class="btn btn-secondary" style="flex:1;" onclick="fetchRepoAsset('Substack')">Substack Asset</button>
+          <button class="btn btn-secondary" style="flex:1;" onclick="fetchRepoAsset('Threads')">Threads Asset</button>
+          <button class="btn btn-secondary" style="flex:1;" onclick="fetchRepoAsset('Blogger')">Blogger Asset</button>
+        </div>
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #38bdf8;" id="repo-platform-tag">SELECT REPO ASSET</span>
+          <button onclick="copyToClipboard('repoAssetBody')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy File</button>
+        </div>
+        <div id="repoAssetBody" class="content-box">Select a platform above to fetch the latest compiled markdown asset directly from your repository...</div>
       </div>
-      <div id="threadsContent" class="content-box">Awaiting generation batch...</div>
-    </div>
-
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.8rem; font-weight: bold; color: #3fb950;">BLOGGER PROGRAMMATIC SEO (HTML ANCHORS)</span>
-        <button onclick="copyToClipboard('bloggerContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
-      </div>
-      <div id="bloggerContent" class="content-box">Awaiting generation batch...</div>
-    </div>
-  </div>
-
-  <!-- Tab Content: X / Threads Teardown -->
-  <div id="section-x" class="deck-container" style="display: none;">
-    <div class="card">
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <span style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-INTENT SALES TEARDOWN ($197 VECTOR)</span>
-        <button onclick="copyToClipboard('xDedicatedContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
-      </div>
-      <div id="xDedicatedContent" class="content-box">Awaiting high-intent teardown generation...</div>
     </div>
   </div>
 
   <script>
+    const relativePaths = {
+      'Substack': './Substack/latest_substack.md',
+      'Threads': './Threads/latest_threads.md',
+      'Blogger': './Blogger/latest_blogger.md'
+    };
+
     document.addEventListener("DOMContentLoaded", () => {
       const savedKey = localStorage.getItem("GROQ_API_KEY");
       if (savedKey) document.getElementById("groqApiKey").value = savedKey;
@@ -141,15 +170,41 @@
     function switchTab(tabName) {
       document.getElementById('tab-batch').classList.remove('active');
       document.getElementById('tab-x').classList.remove('active');
+      document.getElementById('tab-repo').classList.remove('active');
+      
       document.getElementById('section-batch').style.display = 'none';
       document.getElementById('section-x').style.display = 'none';
+      document.getElementById('section-repo').style.display = 'none';
 
       if (tabName === 'batch') {
         document.getElementById('tab-batch').classList.add('active');
         document.getElementById('section-batch').style.display = 'block';
-      } else {
+      } else if (tabName === 'x') {
         document.getElementById('tab-x').classList.add('active');
         document.getElementById('section-x').style.display = 'block';
+      } else if (tabName === 'repo') {
+        document.getElementById('tab-repo').classList.add('active');
+        document.getElementById('section-repo').style.display = 'block';
+        fetchRepoAsset('Substack');
+      }
+    }
+
+    async function fetchRepoAsset(platform) {
+      const display = document.getElementById('repoAssetBody');
+      const tag = document.getElementById('repo-platform-tag');
+      display.textContent = `Fetching latest ${platform} asset from repository...`;
+      tag.textContent = platform.toUpperCase() + " (REPO FILE)";
+
+      const fileUrl = `${relativePaths[platform]}?t=${new Date().getTime()}`;
+
+      try {
+        const response = await fetch(fileUrl);
+        if (!response.ok) throw new Error("Asset file not found in directory.");
+        const text = await response.text();
+        display.textContent = text;
+        document.getElementById('repo-status').textContent = `Fetched ${platform}: ${new Date().toLocaleTimeString()}`;
+      } catch (err) {
+        display.textContent = `Error: ${err.message}. (Verify file exists at ${relativePaths[platform]})`;
       }
     }
 
@@ -245,7 +300,7 @@ ${payload}
           headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
           body: JSON.stringify({ model: "openai/gpt-oss-120b", messages: [{ role: "user", content: prompt }], temperature: 0.7 })
         });
-        const data = json = await res.json();
+        const data = await res.json();
         const content = data.choices[0].message.content;
 
         document.getElementById("mediumContent").innerText = extractSection(content, "MEDIUM");
