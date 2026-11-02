@@ -1,0 +1,2 @@
+- Canva Reel Design Update and Upgrade (Get faceless reels developed), Get AE (After effects) type reels developed
+- Setup Gemini API Calls inside of GitHub - Voice transcribe (both ways) inputs and outputs
