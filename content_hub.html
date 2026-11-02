@@ -2,122 +2,128 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sovereign Operator — Live Content Hub</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Sovereign CommandHub OS</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { background-color: #0d1117; color: #c9d1d9; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
-    .card { background-color: #161b22; border: 1px solid #30363d; border-radius: 8px; }
-    .btn-primary { background-color: #238636; color: #ffffff; font-weight: 600; }
-    .btn-primary:hover { background-color: #2ea043; }
-    .btn-secondary { background-color: #21262d; border: 1px solid #30363d; color: #c9d1d9; }
-    .btn-secondary:hover { background-color: #30363d; }
-    .btn-x { background-color: #1d9bf0; color: #ffffff; font-weight: 600; }
-    .btn-x:hover { background-color: #1a8cd8; }
+    :root {
+      --bg: #0d1117;
+      --card-bg: #161b22;
+      --border: #30363d;
+      --text: #c9d1d9;
+      --text-heading: #f0f6fc;
+      --accent: #238636;
+      --accent-hover: #2ea043;
+      --secondary: #21262d;
+      --secondary-hover: #30363d;
+      --muted: #8b949e;
+      --badge-bg: #1f6feb;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 16px; max-width: 800px; margin: 0 auto; }
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+    h1 { font-size: 1.25rem; color: var(--text-heading); letter-spacing: -0.5px; }
+    .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
+    .card label { font-size: 0.85rem; font-weight: 600; color: var(--text-heading); display: flex; justify-content: space-between; margin-bottom: 8px; }
+    textarea { width: 100%; height: 100px; background: var(--secondary); border: 1px solid var(--border); color: var(--text-heading); border-radius: 6px; padding: 10px; font-family: inherit; font-size: 0.9rem; resize: vertical; }
+    textarea:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
+    input[type="password"] { background: var(--secondary); border: 1px solid var(--border); color: var(--text-heading); padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; }
+    .btn { padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; border: 1px solid transparent; text-align: center; }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-secondary { background: var(--secondary); color: var(--text); border-color: var(--border); }
+    .btn-secondary:hover { background: var(--secondary-hover); }
+    .btn-x { background: #1d9bf0; color: #fff; }
+    .btn-x:hover { background: #1a8cd8; }
+    .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; background: var(--card-bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); }
+    .tab-btn { flex: 1; padding: 8px 12px; background: transparent; border: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
+    .tab-btn.active { background: var(--secondary); color: var(--text-heading); border: 1px solid var(--border); }
+    .content-box { font-size: 0.85rem; line-height: 1.5; color: var(--text); white-space: pre-wrap; font-family: monospace; background: var(--secondary); padding: 12px; border-radius: 6px; border: 1px solid var(--border); max-height: 400px; overflow-y: auto; margin-top: 8px; }
   </style>
 </head>
-<body class="p-4 md:p-8 max-w-7xl mx-auto">
+<body>
 
   <!-- Header -->
-  <header class="flex flex-col md:flex-row justify-between items-start md:items-center pb-6 mb-6 border-b border-gray-800 gap-4">
-    <div>
-      <h1 class="text-2xl font-bold text-white tracking-wide">⚡ SOVEREIGN CONTENT COMMAND HUB</h1>
-      <p class="text-xs text-gray-400 mt-1">Multi-Channel LPU Engine (Programmatic SEO + High-Ticket $197 Conversion Vectors)</p>
-    </div>
-    <div class="flex items-center gap-3 w-full md:w-auto">
-      <input type="password" id="groqApiKey" placeholder="Enter Groq API Key (gsk_...)" class="bg-gray-900 border border-gray-700 text-xs text-white px-3 py-2 rounded w-full md:w-64 focus:outline-none focus:border-green-500">
-      <button onclick="saveApiKey()" class="btn-secondary px-3 py-2 text-xs rounded">Save Key</button>
+  <header>
+    <h1>⚡ COMMANDHUB OS</h1>
+    <div style="display: flex; gap: 8px; align-items: center;">
+      <input type="password" id="groqApiKey" placeholder="Groq API Key (gsk_...)" style="width: 160px;">
+      <button onclick="saveApiKey()" class="btn btn-secondary" style="padding: 6px 10px; font-size: 0.75rem;">Save Key</button>
     </div>
   </header>
 
-  <!-- Global Input Box -->
-  <section class="card p-5 mb-8">
-    <label class="block text-xs font-semibold text-gray-400 mb-2 uppercase tracking-wider">Raw Research / Forum Data Payload</label>
-    <textarea id="rawPayload" rows="4" class="w-full bg-gray-900 border border-gray-700 text-sm text-gray-200 p-3 rounded focus:outline-none focus:border-green-500 font-mono" placeholder="Paste scraped forum thread, raw notes, or research payload here..."></textarea>
+  <!-- Universal Signal Capture -->
+  <section class="card">
+    <label for="rawPayload">
+      <span>Universal Signal Ingestion Payload</span>
+      <span style="color: var(--muted); font-weight: normal; font-size: 0.75rem;">Groq LPU Engine (openai/gpt-oss-120b)</span>
+    </label>
+    <textarea id="rawPayload" placeholder="Paste raw research, forum thread, or mental dump here..."></textarea>
     
-    <div class="flex flex-col sm:flex-row justify-between items-center mt-4 gap-3">
-      <div class="text-xs text-gray-500">
-        Engine Model: <span class="text-green-400 font-mono">GROQ (openai/gpt-oss-120b)</span>
-      </div>
-      <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-        <button onclick="generateXHighIntentThread()" id="generateXBtn" class="btn-x w-full sm:w-auto px-5 py-2.5 text-sm rounded shadow-lg flex items-center justify-center gap-2">
-          <span>🎯 X/THREADS $197 TEARDOWN</span>
-        </button>
-        <button onclick="generateContentBatch()" id="generateBtn" class="btn-primary w-full sm:w-auto px-6 py-2.5 text-sm rounded shadow-lg flex items-center justify-center gap-2">
-          <span>🔥 FULL MULTI-CHANNEL BATCH</span>
-        </button>
-      </div>
+    <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+      <button onclick="generateContentBatch()" id="generateBtn" class="btn btn-primary" style="flex: 1;">🔥 Generate Multi-Channel Batch</button>
+      <button onclick="generateXHighIntentThread()" id="generateXBtn" class="btn btn-x" style="flex: 1;">🎯 X/Threads $197 Teardown</button>
     </div>
   </section>
 
-  <!-- DEDICATED HUB SECTION: X / THREADS HIGH-INTENT ENGINE -->
-  <section id="xEngineSection" class="card p-5 mb-8 border-blue-500/40 hidden">
-    <div class="flex justify-between items-center mb-3">
-      <div>
-        <span class="text-xs font-bold text-blue-400 tracking-wider">⚡ X.COM & THREADS HIGH-INTENT SALES TEARDOWN ENGINE ($197 VECTOR)</span>
-        <p class="text-[11px] text-gray-400 mt-0.5">Zero markdown, zero hashtags. Optimized for native X/Threads paste.</p>
-      </div>
-      <button onclick="copyToClipboard('xDedicatedContent')" class="btn-secondary text-xs px-3 py-1.5 rounded flex items-center gap-1">📋 Copy Teardown</button>
-    </div>
-    <div id="xDedicatedContent" class="text-xs text-gray-200 whitespace-pre-wrap font-mono bg-gray-900 p-4 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
-  </section>
+  <!-- Navigation Tabs -->
+  <div class="tab-bar">
+    <button id="tab-batch" class="tab-btn active" onclick="switchTab('batch')">Multi-Channel Outputs</button>
+    <button id="tab-x" class="tab-btn" onclick="switchTab('x')">X/Threads Teardowns</button>
+  </div>
 
-  <!-- Standard Multi-Channel Output Grid -->
-  <div id="outputContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6 hidden">
-
-    <!-- Medium / Article -->
-    <div class="card p-5 flex flex-col justify-between">
-      <div>
-        <div class="flex justify-between items-center mb-3">
-          <span class="text-xs font-bold text-yellow-400 tracking-wider">MEDIUM ARTICLE (ZERO HASHTAG SYNTAX)</span>
-          <button onclick="copyToClipboard('mediumContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
-        </div>
-        <div id="mediumContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+  <!-- Tab Content: Multi-Channel Batch -->
+  <div id="section-batch" class="deck-container">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: bold; color: #e3b341;">MEDIUM ARTICLE (ZERO HASHTAGS)</span>
+        <button onclick="copyToClipboard('mediumContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
       </div>
+      <div id="mediumContent" class="content-box">Awaiting generation batch...</div>
     </div>
 
-    <!-- Substack Essay -->
-    <div class="card p-5 flex flex-col justify-between">
-      <div>
-        <div class="flex justify-between items-center mb-3">
-          <span class="text-xs font-bold text-orange-400 tracking-wider">SUBSTACK ESSAY (CLEAN MOBILE FORMAT)</span>
-          <button onclick="copyToClipboard('substackContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
-        </div>
-        <div id="substackContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: bold; color: #f0883e;">SUBSTACK ESSAY (CLEAN MOBILE FORMAT)</span>
+        <button onclick="copyToClipboard('substackContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
       </div>
+      <div id="substackContent" class="content-box">Awaiting generation batch...</div>
     </div>
 
-    <!-- LinkedIn Post -->
-    <div class="card p-5 flex flex-col justify-between">
-      <div>
-        <div class="flex justify-between items-center mb-3">
-          <span class="text-xs font-bold text-blue-400 tracking-wider">LINKEDIN DISPATCH</span>
-          <button onclick="copyToClipboard('linkedinContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
-        </div>
-        <div id="linkedinContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: bold; color: #58a6ff;">LINKEDIN DISPATCH</span>
+        <button onclick="copyToClipboard('linkedinContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
       </div>
+      <div id="linkedinContent" class="content-box">Awaiting generation batch...</div>
     </div>
 
-    <!-- X / Threads Thread -->
-    <div class="card p-5 flex flex-col justify-between">
-      <div>
-        <div class="flex justify-between items-center mb-3">
-          <span class="text-xs font-bold text-purple-400 tracking-wider">X.COM / THREADS (STANDARD BATCH)</span>
-          <button onclick="copyToClipboard('threadsContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
-        </div>
-        <div id="threadsContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: bold; color: #bc8cff;">X.COM / THREADS (STANDARD)</span>
+        <button onclick="copyToClipboard('threadsContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
       </div>
+      <div id="threadsContent" class="content-box">Awaiting generation batch...</div>
     </div>
 
-    <!-- Blogger SEO Post (Full Width) -->
-    <div class="card p-5 md:col-span-2">
-      <div class="flex justify-between items-center mb-3">
-        <span class="text-xs font-bold text-green-400 tracking-wider">BLOGGER PROGRAMMATIC SEO (CLICKABLE HTML GUMROAD ANCHORS)</span>
-        <button onclick="copyToClipboard('bloggerContent')" class="btn-secondary text-xs px-2.5 py-1 rounded">📋 Copy</button>
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: bold; color: #3fb950;">BLOGGER PROGRAMMATIC SEO (HTML ANCHORS)</span>
+        <button onclick="copyToClipboard('bloggerContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
       </div>
-      <div id="bloggerContent" class="text-xs text-gray-300 whitespace-pre-wrap font-mono bg-gray-900 p-3 rounded border border-gray-800 max-h-96 overflow-y-auto"></div>
+      <div id="bloggerContent" class="content-box">Awaiting generation batch...</div>
     </div>
+  </div>
 
+  <!-- Tab Content: X / Threads Teardown -->
+  <div id="section-x" class="deck-container" style="display: none;">
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-INTENT SALES TEARDOWN ($197 VECTOR)</span>
+        <button onclick="copyToClipboard('xDedicatedContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
+      </div>
+      <div id="xDedicatedContent" class="content-box">Awaiting high-intent teardown generation...</div>
+    </div>
   </div>
 
   <script>
@@ -129,175 +135,104 @@
     function saveApiKey() {
       const key = document.getElementById("groqApiKey").value.trim();
       localStorage.setItem("GROQ_API_KEY", key);
-      alert("Groq API Key saved to local browser storage!");
+      alert("Groq API Key saved!");
     }
 
-    // DEDICATED X/THREADS HIGH-INTENT GENERATOR
+    function switchTab(tabName) {
+      document.getElementById('tab-batch').classList.remove('active');
+      document.getElementById('tab-x').classList.remove('active');
+      document.getElementById('section-batch').style.display = 'none';
+      document.getElementById('section-x').style.display = 'none';
+
+      if (tabName === 'batch') {
+        document.getElementById('tab-batch').classList.add('active');
+        document.getElementById('section-batch').style.display = 'block';
+      } else {
+        document.getElementById('tab-x').classList.add('active');
+        document.getElementById('section-x').style.display = 'block';
+      }
+    }
+
     async function generateXHighIntentThread() {
       const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
       const payload = document.getElementById("rawPayload").value.trim();
-
-      if (!apiKey) {
-        alert("Please enter your Groq API Key.");
-        return;
-      }
-      if (!payload) {
-        alert("Please paste raw research payload text.");
-        return;
-      }
+      if (!apiKey || !payload) { alert("API Key and Payload required."); return; }
 
       const btn = document.getElementById("generateXBtn");
-      btn.innerText = "⚡ GENERATING TEARDOWN...";
+      btn.innerText = "⚡ Generating...";
       btn.disabled = true;
 
       const prompt = `
-You are an elite sovereign copywriter and systems architect specialized in converting high-agency operators on X/Threads directly into high-ticket digital products.
-
-MONETIZATION DESTINATION:
-Product: Compression System ($197)
-Checkout URL: https://fmframeworks.gumroad.com/l/CompressionSystem
-
-CRITICAL FORMATTING LAWS FOR X & THREADS (NEVER VIOLATE):
-- DO NOT use any markdown syntax. Absolutely NO hashtags (# or ##), NO bolding (**text**), NO italics (*text*), and NO markdown link format ([text](url)).
-- Write in pure plain text with wide line breaks between paragraphs for instant copy-pasting.
-- Output raw clickable URLs directly on their own lines (e.g. https://fmframeworks.gumroad.com/l/CompressionSystem).
-- Use post numbering like "1/", "2/", "3/".
-
-STRUCTURE REQUIREMENTS:
-Post 1: Unfiltered Hook (Counter-intuitive insight or systemic failure callout. Zero fluff).
-Post 2: The Hidden Friction (Dissect why traditional manual methods waste hundreds of execution hours).
-Post 3: The Sovereign Architecture (Explain the asymmetric leverage of automated single-file & pipeline engines).
-Post 4: Step-by-Step Protocol Breakdown (3 short, high-density tactical points in plain text).
-Post 5: The Compression Vector (Pitch the $197 Compression System as the definitive blueprint to skip months of execution friction).
-Post 6: Call-To-Action (Raw URL: https://fmframeworks.gumroad.com/l/CompressionSystem).
-
-RAW RESEARCH PAYLOAD:
+You are an elite copywriter converting high-agency operators on X/Threads into high-ticket buyers.
+MONETIZATION: Compression System ($197) - https://fmframeworks.gumroad.com/l/CompressionSystem
+RULES: ZERO markdown syntax. No hashtags, no bolding, no italics, no markdown links. Use plain text with wide line breaks and raw URL.
+RAW RESEARCH:
 ${payload}
 `;
 
       try {
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
           method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "openai/gpt-oss-120b",
-            messages: [
-              { role: "system", content: "You are an elite X high-ticket conversion strategist. Output pure plain text only with zero markdown syntax." },
-              { role: "user", content: prompt }
-            ],
-            temperature: 0.7
-          })
+          headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ model: "openai/gpt-oss-120b", messages: [{ role: "user", content: prompt }], temperature: 0.7 })
         });
-
-        const data = await response.json();
-        const content = data.choices[0].message.content;
-
-        document.getElementById("xDedicatedContent").innerText = content.trim();
-        document.getElementById("xEngineSection").classList.remove("hidden");
-        document.getElementById("xEngineSection").scrollIntoView({ behavior: 'smooth' });
+        const data = await res.json();
+        document.getElementById("xDedicatedContent").innerText = data.choices[0].message.content.trim();
+        switchTab('x');
       } catch (err) {
-        alert("Error generating X teardown: " + err.message);
+        alert("Error: " + err.message);
       } finally {
-        btn.innerText = "🎯 X/THREADS $197 TEARDOWN";
+        btn.innerText = "🎯 X/Threads $197 Teardown";
         btn.disabled = false;
       }
     }
 
-    // MULTI-CHANNEL BATCH GENERATOR
     async function generateContentBatch() {
       const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
       const payload = document.getElementById("rawPayload").value.trim();
-
-      if (!apiKey) {
-        alert("Please enter your Groq API Key.");
-        return;
-      }
-      if (!payload) {
-        alert("Please paste raw research payload text.");
-        return;
-      }
+      if (!apiKey || !payload) { alert("API Key and Payload required."); return; }
 
       const btn = document.getElementById("generateBtn");
-      btn.innerText = "⚡ GENERATING BATCH...";
+      btn.innerText = "⚡ Generating Batch...";
       btn.disabled = true;
 
       const prompt = `
-You are an elite Content Architect and Programmatic SEO Specialist targeting striking-distance organic search intent, featured snippet ingestion, and sovereign digital product conversion.
-
-MONETIZATION VECTOR:
-Product: Compression System ($197)
-Gumroad URL Tag: <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>
-
-FORMATTING LAWS FOR MEDIUM & SUBSTACK:
-- DO NOT use markdown hashtag headers (#, ##, ###). Use clean BOLD UPPERCASE TEXT on its own line for headers instead.
-- DO NOT include social media hashtags (#Productivity, #Systems) anywhere in the body or footer.
-- Write short, punchy paragraphs (2-3 sentences max) separated by blank lines for seamless mobile reading and zero copy-paste editing.
-
-FORMATTING LAWS FOR X & THREADS:
-- ABSOLUTELY ZERO MARKDOWN. No headers (#), no bolding (**), no italics (*), no markdown links ([text](url)).
-- Use plain text with wide line breaks and "1/", "2/" thread post numbering.
-- Output raw link on its own line: https://fmframeworks.gumroad.com/l/CompressionSystem
-
-FORMATTING LAWS FOR BLOGGER:
-- Utilize programmatic SEO elements: High-CTR title, H1 repeat, 2-sentence Featured Snippet Executive Summary directly beneath H1, structured Markdown comparison table, FAQ schema block, and bulletproof HTML Gumroad link tags.
+You are an elite programmatic SEO and multi-channel content engine.
+MONETIZATION: Compression System ($197) - <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>
 
 ===MEDIUM_START===
-[Insert Medium article. Use BOLD UPPERCASE for headers. NO markdown hashtags (#). Short paragraphs. Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
+[Insert Medium article. Use BOLD UPPERCASE for headers. NO markdown hashtags (#). Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
 ===MEDIUM_END===
 
 ===SUBSTACK_START===
-[Insert Substack long-form essay (400-600 words). Use BOLD UPPERCASE for headers. NO markdown hashtags (#). Clean mobile paragraphs. Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
+[Insert Substack essay (400-600 words). BOLD UPPERCASE headers. NO hashtags (#). Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
 ===SUBSTACK_END===
 
 ===LINKEDIN_START===
-[Insert LinkedIn post with high executive authority, punchy line breaks, zero fluff]
+[Insert LinkedIn post with high executive authority, zero fluff]
 ===LINKEDIN_END===
 
 ===THREADS_START===
-[Insert 3-5 sequential posts for X/Threads. PURE PLAIN TEXT ONLY. NO MARKDOWN (#, **, *). Use 1/, 2/ numbering. End with raw URL: https://fmframeworks.gumroad.com/l/CompressionSystem]
+[Insert X/Threads posts. PURE PLAIN TEXT. NO markdown. End with raw URL: https://fmframeworks.gumroad.com/l/CompressionSystem]
 ===THREADS_END===
 
 ===BLOGGER_START===
 ---
-title: "[Insert High-CTR Long-Tail Search Intent Title]"
-tags: [Productivity, Systems, Sovereign Operator, Execution]
+title: "[High-CTR Search Intent Title]"
+tags: [Productivity, Systems, Operator]
 status: publish
 ---
-
 # [Repeat Title as H1]
-
-> **Executive Summary:** [2-sentence answer summarizing mechanism and solution for Google Snippets and LLM citation ingestion.]
-
-## The Core Friction & Root Cause
-[Ruthless dissection of conventional systemic failure.]
-
-## Comparative Breakdown: Conventional vs. Sovereign
-| Operational Dimension | Conventional Approach | Sovereign Operator Architecture |
+> **Executive Summary:** [2-sentence answer for Google Snippets]
+## Core Mechanism
+## Comparative Breakdown
+| Dimension | Traditional | Sovereign |
 | :--- | :--- | :--- |
-| **Strategy** | [Traditional method] | [Automated programmatic pipeline] |
-| **Execution** | [Manual friction] | [Zero-touch systems leverage] |
-| **Leverage** | [Linear effort] | [Asymmetric digital asset return] |
-
-## Step-by-Step Execution Protocol
-[Actionable technical protocol.]
-
+| **Execution** | Manual friction | Automated pipeline |
 ---
-*Ready to compress timelines and eliminate operational friction? Secure the <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>—the definitive $197 framework for autonomous system building.*
+Secure the <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>.
 ---
-
-## Frequently Asked Questions
-
-### Q: What is the primary bottleneck in conventional execution?
-A: [Concise answer for FAQ snippet extraction.]
-
-### Q: How do autonomous pipelines solve manual friction?
-A: [Concise answer detailing system leverage.]
-
-### Q: Where can I access the complete sovereign operating framework?
-A: [Direct answer linking to the $197 Compression System: <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
+## FAQs
 ===BLOGGER_END===
 
 RAW RESEARCH PAYLOAD:
@@ -305,23 +240,12 @@ ${payload}
 `;
 
       try {
-        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
           method: "POST",
-          headers: {
-            "Authorization": `Bearer ${apiKey}`,
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            model: "openai/gpt-oss-120b",
-            messages: [
-              { role: "system", content: "You are an elite programmatic SEO and multi-channel content engine." },
-              { role: "user", content: prompt }
-            ],
-            temperature: 0.7
-          })
+          headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify({ model: "openai/gpt-oss-120b", messages: [{ role: "user", content: prompt }], temperature: 0.7 })
         });
-
-        const data = await response.json();
+        const data = json = await res.json();
         const content = data.choices[0].message.content;
 
         document.getElementById("mediumContent").innerText = extractSection(content, "MEDIUM");
@@ -329,12 +253,11 @@ ${payload}
         document.getElementById("linkedinContent").innerText = extractSection(content, "LINKEDIN");
         document.getElementById("threadsContent").innerText = extractSection(content, "THREADS");
         document.getElementById("bloggerContent").innerText = extractSection(content, "BLOGGER");
-
-        document.getElementById("outputContainer").classList.remove("hidden");
+        switchTab('batch');
       } catch (err) {
-        alert("Error generating content: " + err.message);
+        alert("Error: " + err.message);
       } finally {
-        btn.innerText = "🔥 FULL MULTI-CHANNEL BATCH";
+        btn.innerText = "🔥 Generate Multi-Channel Batch";
         btn.disabled = false;
       }
     }
@@ -347,9 +270,7 @@ ${payload}
 
     function copyToClipboard(elementId) {
       const text = document.getElementById(elementId).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        alert("Copied to clipboard!");
-      });
+      navigator.clipboard.writeText(text).then(() => alert("Copied to clipboard!"));
     }
   </script>
 </body>
