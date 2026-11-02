@@ -1,2 +1,7 @@
 - Canva Reel Design Update and Upgrade (Get faceless reels developed), Get AE (After effects) type reels developed
 - Setup Gemini API Calls inside of GitHub - Voice transcribe (both ways) inputs and outputs
+- Gemini API call is able to digest / ingest the Substack growth stuff and then output / send me content to output to substack
+- Get some sort of dybamic calendar inside of GitHub
+- Setup of Autonomous Data farm / factory inside of GitHub with Gemini API / data company, this goes for software company as well
+- IG Territory / Audience Growth Hub, and the 3-4 sections of IG to target, with Gemini API doing its thing of executing moves for said sections
+- Setup of YouTube production studio inside of GitHub
