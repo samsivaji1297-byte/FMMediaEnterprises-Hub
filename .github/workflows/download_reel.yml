@@ -26,7 +26,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install openai-whisper gallery-dl
 
-      - name: Fetch Media & Extract Text Metadata
+      - name: Fetch Media & Extract Metadata
         run: |
           mkdir -p output
           URL="${{ github.event.inputs.media_url }}"
@@ -37,18 +37,25 @@ jobs:
           # Download video content / Reels via yt-dlp
           yt-dlp --write-info-json -o "output/%(title).30s [%(id)s].%(ext)s" "$URL" || true
 
-          # Save caption text to file for Claude
-          python -c "
-import json, glob
-files = glob.glob('output/*.info.json')
-if files:
-    data = json.load(open(files[0]))
-    open('output/caption.txt', 'w').write(data.get('description', '') or '')
-" || echo "No metadata json found"
+      - name: Parse Metadata Caption
+        shell: python
+        run: |
+          import json
+          import glob
+          
+          files = glob.glob('output/*.info.json')
+          if files:
+              with open(files[0], 'r', encoding='utf-8') as f:
+                  data = json.load(f)
+              desc = data.get('description', '') or ''
+              with open('output/caption.txt', 'w', encoding='utf-8') as f:
+                  f.write(desc)
+              print("Caption extracted successfully.")
+          else:
+              print("No metadata json found, skipping caption parse.")
 
       - name: Transcribe Spoken Audio
         run: |
-          # Find video file and transcribe audio
           MP4_FILE=$(find output -name "*.mp4" | head -n 1)
           if [ -n "$MP4_FILE" ]; then
             whisper "$MP4_FILE" --model tiny --output_format txt --output_dir output/
