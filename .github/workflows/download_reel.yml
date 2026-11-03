@@ -18,47 +18,99 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install Latest Tools & Browser Impersonator
+      - name: Install Latest Tools & Python Extractor
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
           python -m pip install --upgrade pip
-          pip install --upgrade yt-dlp gallery-dl openai-whisper curl_cffi
+          pip install --upgrade yt-dlp instaloader openai-whisper curl_cffi
 
-      - name: Fetch Media & Extract Metadata
+      - name: Fetch Media (Photo Carousels & Videos)
+        shell: python
         run: |
-          mkdir -p output/media
-          URL="${{ github.event.inputs.media_url }}"
-          
-          # 1. Download image slides via gallery-dl with User-Agent header
-          gallery-dl --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" --directory output/media "$URL" || true
-          
-          # 2. Download media & thumbnails via yt-dlp with browser impersonation
-          yt-dlp --impersonate Chrome --write-info-json --write-thumbnail --all-subs -o "output/media/slide_%(playlist_index)s_%(title).20s [%(id)s].%(ext)s" "$URL" || true
+          import os
+          import sys
+          import subprocess
+          import instaloader
+
+          url = "${{ github.event.inputs.media_url }}".strip()
+          os.makedirs("output/media", exist_ok=True)
+
+          # Extract shortcode from Instagram URL (e.g. /p/De39wVMAQlT/ -> De39wVMAQlT)
+          shortcode = ""
+          parts = url.rstrip('/').split('/')
+          for i, p in enumerate(parts):
+              if p in ['p', 'reel', 'reels'] and i + 1 < len(parts):
+                  shortcode = parts[i+1]
+                  break
+
+          print(f"Target Shortcode: {shortcode}")
+
+          # 1. Download Photo Carousel via Instaloader
+          if shortcode:
+              try:
+                  L = instaloader.Instaloader(
+                      download_videos=False,
+                      download_video_thumbnails=False,
+                      download_post_captions=True,
+                      download_comments=False,
+                      save_metadata=False,
+                      dirname_pattern="output/media"
+                  )
+                  post = instaloader.Post.from_shortcode(L.context, shortcode)
+                  L.download_post(post, target="output/media")
+                  print("Instaloader completed photo extraction.")
+              except Exception as e:
+                  print(f"Instaloader notice: {e}")
+
+          # 2. Download Video Content / Reels via yt-dlp
+          cmd = [
+              "yt-dlp",
+              "--impersonate", "Chrome",
+              "--write-info-json",
+              "-o", "output/media/slide_%(playlist_index)s_%(title).20s [%(id)s].%(ext)s",
+              url
+          ]
+          subprocess.run(cmd)
 
       - name: Parse Metadata Caption
         shell: python
         run: |
           import json
           import glob
-          
-          files = glob.glob('output/media/*.info.json')
-          if files:
-              with open(files[0], 'r', encoding='utf-8') as f:
-                  data = json.load(f)
-              desc = data.get('description', '') or ''
-              with open('output/caption.txt', 'w', encoding='utf-8') as f:
-                  f.write(desc)
-              print("Caption extracted successfully.")
-          else:
-              print("No metadata json found, skipping caption parse.")
+          import os
+
+          # Gather captions from metadata JSON or instaloader txt
+          caption = ""
+          json_files = glob.glob('output/media/*.info.json')
+          txt_files = glob.glob('output/media/*.txt')
+
+          if json_files:
+              try:
+                  with open(json_files[0], 'r', encoding='utf-8') as f:
+                      data = json.load(f)
+                      caption = data.get('description', '') or ''
+              except Exception as e:
+                  pass
+
+          if not caption and txt_files:
+              try:
+                  with open(txt_files[0], 'r', encoding='utf-8') as f:
+                      caption = f.read()
+              except Exception as e:
+                  pass
+
+          os.makedirs('output', exist_ok=True)
+          with open('output/caption.txt', 'w', encoding='utf-8') as f:
+              f.write(caption)
+          print("Caption parsed successfully.")
 
       - name: Process All Carousel Video Slides (Whisper & Screenshots)
         run: |
           mkdir -p output/transcripts
           mkdir -p output/screenshots
           
-          # Process any video MP4 files found across the carousel
+          # Find all video MP4 files extracted across the carousel
           COUNT=1
           find output/media -type f -name "*.mp4" | sort | while read -r MP4_FILE; do
             echo "Processing video slide $COUNT: $MP4_FILE"
