@@ -30,18 +30,17 @@ jobs:
           mkdir -p output/media
           URL="${{ github.event.inputs.media_url }}"
           
-          # 1. Download image slides via gallery-dl
-          gallery-dl --directory output/media "$URL" || true
+          # 1. Download image slides via gallery-dl with User-Agent header
+          gallery-dl --user-agent "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36" --directory output/media "$URL" || true
           
-          # 2. Download video slides with sequence numbering so slides do not overwrite each other
-          yt-dlp --impersonate Chrome --write-info-json -o "output/media/slide_%(playlist_index)s_%(title).20s [%(id)s].%(ext)s" "$URL" || true
+          # 2. Download media & thumbnails via yt-dlp with browser impersonation
+          yt-dlp --impersonate Chrome --write-info-json --write-thumbnail --all-subs -o "output/media/slide_%(playlist_index)s_%(title).20s [%(id)s].%(ext)s" "$URL" || true
 
       - name: Parse Metadata Caption
         shell: python
         run: |
           import json
           import glob
-          import os
           
           files = glob.glob('output/media/*.info.json')
           if files:
@@ -59,18 +58,18 @@ jobs:
           mkdir -p output/transcripts
           mkdir -p output/screenshots
           
-          # Find all mp4 files extracted across the carousel
+          # Process any video MP4 files found across the carousel
           COUNT=1
           find output/media -type f -name "*.mp4" | sort | while read -r MP4_FILE; do
-            echo "Processing slide $COUNT: $MP4_FILE"
+            echo "Processing video slide $COUNT: $MP4_FILE"
             
-            # Transcribe audio for this specific slide
+            # Transcribe audio for video slides
             whisper "$MP4_FILE" --model tiny --output_format txt --output_dir output/transcripts/ || true
             if [ -f "output/transcripts/*.txt" ]; then
               mv output/transcripts/*.txt "output/transcripts/slide_${COUNT}_transcript.txt" 2>/dev/null || true
             fi
 
-            # Extract 1 FPS frame screenshots into dedicated slide folder
+            # Extract 1 FPS screenshots into dedicated slide folder
             SLIDE_SHOTS="output/screenshots/slide_${COUNT}"
             mkdir -p "$SLIDE_SHOTS"
             ffmpeg -i "$MP4_FILE" -vf "fps=1" "$SLIDE_SHOTS/frame_%03d.png"
@@ -83,6 +82,7 @@ jobs:
           FOLDER_NAME="extraction_$(date +'%Y%m%d_%H%M%S')"
           mkdir -p "reels_analysis/$FOLDER_NAME"
           
+          # Move all downloaded media (JPG, PNG, MP4, JSON) and parsed assets
           cp -r output/* "reels_analysis/$FOLDER_NAME/" 2>/dev/null || true
           
           git config --global user.name "github-actions[bot]"
