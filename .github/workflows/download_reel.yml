@@ -18,13 +18,12 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Install Tools (yt-dlp, gallery-dl, ffmpeg, whisper)
+      - name: Install Latest Tools & Browser Impersonator
         run: |
-          sudo add-apt-repository ppa:tomtomtom/yt-dlp -y
           sudo apt-get update
-          sudo apt-get install -y yt-dlp ffmpeg
+          sudo apt-get install -y ffmpeg
           python -m pip install --upgrade pip
-          pip install openai-whisper gallery-dl
+          pip install --upgrade yt-dlp gallery-dl openai-whisper curl_cffi
 
       - name: Fetch Media & Extract Metadata
         run: |
@@ -34,8 +33,8 @@ jobs:
           # Try gallery-dl first for photo carousels
           gallery-dl --directory output/ "$URL" || true
           
-          # Download video content / Reels via yt-dlp
-          yt-dlp --write-info-json -o "output/%(title).30s [%(id)s].%(ext)s" "$URL" || true
+          # Download video content via yt-dlp with browser impersonation
+          yt-dlp --impersonate Chrome --write-info-json -o "output/%(title).30s [%(id)s].%(ext)s" "$URL" || true
 
       - name: Parse Metadata Caption
         shell: python
