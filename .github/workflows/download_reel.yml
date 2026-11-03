@@ -27,22 +27,23 @@ jobs:
 
       - name: Fetch Media & Extract Metadata
         run: |
-          mkdir -p output
+          mkdir -p output/media
           URL="${{ github.event.inputs.media_url }}"
           
-          # Try gallery-dl first for photo carousels
-          gallery-dl --directory output/ "$URL" || true
+          # 1. Download image slides via gallery-dl
+          gallery-dl --directory output/media "$URL" || true
           
-          # Download video content via yt-dlp with browser impersonation
-          yt-dlp --impersonate Chrome --write-info-json -o "output/%(title).30s [%(id)s].%(ext)s" "$URL" || true
+          # 2. Download video slides with sequence numbering so slides do not overwrite each other
+          yt-dlp --impersonate Chrome --write-info-json -o "output/media/slide_%(playlist_index)s_%(title).20s [%(id)s].%(ext)s" "$URL" || true
 
       - name: Parse Metadata Caption
         shell: python
         run: |
           import json
           import glob
+          import os
           
-          files = glob.glob('output/*.info.json')
+          files = glob.glob('output/media/*.info.json')
           if files:
               with open(files[0], 'r', encoding='utf-8') as f:
                   data = json.load(f)
@@ -53,21 +54,29 @@ jobs:
           else:
               print("No metadata json found, skipping caption parse.")
 
-      - name: Transcribe Spoken Audio
+      - name: Process All Carousel Video Slides (Whisper & Screenshots)
         run: |
-          MP4_FILE=$(find output -name "*.mp4" | head -n 1)
-          if [ -n "$MP4_FILE" ]; then
-            whisper "$MP4_FILE" --model tiny --output_format txt --output_dir output/
-            mv output/*.txt output/transcript.txt 2>/dev/null || true
-          fi
+          mkdir -p output/transcripts
+          mkdir -p output/screenshots
+          
+          # Find all mp4 files extracted across the carousel
+          COUNT=1
+          find output/media -type f -name "*.mp4" | sort | while read -r MP4_FILE; do
+            echo "Processing slide $COUNT: $MP4_FILE"
+            
+            # Transcribe audio for this specific slide
+            whisper "$MP4_FILE" --model tiny --output_format txt --output_dir output/transcripts/ || true
+            if [ -f "output/transcripts/*.txt" ]; then
+              mv output/transcripts/*.txt "output/transcripts/slide_${COUNT}_transcript.txt" 2>/dev/null || true
+            fi
 
-      - name: Extract Frame Screenshots (1 FPS)
-        run: |
-          MP4_FILE=$(find output -name "*.mp4" | head -n 1)
-          if [ -n "$MP4_FILE" ]; then
-            mkdir -p output/screenshots
-            ffmpeg -i "$MP4_FILE" -vf "fps=1" output/screenshots/frame_%03d.png
-          fi
+            # Extract 1 FPS frame screenshots into dedicated slide folder
+            SLIDE_SHOTS="output/screenshots/slide_${COUNT}"
+            mkdir -p "$SLIDE_SHOTS"
+            ffmpeg -i "$MP4_FILE" -vf "fps=1" "$SLIDE_SHOTS/frame_%03d.png"
+            
+            COUNT=$((COUNT+1))
+          done
 
       - name: Commit & Store Assets in Repo
         run: |
