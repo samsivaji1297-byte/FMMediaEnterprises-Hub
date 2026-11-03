@@ -1,0 +1,77 @@
+name: Reel & Carousel Extraction Engine
+
+on:
+  workflow_dispatch:
+    inputs:
+      media_url:
+        description: 'Instagram Reel or Carousel URL'
+        required: true
+        type: string
+
+jobs:
+  extract:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Install Tools (yt-dlp, gallery-dl, ffmpeg, whisper)
+        run: |
+          sudo add-apt-repository ppa:tomtomtom/yt-dlp -y
+          sudo apt-get update
+          sudo apt-get install -y yt-dlp ffmpeg
+          python -m pip install --upgrade pip
+          pip install openai-whisper gallery-dl
+
+      - name: Fetch Media & Extract Text Metadata
+        run: |
+          mkdir -p output
+          URL="${{ github.event.inputs.media_url }}"
+          
+          # Try gallery-dl first for photo carousels
+          gallery-dl --directory output/ "$URL" || true
+          
+          # Download video content / Reels via yt-dlp
+          yt-dlp --write-info-json -o "output/%(title).30s [%(id)s].%(ext)s" "$URL" || true
+
+          # Save caption text to file for Claude
+          python -c "
+import json, glob
+files = glob.glob('output/*.info.json')
+if files:
+    data = json.load(open(files[0]))
+    open('output/caption.txt', 'w').write(data.get('description', '') or '')
+" || echo "No metadata json found"
+
+      - name: Transcribe Spoken Audio
+        run: |
+          # Find video file and transcribe audio
+          MP4_FILE=$(find output -name "*.mp4" | head -n 1)
+          if [ -n "$MP4_FILE" ]; then
+            whisper "$MP4_FILE" --model tiny --output_format txt --output_dir output/
+            mv output/*.txt output/transcript.txt 2>/dev/null || true
+          fi
+
+      - name: Extract Frame Screenshots (1 FPS)
+        run: |
+          MP4_FILE=$(find output -name "*.mp4" | head -n 1)
+          if [ -n "$MP4_FILE" ]; then
+            mkdir -p output/screenshots
+            ffmpeg -i "$MP4_FILE" -vf "fps=1" output/screenshots/frame_%03d.png
+          fi
+
+      - name: Commit & Store Assets in Repo
+        run: |
+          FOLDER_NAME="extraction_$(date +'%Y%m%d_%H%M%S')"
+          mkdir -p "reels_analysis/$FOLDER_NAME"
+          
+          cp -r output/* "reels_analysis/$FOLDER_NAME/" 2>/dev/null || true
+          
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add reels_analysis/
+          git commit -m "Extracted Reel/Carousel assets [skip ci]" || echo "No changes to commit"
+          git push
