@@ -25,3 +25,4 @@
 - Autonomous Factories
 - Doubling Mechanisms and Engines
 - Distribution Nodes / Territories - Websites, Platforms, Feeds, Newsletters
+- Set this up for Gumroad (How to build a Founding Member flywheel on Substack: - 1.	Create a premium Founding Member tier ($250 to $350/year). 2.	Give founding members free access to every digital product, template, and masterclass you ever launch. 3.	Every new product launch becomes a double offer: buy the standalone product, or upgrade to Founding Member. Subscribers can either buy the product or upgrade. Both drive revenue upward.)
