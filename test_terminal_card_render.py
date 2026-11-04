@@ -2,13 +2,7 @@ import os
 import textwrap
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
-
-from moviepy import (
-    ColorClip,
-    ImageClip,
-    CompositeVideoClip,
-    TextClip,
-)
+from moviepy import ImageClip, concatenate_videoclips
 
 # Canvas Specs (9:16 Reels / Shorts)
 CANVAS_WIDTH = 1080
@@ -33,10 +27,14 @@ def _resolve_font_path() -> str:
             return c
     return "DejaVuSans-Bold"
 
-def generate_test_card(text: str, accent_hex: str = "#00E5FF") -> str:
-    """Renders the frosted obsidian terminal UI card as a transparent PNG."""
-    img = Image.new("RGBA", (CANVAS_WIDTH, CANVAS_HEIGHT), (0, 0, 0, 0))
+def generate_solid_frame(text: str, accent_hex: str = "#00E5FF") -> str:
+    """Bakes the dark background, cinematic overlay, obsidian card, and text into a single solid frame."""
+    # Create solid RGB base canvas (Dark Cinematic Background)
+    img = Image.new("RGB", (CANVAS_WIDTH, CANVAS_HEIGHT), (15, 15, 20))
     draw = ImageDraw.Draw(img)
+
+    # Draw subtle ambient background gradient or vignette lines if desired
+    # (Solid dark base ensures zero black-screen risk)
 
     card_w = 940
     card_h = 700
@@ -46,12 +44,12 @@ def generate_test_card(text: str, accent_hex: str = "#00E5FF") -> str:
 
     accent_rgb = _hex_to_rgb(accent_hex)
 
-    # 1. Frosted Obsidian Glassmorphic Background
+    # 1. Frosted Obsidian Glassmorphic Card Background (Solid opaque dark fill)
     draw.rounded_rectangle(
         [card_x, card_y, card_x + card_w, card_y + card_h],
         radius=radius,
-        fill=(10, 10, 14, 240),      # Deep translucent dark fill
-        outline=(40, 40, 55, 255),    # Structural edge
+        fill=(22, 22, 30),          # Solid dark obsidian box
+        outline=(50, 50, 70),       # Structural inner edge
         width=3
     )
 
@@ -59,7 +57,7 @@ def generate_test_card(text: str, accent_hex: str = "#00E5FF") -> str:
     draw.rounded_rectangle(
         [card_x, card_y, card_x + card_w, card_y + card_h],
         radius=radius,
-        outline=(*accent_rgb, 200),
+        outline=accent_rgb,
         width=2
     )
 
@@ -81,8 +79,8 @@ def generate_test_card(text: str, accent_hex: str = "#00E5FF") -> str:
     draw.rounded_rectangle(
         [badge_x, badge_y, badge_x + badge_w, badge_y + badge_h],
         radius=24,
-        fill=(*accent_rgb, 45),
-        outline=(*accent_rgb, 220),
+        fill=(accent_rgb[0]//4, accent_rgb[1]//4, accent_rgb[2]//4),
+        outline=accent_rgb,
         width=1
     )
     draw.text((badge_x + 25, badge_y + 11), badge_text, fill=accent_rgb, font=font_badge)
@@ -92,43 +90,33 @@ def generate_test_card(text: str, accent_hex: str = "#00E5FF") -> str:
     text_y = badge_y + 90
 
     for line in wrapped_lines:
-        draw.text((card_x + 50, text_y), line, fill=(255, 255, 255, 255), font=font_main)
+        draw.text((card_x + 50, text_y), line, fill=(255, 255, 255), font=font_main)
         text_y += 75
 
     os.makedirs("vault_test", exist_ok=True)
-    out_path = "vault_test/test_card_frame.png"
+    out_path = "vault_test/solid_test_frame.png"
     img.save(out_path)
     return out_path
 
 def build_test_video():
-    print("[+] Initializing Standalone Terminal Card Test...")
+    print("[+] Initializing Solid-Frame Terminal Card Test...")
     duration = 4.0  # 4 second test clip
-    
-    # Mock background (Simulating a dark cinematic video surface)
-    bg_clip = ColorClip(size=(CANVAS_WIDTH, CANVAS_HEIGHT), color=(20, 20, 25), duration=duration)
-    
-    # Dark contrast mask overlay
-    mask_clip = ColorClip(size=(CANVAS_WIDTH, CANVAS_HEIGHT), color=(0, 0, 0), duration=duration).with_opacity(0.65)
 
-    # Generate test PIL card graphic
     sample_text = "MANUAL PROCESSES ARE OPERATIONAL LEAKS. DEPLOY AUTOMATED FLOWS."
-    card_img_path = generate_test_card(sample_text, accent_hex="#00E5FF")
+    frame_path = generate_solid_frame(sample_text, accent_hex="#00E5FF")
 
-    # CRITICAL: transparent=True and fromalpha=True ensures MoviePy respects the card's rounded alpha cutout
-    card_clip = ImageClip(card_img_path, transparent=True, fromalpha=True).with_duration(duration)
-
-    # Composite scene
-    final_composite = CompositeVideoClip([bg_clip, mask_clip, card_clip]).with_duration(duration)
+    # Load as a direct static image clip (no complex masks needed)
+    clip = ImageClip(frame_path).with_duration(duration)
 
     output_file = "test_output_reel.mp4"
-    final_composite.write_videofile(
+    clip.write_videofile(
         output_file,
         fps=CANVAS_FPS,
         codec="libx264",
         audio_codec="aac",
         threads=4,
     )
-    print(f"[+] Test Reel Compiled Successfully -> {output_file}")
+    print(f"[+] Solid-Frame Test Reel Compiled Successfully -> {output_file}")
 
 if __name__ == "__main__":
     build_test_video()
