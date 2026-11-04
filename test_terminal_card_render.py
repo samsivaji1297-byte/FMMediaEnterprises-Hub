@@ -1,335 +1,297 @@
 import os
-import subprocess
-from pathlib import Path
-from playwright.sync_api import sync_playwright
-
-CANVAS_WIDTH = 1080
-CANVAS_HEIGHT = 1920
-CANVAS_FPS = 60
-DURATION_SEC = 9.6  # Matches reference video length precisely
+import sys
+import asyncio
+from playwright.async_api import async_playwright
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <title>Operator Mindset - Terminal Reel</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700;800&family=Inter:wght@400;600;900&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             width: 1080px;
             height: 1920px;
-            background: #080a0f;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #09090b;
+            color: #f4f4f5;
+            font-family: 'Inter', sans-serif;
             overflow: hidden;
             position: relative;
         }
 
-        /* Ambient Background Scrolling Manifestos */
-        .ambient-bg {
+        /* Ambient Glow & Vignette */
+        .ambient-glow {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            opacity: 0.05;
-            color: #ffffff;
-            font-size: 32px;
-            font-weight: 600;
-            line-height: 2.2;
-            padding: 80px;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 900px;
+            background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(9, 9, 11, 0) 70%);
             z-index: 1;
-            user-select: none;
             pointer-events: none;
         }
 
-        /* ACT 1: Full-Screen Macro Hook */
-        .hook-scene {
+        .vignette {
             position: absolute;
-            width: 900px;
-            text-align: center;
-            z-index: 20;
-            animation: hookSequence 9.6s forwards;
+            inset: 0;
+            background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.85) 100%);
+            z-index: 10;
+            pointer-events: none;
         }
 
-        .hook-title {
-            font-size: 68px;
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.25;
-            letter-spacing: -0.5px;
-        }
-
-        .hook-title .highlight {
-            background: linear-gradient(135deg, #70a1ff 0%, #00e5ff 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            padding: 0 4px;
-        }
-
-        .workbook-subtitle {
-            font-size: 24px;
-            color: #8b9bb4;
-            margin-top: 20px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-            opacity: 0.9;
-        }
-
-        @keyframes hookSequence {
-            0% { opacity: 0; transform: translateY(-30px); }
-            12% { opacity: 1; transform: translateY(0); }
-            78% { opacity: 1; transform: translateY(0); }
-            90% { opacity: 0; transform: translateY(-20px); }
-            100% { opacity: 0; transform: translateY(-20px); }
-        }
-
-        /* ACT 2: Interactive Kill List UI Card */
-        .kill-list-card {
+        /* Canvas Container */
+        .stage {
             position: absolute;
-            width: 920px;
-            background: rgba(12, 16, 26, 0.95);
-            backdrop-filter: blur(30px);
-            border: 2px solid rgba(0, 229, 255, 0.3);
-            border-radius: 32px;
-            padding: 45px 50px;
-            z-index: 15;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9),
-                        0 0 50px rgba(0, 229, 255, 0.18);
-            opacity: 0;
-            transform: translateY(40px) scale(0.96);
-            animation: cardSequence 9.6s forwards;
-        }
-
-        @keyframes cardSequence {
-            0% { opacity: 0; transform: translateY(40px) scale(0.96); }
-            18% { opacity: 0; transform: translateY(40px) scale(0.96); }
-            24% { opacity: 1; transform: translateY(0) scale(1); }
-            90% { opacity: 1; transform: translateY(0) scale(1); }
-            100% { opacity: 0; transform: scale(0.98); }
-        }
-
-        .card-header {
+            inset: 0;
             display: flex;
-            justify-content: space-between;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px;
+            z-index: 5;
+        }
+
+        /* Terminal Window */
+        .terminal-window {
+            width: 920px;
+            background: rgba(18, 18, 23, 0.85);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.1);
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .terminal-header {
+            background: rgba(24, 24, 27, 0.9);
+            padding: 20px 24px;
+            display: flex;
             align-items: center;
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 24px;
-            margin-bottom: 24px;
         }
 
-        .card-title {
-            font-size: 28px;
-            font-weight: 800;
-            color: #ffffff;
-            letter-spacing: 2px;
-        }
-
-        .counter-badge {
-            font-size: 24px;
-            font-weight: 700;
-            color: #00e5ff;
-            background: rgba(0, 229, 255, 0.12);
-            padding: 6px 18px;
-            border-radius: 14px;
-            border: 1px solid rgba(0, 229, 255, 0.35);
-        }
-
-        .list-item {
+        .dots {
             display: flex;
-            align-items: center;
-            padding: 16px 22px;
-            margin-bottom: 12px;
-            border-radius: 16px;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            color: #8b9bb4;
-            font-size: 28px;
-            font-weight: 600;
-            transition: all 0.25s ease;
+            gap: 8px;
         }
 
-        .item-num {
-            font-family: monospace;
-            color: #475569;
-            margin-right: 20px;
-            font-size: 24px;
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .terminal-title {
+            margin-left: 20px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: #a1a1aa;
+            letter-spacing: 0.05em;
         }
 
-        /* Sequential Selection Triggers */
-        .list-item.active-1 {
-            background: rgba(0, 229, 255, 0.15) !important;
-            border-color: #00e5ff !important;
-            color: #ffffff !important;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
-            transform: scale(1.01);
+        .terminal-body {
+            padding: 40px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 26px;
+            line-height: 1.6;
+            color: #e4e4e7;
         }
 
-        .list-item.active-2 {
-            background: rgba(0, 229, 255, 0.15) !important;
-            border-color: #00e5ff !important;
-            color: #ffffff !important;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
-            transform: scale(1.01);
+        /* Hook Chip */
+        .hook-chip {
+            display: inline-block;
+            background: rgba(16, 185, 129, 0.12);
+            color: #34d399;
+            padding: 8px 18px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 30px;
+            border: 1px solid rgba(52, 211, 153, 0.3);
         }
 
-        .list-item.active-3 {
-            background: rgba(0, 229, 255, 0.15) !important;
-            border-color: #00e5ff !important;
-            color: #ffffff !important;
-            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
-            transform: scale(1.01);
-        }
-
-        /* ACT 3: CTA Outro Footer */
-        .cta-scene {
-            position: absolute;
-            bottom: 120px;
-            width: 100%;
-            text-align: center;
+        /* Staggered Rows */
+        .code-row {
             opacity: 0;
             transform: translateY(20px);
-            z-index: 20;
-            animation: ctaSequence 9.6s forwards;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
         }
 
-        @keyframes ctaSequence {
-            0% { opacity: 0; transform: translateY(20px); }
-            75% { opacity: 0; transform: translateY(20px); }
-            82% { opacity: 1; transform: translateY(0); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .cta-action {
-            font-size: 34px;
+        .prompt {
+            color: #10b981;
             font-weight: 800;
-            color: #ffffff;
-            margin-bottom: 10px;
-            letter-spacing: 0.5px;
         }
 
-        .cta-sub {
-            font-size: 24px;
-            color: #00e5ff;
+        .highlight {
+            color: #34d399;
             font-weight: 700;
-            letter-spacing: 1px;
+        }
+
+        .dim {
+            color: #71717a;
+        }
+
+        /* Footer Brand */
+        .brand-footer {
+            margin-top: 50px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 18px;
+            color: #71717a;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
         }
     </style>
 </head>
 <body>
+    <div class="ambient-glow"></div>
+    <div class="vignette"></div>
 
-    <!-- Background Context -->
-    <div class="ambient-bg">
-        Be a new person overnight. Wake up at 4am.<br>
-        Cold plunge. Journal. Run.<br>
-        Read 50 books this year.<br>
-        A perfect morning routine.<br>
-        Change your whole life by Monday.<br>
-        No excuses. No days off.
-    </div>
-
-    <!-- ACT 1: Hook Headline -->
-    <div class="hook-scene">
-        <div class="hook-title">
-            Here's how you actually decide what to cut <span class="highlight">when rebuilding.</span>
-        </div>
-        <div class="workbook-subtitle">From the 90-Minute Protocol Workbook</div>
-    </div>
-
-    <!-- ACT 2: Interactive Card Engine -->
-    <div class="kill-list-card">
-        <div class="card-header">
-            <div class="card-title">KILL LIST</div>
-            <div class="counter-badge" id="counter">0 / 3</div>
+    <div class="stage">
+        <div class="hook-chip" id="hookChip">OPERATOR PROTOCOL // v2.4</div>
+        
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="dots">
+                    <div class="dot dot-red"></div>
+                    <div class="dot dot-yellow"></div>
+                    <div class="dot dot-green"></div>
+                </div>
+                <div class="terminal-title">matrix_compiler.py — secure_override</div>
+            </div>
+            <div class="terminal-body" id="termBody">
+                <div class="code-row" id="row0"><span class="prompt">></span> <span>Initializing system sovereign core...</span></div>
+                <div class="code-row" id="row1"><span class="prompt">></span> <span class="dim">Bypassing external API dependencies</span></div>
+                <div class="code-row" id="row2"><span class="prompt">></span> <span class="highlight">Executing zero-latency data pipeline.</span></div>
+                <div class="code-row" id="row3"><span class="prompt">></span> <span>Status: <span class="highlight">AUTONOMY ACHIEVED.</span></span></div>
+            </div>
         </div>
 
-        <div class="list-item" id="i1"><span class="item-num">01</span> Doomscrolling at night</div>
-        <div class="list-item" id="i2"><span class="item-num">02</span> Snoozing the alarm</div>
-        <div class="list-item" id="i3"><span class="item-num">03</span> Saying yes to everything</div>
-        <div class="list-item" id="i4"><span class="item-num">04</span> Comparing yourself online</div>
-        <div class="list-item" id="i5"><span class="item-num">05</span> Skipping the plan</div>
-        <div class="list-item" id="i6"><span class="item-num">06</span> Waiting to feel ready</div>
-        <div class="list-item" id="i7"><span class="item-num">07</span> Half-finished projects</div>
-        <div class="list-item" id="i8"><span class="item-num">08</span> Checking your phone first</div>
-    </div>
-
-    <!-- ACT 3: CTA Footer -->
-    <div class="cta-scene">
-        <div class="cta-action">Circle three of ten.</div>
-        <div class="cta-sub">Comment KILL — I'll send you the workbook link.</div>
+        <div class="brand-footer" id="brandFooter">THE FINAL MINDSET</div>
     </div>
 
     <script>
-        // Precise beat synchronization timeline
-        setTimeout(() => {
-            document.getElementById('i3').classList.add('active-1');
-            document.getElementById('counter').innerText = '1 / 3';
-        }, 2800);
+        // Deterministic Frame Animation Engine driven by time parameter t (seconds)
+        function setT(t) {
+            // Duration: 5 seconds total
+            const duration = 5.0;
+            const progress = Math.min(Math.max(t / duration, 0), 1);
 
-        setTimeout(() => {
-            document.getElementById('i6').classList.add('active-2');
-            document.getElementById('counter').innerText = '2 / 3';
-        }, 4800);
+            // Hook Chip Animation (0.0s - 0.8s)
+            const chip = document.getElementById('hookChip');
+            const chipProgress = Math.min(Math.max(t / 0.8, 0), 1);
+            chip.style.opacity = chipProgress;
+            chip.style.transform = `translateY(${(1 - chipProgress) * -20}px) scale(${0.95 + chipProgress * 0.05})`;
 
-        setTimeout(() => {
-            document.getElementById('i8').classList.add('active-3');
-            document.getElementById('counter').innerText = '3 / 3';
-        }, 6800);
+            // Staggered Code Rows Animation (1.0s - 3.5s)
+            const rows = [
+                { id: 'row0', start: 1.0, end: 1.6 },
+                { id: 'row1', start: 1.5, end: 2.1 },
+                { id: 'row2', start: 2.0, end: 2.6 },
+                { id: 'row3', start: 2.5, end: 3.1 }
+            ];
+
+            rows.forEach(r => {
+                const el = document.getElementById(r.id);
+                if (t >= r.start) {
+                    const p = Math.min((t - r.start) / (r.end - r.start), 1);
+                    // Ease out quad
+                    const ease = p * (2 - p);
+                    el.style.opacity = ease;
+                    el.style.transform = `translateY(${(1 - ease) * 15}px)`;
+                } else {
+                    el.style.opacity = 0;
+                    el.style.transform = `translateY(15px)`;
+                }
+            });
+
+            // Footer Brand Fade In (3.5s - 4.5s)
+            const footer = document.getElementById('brandFooter');
+            const footerProgress = Math.min(Math.max((t - 3.5) / 1.0, 0), 1);
+            footer.style.opacity = footerProgress;
+        }
+
+        // Expose setT globally for Playwright evaluation
+        window.setT = setT;
     </script>
 </body>
 </html>
 """
 
-def generate_html_file():
-    os.makedirs("vault_test", exist_ok=True)
-    html_path = Path("vault_test/card_template.html").resolve()
+async def render_reels():
+    print("Initializing Playwright headless render engine...")
+    html_path = "index_preview.html"
     with open(html_path, "w", encoding="utf-8") as f:
         f.write(HTML_TEMPLATE)
-    return html_path
 
-def render_motion_frames_to_video():
-    print("[+] Initializing Multi-Phase Cinematic Motion Engine...")
-    html_path = generate_html_file()
-    
-    frames_dir = Path("vault_test/frames")
-    frames_dir.mkdir(parents=True, exist_ok=True)
+    fps = 30
+    duration = 5.0
+    total_frames = int(fps * duration)
+    output_video = "operator_mindset_reel.mp4"
 
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
-        page = browser.new_page(viewport={"width": CANVAS_WIDTH, "height": CANVAS_HEIGHT})
-        page.goto(f"file://{html_path}")
+    async with async_playwright() as p:
+        browser = await p.chromium.launch(headless=True)
+        context = await browser.new_context(
+            viewport={"width": 1080, "height": 1920},
+            device_scale_factor=1
+        )
+        page = await context.new_page()
         
-        total_frames = int(CANVAS_FPS * DURATION_SEC)
-        frame_interval_ms = 1000 / CANVAS_FPS
+        # Load local HTML file
+        abs_path = os.path.abspath(html_path)
+        await page.goto(f"file://{abs_path}?export=1")
+        await page.wait_for_load_state("networkidle")
 
-        print(f"[+] Capturing {total_frames} multi-act frames at {CANVAS_FPS} FPS...")
-        for frame in range(total_frames):
-            frame_path = frames_dir / f"frame_{frame:04d}.png"
-            page.screenshot(path=str(frame_path), type="png")
-            page.wait_for_timeout(frame_interval_ms)
+        print(f"Rendering {total_frames} frames at {fps} fps...")
 
-        browser.close()
+        # Setup ffmpeg process to pipe raw frames
+        import subprocess
+        cmd = [
+            "ffmpeg", "-y",
+            "-f", "image2pipe",
+            "-r", str(fps),
+            "-vcodec", "png",
+            "-i", "-",
+            "-vcodec", "libx264",
+            "-pix_fmt", "yuv420p",
+            "-crf", "18",
+            output_video
+        ]
+        
+        process = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-    output_mp4 = "test_output_reel.mp4"
-    print(f"[+] Compiling final multi-act MP4: {output_mp4}...")
-    ffmpeg_cmd = [
-        "ffmpeg",
-        "-y",
-        "-r", str(CANVAS_FPS),
-        "-i", str(frames_dir / "frame_%04d.png"),
-        "-c:v", "libx264",
-        "-pix_fmt", "yuv420p",
-        "-crf", "18",
-        output_mp4
-    ]
-    subprocess.run(ffmpeg_cmd, check=True)
-    print(f"[+] Complete Multi-Act Reel Successfully Compiled -> {output_mp4}")
+        for frame_idx in range(total_frames):
+            t = frame_idx / fps
+            # Evaluate deterministic time step in browser
+            await page.evaluate(f"setT({t})")
+            
+            # Capture screenshot buffer
+            screenshot_bytes = await page.screenshot(type="png", full_page=False)
+            process.stdin.write(screenshot_bytes)
+            
+            if frame_idx % 30 == 0:
+                print(f"Rendered frame {frame_idx}/{total_frames} (t={t:.2f}s)")
+
+        process.stdin.close()
+        process.wait()
+        await browser.close()
+
+    if os.path.exists(html_path):
+        os.remove(html_path)
+
+    print(f"Successfully rendered reel to {output_video}")
 
 if __name__ == "__main__":
-    render_motion_frames_to_video()
+    asyncio.run(render_reels())
