@@ -171,7 +171,7 @@ Theme: {script_payload.theme}
         build_video(
             blueprint, 
             str(audio_path),
-            str(output_video_path)
+            output_path=str(output_video_path)
         )
         print(f"\n[SUCCESS] Render Complete: {output_video_path}")
     except Exception as e:
