@@ -1,6 +1,6 @@
 import json
 from pathlib import Path
-from config import get_client, call_with_fallback
+from config import get_client, get_groq_client, call_with_fallback
 from google.genai import types
 from AgentNetwork.core.schemas import SignalPayload, ScriptPayload
 
@@ -41,7 +41,7 @@ def _enforce_direct_response_cta(data: dict, keyword: str = "OPERATOR") -> dict:
 
 class ScriptEngineAgent:
     def __init__(self):
-        self.client = get_client()
+        self.gemini_client = get_client()
 
     def generate_script(self, signal: SignalPayload) -> ScriptPayload:
         dossier_context = _load_virality_dossier()
@@ -82,9 +82,10 @@ Return JSON matching this schema:
 }}
 """
 
-        def make_api_call(model_name: str):
+        # 1. Gemini API Builder
+        def gemini_api_func_builder(model_name: str):
             def execute():
-                res = self.client.models.generate_content(
+                res = self.gemini_client.models.generate_content(
                     model=model_name,
                     contents=prompt,
                     config=types.GenerateContentConfig(
@@ -92,12 +93,25 @@ Return JSON matching this schema:
                     ),
                 )
                 return res.text
+            return execute
 
+        # 2. Groq API Builder (using official Groq client & JSON object mode)
+        def groq_api_func_builder(model_name: str):
+            def execute():
+                groq_client = get_groq_client()
+                res = groq_client.chat.completions.create(
+                    model=model_name,
+                    messages=[{"role": "user", "content": prompt}],
+                    response_format={"type": "json_object"},
+                    temperature=0.7
+                )
+                return res.choices[0].message.content
             return execute
 
         raw_json = ""
         try:
-            raw_json = call_with_fallback(make_api_call)
+            # Pass both builders to match config.py's expected signature
+            raw_json = call_with_fallback(gemini_api_func_builder, groq_api_func_builder)
             if raw_json:
                 data = json.loads(raw_json)
 
