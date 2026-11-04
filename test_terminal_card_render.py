@@ -28,7 +28,7 @@ def _resolve_font_path() -> str:
     return "DejaVuSans-Bold"
 
 def generate_solid_frame(text: str, accent_hex: str = "#00E5FF") -> str:
-    """Renders a sleek, proportional terminal UI card on a dark cinematic background."""
+    """Renders a tightly wrapped, dynamically proportioned terminal UI card."""
     # 1. Base Canvas (Dark Cinematic Background)
     img = Image.new("RGB", (CANVAS_WIDTH, CANVAS_HEIGHT), (12, 12, 16))
     draw = ImageDraw.Draw(img)
@@ -36,18 +36,27 @@ def generate_solid_frame(text: str, accent_hex: str = "#00E5FF") -> str:
     # Load fonts
     font_path = _resolve_font_path()
     try:
-        font_badge = ImageFont.truetype(font_path, 22)
-        font_main = ImageFont.truetype(font_path, 48)
+        font_badge = ImageFont.truetype(font_path, 20)
+        font_main = ImageFont.truetype(font_path, 46)
     except Exception:
         font_badge = ImageFont.load_default()
         font_main = ImageFont.load_default()
 
-    # 2. Compact Card Dimensions & Centering
-    card_w = 900
-    card_h = 480  # Compact, sleek height proportional to 2-3 lines of text
+    # 2. Wrap text first to calculate dynamic height
+    wrapped_lines = textwrap.wrap(text.upper(), width=22)
+    line_count = len(wrapped_lines)
+
+    # 3. Dynamic Card Dimensions (Hugs the text perfectly)
+    card_w = 860
+    padding_top_bottom = 90
+    badge_block_h = 75
+    line_height = 58
+    
+    card_h = padding_top_bottom + badge_block_h + (line_count * line_height)
+    
     card_x = (CANVAS_WIDTH - card_w) // 2
-    card_y = (CANVAS_HEIGHT - card_h) // 2 + 100
-    radius = 28
+    card_y = (CANVAS_HEIGHT - card_h) // 2 + 80  # Optical centering shift
+    radius = 24
 
     accent_rgb = _hex_to_rgb(accent_hex)
 
@@ -68,36 +77,33 @@ def generate_solid_frame(text: str, accent_hex: str = "#00E5FF") -> str:
         width=2
     )
 
-    # 3. Dynamic Top System Pill Badge
+    # 4. Dynamic Top System Pill Badge
     badge_text = "■ SYSTEM DOSSIER // ACTIVE TRACE"
-    
-    # Calculate exact text width to wrap the pill perfectly
     try:
         badge_text_w = draw.textlength(badge_text, font=font_badge)
     except AttributeError:
-        badge_text_w = len(badge_text) * 12  # Fallback approximation
+        badge_text_w = len(badge_text) * 10
 
-    badge_w = int(badge_text_w) + 48
-    badge_h = 40
+    badge_w = int(badge_text_w) + 40
+    badge_h = 36
     badge_x = card_x + 40
     badge_y = card_y + 35
 
     draw.rounded_rectangle(
         [badge_x, badge_y, badge_x + badge_w, badge_y + badge_h],
-        radius=20,
+        radius=18,
         fill=(accent_rgb[0]//5, accent_rgb[1]//5, accent_rgb[2]//5),
         outline=accent_rgb,
         width=1
     )
-    draw.text((badge_x + 24, badge_y + 9), badge_text, fill=accent_rgb, font=font_badge)
+    draw.text((badge_x + 20, badge_y + 8), badge_text, fill=accent_rgb, font=font_badge)
 
-    # 4. Main Body Typography & Wrapping
-    wrapped_lines = textwrap.wrap(text.upper(), width=23)
-    text_y = badge_y + 65
+    # 5. Main Body Typography Render
+    text_y = badge_y + 60
 
     for line in wrapped_lines:
         draw.text((card_x + 40, text_y), line, fill=(255, 255, 255), font=font_main)
-        text_y += 62
+        text_y += line_height
 
     os.makedirs("vault_test", exist_ok=True)
     out_path = "vault_test/solid_test_frame.png"
@@ -105,7 +111,7 @@ def generate_solid_frame(text: str, accent_hex: str = "#00E5FF") -> str:
     return out_path
 
 def build_test_video():
-    print("[+] Initializing Proportional Terminal Card Test...")
+    print("[+] Initializing Dynamic-Sized Terminal Card Test...")
     duration = 4.0
 
     sample_text = "MANUAL PROCESSES ARE OPERATIONAL LEAKS. DEPLOY AUTOMATED FLOWS."
@@ -121,7 +127,7 @@ def build_test_video():
         audio_codec="aac",
         threads=4,
     )
-    print(f"[+] Proportional Test Reel Compiled Successfully -> {output_file}")
+    print(f"[+] Dynamic Test Reel Compiled Successfully -> {output_file}")
 
 if __name__ == "__main__":
     build_test_video()
