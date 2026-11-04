@@ -236,8 +236,8 @@ def build_video(
         card_img_path = _generate_ui_card_image(chunk, theme_config, font_path)
         temp_image_files.append(card_img_path)
 
-        card_clip = ImageClip(card_img_path).with_duration(chunk_duration)
-
+        card_clip = ImageClip(card_img_path, transparent=True, fromalpha=True).with_duration(chunk_duration)    
+        
         chunk_composite = CompositeVideoClip([bg_clip, dark_overlay, card_clip]).with_duration(chunk_duration)
         scene_clips.append(chunk_composite)
 
