@@ -63,62 +63,62 @@ def _generate_ui_card_image(
 ) -> str:
     """
     Renders a high-end UI Terminal Card onto a transparent canvas using PIL.
-    Includes rounded container box, accent border, top pill badge, and structured typography.
-    Returns the path to the cached PNG image frame.
     """
+    print(f"[✓] EXECUTING PIL UI CARD ENGINE FOR CHUNK: '{chunk_text[:30]}...'")
+    
     # Create transparent base canvas
     img = Image.new("RGBA", (canvas_w, canvas_h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(img)
 
     # Card dimensions & positioning (Centered in 9:16)
-    card_w = 920
-    card_h = 750
+    card_w = 940
+    card_h = 700
     card_x = (canvas_w - card_w) // 2
-    card_y = (canvas_h - card_h) // 2 + 100  # Shift slightly lower for optical balance
-    radius = 32
+    card_y = (canvas_h - card_h) // 2 + 120
+    radius = 36
 
     # Parse theme color tokens
     accent_hex = theme_config.get("accent", theme_config.get("text", "#00E5FF"))
     accent_rgb = _hex_to_rgb(accent_hex)
 
-    # 1. Draw Frosted Glassmorphic Card Background (Dark Obsidian with opacity)
+    # 1. Draw Frosted Glassmorphic Card Background (Dark Obsidian)
     draw.rounded_rectangle(
         [card_x, card_y, card_x + card_w, card_y + card_h],
         radius=radius,
-        fill=(12, 12, 16, 220),       # Deep dark obsidian translucent fill
-        outline=(30, 30, 40, 255),    # Inner subtle structural edge
-        width=2
+        fill=(10, 10, 14, 235),       # Deep dark obsidian translucent fill
+        outline=(40, 40, 55, 255),    # Structural inner edge
+        width=3
     )
 
-    # 2. Draw Accent Outer Glow / Border Frame
+    # 2. Draw Accent Outer Glow Frame
     draw.rounded_rectangle(
         [card_x, card_y, card_x + card_w, card_y + card_h],
         radius=radius,
-        outline=(*accent_rgb, 140),   # Semi-transparent theme glow border
+        outline=(*accent_rgb, 180),   # Theme glow border
         width=2
     )
 
-    # 3. Draw Top Pill Badge ("OPERATOR PROTOCOL")
+    # 3. Draw Top System Pill Badge
     badge_text = "■ SYSTEM DOSSIER // ACTIVE TRACE"
     try:
-        font_badge = ImageFont.truetype(font_path, 22)
+        font_badge = ImageFont.truetype(font_path, 24)
     except Exception:
         font_badge = ImageFont.load_default()
 
-    badge_w = draw.textlength(badge_text, font=font_badge) + 40
-    badge_h = 44
+    badge_w = 420
+    badge_h = 48
     badge_x = card_x + 50
     badge_y = card_y + 45
 
     draw.rounded_rectangle(
         [badge_x, badge_y, badge_x + badge_w, badge_y + badge_h],
-        radius=22,
-        fill=(*accent_rgb, 40),
-        outline=(*accent_rgb, 200),
+        radius=24,
+        fill=(*accent_rgb, 45),
+        outline=(*accent_rgb, 220),
         width=1
     )
     draw.text(
-        (badge_x + 20, badge_y + 10),
+        (badge_x + 25, badge_y + 11),
         badge_text,
         fill=accent_rgb,
         font=font_badge
@@ -126,16 +126,14 @@ def _generate_ui_card_image(
 
     # 4. Wrap and Render Main Caption Text
     try:
-        font_main = ImageFont.truetype(font_path, 50)
+        font_main = ImageFont.truetype(font_path, 52)
     except Exception:
         font_main = ImageFont.load_default()
 
-    # Format text cleanly
     cleaned_text = chunk_text.upper().strip()
-    wrapped_lines = textwrap.wrap(cleaned_text, width=22)
+    wrapped_lines = textwrap.wrap(cleaned_text, width=21)
     
     text_y = badge_y + 90
-    max_text_width = card_w - 100
 
     for line in wrapped_lines:
         draw.text(
@@ -144,7 +142,7 @@ def _generate_ui_card_image(
             fill=(255, 255, 255, 255),
             font=font_main
         )
-        text_y += 70  # Line spacing
+        text_y += 75
 
     # 5. Save temporary frame asset
     os.makedirs("MediaFactory/vault/temp", exist_ok=True)
@@ -153,8 +151,8 @@ def _generate_ui_card_image(
     return temp_img_path
 
 
-def _process_micro_chunks(text: str, max_words_per_chunk: int = 8) -> list[str]:
-    """Splits heavy text blocks into fast-paced micro-captions for high-retention editing."""
+def _process_micro_chunks(text: str, max_words_per_chunk: int = 7) -> list[str]:
+    """Splits heavy text blocks into fast-paced micro-captions."""
     words = text.split()
     if not words:
         return [text]
@@ -171,6 +169,7 @@ def build_video(
     theme: str = "sovereign",
     output_path: str = "final_reel.mp4",
 ):
+    print("[+] Initializing Elevated PIL Video Builder Engine...")
     font_path = resolve_font_path()
 
     active_theme = script_data.get("theme", theme)
@@ -179,15 +178,13 @@ def build_video(
     audio = AudioFileClip(audio_path)
     total_duration = audio.duration
 
-    # Extract full voiceover script for 1:1 audio-visual sync
     raw_voiceover = script_data.get("voiceover_script", "").strip()
     if not raw_voiceover:
         raw_voiceover = f"{script_data.get('hook_text', '')} {' '.join(script_data.get('body_points', []))} {script_data.get('call_to_action', '')}".strip()
     if not raw_voiceover:
         raw_voiceover = script_data.get("title", "EXECUTE")
 
-    # Generate micro-captions from the exact spoken script
-    text_chunks = _process_micro_chunks(raw_voiceover, max_words_per_chunk=8)
+    text_chunks = _process_micro_chunks(raw_voiceover, max_words_per_chunk=7)
     chunk_count = len(text_chunks)
     chunk_duration = total_duration / max(chunk_count, 1)
 
@@ -201,7 +198,7 @@ def build_video(
 
         bg_video_path = fetch_background_video(search_query, chunk_idx, chunk_duration)
 
-        # 1. Background Layer Execution
+        # Background Layer
         if bg_video_path and os.path.exists(bg_video_path):
             try:
                 raw_bg = VideoFileClip(bg_video_path).without_audio()
@@ -215,7 +212,7 @@ def build_video(
 
                 bg_clip = _crop_and_center_video(raw_bg, CANVAS_WIDTH, CANVAS_HEIGHT)
             except Exception as e:
-                print(f"[!] Background crop/render error for chunk {chunk_idx+1}: {e}. Falling back to color clip.")
+                print(f"[!] Background crop error for chunk {chunk_idx+1}: {e}. Fallback to color.")
                 bg_clip = ColorClip(
                     size=(CANVAS_WIDTH, CANVAS_HEIGHT),
                     color=theme_config.get("bg", (10, 10, 10)),
@@ -228,20 +225,19 @@ def build_video(
                 duration=chunk_duration,
             )
 
-        # Contrast mask overlay to darken background video for readability
+        # Contrast mask overlay
         dark_overlay = ColorClip(
             size=(CANVAS_WIDTH, CANVAS_HEIGHT),
             color=(0, 0, 0),
             duration=chunk_duration,
-        ).with_opacity(theme_config.get("mask_opacity", 0.65))
+        ).with_opacity(theme_config.get("mask_opacity", 0.70))
 
-        # 2. Generate Professional UI Card Graphic via PIL
+        # Generate UI Card Graphic via PIL
         card_img_path = _generate_ui_card_image(chunk, theme_config, font_path)
         temp_image_files.append(card_img_path)
 
         card_clip = ImageClip(card_img_path).with_duration(chunk_duration)
 
-        # 3. Composite Scene (Background Video -> Dark Mask -> UI Terminal Card Overlay)
         chunk_composite = CompositeVideoClip([bg_clip, dark_overlay, card_clip]).with_duration(chunk_duration)
         scene_clips.append(chunk_composite)
 
@@ -268,7 +264,7 @@ def build_video(
         logger=None,
     )
 
-    # Cleanup temporary card images
+    # Cleanup temp card images
     for img_path in temp_image_files:
         try:
             if os.path.exists(img_path):
@@ -276,5 +272,5 @@ def build_video(
         except Exception:
             pass
 
-    print(f"[+] [{active_theme.upper()}] Elevated Terminal UI Card Reel generated -> {target_output}")
+    print(f"[+] [{active_theme.upper()}] Terminal UI Card Reel successfully compiled -> {target_output}")
     return target_output
