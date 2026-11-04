@@ -1,37 +1,30 @@
-**Reel Hook:**  
-*“What if every hour you *don’t* work could still pay you?”*  
-*Caption: The secret that turns effort‑discounting into a revenue multiplier.*
+**Reel Hook & Caption**  
+🚀 *Tired of trading hours for dollars?*  
+💡 *Flip the script: let outcomes, not effort, drive your income.*
 
 ---
 
-**Post 1 – The Invisible Tax on Your Time**  
-🧠 *Effort‑discounting* is a hidden psychological tax. The more work you put in, the less you *value* the reward. That’s why 80‑hour weeks feel like a dead‑end.  
-
-**💡 Insight:** Your brain is wired to protect you from “wasting” effort, but in a modern economy that means it *undervalues* high‑skill labor.  
+**Post 1 – The Hidden Tax on Your Time**  
+Every extra hour you work feels like a *tax* on your future freedom. Research shows the brain discounts rewards that require high effort, so the more you hustle, the less you *value* the payoff. The result? A relentless grind with shrinking satisfaction.
 
 ---
 
-**Post 2 – Flip the Script with Outcome Control**  
-🚀 Instead of micromanaging *effort*, focus on *outcomes*. Build a system that only cares about the *result* (e.g., a $1,000 sale), not how many hours you logged.  
-
-**🔧 Tactic:** Use a “Revenue‑Trigger” webhook that auto‑pays you when a predefined metric hits – no time‑tracking needed.  
+**Post 2 – Outcome Control ≠ Effort Control**  
+Traditional jobs reward *effort* (clock‑in, clock‑out). Sovereign operators flip the model: you set the *outcome* first, then build a system that delivers it automatically. No more “I’m busy” excuses—your revenue is tied to a metric you own, not the minutes you log.
 
 ---
 
-**Post 3 – The “Outcome Sovereignty Engine” Blueprint**  
-1️⃣ Define a *single* high‑margin outcome (digital product, SaaS feature, consulting package).  
-2️⃣ Automate delivery with Zapier/Make + Stripe.  
-3️⃣ Set a *profit‑only* KPI; the system shuts down any task that doesn’t hit it.  
-
-**Result:** Your income now scales *independently* of the hours you spend.  
+**Post 3 – Build a Zero‑Touch Income Engine in 3 Moves**  
+1️⃣ Define a single, high‑value outcome (e.g., 5 k €/month recurring).  
+2️⃣ Map the minimal‑effort process that produces it (content + email funnel).  
+3️⃣ Automate with a no‑code stack (Zapier + Stripe + Notion) and let the system run while you sleep.
 
 ---
 
-**Post 4 – Quick Win: Deploy in 48 Hours**  
-🛠️ Create a simple “Pay‑Per‑Result” landing page (Webflow + Memberstack).  
-🔗 Connect a Zap that sends you a Slack alert *and* a payment when a sale occurs.  
+**Post 4 – The Payoff**  
+When effort is stripped out, the brain stops discounting the reward. You get *real* control, higher motivation, and the freedom to invest your time where it truly matters. Ready to rewire your income equation? 👇
 
-*You just built a micro‑revenue engine that pays you while you sleep.*  
+---
 
----  
-###
+**Call‑to‑Action**  
+Grab the **Compression System** – a $197, step‑by‑step framework that turns any outcome into a zero‑touch revenue machine. https://fmframeworks.gumroad.com/l/CompressionSystem
