@@ -1,133 +1,202 @@
 import os
-import textwrap
+import subprocess
 from pathlib import Path
-from PIL import Image, ImageDraw, ImageFont
-from moviepy import ImageClip
+from playwright.sync_api import sync_playwright
 
-# Canvas Specs (9:16 Reels / Shorts)
 CANVAS_WIDTH = 1080
 CANVAS_HEIGHT = 1920
-CANVAS_FPS = 30
+CANVAS_FPS = 60
+DURATION_SEC = 4.0
 
-def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
-    """Converts hex color string to RGB tuple."""
-    hex_str = hex_str.lstrip('#')
-    return tuple(int(hex_str[i:i+2], 16) for i in (0, 2, 4))
+HTML_TEMPLATE = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            width: 1080px;
+            height: 1920px;
+            background: #08080c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Liberation Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
 
-def _resolve_font_path() -> str:
-    """Finds a reliable system font."""
-    candidates = [
-        "/usr/share/fonts/truetype/liberation/LiberationSans-Bold.ttf",
-        "/usr/share/fonts/TTF/LiberationSans-Bold.ttf",
-        "/System/Library/Fonts/Helvetica.ttc",
-        "DejaVuSans-Bold"
-    ]
-    for c in candidates:
-        if os.path.exists(c):
-            return c
-    return "DejaVuSans-Bold"
+        /* Ambient Glow Background Pulse */
+        .ambient-glow {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0, 229, 255, 0.15) 0%, rgba(0,0,0,0) 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseGlow 4s ease-in-out infinite alternate;
+        }
 
-def generate_solid_frame(text: str, accent_hex: str = "#00E5FF") -> str:
-    """Renders a tightly wrapped, dynamically proportioned terminal UI card."""
-    # 1. Base Canvas (Dark Cinematic Background)
-    img = Image.new("RGB", (CANVAS_WIDTH, CANVAS_HEIGHT), (12, 12, 16))
-    draw = ImageDraw.Draw(img)
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0.5; }
+            100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.9; }
+        }
 
-    # Load fonts
-    font_path = _resolve_font_path()
-    try:
-        font_badge = ImageFont.truetype(font_path, 20)
-        font_main = ImageFont.truetype(font_path, 46)
-    except Exception:
-        font_badge = ImageFont.load_default()
-        font_main = ImageFont.load_default()
+        /* Terminal Glassmorphic Container with Animated Border */
+        .terminal-card {
+            width: 880px;
+            padding: 48px;
+            background: rgba(14, 16, 22, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 28px;
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
+                        0 0 40px rgba(0, 229, 255, 0.2);
+            border: 2px solid rgba(0, 229, 255, 0.4);
+            animation: cardSlideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards,
+                       borderGlow 3s ease-in-out infinite alternate;
+        }
 
-    # 2. Wrap text first to calculate dynamic height
-    wrapped_lines = textwrap.wrap(text.upper(), width=22)
-    line_count = len(wrapped_lines)
+        @keyframes cardSlideUp {
+            0% { opacity: 0; transform: translateY(60px) scale(0.95); }
+            100% { opacity: 1; transform: translateY(0) scale(1); }
+        }
 
-    # 3. Dynamic Card Dimensions (Hugs the text perfectly)
-    card_w = 860
-    padding_top_bottom = 90
-    badge_block_h = 75
-    line_height = 58
-    
-    card_h = padding_top_bottom + badge_block_h + (line_count * line_height)
-    
-    card_x = (CANVAS_WIDTH - card_w) // 2
-    card_y = (CANVAS_HEIGHT - card_h) // 2 + 80  # Optical centering shift
-    radius = 24
+        @keyframes borderGlow {
+            0% { border-color: rgba(0, 229, 255, 0.3); box-shadow: 0 0 20px rgba(0, 229, 255, 0.1); }
+            100% { border-color: rgba(0, 229, 255, 0.8); box-shadow: 0 0 50px rgba(0, 229, 255, 0.35); }
+        }
 
-    accent_rgb = _hex_to_rgb(accent_hex)
+        /* Pill Badge */
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 22px;
+            background: rgba(0, 229, 255, 0.12);
+            border: 1px solid rgba(0, 229, 255, 0.6);
+            border-radius: 100px;
+            color: #00E5FF;
+            font-size: 20px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+        }
 
-    # Draw Frosted Obsidian Card Background
-    draw.rounded_rectangle(
-        [card_x, card_y, card_x + card_w, card_y + card_h],
-        radius=radius,
-        fill=(18, 18, 24),          # Deep dark obsidian fill
-        outline=(45, 45, 60),       # Structural border edge
-        width=2
-    )
+        .pill-indicator {
+            width: 10px;
+            height: 10px;
+            background: #00E5FF;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #00E5FF;
+            animation: blink 1.2s infinite alternate;
+        }
 
-    # Draw Accent Glow Border Frame
-    draw.rounded_rectangle(
-        [card_x, card_y, card_x + card_w, card_y + card_h],
-        radius=radius,
-        outline=accent_rgb,
-        width=2
-    )
+        @keyframes blink {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
 
-    # 4. Dynamic Top System Pill Badge
-    badge_text = "■ SYSTEM DOSSIER // ACTIVE TRACE"
-    try:
-        badge_text_w = draw.textlength(badge_text, font=font_badge)
-    except AttributeError:
-        badge_text_w = len(badge_text) * 10
+        /* Main Headline Typography */
+        .headline {
+            color: #FFFFFF;
+            font-size: 46px;
+            font-weight: 800;
+            line-height: 1.35;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-    badge_w = int(badge_text_w) + 40
-    badge_h = 36
-    badge_x = card_x + 40
-    badge_y = card_y + 35
+        .highlight {
+            color: #00E5FF;
+            text-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+        }
 
-    draw.rounded_rectangle(
-        [badge_x, badge_y, badge_x + badge_w, badge_y + badge_h],
-        radius=18,
-        fill=(accent_rgb[0]//5, accent_rgb[1]//5, accent_rgb[2]//5),
-        outline=accent_rgb,
-        width=1
-    )
-    draw.text((badge_x + 20, badge_y + 8), badge_text, fill=accent_rgb, font=font_badge)
+        /* Cursor Caret for Typewriter Effect */
+        .cursor {
+            display: inline-block;
+            width: 12px;
+            height: 44px;
+            background: #00E5FF;
+            margin-left: 6px;
+            vertical-align: middle;
+            animation: caretBlink 0.8s infinite;
+        }
 
-    # 5. Main Body Typography Render
-    text_y = badge_y + 60
+        @keyframes caretBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="ambient-glow"></div>
+    <div class="terminal-card">
+        <div class="pill-badge">
+            <span class="pill-indicator"></span>
+            SYSTEM DOSSIER // ACTIVE TRACE
+        </div>
+        <div class="headline">
+            MANUAL PROCESSES ARE <span class="highlight">OPERATIONAL LEAKS</span>. DEPLOY AUTOMATED FLOWS.<span class="cursor"></span>
+        </div>
+    </div>
+</body>
+</html>
+"""
 
-    for line in wrapped_lines:
-        draw.text((card_x + 40, text_y), line, fill=(255, 255, 255), font=font_main)
-        text_y += line_height
-
+def generate_html_file():
     os.makedirs("vault_test", exist_ok=True)
-    out_path = "vault_test/solid_test_frame.png"
-    img.save(out_path)
-    return out_path
+    html_path = Path("vault_test/card_template.html").resolve()
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(HTML_TEMPLATE)
+    return html_path
 
-def build_test_video():
-    print("[+] Initializing Dynamic-Sized Terminal Card Test...")
-    duration = 4.0
+def render_motion_frames_to_video():
+    print("[+] Initializing HTML/CSS Motion Engine via Playwright...")
+    html_path = generate_html_file()
+    
+    frames_dir = Path("vault_test/frames")
+    frames_dir.mkdir(parents=True, exist_ok=True)
 
-    sample_text = "MANUAL PROCESSES ARE OPERATIONAL LEAKS. DEPLOY AUTOMATED FLOWS."
-    frame_path = generate_solid_frame(sample_text, accent_hex="#00E5FF")
+    # Capture HTML animation frames in a headless browser
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page(viewport={"width": CANVAS_WIDTH, "height": CANVAS_HEIGHT})
+        page.goto(f"file://{html_path}")
+        
+        total_frames = int(CANVAS_FPS * DURATION_SEC)
+        frame_interval_ms = 1000 / CANVAS_FPS
 
-    clip = ImageClip(frame_path).with_duration(duration)
+        print(f"[+] Capturing {total_frames} motion frames at 60 FPS...")
+        for frame in range(total_frames):
+            frame_path = frames_dir / f"frame_{frame:04d}.png"
+            page.screenshot(path=str(frame_path), type="png")
+            page.wait_for_timeout(frame_interval_ms)
 
-    output_file = "test_output_reel.mp4"
-    clip.write_videofile(
-        output_file,
-        fps=CANVAS_FPS,
-        codec="libx264",
-        audio_codec="aac",
-        threads=4,
-    )
-    print(f"[+] Dynamic Test Reel Compiled Successfully -> {output_file}")
+        browser.close()
+
+    # Compile captured frames into 60 FPS MP4 via FFmpeg
+    output_mp4 = "test_output_reel.mp4"
+    print(f"[+] Compiling frame sequence into high-bitrate MP4: {output_mp4}...")
+    ffmpeg_cmd = [
+        "ffmpeg",
+        "-y",
+        "-r", str(CANVAS_FPS),
+        "-i", str(frames_dir / "frame_%04d.png"),
+        "-c:v", "libx264",
+        "-pix_fmt", "yuv420p",
+        "-crf", "18",
+        output_mp4
+    ]
+    subprocess.run(ffmpeg_cmd, check=True)
+    print(f"[+] Motion Graphic Reel Successfully Compiled -> {output_mp4}")
 
 if __name__ == "__main__":
-    build_test_video()
+    render_motion_frames_to_video()
