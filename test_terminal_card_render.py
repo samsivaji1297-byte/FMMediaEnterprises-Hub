@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright
 CANVAS_WIDTH = 1080
 CANVAS_HEIGHT = 1920
 CANVAS_FPS = 60
-DURATION_SEC = 9.0  # Matches the pacing of the reference reel
+DURATION_SEC = 9.6  # Matches reference video length precisely
 
 HTML_TEMPLATE = """<!DOCTYPE html>
 <html lang="en">
@@ -25,11 +25,10 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
+            justify-content: center;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             overflow: hidden;
             position: relative;
-            padding-top: 140px;
         }
 
         /* Ambient Background Scrolling Manifestos */
@@ -39,38 +38,32 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             left: 0;
             width: 100%;
             height: 100%;
-            opacity: 0.04;
+            opacity: 0.05;
             color: #ffffff;
             font-size: 32px;
             font-weight: 600;
             line-height: 2.2;
-            padding: 60px;
+            padding: 80px;
             z-index: 1;
             user-select: none;
             pointer-events: none;
         }
 
-        /* Main Hook Section */
-        .hook-container {
+        /* ACT 1: Full-Screen Macro Hook */
+        .hook-scene {
+            position: absolute;
             width: 900px;
             text-align: center;
-            z-index: 10;
-            margin-bottom: 50px;
-            animation: fadeInHook 0.6s ease-out forwards;
-        }
-
-        @keyframes fadeInHook {
-            0% { opacity: 0; transform: translateY(-20px); }
-            100% { opacity: 1; transform: translateY(0); }
+            z-index: 20;
+            animation: hookSequence 9.6s forwards;
         }
 
         .hook-title {
-            font-size: 64px;
+            font-size: 68px;
             font-weight: 800;
             color: #ffffff;
             line-height: 1.25;
             letter-spacing: -0.5px;
-            text-transform: none;
         }
 
         .hook-title .highlight {
@@ -83,32 +76,45 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         .workbook-subtitle {
             font-size: 24px;
             color: #8b9bb4;
-            margin-top: 16px;
+            margin-top: 20px;
             font-weight: 500;
             letter-spacing: 0.5px;
+            opacity: 0.9;
         }
 
-        /* Interactive Checklist Card Container */
+        @keyframes hookSequence {
+            0% { opacity: 0; transform: translateY(-30px); }
+            12% { opacity: 1; transform: translateY(0); }
+            78% { opacity: 1; transform: translateY(0); }
+            90% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* ACT 2: Interactive Kill List UI Card */
         .kill-list-card {
-            width: 900px;
-            background: rgba(14, 18, 28, 0.92);
-            backdrop-filter: blur(25px);
-            border: 2px solid rgba(0, 229, 255, 0.25);
-            border-radius: 28px;
-            padding: 40px 45px;
-            z-index: 10;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8),
-                        0 0 40px rgba(0, 229, 255, 0.15);
-            animation: slideUpCard 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards;
+            position: absolute;
+            width: 920px;
+            background: rgba(12, 16, 26, 0.95);
+            backdrop-filter: blur(30px);
+            border: 2px solid rgba(0, 229, 255, 0.3);
+            border-radius: 32px;
+            padding: 45px 50px;
+            z-index: 15;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.9),
+                        0 0 50px rgba(0, 229, 255, 0.18);
             opacity: 0;
-            transform: translateY(40px);
+            transform: translateY(40px) scale(0.96);
+            animation: cardSequence 9.6s forwards;
         }
 
-        @keyframes slideUpCard {
-            to { opacity: 1; transform: translateY(0); }
+        @keyframes cardSequence {
+            0% { opacity: 0; transform: translateY(40px) scale(0.96); }
+            18% { opacity: 0; transform: translateY(40px) scale(0.96); }
+            24% { opacity: 1; transform: translateY(0) scale(1); }
+            90% { opacity: 1; transform: translateY(0) scale(1); }
+            100% { opacity: 0; transform: scale(0.98); }
         }
 
-        /* Card Header */
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -129,25 +135,24 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 24px;
             font-weight: 700;
             color: #00e5ff;
-            background: rgba(0, 229, 255, 0.1);
-            padding: 6px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(0, 229, 255, 0.3);
+            background: rgba(0, 229, 255, 0.12);
+            padding: 6px 18px;
+            border-radius: 14px;
+            border: 1px solid rgba(0, 229, 255, 0.35);
         }
 
-        /* List Items */
         .list-item {
             display: flex;
             align-items: center;
-            padding: 18px 24px;
-            margin-bottom: 14px;
+            padding: 16px 22px;
+            margin-bottom: 12px;
             border-radius: 16px;
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.04);
-            color: #94a3b8;
+            color: #8b9bb4;
             font-size: 28px;
             font-weight: 600;
-            transition: all 0.3s ease;
+            transition: all 0.25s ease;
         }
 
         .item-num {
@@ -157,79 +162,69 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             font-size: 24px;
         }
 
-        /* Selection States triggered via CSS animations mapped to timeline */
-        .list-item.sel-1 {
-            animation: highlightItem 4s forwards;
-            animation-delay: 2.5s;
+        /* Sequential Selection Triggers */
+        .list-item.active-1 {
+            background: rgba(0, 229, 255, 0.15) !important;
+            border-color: #00e5ff !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+            transform: scale(1.01);
         }
 
-        .list-item.sel-2 {
-            animation: highlightItem 4s forwards;
-            animation-delay: 4.5s;
+        .list-item.active-2 {
+            background: rgba(0, 229, 255, 0.15) !important;
+            border-color: #00e5ff !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+            transform: scale(1.01);
         }
 
-        .list-item.sel-3 {
-            animation: highlightItem 4s forwards;
-            animation-delay: 6.5s;
+        .list-item.active-3 {
+            background: rgba(0, 229, 255, 0.15) !important;
+            border-color: #00e5ff !important;
+            color: #ffffff !important;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+            transform: scale(1.01);
         }
 
-        @keyframes highlightItem {
-            0% {
-                background: rgba(255, 255, 255, 0.02);
-                border-color: rgba(255, 255, 255, 0.04);
-                color: #94a3b8;
-            }
-            15% {
-                background: rgba(0, 229, 255, 0.12);
-                border-color: #00e5ff;
-                color: #ffffff;
-                box-shadow: 0 0 25px rgba(0, 229, 255, 0.25);
-                transform: scale(1.01);
-            }
-            100% {
-                background: rgba(0, 229, 255, 0.08);
-                border-color: rgba(0, 229, 255, 0.6);
-                color: #ffffff;
-                transform: scale(1);
-            }
-        }
-
-        /* Dynamic Counter updates via CSS content simulation or script */
-        
-        /* CTA Footer Section */
-        .cta-container {
+        /* ACT 3: CTA Outro Footer */
+        .cta-scene {
             position: absolute;
-            bottom: 100px;
+            bottom: 120px;
             width: 100%;
             text-align: center;
             opacity: 0;
-            animation: fadeInCTA 0.6s ease-out 7.5s forwards;
-            z-index: 10;
+            transform: translateY(20px);
+            z-index: 20;
+            animation: ctaSequence 9.6s forwards;
         }
 
-        @keyframes fadeInCTA {
-            to { opacity: 1; transform: translateY(0); }
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes ctaSequence {
+            0% { opacity: 0; transform: translateY(20px); }
+            75% { opacity: 0; transform: translateY(20px); }
+            82% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .cta-action {
-            font-size: 32px;
-            font-weight: 700;
+            font-size: 34px;
+            font-weight: 800;
             color: #ffffff;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
         }
 
         .cta-sub {
-            font-size: 22px;
+            font-size: 24px;
             color: #00e5ff;
-            font-weight: 600;
+            font-weight: 700;
             letter-spacing: 1px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Ambient background text context -->
+    <!-- Background Context -->
     <div class="ambient-bg">
         Be a new person overnight. Wake up at 4am.<br>
         Cold plunge. Journal. Run.<br>
@@ -239,15 +234,15 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         No excuses. No days off.
     </div>
 
-    <!-- Hook header -->
-    <div class="hook-container">
+    <!-- ACT 1: Hook Headline -->
+    <div class="hook-scene">
         <div class="hook-title">
             Here's how you actually decide what to cut <span class="highlight">when rebuilding.</span>
         </div>
         <div class="workbook-subtitle">From the 90-Minute Protocol Workbook</div>
     </div>
 
-    <!-- Kill List Card -->
+    <!-- ACT 2: Interactive Card Engine -->
     <div class="kill-list-card">
         <div class="card-header">
             <div class="card-title">KILL LIST</div>
@@ -256,25 +251,36 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <div class="list-item" id="i1"><span class="item-num">01</span> Doomscrolling at night</div>
         <div class="list-item" id="i2"><span class="item-num">02</span> Snoozing the alarm</div>
-        <div class="list-item sel-1" id="i3"><span class="item-num">03</span> Saying yes to everything</div>
+        <div class="list-item" id="i3"><span class="item-num">03</span> Saying yes to everything</div>
         <div class="list-item" id="i4"><span class="item-num">04</span> Comparing yourself online</div>
         <div class="list-item" id="i5"><span class="item-num">05</span> Skipping the plan</div>
-        <div class="list-item sel-2" id="i6"><span class="item-num">06</span> Waiting to feel ready</div>
+        <div class="list-item" id="i6"><span class="item-num">06</span> Waiting to feel ready</div>
         <div class="list-item" id="i7"><span class="item-num">07</span> Half-finished projects</div>
-        <div class="list-item sel-3" id="i8"><span class="item-num">08</span> Checking your phone first</div>
+        <div class="list-item" id="i8"><span class="item-num">08</span> Checking your phone first</div>
     </div>
 
-    <!-- CTA Footer -->
-    <div class="cta-container">
+    <!-- ACT 3: CTA Footer -->
+    <div class="cta-scene">
         <div class="cta-action">Circle three of ten.</div>
         <div class="cta-sub">Comment KILL — I'll send you the workbook link.</div>
     </div>
 
     <script>
-        // Simple DOM state hook to sync counter visual with highlighted items
-        setTimeout(() => { document.getElementById('counter').innerText = '1 / 3'; }, 2700);
-        setTimeout(() => { document.getElementById('counter').innerText = '2 / 3'; }, 4700);
-        setTimeout(() => { document.getElementById('counter').innerText = '3 / 3'; }, 6700);
+        // Precise beat synchronization timeline
+        setTimeout(() => {
+            document.getElementById('i3').classList.add('active-1');
+            document.getElementById('counter').innerText = '1 / 3';
+        }, 2800);
+
+        setTimeout(() => {
+            document.getElementById('i6').classList.add('active-2');
+            document.getElementById('counter').innerText = '2 / 3';
+        }, 4800);
+
+        setTimeout(() => {
+            document.getElementById('i8').classList.add('active-3');
+            document.getElementById('counter').innerText = '3 / 3';
+        }, 6800);
     </script>
 </body>
 </html>
@@ -288,7 +294,7 @@ def generate_html_file():
     return html_path
 
 def render_motion_frames_to_video():
-    print("[+] Initializing Viral-Aesthetic HTML Motion Engine...")
+    print("[+] Initializing Multi-Phase Cinematic Motion Engine...")
     html_path = generate_html_file()
     
     frames_dir = Path("vault_test/frames")
@@ -302,7 +308,7 @@ def render_motion_frames_to_video():
         total_frames = int(CANVAS_FPS * DURATION_SEC)
         frame_interval_ms = 1000 / CANVAS_FPS
 
-        print(f"[+] Capturing {total_frames} cinematic frames at {CANVAS_FPS} FPS...")
+        print(f"[+] Capturing {total_frames} multi-act frames at {CANVAS_FPS} FPS...")
         for frame in range(total_frames):
             frame_path = frames_dir / f"frame_{frame:04d}.png"
             page.screenshot(path=str(frame_path), type="png")
@@ -311,7 +317,7 @@ def render_motion_frames_to_video():
         browser.close()
 
     output_mp4 = "test_output_reel.mp4"
-    print(f"[+] Compiling high-bitrate MP4: {output_mp4}...")
+    print(f"[+] Compiling final multi-act MP4: {output_mp4}...")
     ffmpeg_cmd = [
         "ffmpeg",
         "-y",
@@ -323,7 +329,7 @@ def render_motion_frames_to_video():
         output_mp4
     ]
     subprocess.run(ffmpeg_cmd, check=True)
-    print(f"[+] Viral Aesthetic Reel Successfully Compiled -> {output_mp4}")
+    print(f"[+] Complete Multi-Act Reel Successfully Compiled -> {output_mp4}")
 
 if __name__ == "__main__":
     render_motion_frames_to_video()
