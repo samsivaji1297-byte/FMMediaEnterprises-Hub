@@ -1,3 +1,4 @@
+import os
 import sys
 import subprocess
 from pathlib import Path
@@ -15,6 +16,15 @@ IP_DIR = PROJECT_ROOT / "IPFactory"
 MASTER_FILE = IP_DIR / "!MASTER_IP.md"
 
 client = get_client()
+
+# Optional Groq client initialization if groq package is installed and key exists
+groq_client = None
+try:
+    from groq import Groq
+    if os.environ.get("GROQ_API_KEY"):
+        groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY"))
+except ImportError:
+    pass
 
 
 def load_master_lines() -> list[str]:
@@ -48,25 +58,33 @@ Constraints:
 
 
 def generate_definition(name: str) -> str:
-    """Executes prompt against model cascade with disabled automatic function calling warnings."""
+    """Executes prompt against model cascade supporting both Gemini and Groq providers."""
     prompt = build_prompt(name)
 
     def _api_func_builder(target_model: str):
         def _api_call():
             print(f"Generating repair definition for '{name}' using model: {target_model}")
             
-            # Suppress SDK warning logs
-            gen_config = types.GenerateContentConfig(
-                automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
-            )
-            
-            response = client.models.generate_content(
-                model=target_model,
-                contents=prompt,
-                config=gen_config,
-            )
-            
-            text = response.text.strip()
+            # Check if target model belongs to Groq (e.g. llama models)
+            if "llama" in target_model.lower() and groq_client:
+                completion = groq_client.chat.completions.create(
+                    model=target_model,
+                    messages=[{"role": "user", "content": prompt}],
+                    temperature=0.7,
+                )
+                text = completion.choices[0].message.content.strip()
+            else:
+                # Default to Gemini SDK call
+                gen_config = types.GenerateContentConfig(
+                    automatic_function_calling=types.AutomaticFunctionCallingConfig(disable=True)
+                )
+                response = client.models.generate_content(
+                    model=target_model,
+                    contents=prompt,
+                    config=gen_config,
+                )
+                text = response.text.strip()
+
             # Ensure it's strictly a single line
             return " ".join(text.splitlines()).strip()
 
@@ -133,7 +151,7 @@ def git_commit_repairs(repaired_files: list[Path]) -> None:
         rel_paths = [str(f.relative_to(PROJECT_ROOT)) for f in repaired_files]
         subprocess.run(["git", "add"] + rel_paths, check=True)
         subprocess.run(
-            ["git", "commit", "-m", f"Repair IP integrity across {len(repaired_files)} file(s)"],
+            ["git", "commit", "-m", f"IP Integrity Engine: repair missing definitions across {len(repaired_files)} file(s)"],
             check=True,
         )
         print(f"[Git] Successfully committed repairs for {len(repaired_files)} file(s)")
