@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261105_044214
+Topic: how to automate business
+Title: Automate Your Operations or Get Replaced
+Hook: Manual operations are bleeding your business dry.
+Voiceover Script: Manual operations are bleeding your business dry. The hardest workers are getting outperformed by autonomous infrastructure. Stop trading hours for output. Replace repetitive workflows with sovereign automated pipelines today. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Manual operations are bleeding your business dry.
+  Visual Prompt: dark charcoal terminal code running cyan
+
+Scene 2:
+  Text: Manual operations are bleeding your business dry. The hardest workers are getting outperformed by autonomous infrastructure. Stop trading hours for output. Replace repetitive workflows with sovereign automated pipelines today. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian minimalist server architecture neon
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
