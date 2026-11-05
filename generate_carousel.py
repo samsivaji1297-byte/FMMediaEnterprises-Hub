@@ -5,24 +5,22 @@ from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 def generate_ai_hook() -> dict:
-    """Queries AI models using strict direct-response and pattern-interrupt rules."""
+    """Queries AI models for multi-line stacked editorial serif hooks."""
     prompt = """
-    You are an elite direct-response copywriter crafting high-converting Instagram carousel hooks.
-    Your goal is to force a pattern-interrupt that stops the scroll instantly.
+    You are an elite direct-response copywriter crafting high-status, editorial Instagram hooks.
+    Your goal is to create a compelling, curiosity-gap hook formatted as a stacked title.
     
-    Product context: Digital frameworks and sovereign operational systems (fmframeworks.gumroad.com), 
+    Context: Digital frameworks and sovereign operational systems (fmframeworks.gumroad.com), 
     such as 'The Compression System' (building products in 90 minutes) and the '90-Minute Protocol'.
     
-    Formatting & Copy Rules:
-    1. mainText: Must be a bold, high-impact uppercase title (2 to 4 words max, e.g., BUILD A PRODUCT, STOP TRADING TIME).
-    2. subText: A clean, single-line conversational lead-in (2 to 4 words max, e.g., in 90 minutes using).
-    3. accentText: The high-value curiosity payoff word or mechanism (2 to 3 words max, e.g., these 4 triggers, zero-code pipeline).
+    Formatting Rules:
+    1. mainText: A 4-6 word uppercase title split with line breaks (<br>) to form a tall stack (e.g., THE REAL<br>SECRET<br>BEHIND<br>MAKING<br>MONEY or HOW TO<br>BUILD A<br>PRODUCT IN<br>90 MINS).
+    2. subText: A short, high-tension uppercase subline/kicker (e.g., IT'S NOT WHAT YOU THINK, THE 4 HIDDEN TRIGGERS, UNLOCK THE PROTOCOL).
     
-    Return ONLY valid JSON matching this exact structure, with no extra markdown blocks or formatting:
+    Return ONLY valid JSON matching this exact structure:
     {
       "mainText": "...",
-      "subText": "...",
-      "accentText": "..."
+      "subText": "..."
     }
     """
 
@@ -62,42 +60,66 @@ def generate_ai_hook() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_slide(hook_data: dict):
-    """Ensures template.html exists, injects structured hook payload, and renders 1080x1350 PNG via Playwright."""
+    """Auto-generates template.html on the fly, injects editorial AI hook, and renders 1080x1350 PNG via Playwright."""
     template_path = Path(__file__).parent / 'template.html'
     
-    # Self-healing template with correct single-line subtext architecture
-    if not template_path.exists():
-        default_template = """<!DOCTYPE html>
+    # Embed the cinematic editorial template directly inside Python
+    embedded_template = """<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>IG Carousel Hook Studio</title>
+  <title>Editorial IG Carousel Hook</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@800;900&display=swap');
-    :root { --bg-color: #050505; --text-white: #FFFFFF; --accent-red: #FF3B30; --line-color: #262626; }
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Inter:wght@400;600&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
-    body { background-color: var(--bg-color); width: 1080px; height: 1350px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 120px 96px; overflow: hidden; }
-    .content-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
-    .hook-main { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 5.7rem; line-height: 1.05; text-transform: uppercase; color: #FFFFFF; letter-spacing: -0.03em; margin-bottom: 28px; }
-    .hook-sub { font-family: 'Instrument Serif', serif; font-size: 4.2rem; font-weight: 400; color: #FFFFFF; line-height: 1.2; position: relative; white-space: nowrap; }
-    .accent-word { position: relative; display: inline-block; white-space: nowrap; }
-    .accent-word::after { content: ''; position: absolute; bottom: -8px; left: -4px; right: -4px; height: 8px; background-color: var(--accent-red); border-radius: 50px; transform: rotate(-1deg); }
-    .divider-line { width: 65%; height: 3px; background-color: var(--line-color); margin-top: 96px; }
-    .slide-dots { position: absolute; bottom: 60px; display: flex; gap: 16px; }
-    .dot { width: 12px; height: 12px; border-radius: 50%; background-color: #333; }
-    .dot.active { background-color: #3B82F6; }
+    body {
+      width: 1080px; height: 1350px; background: #000000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
+    }
+    .bg-image {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?q=80&w=1080&auto=format&fit=crop');
+      background-size: cover; background-position: center;
+      filter: grayscale(100%) contrast(120%) brightness(50%); z-index: 1;
+    }
+    .bg-overlay {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.4) 0%, rgba(5, 5, 5, 0.85) 100%);
+      z-index: 2;
+    }
+    .content-wrapper {
+      position: relative; z-index: 3; width: 80%;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }
+    .watermark {
+      font-size: 1.1rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.6); margin-bottom: 60px; font-weight: 600;
+    }
+    .hook-main {
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 5.2rem;
+      line-height: 1.05; text-transform: uppercase; color: #FFFFFF; letter-spacing: 0.02em;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.8); margin-bottom: 36px;
+    }
+    .hook-sub {
+      font-family: 'Inter', sans-serif; font-size: 1.3rem; font-weight: 600;
+      letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
+    }
   </style>
 </head>
 <body>
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
   <div class="content-wrapper">
-    <div class="hook-main">BUILD A PRODUCT</div>
-    <div class="hook-sub">in 90 minutes using <span class="accent-word">these 4 triggers</span></div>
-    <div class="divider-line"></div>
+    <div class="watermark">@FMMEDIAENTERPRISES</div>
+    <div class="hook-main">THE REAL<br>SECRET<br>BEHIND<br>MAKING<br>MONEY</div>
+    <div class="hook-sub">IT'S NOT WHAT YOU THINK</div>
   </div>
-  <div class="slide-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
 </body>
 </html>"""
-        template_path.write_text(default_template, encoding='utf-8')
+    
+    # Write out the template dynamically before rendering
+    template_path.write_text(embedded_template, encoding='utf-8')
 
     print("Launching headless Playwright browser engine...")
     with sync_playwright() as p:
@@ -108,15 +130,13 @@ def render_slide(hook_data: dict):
         print(f"Loading template from: {file_url}")
         page.goto(file_url, wait_until='networkidle')
         
-        # Inject exact single-line layout structure
+        # Inject dynamic stacked text payload into DOM
         page.evaluate(f"""() => {{
             const mainEl = document.querySelector('.hook-main');
             const subEl = document.querySelector('.hook-sub');
             
-            if (mainEl) mainEl.textContent = {json.dumps(hook_data['mainText'])};
-            if (subEl) {{
-                subEl.innerHTML = `${{ {json.dumps(hook_data['subText'])} }} <span class="accent-word">${{ {json.dumps(hook_data['accentText'])} }}</span>`;
-            }}
+            if (mainEl) mainEl.innerHTML = {json.dumps(hook_data['mainText'])};
+            if (subEl) subEl.textContent = {json.dumps(hook_data['subText'])};
         }}""")
         
         page.evaluate("document.fonts.ready")
@@ -125,10 +145,10 @@ def render_slide(hook_data: dict):
         page.screenshot(path=str(output_path), type='png')
         browser.close()
         
-        print(f"Carousel slide successfully rendered and saved to: {output_path}")
+        print(f"Editorial slide successfully rendered and saved to: {output_path}")
 
 if __name__ == "__main__":
-    print("Initializing Autonomous High-Impact Carousel Engine...")
+    print("Initializing Single-File Editorial Carousel Engine...")
     hook_payload = generate_ai_hook()
-    print("Generated High-Impact Hook Payload:", hook_payload)
+    print("Generated Editorial Hook Payload:", hook_payload)
     render_slide(hook_payload)
