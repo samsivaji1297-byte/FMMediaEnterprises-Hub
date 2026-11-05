@@ -16,15 +16,17 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install Puppeteer Dependencies
+      - name: Install Dependencies
         run: |
           npm init -y
-          npm install puppeteer
+          npm install puppeteer @google/genai
 
-      - name: Execute Carousel Render Script
+      - name: Execute Dynamic AI Carousel Render Script
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: node generate-carousel.js
 
-      - name: Save Artifact Output
+      - name: Save Rendered Slide Artifact
         uses: actions/upload-artifact@v4
         with:
           name: instagram-carousel-slide
