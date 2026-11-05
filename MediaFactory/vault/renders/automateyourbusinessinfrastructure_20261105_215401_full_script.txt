@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261105_215401
+Topic: how to automate business
+Title: Automate Your Business Infrastructure
+Hook: Hard workers are getting outperformed by simple Python scripts.
+Voiceover Script: Hard workers are getting outperformed by simple Python scripts. If you're running your business manually, your pipeline is leaking thousands. Stop burning hours on repetitive tasks. Deploy automated infrastructure today to reclaim total operational control. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' below to get the access link.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Hard workers are getting outperformed by simple Python scripts.
+  Visual Prompt: cyberpunk dark charcoal UI code terminal
+
+Scene 2:
+  Text: Hard workers are getting outperformed by simple Python scripts. If you're running your business manually, your pipeline is leaking thousands. Stop burning hours on repetitive tasks. Deploy automated infrastructure today to reclaim total operational control. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian glowing cyan data pipeline stream
+
+Scene 3:
+  Text: Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian dashboard gold highlights
+
