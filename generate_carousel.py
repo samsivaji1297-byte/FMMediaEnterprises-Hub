@@ -5,21 +5,18 @@ from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 def generate_ai_hook() -> dict:
-    """Queries AI models using your product catalog and curiosity-gap constraints."""
+    """Queries AI models using strict direct-response and pattern-interrupt rules."""
     prompt = """
-    You are an expert Instagram content engineer and direct-response copywriter.
-    Your task is to generate a high-converting, pattern-interrupt carousel hook that stops people scrolling instantly.
+    You are an elite direct-response copywriter crafting high-converting Instagram carousel hooks.
+    Your goal is to force a pattern-interrupt that stops the scroll instantly.
     
-    Context: You are marketing digital frameworks and operational systems from our catalog (fmframeworks.gumroad.com), 
-    such as 'The Compression System' (building products in 90 minutes), '90-Minute Protocol', and AI asset architectures.
+    Product context: Digital frameworks and sovereign operational systems (fmframeworks.gumroad.com), 
+    such as 'The Compression System' (building products in 90 minutes) and the '90-Minute Protocol'.
     
-    Copywriting Constraints for Maximum Curiosity:
-    1. Force a curiosity gap: Create an open loop that the reader *must* swipe to close.
-    2. Zero fluff: Use sharp, staccato phrasing. Eliminate corporate jargon.
-    3. Structural Layout:
-       - mainText: High-impact uppercase title (2 to 4 words max, e.g., STOP TRADING TIME, BUILD IN 90 MINS)
-       - subText: Conversational opening lead-in creating immediate tension (3 to 6 words max)
-       - accentText: The core curiosity trigger or mechanism target with high perceived value (2 to 4 words max, e.g., zero-code pipeline, 4 hidden leverage triggers)
+    Formatting & Copy Rules:
+    1. mainText: Must be a bold, high-impact uppercase title (2 to 4 words max, e.g., BUILD A PRODUCT, STOP TRADING TIME).
+    2. subText: A clean, single-line conversational lead-in (2 to 4 words max, e.g., in 90 minutes using).
+    3. accentText: The high-value curiosity payoff word or mechanism (2 to 3 words max, e.g., these 4 triggers, zero-code pipeline).
     
     Return ONLY valid JSON matching this exact structure, with no extra markdown blocks or formatting:
     {
@@ -65,11 +62,11 @@ def generate_ai_hook() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_slide(hook_data: dict):
-    """Ensures template.html exists, injects dynamic AI hook payload, and renders 1080x1350 PNG via Playwright."""
+    """Ensures template.html exists, injects structured hook payload, and renders 1080x1350 PNG via Playwright."""
     template_path = Path(__file__).parent / 'template.html'
     
+    # Self-healing template with correct single-line subtext architecture
     if not template_path.exists():
-        print("template.html missing. Generating self-healing default template...")
         default_template = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -82,7 +79,7 @@ def render_slide(hook_data: dict):
     body { background-color: var(--bg-color); width: 1080px; height: 1350px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 120px 96px; overflow: hidden; }
     .content-wrapper { width: 100%; display: flex; flex-direction: column; align-items: center; text-align: center; }
     .hook-main { font-family: 'Inter', sans-serif; font-weight: 900; font-size: 5.7rem; line-height: 1.05; text-transform: uppercase; color: #FFFFFF; letter-spacing: -0.03em; margin-bottom: 28px; }
-    .hook-sub { font-family: 'Instrument Serif', serif; font-size: 4.2rem; font-weight: 400; color: #FFFFFF; line-height: 1.2; position: relative; }
+    .hook-sub { font-family: 'Instrument Serif', serif; font-size: 4.2rem; font-weight: 400; color: #FFFFFF; line-height: 1.2; position: relative; white-space: nowrap; }
     .accent-word { position: relative; display: inline-block; white-space: nowrap; }
     .accent-word::after { content: ''; position: absolute; bottom: -8px; left: -4px; right: -4px; height: 8px; background-color: var(--accent-red); border-radius: 50px; transform: rotate(-1deg); }
     .divider-line { width: 65%; height: 3px; background-color: var(--line-color); margin-top: 96px; }
@@ -111,13 +108,14 @@ def render_slide(hook_data: dict):
         print(f"Loading template from: {file_url}")
         page.goto(file_url, wait_until='networkidle')
         
+        # Inject exact single-line layout structure
         page.evaluate(f"""() => {{
             const mainEl = document.querySelector('.hook-main');
             const subEl = document.querySelector('.hook-sub');
             
             if (mainEl) mainEl.textContent = {json.dumps(hook_data['mainText'])};
             if (subEl) {{
-                subEl.innerHTML = `{hook_data['subText']} <span class="accent-word">{hook_data['accentText']}</span>`;
+                subEl.innerHTML = `${{ {json.dumps(hook_data['subText'])} }} <span class="accent-word">${{ {json.dumps(hook_data['accentText'])} }}</span>`;
             }}
         }}""")
         
@@ -130,7 +128,7 @@ def render_slide(hook_data: dict):
         print(f"Carousel slide successfully rendered and saved to: {output_path}")
 
 if __name__ == "__main__":
-    print("Initializing Autonomous Product-Aware Carousel Engine...")
+    print("Initializing Autonomous High-Impact Carousel Engine...")
     hook_payload = generate_ai_hook()
-    print("Generated High-Curiosity Hook Payload:", hook_payload)
+    print("Generated High-Impact Hook Payload:", hook_payload)
     render_slide(hook_payload)
