@@ -5,16 +5,27 @@ from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 def generate_ai_hook() -> dict:
-    """Uses your multi-provider cascade to generate structured carousel hook text."""
+    """Queries AI models using your product catalog and curiosity-gap constraints."""
     prompt = """
-    You are an expert Instagram content engineer creating high-converting carousel hooks.
-    Generate a compelling, staccato carousel hook for a high-value digital system/framework product.
+    You are an expert Instagram content engineer and direct-response copywriter.
+    Your task is to generate a high-converting, pattern-interrupt carousel hook that stops people scrolling instantly.
+    
+    Context: You are marketing digital frameworks and operational systems from our catalog (fmframeworks.gumroad.com), 
+    such as 'The Compression System' (building products in 90 minutes), '90-Minute Protocol', and AI asset architectures.
+    
+    Copywriting Constraints for Maximum Curiosity:
+    1. Force a curiosity gap: Create an open loop that the reader *must* swipe to close.
+    2. Zero fluff: Use sharp, staccato phrasing. Eliminate corporate jargon.
+    3. Structural Layout:
+       - mainText: High-impact uppercase title (2 to 4 words max, e.g., STOP TRADING TIME, BUILD IN 90 MINS)
+       - subText: Conversational opening lead-in creating immediate tension (3 to 6 words max)
+       - accentText: The core curiosity trigger or mechanism target with high perceived value (2 to 4 words max, e.g., zero-code pipeline, 4 hidden leverage triggers)
     
     Return ONLY valid JSON matching this exact structure, with no extra markdown blocks or formatting:
     {
-      "mainText": "High-impact uppercase title (2 to 4 words max, e.g., BUILD A PRODUCT)",
-      "subText": "Conversational opening lead-in (3 to 6 words max, e.g., in 90 minutes using)",
-      "accentText": "The core conversion trigger target (2 to 4 words max, e.g., these 4 triggers)"
+      "mainText": "...",
+      "subText": "...",
+      "accentText": "..."
     }
     """
 
@@ -54,7 +65,7 @@ def generate_ai_hook() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_slide(hook_data: dict):
-    """Ensures template.html exists, injects AI text, and renders 1080x1350 PNG via Playwright."""
+    """Ensures template.html exists, injects dynamic AI hook payload, and renders 1080x1350 PNG via Playwright."""
     template_path = Path(__file__).parent / 'template.html'
     
     if not template_path.exists():
@@ -119,7 +130,7 @@ def render_slide(hook_data: dict):
         print(f"Carousel slide successfully rendered and saved to: {output_path}")
 
 if __name__ == "__main__":
-    print("Initializing Autonomous Carousel Engine...")
+    print("Initializing Autonomous Product-Aware Carousel Engine...")
     hook_payload = generate_ai_hook()
-    print("Generated Hook Payload:", hook_payload)
+    print("Generated High-Curiosity Hook Payload:", hook_payload)
     render_slide(hook_payload)
