@@ -6,14 +6,14 @@
             "how to automate business processes with ai",
             "how to automate business in gta 5 online",
             "how to automate business whatsapp",
-            "how to automate business with claude",
+            "automate business with claude",
             "how to automate business tasks",
             "how to automate businesses in gta 5",
             "how to automate business development",
             "how to automate business page messenger response"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-11-04T11:51:13.610148"
+        "last_scraped": "2026-11-05T11:51:23.122099"
     },
     "ai agents for *": {
         "extracted_intents": [
@@ -29,7 +29,7 @@
             "ai agents for sales"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-11-04T11:51:13.977991"
+        "last_scraped": "2026-11-05T11:51:23.211448"
     },
     "how to know if ready to *": {
         "extracted_intents": [
@@ -45,7 +45,7 @@
             "how to know if you are about to have diabetes"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-11-04T11:51:14.078286"
+        "last_scraped": "2026-11-05T11:51:23.299434"
     },
     "stop procrastinating on *": {
         "extracted_intents": [
@@ -61,7 +61,7 @@
             "how to stop.procrastinating on phone"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-11-04T11:51:14.167444"
+        "last_scraped": "2026-11-05T11:51:23.385812"
     },
     "overcoming fear of starting *": {
         "extracted_intents": [
@@ -71,18 +71,18 @@
             "how to get over the fear of starting something new",
             "how to get over the fear of starting a conversation",
             "how to get over the fear of starting something",
+            "how to overcome fear of starting a new job",
             "how to overcome fear of starting a new relationship",
             "how to overcome fear of success",
-            "how to overcome fear of something",
-            "how to overcome fear of everything"
+            "how to overcome fear of something"
         ],
         "intent_count": 10,
-        "last_scraped": "2026-11-04T11:51:14.272488"
+        "last_scraped": "2026-11-05T11:51:23.494641"
     },
     "time management system for entrepreneurs": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-11-04T11:51:14.361175"
+        "last_scraped": "2026-11-05T11:51:23.584242"
     },
     "when to quit day job for *": {
         "extracted_intents": [
@@ -90,11 +90,11 @@
             "how to quit job after first day"
         ],
         "intent_count": 2,
-        "last_scraped": "2026-11-04T11:51:14.472970"
+        "last_scraped": "2026-11-05T11:51:23.700246"
     },
     "overcoming hesitation to start building": {
         "extracted_intents": [],
         "intent_count": 0,
-        "last_scraped": "2026-11-04T11:51:14.561685"
+        "last_scraped": "2026-11-05T11:51:23.776216"
     }
 }
