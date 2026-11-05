@@ -1,7 +1,7 @@
 import json
 import os
 from pathlib import Path
-from playwright.sync_-api import sync_playwright
+from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 def generate_ai_hook() -> dict:
