@@ -8,15 +8,10 @@ from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBR
 
 # --- High-Status Dark Aesthetic Background Pool ---
 BACKGROUND_POOL = [
-    # Cash / Currency Texture (Grayscale Moody)
     "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?q=80&w=1080&auto=format&fit=crop",
-    # Dark Architecture / Geometric Shadows
     "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1080&auto=format&fit=crop",
-    # Dark Concrete / Slate Grain
     "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1080&auto=format&fit=crop",
-    # Minimalist Luxury Light Shadows
     "https://images.unsplash.com/photo-1507652313519-d4e9174996dd?q=80&w=1080&auto=format&fit=crop",
-    # Dark Streetscape / Night Moody City
     "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1080&auto=format&fit=crop"
 ]
 
@@ -104,14 +99,12 @@ def render_carousel(slides: list):
         page = browser.new_page(viewport={'width': 1080, 'height': 1350})
         
         for index, slide in enumerate(slides, start=1):
-            # Pick a random background and append a timestamp cache-buster parameter for variation
             raw_bg_url = random.choice(BACKGROUND_POOL)
             cache_buster = int(time.time()) + index
             selected_bg_url = f"{raw_bg_url}&cb={cache_buster}"
             
-            print(f"Rendering Slide {index}/{len(slides)} with background: {selected_bg_url}")
+            print(f"Rendering Slide {index}/{len(slides)}...")
             
-            # Embedded high-status editorial HTML/CSS template
             embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -119,69 +112,4 @@ def render_carousel(slides: list):
   <title>Editorial IG Carousel Studio - Slide {index}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600&display=swap');
-    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{
-      width: 1080px; height: 1350px; background: #000000;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
-    }}
-    .bg-image {{
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: url('{selected_bg_url}');
-      background-size: cover; background-position: center;
-      filter: grayscale(100%) contrast(125%) brightness(45%); z-index: 1;
-    }}
-    .bg-overlay {{
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.35) 0%, rgba(5, 5, 5, 0.88) 100%);
-      z-index: 2;
-    }}
-    .content-wrapper {{
-      position: relative; z-index: 3; width: 85%;
-      display: flex; flex-direction: column; align-items: center; text-align: center;
-    }}
-    .watermark {{
-      font-size: 1.15rem; letter-spacing: 0.28em; text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.65); margin-bottom: 64px; font-weight: 600;
-    }}
-    .hook-main {{
-      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 4.8rem;
-      line-height: 1.05; text-transform: uppercase; color: #FFFFFF; letter-spacing: 0.02em;
-      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85); margin-bottom: 40px;
-    }}
-    .hook-sub {{
-      font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 600;
-      letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
-    }}
-  </style>
-</head>
-<body>
-  <div class="bg-image"></div>
-  <div class="bg-overlay"></div>
-  <div class="content-wrapper">
-    <div class="watermark">@FMMEDIAENTERPRISES • {index}/{len(slides)}</div>
-    <div class="hook-main">{slide['mainText']}</div>
-    <div class="hook-sub">{slide['subText']}</div>
-  </div>
-</body>
-</html>"""
-            
-            # Write out template file and load in Playwright
-            template_path.write_text(embedded_template, encoding='utf-8')
-            file_url = f"file://{template_path.resolve()}"
-            page.goto(file_url, wait_until='networkidle')
-            page.evaluate("document.fonts.ready")
-            
-            output_path = Path(__file__).parent / f'output-slide-{index}.png'
-            page.screenshot(path=str(output_path), type='png')
-            print(f"Slide {index} successfully saved to: {output_path}")
-            
-        browser.close()
-    print("Full multi-slide carousel deck generation complete.")
-
-if __name__ == "__main__":
-    print("Initializing Multi-Slide Autonomous Carousel Engine...")
-    slides_payload = generate_carousel_deck()
-    print(f"Generated {len(slides_payload)} slides successfully.")
-    render_carousel(slides_payload)
+    * {{
