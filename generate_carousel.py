@@ -112,4 +112,68 @@ def render_carousel(slides: list):
   <title>Editorial IG Carousel Studio - Slide {index}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600&display=swap');
-    * {{
+    * {{ box-sizing: border-box; margin: 0; padding: 0; }}
+    body {{
+      width: 1080px; height: 1350px; background: #000000;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
+    }}
+    .bg-image {{
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background-image: url('{selected_bg_url}');
+      background-size: cover; background-position: center;
+      filter: grayscale(100%) contrast(125%) brightness(45%); z-index: 1;
+    }}
+    .bg-overlay {{
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.35) 0%, rgba(5, 5, 5, 0.88) 100%);
+      z-index: 2;
+    }}
+    .content-wrapper {{
+      position: relative; z-index: 3; width: 85%;
+      display: flex; flex-direction: column; align-items: center; text-align: center;
+    }}
+    .watermark {{
+      font-size: 1.15rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65); margin-bottom: 64px; font-weight: 600;
+    }}
+    .hook-main {{
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 4.8rem;
+      line-height: 1.05; text-transform: uppercase; color: #FFFFFF; letter-spacing: 0.02em;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85); margin-bottom: 40px;
+    }}
+    .hook-sub {{
+      font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 600;
+      letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255, 255, 255, 0.9);
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+    }}
+  </style>
+</head>
+<body>
+  <div class="bg-image"></div>
+  <div class="bg-overlay"></div>
+  <div class="content-wrapper">
+    <div class="watermark">@FMMEDIAENTERPRISES • {index}/{len(slides)}</div>
+    <div class="hook-main">{slide['mainText']}</div>
+    <div class="hook-sub">{slide['subText']}</div>
+  </div>
+</body>
+</html>"""
+            
+            template_path.write_text(embedded_template, encoding='utf-8')
+            file_url = f"file://{template_path.resolve()}"
+            page.goto(file_url, wait_until='networkidle')
+            page.evaluate("document.fonts.ready")
+            
+            output_path = Path(__file__).parent / f'output-slide-{index}.png'
+            page.screenshot(path=str(output_path), type='png')
+            print(f"Saved {output_path.name}")
+            
+        browser.close()
+    print("All carousel slides rendered successfully.")
+
+if __name__ == "__main__":
+    print("Initializing Multi-Slide Autonomous Carousel Engine...")
+    slides_payload = generate_carousel_deck()
+    print(f"Parsed {len(slides_payload)} slides from AI model.")
+    render_carousel(slides_payload)
