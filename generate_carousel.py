@@ -1,6 +1,7 @@
 import json
 import os
 import random
+import time
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
@@ -81,14 +82,17 @@ def generate_ai_hook() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_slide(hook_data: dict):
-    """Dynamically writes template.html with randomized background image & renders 1080x1350 PNG via Playwright."""
+    """Dynamically writes template.html with cache-busted background image & renders PNG via Playwright."""
     template_path = Path(__file__).parent / 'template.html'
     
-    # Pick a random high-status background image on every execution
-    selected_bg_url = random.choice(BACKGROUND_POOL)
+    # Pick a random background and append a timestamp cache-buster parameter
+    raw_bg_url = random.choice(BACKGROUND_POOL)
+    cache_buster = int(time.time())
+    selected_bg_url = f"{raw_bg_url}&cb={cache_buster}"
+    
     print(f"Selected Background Texture URL: {selected_bg_url}")
     
-    # Self-healing, high-status editorial HTML/CSS template
+    # Embedded high-status editorial HTML/CSS template
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
