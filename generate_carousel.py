@@ -20,29 +20,41 @@ BACKGROUND_POOL = [
     "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1080&auto=format&fit=crop"
 ]
 
-def generate_ai_hook() -> dict:
-    """Queries AI models using the Desire + Mechanism + Curiosity Gap framework."""
+def generate_carousel_deck() -> list:
+    """Queries AI models to generate a multi-slide carousel deck following the Desire + Mechanism framework."""
     prompt = """
-    You are an elite direct-response copywriter crafting high-status, editorial Instagram carousel hooks.
+    You are an elite direct-response copywriter crafting a multi-slide Instagram carousel deck (4 slides total).
     
     Product & Framework Context:
     Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System' 
     (building sellable products in 90 minutes) and the '90-Minute Protocol'.
     
     THE GOVERNING COPYWRITING FORMULA:
-    Hook = Existing Human Desire + Recognizable Tool/Mechanism + Specific Achievable Outcome (Curiosity Loop)
+    Slide 1 (Hook): Existing Human Desire + Recognizable Tool/Mechanism + Specific Achievable Outcome (Curiosity Loop)
+    Slide 2 (The Breakdown): Reveal the core mechanism or 3-step breakdown.
+    Slide 3 (The Execution): Show the actionable process/prompt or system architecture.
+    Slide 4 (The Call to Action): Drive them to explore fmframeworks.gumroad.com for the complete protocol.
     
-    Rules for output generation:
-    1. Focus on real human desires: Save time, make money, build sellable assets, eliminate manual work.
-    2. Use recognizable mechanisms: Claude, ChatGPT, 90-minute workflows, zero-code pipelines.
-    3. Formatting Structure:
-       - mainText: A 4 to 6 word uppercase title split with line breaks (<br>) to form a tall, stacked editorial header (e.g., TURN ONE IDEA<br>INTO A PRODUCT or GET 8 HOURS<br>OF WORK DONE<br>IN 90 MINS).
-       - subText: A clean, single-line high-tension curiosity kicker (e.g., USE THIS CLAUDE PROMPT THIS WEEKEND, IT'S NOT WHAT YOU THINK, HERE IS THE 4-STEP MECHANISM).
-    
-    Return ONLY valid JSON matching this exact structure, with no extra markdown or fluff:
+    Return ONLY a valid JSON object containing an array of 4 slides, with no extra markdown or fluff:
     {
-      "mainText": "...",
-      "subText": "..."
+      "slides": [
+        {
+          "mainText": "BUILD A PRODUCT<br>IN 90 MINUTES<br>USING CLAUDE",
+          "subText": "HERE IS THE EXACT PROMPT MECHANISM"
+        },
+        {
+          "mainText": "STEP 1:<br>EXTRACT THE CORE<br>KNOWLEDGE ASSET",
+          "subText": "ELIMINATE THE FLUFF & COMPRESS"
+        },
+        {
+          "mainText": "STEP 2:<br>DEPLOY THE SYSTEM<br>VIA AUTOMATION",
+          "subText": "BUILD ONCE, RUN RECURSIVELY"
+        },
+        {
+          "mainText": "GET THE FULL<br>COMPRESSION SYSTEM<br>PROTOCOL TODAY",
+          "subText": "LINK IN BIO / FMFRAMEWORKS.GUMROAD.COM"
+        }
+      ]
     }
     """
 
@@ -79,25 +91,32 @@ def generate_ai_hook() -> dict:
     if cleaned_text.endswith("```"):
         cleaned_text = cleaned_text[:-3]
         
-    return json.loads(cleaned_text.strip())
+    data = json.loads(cleaned_text.strip())
+    return data.get("slides", [])
 
-def render_slide(hook_data: dict):
-    """Dynamically writes template.html with cache-busted background image & renders PNG via Playwright."""
+def render_carousel(slides: list):
+    """Renders each slide in the deck to a separate PNG using Playwright and randomized background textures."""
     template_path = Path(__file__).parent / 'template.html'
     
-    # Pick a random background and append a timestamp cache-buster parameter
-    raw_bg_url = random.choice(BACKGROUND_POOL)
-    cache_buster = int(time.time())
-    selected_bg_url = f"{raw_bg_url}&cb={cache_buster}"
-    
-    print(f"Selected Background Texture URL: {selected_bg_url}")
-    
-    # Embedded high-status editorial HTML/CSS template
-    embedded_template = f"""<!DOCTYPE html>
+    print(f"Launching headless Playwright browser engine for {len(slides)} slides...")
+    with sync_playwright() as p:
+        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox'])
+        page = browser.new_page(viewport={'width': 1080, 'height': 1350})
+        
+        for index, slide in enumerate(slides, start=1):
+            # Pick a random background and append a timestamp cache-buster parameter for variation
+            raw_bg_url = random.choice(BACKGROUND_POOL)
+            cache_buster = int(time.time()) + index
+            selected_bg_url = f"{raw_bg_url}&cb={cache_buster}"
+            
+            print(f"Rendering Slide {index}/{len(slides)} with background: {selected_bg_url}")
+            
+            # Embedded high-status editorial HTML/CSS template
+            embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Editorial IG Carousel Studio</title>
+  <title>Editorial IG Carousel Studio - Slide {index}</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -126,12 +145,12 @@ def render_slide(hook_data: dict):
       color: rgba(255, 255, 255, 0.65); margin-bottom: 64px; font-weight: 600;
     }}
     .hook-main {{
-      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 5.2rem;
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 4.8rem;
       line-height: 1.05; text-transform: uppercase; color: #FFFFFF; letter-spacing: 0.02em;
       text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85); margin-bottom: 40px;
     }}
     .hook-sub {{
-      font-family: 'Inter', sans-serif; font-size: 1.35rem; font-weight: 600;
+      font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 600;
       letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255, 255, 255, 0.9);
       text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
     }}
@@ -141,44 +160,28 @@ def render_slide(hook_data: dict):
   <div class="bg-image"></div>
   <div class="bg-overlay"></div>
   <div class="content-wrapper">
-    <div class="watermark">@FMMEDIAENTERPRISES</div>
-    <div class="hook-main">BUILD A PRODUCT<br>IN 90 MINUTES<br>USING CLAUDE</div>
-    <div class="hook-sub">HERE IS THE EXACT PROMPT MECHANISM</div>
+    <div class="watermark">@FMMEDIAENTERPRISES • {index}/{len(slides)}</div>
+    <div class="hook-main">{slide['mainText']}</div>
+    <div class="hook-sub">{slide['subText']}</div>
   </div>
 </body>
 </html>"""
-    
-    # Auto-write out the template file dynamically before headless browser execution
-    template_path.write_text(embedded_template, encoding='utf-8')
-
-    print("Launching headless Playwright browser engine...")
-    with sync_playwright() as p:
-        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox'])
-        page = browser.new_page(viewport={'width': 1080, 'height': 1350})
-        
-        file_url = f"file://{template_path.resolve()}"
-        print(f"Loading template from: {file_url}")
-        page.goto(file_url, wait_until='networkidle')
-        
-        # Inject AI copywriting payload directly into DOM
-        page.evaluate(f"""() => {{
-            const mainEl = document.querySelector('.hook-main');
-            const subEl = document.querySelector('.hook-sub');
             
-            if (mainEl) mainEl.innerHTML = {json.dumps(hook_data['mainText'])};
-            if (subEl) subEl.textContent = {json.dumps(hook_data['subText'])};
-        }}""")
-        
-        page.evaluate("document.fonts.ready")
-        
-        output_path = Path(__file__).parent / 'output-slide-1.png'
-        page.screenshot(path=str(output_path), type='png')
+            # Write out template file and load in Playwright
+            template_path.write_text(embedded_template, encoding='utf-8')
+            file_url = f"file://{template_path.resolve()}"
+            page.goto(file_url, wait_until='networkidle')
+            page.evaluate("document.fonts.ready")
+            
+            output_path = Path(__file__).parent / f'output-slide-{index}.png'
+            page.screenshot(path=str(output_path), type='png')
+            print(f"Slide {index} successfully saved to: {output_path}")
+            
         browser.close()
-        
-        print(f"High-Impact Editorial slide successfully rendered and saved to: {output_path}")
+    print("Full multi-slide carousel deck generation complete.")
 
 if __name__ == "__main__":
-    print("Initializing Autonomous High-Status Carousel Engine...")
-    hook_payload = generate_ai_hook()
-    print("Generated Hook Payload:", hook_payload)
-    render_slide(hook_payload)
+    print("Initializing Multi-Slide Autonomous Carousel Engine...")
+    slides_payload = generate_carousel_deck()
+    print(f"Generated {len(slides_payload)} slides successfully.")
+    render_carousel(slides_payload)
