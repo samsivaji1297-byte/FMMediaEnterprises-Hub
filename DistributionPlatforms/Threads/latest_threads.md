@@ -1,29 +1,34 @@
-**Reel Hook:** “Stop paying the hidden ‘Control‑Illusion Tax’ on every minute you work.”  
-**Caption:** “Your income shouldn’t be a hostage to your schedule. Here’s how to break free.”  
+**Reel Hook:**  
+*“Ever opened 12 tabs looking for *the* productivity app, then closed them all?*  
+**Caption:** *Your brain is being robbed by decision‑fatigue tax. Let’s end the robbery.*
 
 ---
 
-**1️⃣ The hidden tax you never saw**  
-You think you must *watch* every task to get paid. That belief is the “Control‑Illusion Tax” – each extra click, each status update, each hour you spend supervising yourself. It *inflates* effort, *deflates* reward, and keeps you stuck in the 80‑hour grind.  
+**1️⃣ The Silent Heist**  
+Every extra app you add is a tiny thief stealing 2‑5 seconds of mental bandwidth. Multiply that by 20 tools and you lose **minutes** of focus every hour. The result? A brain‑dump that looks like a to‑do list but feels like a prison.  
 
 ---
 
-**2️⃣ Why the brain does it**  
-Psychology calls it **effort discounting** + an **external locus of control**. The more you feel outcomes depend on *your* actions, the more the brain devalues the payoff. It’s a survival shortcut: “If it takes too much, maybe it’s not worth it.”  
+**2️⃣ The Switching Cost Trap**  
+Switching from Notion → Todoist → ClickUp → Zapier isn’t just annoying—it forces your prefrontal cortex to rebuild context each time. That “re‑orientation” costs ~15‑30 seconds per switch, turning a 2‑hour work block into a 3‑hour slog.  
 
 ---
 
-**3️⃣ Flip the script with outcome‑control automation**  
-Instead of micromanaging, build a system that *only* cares about the final result. Think: automated invoicing, scheduled content posting, trigger‑based payouts. The system *owns* the effort, you own the outcome.  
+**3️⃣ Collapse the Chaos**  
+✅ Pick ONE *decision engine* (e.g., Notion + native automations).  
+✅ Map every recurring workflow into that engine.  
+✅ Automate the rest with a single Zapier/Make scenario.  
+
+Result: **Zero‑choice execution** – you open one dashboard, click once, and the system does the rest.  
 
 ---
 
-**4️⃣ Quick win: 3‑step “Outcome‑Only” mini‑pipeline**  
-1️⃣ Define the **desired result** (e.g., $5k/month from a digital product).  
-2️⃣ Map the **minimum actions** that guarantee that result (e.g., 1‑click checkout + email drip).  
-3️⃣ Deploy a **no‑code automation tool** (Zapier, Make, or a custom script) that runs those actions *without* your daily input.  
+**4️⃣ Quick Win Blueprint**  
+1️⃣ List every productivity app you currently use.  
+2️⃣ Rank them by *frequency of use* and *unique value*.  
+3️⃣ Eliminate the bottom 60 % and migrate its core functions into your chosen hub.  
+4️⃣ Set a 7‑day “single‑tool” sprint.  
 
-🔗 Ready to stop paying the tax? Grab the **Compression System** – a $197 framework that builds autonomous revenue pipelines in under 48 hours.  
+You’ll feel the mental load drop **instantly**.  
 
----  
-###
+💡 *Ready to automate the whole collapse? Grab the Compression System – the $197 playbook that builds a zero‑choice execution pipeline in 48 hrs.*
