@@ -1,34 +1,31 @@
-**Reel Hook:**  
-*“Ever opened 12 tabs looking for *the* productivity app, then closed them all?*  
-**Caption:** *Your brain is being robbed by decision‑fatigue tax. Let’s end the robbery.*
+**Hook:** “You’ve got 17 tabs open, 47 to‑do items, and zero progress. The real enemy isn’t laziness—it’s *choice‑paralysis*.”  
 
----
+**Caption:** *Stop scrolling. Start acting.*  
 
-**1️⃣ The Silent Heist**  
-Every extra app you add is a tiny thief stealing 2‑5 seconds of mental bandwidth. Multiply that by 20 tools and you lose **minutes** of focus every hour. The result? A brain‑dump that looks like a to‑do list but feels like a prison.  
+---  
 
----
+**1️⃣ The hidden cost of “research”**  
+Every extra app you evaluate adds ~30 seconds of mental friction. 17 tabs = **8‑9 minutes** of hidden tax before you even start a task. That tax compounds every day, stealing hours of real work.  
 
-**2️⃣ The Switching Cost Trap**  
-Switching from Notion → Todoist → ClickUp → Zapier isn’t just annoying—it forces your prefrontal cortex to rebuild context each time. That “re‑orientation” costs ~15‑30 seconds per switch, turning a 2‑hour work block into a 3‑hour slog.  
+---  
 
----
+**2️⃣ Why the brain quits**  
+Working memory can juggle ~4‑7 chunks. When you dump 30‑plus options into it, you hit *cognitive overload* → the brain defaults to “do nothing” to preserve energy.  
 
-**3️⃣ Collapse the Chaos**  
-✅ Pick ONE *decision engine* (e.g., Notion + native automations).  
-✅ Map every recurring workflow into that engine.  
-✅ Automate the rest with a single Zapier/Make scenario.  
+---  
 
-Result: **Zero‑choice execution** – you open one dashboard, click once, and the system does the rest.  
+**3️⃣ The shortcut most gurus ignore**  
+Instead of “find the perfect tool,” build a *single‑click decision engine* that scores every candidate against three non‑negotiables (price, integration, habit‑fit) and auto‑selects the winner.  
 
----
+---  
 
-**4️⃣ Quick Win Blueprint**  
-1️⃣ List every productivity app you currently use.  
-2️⃣ Rank them by *frequency of use* and *unique value*.  
-3️⃣ Eliminate the bottom 60 % and migrate its core functions into your chosen hub.  
-4️⃣ Set a 7‑day “single‑tool” sprint.  
+**4️⃣ Quick‑start framework**  
+1️⃣ List your top 3 criteria.  
+2️⃣ Plug them into a free Airtable + Zapier formula.  
+3️⃣ Let the automation pick and install the tool for you.  
 
-You’ll feel the mental load drop **instantly**.  
+Result: **1‑click onboarding → 0‑decision‑fatigue**.  
 
-💡 *Ready to automate the whole collapse? Grab the Compression System – the $197 playbook that builds a zero‑choice execution pipeline in 48 hrs.*
+---  
+
+💡 *Ready to automate the decision itself?* Grab the **Compression System** – a $197 playbook for building zero‑touch pipelines that turn choice‑paralysis into instant execution.
