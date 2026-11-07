@@ -1,16 +1,16 @@
-import json
-import os
-import random
-import time
+import sys
 from pathlib import Path
-from playwright.sync_api import sync_playwright
-from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
-# Automatically append repository root to sys.path so config.py can be imported anywhere
+# Automatically inject the repository root into sys.path so config.py loads cleanly from the root directory
 repo_root = Path(__file__).resolve().parent.parent.parent
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
+import json
+import os
+import random
+import time
+from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 # --- High-Status Dark Aesthetic Background Pool ---
