@@ -6,6 +6,13 @@ from pathlib import Path
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
+# Automatically append repository root to sys.path so config.py can be imported anywhere
+repo_root = Path(__file__).resolve().parent.parent.parent
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
+
+from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
+
 # --- High-Status Dark Aesthetic Background Pool ---
 BACKGROUND_POOL = [
     "https://images.unsplash.com/photo-1518458028785-8fbcd101ebb9?q=80&w=1080&auto=format&fit=crop",
