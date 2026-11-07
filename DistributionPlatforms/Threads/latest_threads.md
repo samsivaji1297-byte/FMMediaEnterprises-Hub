@@ -1,31 +1,38 @@
-**Hook:** “You’ve got 17 tabs open, 47 to‑do items, and zero progress. The real enemy isn’t laziness—it’s *choice‑paralysis*.”  
+**Reel Hook:**  
+🚀 *Stop letting “hard work” feel like a tax on your income.*  
+💡 *Flip the script with a system that makes every minute you spend count.*
 
-**Caption:** *Stop scrolling. Start acting.*  
+**Caption:**  
+The secret isn’t working harder – it’s wiring your brain to *value* the work you do.
 
----  
+---
 
-**1️⃣ The hidden cost of “research”**  
-Every extra app you evaluate adds ~30 seconds of mental friction. 17 tabs = **8‑9 minutes** of hidden tax before you even start a task. That tax compounds every day, stealing hours of real work.  
+**1️⃣ The Invisible Tax**  
+Every extra hour you log feels like a *loss* because your brain discounts the reward. That’s **effort discounting**—the subconscious math that says “more work = less value.”  
 
----  
+🔎 *Result:* You grind, you’re exhausted, and the bank account barely moves.
 
-**2️⃣ Why the brain quits**  
-Working memory can juggle ~4‑7 chunks. When you dump 30‑plus options into it, you hit *cognitive overload* → the brain defaults to “do nothing” to preserve energy.  
+---
 
----  
+**2️⃣ The Control Illusion**  
+When you believe outcomes are out of your hands (external locus), effort becomes *surveillance* rather than *leverage*. You end up micromanaging tasks instead of automating results.  
 
-**3️⃣ The shortcut most gurus ignore**  
-Instead of “find the perfect tool,” build a *single‑click decision engine* that scores every candidate against three non‑negotiables (price, integration, habit‑fit) and auto‑selects the winner.  
+🛠️ *Result:* Endless to‑do lists, zero momentum.
 
----  
+---
 
-**4️⃣ Quick‑start framework**  
-1️⃣ List your top 3 criteria.  
-2️⃣ Plug them into a free Airtable + Zapier formula.  
-3️⃣ Let the automation pick and install the tool for you.  
+**3️⃣ The Alignment Engine**  
+Imagine a lightweight, programmatic pipeline that *maps each task to a measurable revenue trigger*. It quantifies effort, auto‑adjusts priorities, and surfaces the *real* ROI of every action.  
 
-Result: **1‑click onboarding → 0‑decision‑fatigue**.  
+⚙️ *Result:* You see instant, data‑backed proof that effort = income.
 
----  
+---
 
-💡 *Ready to automate the decision itself?* Grab the **Compression System** – a $197 playbook for building zero‑touch pipelines that turn choice‑paralysis into instant execution.
+**4️⃣ Deploy in 48 hrs**  
+1️⃣ List your top 5 revenue‑linked activities.  
+2️⃣ Hook each to a simple Zapier/Webhook that logs time *and* posts a dollar‑value tag.  
+3️⃣ Set a daily “effort‑reward ratio” alert (e.g., $0.75 earned per minute).  
+
+🚀 Watch the ratio climb and the frustration melt away.  
+
+**Ready to build your own engine?** 👉 Grab the *Dynamic Effort‑Reward Alignment Framework* (only $197) and start turning minutes into money.
