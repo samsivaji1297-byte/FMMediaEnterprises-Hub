@@ -1,38 +1,38 @@
-**Reel Hook:**  
-🚀 *Stop letting “hard work” feel like a tax on your income.*  
-💡 *Flip the script with a system that makes every minute you spend count.*
-
-**Caption:**  
-The secret isn’t working harder – it’s wiring your brain to *value* the work you do.
+**Reel Hook & Caption**  
+🚀 *“What if the hours you grind today could be worth *twice* tomorrow—without working longer?”*  
+💡 *Swipe ➡️ to see the exact mental hack that flips effort‑discounting on its head.*  
 
 ---
 
-**1️⃣ The Invisible Tax**  
-Every extra hour you log feels like a *loss* because your brain discounts the reward. That’s **effort discounting**—the subconscious math that says “more work = less value.”  
-
-🔎 *Result:* You grind, you’re exhausted, and the bank account barely moves.
-
----
-
-**2️⃣ The Control Illusion**  
-When you believe outcomes are out of your hands (external locus), effort becomes *surveillance* rather than *leverage*. You end up micromanaging tasks instead of automating results.  
-
-🛠️ *Result:* Endless to‑do lists, zero momentum.
+**Post 1️⃣ – The Hidden Tax on Your Hustle**  
+You’re grinding 40 hrs/week on content, consulting, or code, yet the bank account barely moves.  
+Psychology calls it **effort discounting** – the brain silently tells you “this work isn’t worth the payoff.”  
+Result? Motivation drops, and the whole system stalls.
 
 ---
 
-**3️⃣ The Alignment Engine**  
-Imagine a lightweight, programmatic pipeline that *maps each task to a measurable revenue trigger*. It quantifies effort, auto‑adjusts priorities, and surfaces the *real* ROI of every action.  
-
-⚙️ *Result:* You see instant, data‑backed proof that effort = income.
+**Post 2️⃣ – Why Traditional “Work‑Hard‑Earn‑More” Fails**  
+Most “productivity” advice assumes *linear* effort → income.  
+But the brain applies a **discount curve**: the more steps, the lower the perceived value.  
+Even high‑income earners can fall into the same trap when they lose *outcome control*.
 
 ---
 
-**4️⃣ Deploy in 48 hrs**  
-1️⃣ List your top 5 revenue‑linked activities.  
-2️⃣ Hook each to a simple Zapier/Webhook that logs time *and* posts a dollar‑value tag.  
-3️⃣ Set a daily “effort‑reward ratio” alert (e.g., $0.75 earned per minute).  
+**Post 3️⃣ – The Sovereign Switch: Outcome‑First Automation**  
+Flip the equation: **Outcome → Automation → Effort**.  
+1️⃣ Define the *desired revenue result* (e.g., $5k/mo).  
+2️⃣ Build a tiny programmatic pipeline that delivers that result on autopilot.  
+3️⃣ Let the system do the heavy lifting; your effort becomes *maintenance*, not creation.
 
-🚀 Watch the ratio climb and the frustration melt away.  
+---
 
-**Ready to build your own engine?** 👉 Grab the *Dynamic Effort‑Reward Alignment Framework* (only $197) and start turning minutes into money.
+**Post 4️⃣ – Quick‑Start Blueprint (3‑Step)**  
+1️⃣ **Result Mapping** – Write the exact cash outcome you want.  
+2️⃣ **Micro‑Automation Stack** – Choose a no‑code trigger (Zapier, Make) + a payment flow (Stripe, Gumroad).  
+3️⃣ **Feedback Loop** – Set a weekly KPI dashboard that only measures *revenue*, not hours.  
+
+💥 *Implement this tonight and watch the effort‑discounting bias evaporate.*  
+
+---  
+
+###
