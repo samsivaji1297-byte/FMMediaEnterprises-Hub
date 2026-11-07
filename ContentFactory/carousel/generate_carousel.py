@@ -16,26 +16,33 @@ BACKGROUND_POOL = [
 ]
 
 def generate_carousel_deck() -> list:
-    """Queries AI models to generate a multi-slide carousel deck following the Desire + Mechanism framework."""
+    """Queries AI models to generate a multi-slide carousel deck using the 5 Instructional Hook Architectures."""
     prompt = """
     You are an elite direct-response copywriter crafting a multi-slide Instagram carousel deck (4 slides total).
     
     Product & Framework Context:
-    Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System' 
-    (building sellable products in 90 minutes) and the '90-Minute Protocol'.
+    Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System', 
+    'Operator Mindset Kit', and the '90-Minute Protocol'.
     
-    THE GOVERNING COPYWRITING FORMULA:
-    Slide 1 (Hook): Existing Human Desire + Recognizable Tool/Mechanism + Specific Achievable Outcome (Curiosity Loop)
-    Slide 2 (The Breakdown): Reveal the core mechanism or 3-step breakdown.
-    Slide 3 (The Execution): Show the actionable process/prompt or system architecture.
-    Slide 4 (The Call to Action): Drive them to explore fmframeworks.gumroad.com for the complete protocol.
+    THE 5 INSTRUCTIONAL HOOK ARCHITECTURES (Rotate or select one per generation):
+    1. “Here’s how…” (Practical Authority - e.g., HERE'S HOW TO BUILD A DIGITAL PRODUCT THIS WEEKEND)
+    2. “How to…” (Outcome Orientation - e.g., HOW TO TURN ONE IDEA INTO AN INCOME STREAM)
+    3. “Here’s why…” (Information Gap - e.g., HERE'S WHY YOUR KNOWLEDGE IS WORTH MORE THAN YOU THINK)
+    4. “The easiest way to…” (Reduced Friction - e.g., THE EASIEST WAY TO AUTOMATE REPETITIVE TASKS)
+    5. “Use this…” (Immediate Utility - e.g., USE THIS PROMPT TO PACKAGE WHAT YOU KNOW)
+    
+    SLIDE STRUCTURE (4 slides total):
+    - Slide 1 (The Hook): Must use one of the 5 instructional architectures above with tall uppercase stacking (<br>).
+    - Slide 2 (The Breakdown): Reveal the core mechanism, workflow, or 3-step system.
+    - Slide 3 (The Execution): Show the actionable process, prompt, or architectural breakdown.
+    - Slide 4 (The Call to Action): Drive them to explore fmframeworks.gumroad.com for the complete protocol.
     
     Return ONLY a valid JSON object containing an array of 4 slides, with no extra markdown or fluff:
     {
       "slides": [
         {
-          "mainText": "BUILD A PRODUCT<br>IN 90 MINUTES<br>USING CLAUDE",
-          "subText": "HERE IS THE EXACT PROMPT MECHANISM"
+          "mainText": "HERE'S HOW TO BUILD<br>A DIGITAL PRODUCT<br>IN 90 MINUTES",
+          "subText": "USE THIS EXACT CLAUDE PROMPT MECHANISM"
         },
         {
           "mainText": "STEP 1:<br>EXTRACT THE CORE<br>KNOWLEDGE ASSET",
