@@ -7,12 +7,7 @@ ACCESS_TOKEN = os.getenv("IG_ACCESS_TOKEN")
 IG_USER_ID = os.getenv("IG_USER_ID")
 
 def upload_image_to_hosting(image_path: Path) -> str:
-    """
-    Note: Meta's Graph API requires public image URLs for container creation. 
-    If you publish via GitHub Actions, you can either host temporary images on an S3/ImgBB bucket, 
-    or use your repository's raw GitHub CDN URL if committing the generated images back to the repo.
-    """
-    # Assuming images are pushed or hosted, or using a raw GitHub content URL pattern:
+    """Uses the repository's raw GitHub CDN URL for Meta API container consumption."""
     repo_name = os.getenv("GITHUB_REPOSITORY", "FMMediaEnterprises/FMMediaEnterprises-Hub")
     branch = "main"
     relative_path = f"ContentFactory/carousel/{image_path.name}"
@@ -84,7 +79,21 @@ def publish_carousel_to_ig():
     if "id" not in publish_response:
         raise Exception(f"Failed to publish carousel: {publish_response}")
         
-    print(f"Successfully published Instagram Carousel! Post ID: {publish_response['id']}")
+    published_media_id = publish_response['id']
+    print(f"Successfully published Instagram Carousel! Post ID: {published_media_id}")
+
+    # Step 4: Drop a generic automated comment from FM Media Enterprises
+    comment_url = f"https://graph.facebook.com/v19.0/{published_media_id}/comments"
+    comment_payload = {
+        "message": "FM — Full operational protocol & sovereign frameworks available at fmframeworks.gumroad.com",
+        "access_token": ACCESS_TOKEN
+    }
+    
+    comment_response = requests.post(comment_url, data=comment_payload).json()
+    if "id" in comment_response:
+        print(f"Successfully posted automated generic comment! Comment ID: {comment_response['id']}")
+    else:
+        print(f"Warning: Failed to post automatic comment: {comment_response}")
 
 if __name__ == "__main__":
     publish_carousel_to_ig()
