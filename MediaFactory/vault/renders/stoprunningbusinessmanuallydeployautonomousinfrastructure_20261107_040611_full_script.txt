@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261107_040611
+Topic: how to automate business
+Title: Stop Running Business Manually: Deploy Autonomous Infrastructure
+Hook: You're burning twenty hours weekly running operations manually.
+Voiceover Script: You're burning twenty hours weekly running operations manually. Stop building bloated headcount. Deploy sovereign automated infrastructure to handle your pipeline on autopilot. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You're burning twenty hours weekly running operations manually.
+  Visual Prompt: dark mode terminal code automation stream running
+
+Scene 2:
+  Text: You're burning twenty hours weekly running operations manually. Stop building bloated headcount. Deploy sovereign automated infrastructure to handle your pipeline on autopilot. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist obsidian cybersecurity server dashboard glowing
+
+Scene 3:
+  Text: Comment 'OPERATOR' to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
