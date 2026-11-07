@@ -23,7 +23,7 @@ BACKGROUND_POOL = [
 ]
 
 def generate_carousel_deck() -> list:
-    """Queries AI models to generate a multi-slide carousel deck using the 5 Instructional Hook Architectures."""
+    """Queries AI models to generate a multi-slide carousel deck focused on clarity, unlocked possibilities, and instructional authority."""
     prompt = """
     You are an elite direct-response copywriter crafting a multi-slide Instagram carousel deck (4 slides total).
     
@@ -31,33 +31,37 @@ def generate_carousel_deck() -> list:
     Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System', 
     'Operator Mindset Kit', and the '90-Minute Protocol'.
     
-    THE 5 INSTRUCTIONAL HOOK ARCHITECTURES (Rotate or select one per generation):
-    1. “Here’s how…” (Practical Authority - e.g., HERE'S HOW TO BUILD A DIGITAL PRODUCT THIS WEEKEND)
-    2. “How to…” (Outcome Orientation - e.g., HOW TO TURN ONE IDEA INTO AN INCOME STREAM)
-    3. “Here’s why…” (Information Gap - e.g., HERE'S WHY YOUR KNOWLEDGE IS WORTH MORE THAN YOU THINK)
-    4. “The easiest way to…” (Reduced Friction - e.g., THE EASIEST WAY TO AUTOMATE REPETITIVE TASKS)
-    5. “Use this…” (Immediate Utility - e.g., USE THIS PROMPT TO PACKAGE WHAT YOU KNOW)
+    CORE COPYWRITING MANDATE:
+    - NEVER attack, lecture, or point out user failures. Do not use fear-based or pain-agitation hooks.
+    - INSTEAD, focus on revelation, clarity, and structural leverage: Show what is now possible that wasn't possible before. Reveal hidden mechanics, operational blind spots, and how modern AI/automation pipelines compress weeks of work into minutes. People pay for absolute clarity and information architecture.
+    
+    THE 5 INSTRUCTIONAL & REVELATORY HOOK ARCHITECTURES:
+    1. “Here’s how…” (Practical Clarity - e.g., HERE'S HOW TO COMPRESS A WEEK OF PRODUCT BUILDING INTO 90 MINUTES)
+    2. “How to…” (New Capabilities - e.g., HOW TO DEPLOY AN AUTONOMOUS CONTENT PIPELINE WITHOUT CODE)
+    3. “Here’s why…” (Information Gap / Mechanics - e.g., HERE'S WHY MANUAL CONTENT CREATION IS OBSOLETE)
+    4. “The easiest way to…” (Frictionless Execution - e.g., THE EASIEST WAY TO TURN KNOWLEDGE INTO A SELLABLE ASSET)
+    5. “Use this…” (Immediate Leverage - e.g., USE THIS PROMPT MECHANISM TO STRUCTURE YOUR ENTIRE OFFER)
     
     SLIDE STRUCTURE (4 slides total):
-    - Slide 1 (The Hook): Must use one of the 5 instructional architectures above with tall uppercase stacking (<br>).
-    - Slide 2 (The Breakdown): Reveal the core mechanism, workflow, or 3-step system.
-    - Slide 3 (The Execution): Show the actionable process, prompt, or architectural breakdown.
-    - Slide 4 (The Call to Action): Drive them to explore fmframeworks.gumroad.com for the complete protocol.
+    - Slide 1 (The Hook): Must use one of the 5 architectures above with tall uppercase stacking (<br>) focusing on unlocked potential or clarity.
+    - Slide 2 (The Breakdown): Unpack the hidden mechanism or paradigm shift that makes this possible now.
+    - Slide 3 (The Execution): Show the clean, actionable process or system architecture.
+    - Slide 4 (The Call to Action): Guide them to fmframeworks.gumroad.com for the complete operational protocol.
     
     Return ONLY a valid JSON object containing an array of 4 slides, with no extra markdown or fluff:
     {
       "slides": [
         {
           "mainText": "HERE'S HOW TO BUILD<br>A DIGITAL PRODUCT<br>IN 90 MINUTES",
-          "subText": "USE THIS EXACT CLAUDE PROMPT MECHANISM"
+          "subText": "WHAT WAS ONCE IMPOSSIBLE IS NOW AUTOMATED"
+        },
+        {
+          "mainText": "THE SHIFT:<br>FROM MANUAL GRIND<br>TO SYSTEMIC LEVERAGE",
+          "subText": "HOW MODERN PIPELINES CHANGE THE EQUATION"
         },
         {
           "mainText": "STEP 1:<br>EXTRACT THE CORE<br>KNOWLEDGE ASSET",
-          "subText": "ELIMINATE THE FLUFF & COMPRESS"
-        },
-        {
-          "mainText": "STEP 2:<br>DEPLOY THE SYSTEM<br>VIA AUTOMATION",
-          "subText": "BUILD ONCE, RUN RECURSIVELY"
+          "subText": "ELIMINATE THE FRICTION & COMPRESS"
         },
         {
           "mainText": "GET THE FULL<br>COMPRESSION SYSTEM<br>PROTOCOL TODAY",
