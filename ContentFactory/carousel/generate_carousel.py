@@ -108,7 +108,7 @@ def generate_carousel_deck() -> list:
     return data.get("slides", [])
 
 def render_carousel(slides: list):
-    """Renders each slide in the deck to a separate PNG using Playwright and randomized background textures."""
+    """Renders each slide in the deck to a separate PNG using Playwright and fine-tuned editorial typography."""
     template_path = Path(__file__).parent / 'template.html'
     
     print(f"Launching headless Playwright browser engine for {len(slides)} slides...")
@@ -129,12 +129,14 @@ def render_carousel(slides: list):
   <meta charset="UTF-8">
   <title>Editorial IG Carousel Studio - Slide {index}</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
       width: 1080px; height: 1350px; background: #000000;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }}
     .bg-image {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
@@ -144,7 +146,7 @@ def render_carousel(slides: list):
     }}
     .bg-overlay {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.35) 0%, rgba(5, 5, 5, 0.88) 100%);
+      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.3) 0%, rgba(5, 5, 5, 0.9) 100%);
       z-index: 2;
     }}
     .content-wrapper {{
@@ -152,18 +154,18 @@ def render_carousel(slides: list):
       display: flex; flex-direction: column; align-items: center; text-align: center;
     }}
     .watermark {{
-      font-size: 1.15rem; letter-spacing: 0.28em; text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.65); margin-bottom: 64px; font-weight: 600;
+      font-size: 1.1rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55); margin-bottom: 56px; font-weight: 500;
     }}
     .hook-main {{
-      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 4.8rem;
-      line-height: 1.05; text-transform: uppercase; color: #FFFFFF; letter-spacing: 0.02em;
-      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85); margin-bottom: 40px;
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 4.6rem;
+      line-height: 1.08; text-transform: uppercase; color: #FFFFFF; letter-spacing: -0.01em;
+      text-shadow: 0 4px 28px rgba(0, 0, 0, 0.9); margin-bottom: 44px;
     }}
     .hook-sub {{
-      font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 600;
-      letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255, 255, 255, 0.9);
-      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+      font-family: 'Inter', sans-serif; font-size: 1.2rem; font-weight: 500;
+      letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
     }}
   </style>
 </head>
@@ -188,7 +190,7 @@ def render_carousel(slides: list):
             print(f"Saved {output_path.name}")
             
         browser.close()
-    print("All carousel slides rendered successfully.")
+    print("All carousel slides rendered successfully with refined typography.")
 
 if __name__ == "__main__":
     print("Initializing Multi-Slide Autonomous Carousel Engine...")
