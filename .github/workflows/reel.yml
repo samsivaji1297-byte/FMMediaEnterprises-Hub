@@ -1,0 +1,37 @@
+name: Generate Cinematic Video Reel
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 8 * * *'
+
+jobs:
+  build-reel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install google-genai groq playwright
+          playwright install chromium
+
+      - name: Run Reel Generation Engine
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        working-directory: ./reels
+        run: |
+          python generate_reel.py
+
+      - name: Upload Reel Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: video-reel
+          path: reels/output/output-reel.webm
