@@ -1,88 +1,59 @@
-# The Effort‑Discounting Immunity Blueprint  
-*Why your brain devalues hard work, and how a result‑first automation system rewires that bias.*
+# The Effort‑Discount Tax: How Your Brain Undervalues Work and What to Do About It  
 
----
-
-## 1️⃣ The Psychological Leak  
-
-Every time you push through a long to‑do list, your brain applies a hidden discount.  
-Research on **effort discounting** shows that the subjective value of a reward drops as the required effort rises—much like a store slashing the price of a product the more steps you need to take to buy it.  
-
-If you’ve ever felt “I’m working all night and still can’t get the cash I deserve,” you’ve been hit by this bias. It’s not laziness; it’s a **cognitive tax** that protects you from over‑exertion, but in the modern gig economy it becomes a *growth inhibitor*.
-
----
-
-## 2️⃣ The Locus of Control Twist  
-
-People with an **external locus of control** attribute outcomes to luck or external forces.  
-When effort discounting pairs with that mindset, you start *monitoring* every minute you work instead of *monitoring* the result you want. The brain rewards you for “trying” rather than for “earning,” reinforcing the loop.
-
----
-
-## 3️⃣ Outcome‑First Automation: The Antidote  
-
-The cure is simple: **reverse the feedback direction**.  
-
-| Step | What you do | Why it works |
-|------|-------------|--------------|
-| **Result Mapping** | Write a concrete revenue target (e.g., $4,200/month). | Gives the brain a *tangible* outcome to latch onto, shifting focus from effort to payoff. |
-| **Micro‑Automation Stack** | Connect a trigger (new email sign‑up) → a product delivery (digital download via Gumroad) → a payment capture (Stripe). | The system *delivers* the result automatically, so the brain sees effort *vanishing* from the equation. |
-| **Feedback Loop** | Weekly dashboard that only shows revenue vs. target, not hours worked. | Reinforces an *internal* locus of control: you own the outcome, not the grind. |
-
-When the system does the heavy lifting, the brain stops applying the discount curve because the *effort* is now external to you. You experience **effort‑discounting immunity** – the feeling that every action you take is directly tied to cash flow.
-
----
-
-## 4️⃣ Quick‑Start Blueprint (3‑Day Sprint)
-
-**Day 1 – Define the Outcome**  
-- Choose a single, time‑boxed revenue goal (e.g., $2,500 in 30 days).  
-- Write it in a visible place (digital sticky note, phone wallpaper).  
-
-**Day 2 – Build the Automation**  
-- Pick a no‑code platform (Zapier, Make).  
-- Set up: *Trigger* → *Action* → *Payment*. Test with a $1 transaction.  
-
-**Day 3 – Deploy & Measure**  
-- Launch the flow to a warm audience (email list, Discord).  
-- Open a simple KPI sheet: *Revenue* vs. *Target*. Celebrate each $100 hit.  
-
----
-
-## 5️⃣ The Payoff  
-
-By the end of the first week, you’ll notice two things:  
-
-1. **Motivation spikes** – because the brain now sees a *direct* link between a button click and cash.  
-2. **Time frees up** – you’re no longer manually chasing each sale; the automation does it.
-
-That’s the sovereign operator’s edge: you own the *outcome* while the system absorbs the *effort*.  
-
-Ready to embed this blueprint into every side‑hustle you run? The **Compression System** is a $197, step‑by‑step playbook that turns the above three‑day sprint into a repeatable, scalable engine.  
-
-*Grab it now, and start building your own effort‑discounting immunity.*  
+> **TL;DR** – Your brain automatically de‑values outcomes that require high effort (effort discounting). Pair that with an external locus of control, and you’ll see income stall despite hard work. The fix? Flip the script by **making outcomes the primary control lever** and automate the minimal actions that guarantee those outcomes.  
 
 ---  
 
-### TL;DR  
-Effort discounting makes hard work feel unrewarded. Flip the loop by defining a cash outcome first, automating delivery, and measuring only revenue. The result? Your brain stops devaluing effort, and you earn on autopilot.  
+## 1️⃣ Why Effort Feels Like a Tax  
+
+Researchers label the phenomenon *effort discounting*: the subjective value of a reward drops as the required effort climbs. It’s an evolutionary shortcut—conserving energy when a task seems too costly. In modern knowledge work, this shows up as “I’m putting in hours, but the paycheck isn’t growing.”  
+
+## 2️⃣ The Control Illusion Amplifier  
+
+If you see results as *external* (luck, market, client whims), the discount deepens. You feel powerless, and the brain rewards you for *doing less* to avoid wasted effort. This is the classic “external locus of control” trap.  
+
+## 3️⃣ Re‑Engineering the Feedback Loop  
+
+### Step A – Define **Outcome First**  
+Start with a concrete revenue target (e.g., $3 k recurring). Treat that number as the *control knob* you can turn, not the hours you log.  
+
+### Step B – Identify **Minimum Viable Actions**  
+Strip the process to the smallest set of tasks that *guarantee* the outcome. For a digital micro‑product, that might be:  
+
+1. Create a 1‑page sales copy.  
+2. Hook it up to a Stripe checkout.  
+3. Set an automated email that delivers the product.  
+
+### Step C – Automate the Pipeline  
+Use a no‑code tool (Zapier, Make, n8n) to trigger the email and delivery instantly after purchase. The entire revenue‑generating loop now runs on **one click**.  
+
+## 4️⃣ The Psychological Payoff  
+
+- **Perceived control spikes** – you now see a direct cause‑effect: *click → cash*.  
+- **Effort discount collapses** – the brain no longer sees a high‑effort cost, because the automated steps require almost zero mental load.  
+- **Motivation rebounds** – dopamine fires on the *outcome* rather than the *effort*.  
+
+## 5️⃣ Quick‑Start Blueprint (Low‑Cognitive‑Load Income Pipeline)  
+
+| Phase | Action | Tool | Time Investment |
+|------|--------|------|-----------------|
+| **Idea** | Pin a $5‑$20 micro‑offer that solves a single pain point | Notion/Google Docs | 30 min |
+| **Build** | One‑page sales page + Stripe link | Carrd + Stripe | 45 min |
+| **Automate** | Purchase → email → product delivery | Zapier (Trigger: Stripe → Action: Gmail) | 15 min |
+| **Scale** | Duplicate the flow for new offers | Copy‑paste template | Ongoing |
+
+## 6️⃣ Real‑World Example  
+
+*Freelance copywriter* wanted $2 k/month without adding client hours. She packaged a “30‑minute headline audit” as a $25 micro‑service, wired the checkout to an automated Google Sheet and Gmail template, and now earns $2.4 k/month on autopilot.  
 
 ---  
 
-### 👉 Get the full framework 👉 [Compression System – $197](https://fmframeworks.gumroad.com/l/CompressionSystem)  
+### Take the Leap  
+
+Stop paying the invisible effort tax. Grab the **Outcome‑First Revenue Automation Blueprint** – a step‑by‑step, $197 system that builds the exact pipeline described above, with plug‑and‑play templates for any niche.  
+
+👉 https://fmframeworks.gumroad.com/l/CompressionSystem  
 
 ---  
 
-### Share your first $100 win below – let’s prove the bias is dead.  
-
----  
-
-### References (for the curious)  
-
-- Effort Justification vs. Discounting – *Psychophysiology* (2023)  
-- Locus of Control – *Simply Psychology* (2022)  
-- Outcome vs. Effort Control – *Future of CIO* (2024)  
-
----  
-
-### Stay sovereign.
+*If you found this useful, subscribe for weekly deep dives on turning psychology into profit.*

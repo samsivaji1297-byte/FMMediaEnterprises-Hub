@@ -1,38 +1,36 @@
-**Reel Hook & Caption**  
-🚀 *“What if the hours you grind today could be worth *twice* tomorrow—without working longer?”*  
-💡 *Swipe ➡️ to see the exact mental hack that flips effort‑discounting on its head.*  
-
----
-
-**Post 1️⃣ – The Hidden Tax on Your Hustle**  
-You’re grinding 40 hrs/week on content, consulting, or code, yet the bank account barely moves.  
-Psychology calls it **effort discounting** – the brain silently tells you “this work isn’t worth the payoff.”  
-Result? Motivation drops, and the whole system stalls.
-
----
-
-**Post 2️⃣ – Why Traditional “Work‑Hard‑Earn‑More” Fails**  
-Most “productivity” advice assumes *linear* effort → income.  
-But the brain applies a **discount curve**: the more steps, the lower the perceived value.  
-Even high‑income earners can fall into the same trap when they lose *outcome control*.
-
----
-
-**Post 3️⃣ – The Sovereign Switch: Outcome‑First Automation**  
-Flip the equation: **Outcome → Automation → Effort**.  
-1️⃣ Define the *desired revenue result* (e.g., $5k/mo).  
-2️⃣ Build a tiny programmatic pipeline that delivers that result on autopilot.  
-3️⃣ Let the system do the heavy lifting; your effort becomes *maintenance*, not creation.
-
----
-
-**Post 4️⃣ – Quick‑Start Blueprint (3‑Step)**  
-1️⃣ **Result Mapping** – Write the exact cash outcome you want.  
-2️⃣ **Micro‑Automation Stack** – Choose a no‑code trigger (Zapier, Make) + a payment flow (Stripe, Gumroad).  
-3️⃣ **Feedback Loop** – Set a weekly KPI dashboard that only measures *revenue*, not hours.  
-
-💥 *Implement this tonight and watch the effort‑discounting bias evaporate.*  
+**Hook & Caption (2 lines)**  
+🚀 *Stop letting effort drain your wallet.*  
+💡 *Turn the mental tax on work into a cash‑flow engine—no extra hours required.*  
 
 ---  
 
-###
+**Post 1️⃣ – The Invisible “Effort Tax”**  
+Every hour you spend grinding feels like it’s *taxed* by the brain. Science calls it **effort discounting** – the more work you pour in, the less value you assign to the payoff. That’s why freelancers watch their invoices lag behind their to‑do lists.  
+
+---  
+
+**Post 2️⃣ – Why Control Illusion Makes It Worse**  
+If you believe outcomes are out of your hands (external locus), the discount deepens. You’re stuck in a loop: *“I’m not in control → my work is cheap → I’ll quit trying.”* The cure is to **re‑engineer control**, not your hustle.  
+
+---  
+
+**Post 3️⃣ – Build an Outcome‑First Automation Pipeline**  
+1️⃣ Define the *desired result* (e.g., $5 k/month recurring).  
+2️⃣ Map the *minimum viable actions* that guarantee that result (content drop, email sequence, micro‑offer).  
+3️⃣ Automate those actions with a single trigger (Zapier, Make, or a custom webhook).  
+
+Result: You earn **without the effort‑discount penalty** because the brain now sees a *direct, low‑effort* link to money.  
+
+---  
+
+**Post 4️⃣ – Quick Win Blueprint**  
+✅ Choose ONE high‑margin micro‑product.  
+✅ Set up a “one‑click purchase → automated delivery → drip‑value email” flow.  
+✅ Track revenue per minute, not minutes per revenue.  
+
+Your effort drops, perceived control spikes, and the brain rewards you with motivation.  
+
+---  
+
+**Call‑to‑Action**  
+Ready to ditch the effort tax? Grab the **Outcome‑First Revenue Automation Blueprint** (only $197) and start converting minutes into dollars today. 👉 https://fmframeworks.gumroad.com/l/CompressionSystem
