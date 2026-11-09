@@ -98,11 +98,15 @@ def generate_modular_reel_content() -> dict:
 def render_modular_reel(content: dict):
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
+    frames_dir = output_dir / 'frames'
+    if frames_dir.exists():
+        shutil.rmtree(frames_dir)
+    frames_dir.mkdir(exist_ok=True)
     
     template_path = Path(__file__).parent / 'template.html'
 
     embedded_template = f"""<!DOCTYPE html>
-<html lang="en" style="background: #000000; background-color: #000000;">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Modular Framework IG Reel Studio</title>
@@ -110,7 +114,7 @@ def render_modular_reel(content: dict):
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     html, body {{
-      width: 1080px; height: 1920px; background: #000000 !important; background-color: #000000 !important; color: #FFFFFF;
+      width: 1080px; height: 1920px; background: #000000 !important; color: #FFFFFF;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
       position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace, sans-serif;
       padding: 260px 80px 140px 80px; margin: 0;
@@ -183,7 +187,7 @@ def render_modular_reel(content: dict):
     }}
   </style>
 </head>
-<body style="background: #000000; background-color: #000000;">
+<body style="background: #000000;">
   <div class="grid-overlay"></div>
   <div class="scanline"></div>
   
@@ -227,46 +231,49 @@ def render_modular_reel(content: dict):
     template_path.write_text(embedded_template, encoding='utf-8')
 
     with sync_playwright() as p:
-        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox', '--force-dark-mode'])
-        context = browser.new_context(
-            viewport={'width': 1080, 'height': 1920},
-            record_video_dir=str(output_dir),
-            record_video_size={'width': 1080, 'height': 1920}
-        )
-        
+        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox'])
+        context = browser.new_context(viewport={'width': 1080, 'height': 1920})
         page = context.new_page()
-        page.evaluate("() => document.body.style.backgroundColor = '#000000'")
+        
         file_url = f"file://{template_path.resolve()}"
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        time.sleep(8.0)
-        context.close()
+        # Capture frames at 30fps for 8 seconds (240 total frames)
+        fps = 30
+        total_seconds = 8.0
+        total_frames = int(fps * total_seconds)
+        interval = 1.0 / fps
+        
+        print("Capturing pristine frame screenshots...")
+        start_time = time.time()
+        for i in range(total_frames):
+            frame_path = frames_dir / f"frame_{i:04d}.png"
+            page.screenshot(path=str(frame_path), type="png")
+            
+            # Keep sync with real time simulation
+            target_elapsed = (i + 1) * interval
+            actual_elapsed = time.time() - start_time
+            if target_elapsed > actual_elapsed:
+                time.sleep(target_elapsed - actual_elapsed)
+                
         browser.close()
         
-        recorded_files = list(output_dir.glob("*.webm"))
-        if recorded_files:
-            latest_video = max(recorded_files, key=os.path.getctime)
-            raw_output = output_dir / "raw-reel.webm"
-            if raw_output.exists():
-                raw_output.unlink()
-            latest_video.rename(raw_output)
-            
-            final_output = output_dir / "output-reel.mp4"
-            ensure_ffmpeg()
-            
-            if shutil.which("ffmpeg"):
-                print("Converting raw capture to final MP4 container via FFmpeg (audio omitted)...")
-                # Clean video-only re-encoding pass to ensure perfect container compliance without audio streams
-                ffmpeg_cmd = [
-                    "ffmpeg", "-y",
-                    "-i", str(raw_output),
-                    "-c:v", "libx264", "-preset", "fast", "-crf", "22",
-                    "-pix_fmt", "yuv420p",
-                    str(final_output)
-                ]
-                subprocess.run(ffmpeg_cmd, check=True)
-                print(f"Rendered clean video-only modular MP4 reel: {final_output}")
+        final_output = output_dir / "output-reel.mp4"
+        ensure_ffmpeg()
+        
+        if shutil.which("ffmpeg"):
+            print("Compiling frames into final MP4 via FFmpeg...")
+            ffmpeg_cmd = [
+                "ffmpeg", "-y",
+                "-framerate", str(fps),
+                "-i", str(frames_dir / "frame_%04d.png"),
+                "-c:v", "libx264", "-preset", "fast", "-crf", "20",
+                "-pix_fmt", "yuv420p",
+                str(final_output)
+            ]
+            subprocess.run(ffmpeg_cmd, check=True)
+            print(f"Flawless frame-rendered MP4 reel successfully created: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
