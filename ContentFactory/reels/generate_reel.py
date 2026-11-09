@@ -23,32 +23,45 @@ def ensure_ffmpeg():
             pass
 
 def generate_modular_reel_content() -> dict:
-    topics = [
-        "Autonomous pSEO data matrix compilation and GitHub Pages deployment",
-        "Headless Meta Graph API short-form video distribution pipelines",
-        "Operator mindset systems, workflow compression, and sovereign asset design",
-        "Zero-dependency single-file web applications and local storage synchronization"
+    """Queries AI models for dead-simple, high-stopping-power hooks and clear step-by-step systems."""
+    angles = [
+        {
+            "hook": "3 REASONS YOUR CONTENT ENGINE IS DRAINING YOUR TIME",
+            "card1": "1. WRITING EVERY SINGLE POST MANUALLY",
+            "card2": "2. ZERO AUTOMATED DISTRIBUTION PIPELINES",
+            "card3": "3. IGNORING ZERO-DEPENDENCY ARCHITECTURE",
+            "footer": "COMMENT FM FOR THE WORKFLOW"
+        },
+        {
+            "hook": "HOW TO STOP WASTING 10 HOURS A WEEK ON CONTENT",
+            "card1": "1. BUILD A 90-MINUTE AUTOMATION ROUTINE",
+            "card2": "2. LET PYTHON HANDLE THE HEAVY LIFTING",
+            "card3": "3. DEPLOY REELS ON AUTOPILOT",
+            "footer": "COMMENT FM FOR THE BLUEPRINT"
+        },
+        {
+            "hook": "THE EXACT SYSTEM I USE TO RUN MY BUSINESS ON AUTO-PILOT",
+            "card1": "1. PROGRAMMATIC SEO & DATA MATRIX",
+            "card2": "2. HEADLESS API CONTENT FACTORY",
+            "card3": "3. RECURSIVE CRON SCHEDULING",
+            "footer": "COMMENT FM FOR THE SYSTEM"
+        }
     ]
-    selected_topic = random.choice(topics)
-
+    
+    # We can either pull a curated high-conversion angle or let the AI generate one using basic language
+    selected = random.choice(angles)
+    
     prompt = f"""
-    You are an elite direct-response system architect crafting a high-retention modular framework Instagram Reel script.
-    
-    Current Architectural Focus: {selected_topic}
-    Product Context: fmframeworks.gumroad.com ('The Compression System', 'Operator Mindset Kit').
-    
-    CORE DESIGN & COPYWRITING MANDATE:
-    - Deliver absolute clarity, structural leverage, and mimetic dopamine hits.
-    - Provide 3 distinct modular framework points representing a sovereign pipeline based on the focus above.
-    - Ensure the copy is completely fresh, punchy, and highly specific.
+    You are an elite social media growth architect. Create a dead-simple, highly engaging Instagram Reel script.
+    The language MUST be basic, zero-jargon, and immediately understandable to anyone scrolling.
     
     Return ONLY valid JSON matching this exact structure with no extra markdown or fluff:
     {{
-      "mainHeader": "SHORT PUNCHY TITLE ABOUT THE SYSTEM",
-      "card1": "1. FIRST MODULE STEP OR METRIC",
-      "card2": "2. SECOND MODULE STEP OR METRIC",
-      "card3": "3. THIRD MODULE STEP OR PAYOFF",
-      "footerLabel": "SYSTEM ARCHITECTURE"
+      "hookText": "{selected['hook']}",
+      "card1": "{selected['card1']}",
+      "card2": "{selected['card2']}",
+      "card3": "{selected['card3']}",
+      "footerLabel": "{selected['footer']}"
     }}
     """
 
@@ -90,7 +103,6 @@ def render_modular_reel(content: dict):
     
     template_path = Path(__file__).parent / 'template.html'
 
-    # Forced pure black root styling to eliminate the initial white frame flash
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -125,7 +137,7 @@ def render_modular_reel(content: dict):
       display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
     }}
     .main-title {{
-      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 3.5rem;
+      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 3.8rem;
       line-height: 1.15; text-transform: uppercase; color: #FFFFFF;
       letter-spacing: -0.02em; margin-bottom: 20px; text-shadow: 0 4px 20px rgba(0,0,0,0.8);
     }}
@@ -166,10 +178,10 @@ def render_modular_reel(content: dict):
       border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 26px;
     }}
     .footer-label {{
-      font-size: 1.05rem; letter-spacing: 0.25em; color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
+      font-size: 1.1rem; letter-spacing: 0.2em; color: #FF6B00; font-weight: 700; text-transform: uppercase;
     }}
     .cta-link {{
-      font-size: 1.1rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700; text-transform: uppercase;
+      font-size: 1.1rem; letter-spacing: 0.25em; color: #FFFFFF; font-weight: 600; text-transform: uppercase;
     }}
   </style>
 </head>
@@ -179,28 +191,29 @@ def render_modular_reel(content: dict):
   
   <div class="content-wrapper">
     <div class="header-block">
-      <div class="main-title">{content['mainHeader']}</div>
+      <!-- High-Stopping-Power Hook visible immediately on frame 1 -->
+      <div class="main-title">{content['hookText']}</div>
       <div class="arrow-icon">↓</div>
     </div>
     
     <div class="cards-container">
       <div class="modular-card" id="card-1">
-        <div class="badge-icon badge-red">∞</div>
+        <div class="badge-icon badge-red">1</div>
         <div class="card-text">{content['card1']}</div>
       </div>
       <div class="modular-card" id="card-2">
-        <div class="badge-icon badge-amber">α</div>
+        <div class="badge-icon badge-amber">2</div>
         <div class="card-text">{content['card2']}</div>
       </div>
       <div class="modular-card" id="card-3">
-        <div class="badge-icon badge-green">✓</div>
+        <div class="badge-icon badge-green">3</div>
         <div class="card-text">{content['card3']}</div>
       </div>
     </div>
     
     <div class="footer-block">
       <div class="footer-label">{content['footerLabel']}</div>
-      <div class="cta-link">→ FMFRAMEWORKS.GUMROAD.COM</div>
+      <div class="cta-link">FMFRAMEWORKS.GUMROAD.COM</div>
     </div>
   </div>
 
@@ -246,7 +259,6 @@ def render_modular_reel(content: dict):
             ensure_ffmpeg()
             
             if shutil.which("ffmpeg"):
-                # Bulletproof audio muxing filter chain
                 ffmpeg_cmd = [
                     "ffmpeg", "-y",
                     "-i", str(raw_output),
