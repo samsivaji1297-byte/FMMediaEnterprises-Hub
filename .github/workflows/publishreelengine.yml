@@ -38,7 +38,7 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add ContentFactory/reels/output/output-reel.webm
+          git add ContentFactory/reels/output/output-reel.mp4
           git commit -m "chore: auto-generate audio-muxed video reel [skip ci]" || echo "No changes to commit"
           git push
 
