@@ -256,16 +256,17 @@ def render_modular_reel(content: dict):
             ensure_ffmpeg()
             
             if shutil.which("ffmpeg"):
-                print("Muxing dynamic stereo sound design soundtrack into MP4 container via FFmpeg...")
+                print("Muxing lively rhythmic animated sound design into MP4 container via FFmpeg...")
+                # Livelier audio pipeline: combines a rhythmic pulsing synth note with crisp textured noise and tremolo modulation
                 ffmpeg_cmd = [
                     "ffmpeg", "-y",
                     "-i", str(raw_output),
-                    "-f", "lavfi", "-i", "sine=frequency=60:duration=8.0",
-                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.03",
+                    "-f", "lavfi", "-i", "sine=frequency=80:duration=8.0",
+                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.04",
                     "-filter_complex",
-                    "[1:a]volume=0.25,lowpass=f=300[drone];"
-                    "[2:a]volume=0.06,highpass=f=1000[texture];"
-                    "[drone][texture]amix=inputs=2:duration=first[mix];"
+                    "[1:a]volume=0.3,tremolo=f=4:d=0.8,lowpass=f=400[synth];"
+                    "[2:a]volume=0.08,highpass=f=1200[texture];"
+                    "[synth][texture]amix=inputs=2:duration=first[mix];"
                     "[mix]aformat=channel_layouts=stereo,asetpts=PTS-STARTPTS[audio]",
                     "-map", "0:v", "-map", "[audio]",
                     "-c:v", "libx264", "-preset", "fast", "-crf", "22",
@@ -274,7 +275,7 @@ def render_modular_reel(content: dict):
                     str(final_output)
                 ]
                 subprocess.run(ffmpeg_cmd, check=True)
-                print(f"Dynamic audio-muxed modular MP4 reel successfully rendered: {final_output}")
+                print(f"Rhythmic animated audio-muxed modular MP4 reel successfully rendered: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
