@@ -17,7 +17,11 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install System Dependencies (FFmpeg)
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+
+      - name: Install Python Dependencies
         run: |
           pip install google-genai groq playwright requests
           playwright install chromium
@@ -30,12 +34,12 @@ jobs:
         run: |
           python generate_reel.py
 
-      - name: Commit Rendered Video for CDN Access
+      - name: Commit Rendered Video with Audio for CDN Access
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add ContentFactory/reels/output/output-reel.webm
-          git commit -m "chore: auto-generate video reel for publishing [skip ci]" || echo "No changes to commit"
+          git commit -m "chore: auto-generate audio-muxed video reel [skip ci]" || echo "No changes to commit"
           git push
 
       - name: Run Instagram Reel Publishing Script
