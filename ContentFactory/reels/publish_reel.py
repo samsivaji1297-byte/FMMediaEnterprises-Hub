@@ -55,7 +55,6 @@ def publish_reel_to_ig():
 
     container_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media"
     
-    # Tailored caption highlighting operational compression, operator frameworks, and automated leverage
     caption = (
         "Most people trade hours for manual busywork instead of building systems that run themselves. "
         "The Operator Mindset is about compressing hours of repetitive tasks into bulletproof automated pipelines.\n\n"
@@ -83,6 +82,13 @@ def publish_reel_to_ig():
         raise Exception(f"Failed to create Reel container after 3 attempts: {response}")
 
     creation_id = response["id"]
+    
+    # Wait for Meta processing to finish completely
+    wait_for_reel_ready(creation_id)
+
+    # Brief buffer to let Meta's internal media storage fully settle before publishing
+    print("Waiting 10s for Meta media container to stabilize...")
+    time.sleep(10)
 
     publish_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media_publish"
     publish_payload = {"creation_id": creation_id, "access_token": ACCESS_TOKEN}
@@ -94,7 +100,6 @@ def publish_reel_to_ig():
     published_media_id = publish_response['id']
     print(f"Successfully published Instagram Reel! Post ID: {published_media_id}")
 
-    # Post automated engagement comment driving the "Comment FM" loop
     comment_url = f"https://graph.facebook.com/v19.0/{published_media_id}/comments"
     comment_payload = {
         "message": "Comment FM below and I will DM you the compression system link.",
