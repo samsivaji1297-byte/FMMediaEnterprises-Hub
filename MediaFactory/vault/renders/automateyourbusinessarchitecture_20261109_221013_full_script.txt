@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261109_221013
+Topic: how to automate business
+Title: Automate Your Business Architecture
+Hook: Stop running your business manually in 2026.
+Voiceover Script: Stop running your business manually in 2026. Grinding eighty-hour weeks isn't discipline; it's bad architecture. Replace manual bottlenecks with sovereign automated infrastructure. Scale without adding payroll. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Stop running your business manually in 2026.
+  Visual Prompt: dark terminal automation code running fast obsidian UI
+
+Scene 2:
+  Text: Stop running your business manually in 2026. Grinding eighty-hour weeks isn't discipline; it's bad architecture. Replace manual bottlenecks with sovereign automated infrastructure. Scale without adding payroll. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: minimalist dark cyberpunk server dashboard analytics
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
