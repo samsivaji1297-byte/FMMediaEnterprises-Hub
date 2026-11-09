@@ -1,13 +1,13 @@
 import sys
 from pathlib import Path
 
-# Automatically inject repository root into sys.path so config.py loads cleanly
 repo_root = Path(__file__).resolve().parent.parent.parent
 if str(repo_root) not in sys.path:
     sys.path.insert(0, str(repo_root))
 
 import json
 import os
+import random
 import shutil
 import subprocess
 import time
@@ -16,23 +16,19 @@ from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBR
 
 def ensure_ffmpeg():
     if not shutil.which("ffmpeg"):
-        print("FFmpeg not found in PATH. Attempting automated installation...")
         try:
             subprocess.run(["sudo", "apt-get", "update"], check=True, stdout=subprocess.DEVNULL)
             subprocess.run(["sudo", "apt-get", "install", "-y", "ffmpeg"], check=True, stdout=subprocess.DEVNULL)
-            print("FFmpeg installed successfully.")
-        except Exception as e:
-            print(f"Warning: Could not auto-install ffmpeg ({e}).")
+        except Exception:
+            pass
 
 def generate_modular_reel_content() -> dict:
-    """Queries AI models with varied architectural domains to ensure unique output per run."""
     topics = [
         "Autonomous pSEO data matrix compilation and GitHub Pages deployment",
         "Headless Meta Graph API short-form video distribution pipelines",
         "Operator mindset systems, workflow compression, and sovereign asset design",
         "Zero-dependency single-file web applications and local storage synchronization"
     ]
-    import random
     selected_topic = random.choice(topics)
 
     prompt = f"""
@@ -89,12 +85,12 @@ def generate_modular_reel_content() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_modular_reel(content: dict):
-    """Renders visual via Playwright with safe-zoned top padding and dynamic audio muxing via FFmpeg."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
     template_path = Path(__file__).parent / 'template.html'
 
+    # Forced pure black root styling to eliminate the initial white frame flash
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,10 +100,10 @@ def render_modular_reel(content: dict):
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     html, body {{
-      width: 1080px; height: 1920px; background-color: #000000 !important; color: #FFFFFF;
+      width: 1080px; height: 1920px; background: #000000 !important; color: #FFFFFF;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
       position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace;
-      padding: 240px 80px 140px 80px; margin: 0;
+      padding: 260px 80px 140px 80px; margin: 0;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
     .grid-overlay {{
@@ -129,24 +125,24 @@ def render_modular_reel(content: dict):
       display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
     }}
     .main-title {{
-      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 3.6rem;
+      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 3.5rem;
       line-height: 1.15; text-transform: uppercase; color: #FFFFFF;
-      letter-spacing: -0.02em; margin-bottom: 24px; text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      letter-spacing: -0.02em; margin-bottom: 20px; text-shadow: 0 4px 20px rgba(0,0,0,0.8);
     }}
     .arrow-icon {{
-      font-size: 3rem; color: #FFFFFF; margin-top: 10px; animation: bounce 1.5s infinite ease-in-out;
+      font-size: 2.8rem; color: #FFFFFF; margin-top: 5px; animation: bounce 1.5s infinite ease-in-out;
     }}
     @keyframes bounce {{
       0%, 100% {{ transform: translateY(0); }}
-      50% {{ transform: translateY(12px); }}
+      50% {{ transform: translateY(10px); }}
     }}
     .cards-container {{
-      display: flex; flex-direction: column; gap: 28px; width: 100%; max-width: 920px;
+      display: flex; flex-direction: column; gap: 26px; width: 100%; max-width: 920px;
       margin: auto 0;
     }}
     .modular-card {{
       background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px); border-radius: 16px; padding: 36px 40px;
+      backdrop-filter: blur(12px); border-radius: 16px; padding: 34px 38px;
       display: flex; align-items: center; gap: 32px;
       opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease;
       box-shadow: 0 12px 40px rgba(0,0,0,0.6);
@@ -155,29 +151,29 @@ def render_modular_reel(content: dict):
       opacity: 1; transform: translateY(0);
     }}
     .badge-icon {{
-      width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 1.8rem; font-weight: 700; flex-shrink: 0;
+      width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.7rem; font-weight: 700; flex-shrink: 0;
     }}
     .badge-red {{ background: rgba(255, 59, 48, 0.15); color: #FF3B30; border: 1px solid rgba(255, 59, 48, 0.4); box-shadow: 0 0 25px rgba(255, 59, 48, 0.3); }}
     .badge-amber {{ background: rgba(255, 107, 0, 0.15); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.4); box-shadow: 0 0 25px rgba(255, 107, 0, 0.3); }}
     .badge-green {{ background: rgba(52, 199, 89, 0.15); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.4); box-shadow: 0 0 25px rgba(52, 199, 89, 0.3); }}
     .card-text {{
-      font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700;
+      font-family: 'Inter', sans-serif; font-size: 1.45rem; font-weight: 700;
       letter-spacing: -0.01em; color: #FFFFFF; text-transform: uppercase;
     }}
     .footer-block {{
       display: flex; justify-content: space-between; align-items: center; width: 100%;
-      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 28px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 26px;
     }}
     .footer-label {{
-      font-size: 1.1rem; letter-spacing: 0.25em; color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
+      font-size: 1.05rem; letter-spacing: 0.25em; color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
     }}
     .cta-link {{
-      font-size: 1.15rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700; text-transform: uppercase;
+      font-size: 1.1rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700; text-transform: uppercase;
     }}
   </style>
 </head>
-<body>
+<body style="background: #000000;">
   <div class="grid-overlay"></div>
   <div class="scanline"></div>
   
@@ -220,9 +216,8 @@ def render_modular_reel(content: dict):
 
     template_path.write_text(embedded_template, encoding='utf-8')
 
-    print("Launching Playwright Modular Framework recorder...")
     with sync_playwright() as p:
-        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox'])
+        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox', '--force-dark-mode'])
         context = browser.new_context(
             viewport={'width': 1080, 'height': 1920},
             record_video_dir=str(output_dir),
@@ -230,13 +225,12 @@ def render_modular_reel(content: dict):
         )
         
         page = context.new_page()
+        page.evaluate("() => document.body.style.backgroundColor = '#000000'")
         file_url = f"file://{template_path.resolve()}"
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        print("Recording 8-second visual reel session...")
         time.sleep(8.0)
-        
         context.close()
         browser.close()
         
@@ -252,15 +246,15 @@ def render_modular_reel(content: dict):
             ensure_ffmpeg()
             
             if shutil.which("ffmpeg"):
-                print("Muxing dynamic sound design soundtrack into MP4 container via FFmpeg...")
+                # Bulletproof audio muxing filter chain
                 ffmpeg_cmd = [
                     "ffmpeg", "-y",
                     "-i", str(raw_output),
-                    "-f", "lavfi", "-i", "sine=frequency=50:duration=8.0",
-                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.01",
+                    "-f", "lavfi", "-i", "sine=frequency=55:duration=8.0",
+                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.015",
                     "-filter_complex",
-                    "[1:a]volume=0.10,lowpass=f=250[drone];"
-                    "[2:a]volume=0.02,highpass=f=1500[texture];"
+                    "[1:a]volume=0.12,lowpass=f=220[drone];"
+                    "[2:a]volume=0.03,highpass=f=1200[texture];"
                     "[drone][texture]amix=inputs=2[mix];"
                     "[mix]asetpts=PTS-STARTPTS[audio]",
                     "-map", "0:v", "-map", "[audio]",
@@ -270,12 +264,7 @@ def render_modular_reel(content: dict):
                     str(final_output)
                 ]
                 subprocess.run(ffmpeg_cmd, check=True)
-                print(f"Dynamic audio-muxed modular MP4 reel successfully rendered: {final_output}")
-            else:
-                print("FFmpeg unavailable.")
 
 if __name__ == "__main__":
-    print("Initializing Modular Framework Autonomous Reel Engine with Dynamic Sound...")
     content_payload = generate_modular_reel_content()
-    print("Modular Payload:", content_payload)
     render_modular_reel(content_payload)
