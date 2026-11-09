@@ -110,9 +110,9 @@ def render_modular_reel(content: dict):
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     html, body {{
-      width: 1080px; height: 1920px; background: #000000 !important; color: #FFFFFF;
+      width: 1080px; height: 1920px; background-color: #000000 !important; color: #FFFFFF;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
-      position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace;
+      position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace, sans-serif;
       padding: 260px 80px 140px 80px; margin: 0;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
@@ -183,7 +183,7 @@ def render_modular_reel(content: dict):
     }}
   </style>
 </head>
-<body style="background: #000000;">
+<body>
   <div class="grid-overlay"></div>
   <div class="scanline"></div>
   
@@ -256,17 +256,16 @@ def render_modular_reel(content: dict):
             ensure_ffmpeg()
             
             if shutil.which("ffmpeg"):
-                print("Muxing lively rhythmic animated sound design into MP4 container via FFmpeg...")
-                # Livelier audio pipeline: combines a rhythmic pulsing synth note with crisp textured noise and tremolo modulation
+                print("Muxing harmonic audio track into MP4 container via FFmpeg...")
                 ffmpeg_cmd = [
                     "ffmpeg", "-y",
                     "-i", str(raw_output),
-                    "-f", "lavfi", "-i", "sine=frequency=80:duration=8.0",
-                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.04",
+                    "-f", "lavfi", "-i", "sine=frequency=110:duration=8.0",
+                    "-f", "lavfi", "-i", "sine=frequency=220:duration=8.0",
                     "-filter_complex",
-                    "[1:a]volume=0.3,tremolo=f=4:d=0.8,lowpass=f=400[synth];"
-                    "[2:a]volume=0.08,highpass=f=1200[texture];"
-                    "[synth][texture]amix=inputs=2:duration=first[mix];"
+                    "[1:a]volume=0.2[a1];"
+                    "[2:a]volume=0.1[a2];"
+                    "[a1][a2]amix=inputs=2:duration=first[mix];"
                     "[mix]aformat=channel_layouts=stereo,asetpts=PTS-STARTPTS[audio]",
                     "-map", "0:v", "-map", "[audio]",
                     "-c:v", "libx264", "-preset", "fast", "-crf", "22",
@@ -275,7 +274,7 @@ def render_modular_reel(content: dict):
                     str(final_output)
                 ]
                 subprocess.run(ffmpeg_cmd, check=True)
-                print(f"Rhythmic animated audio-muxed modular MP4 reel successfully rendered: {final_output}")
+                print(f"Rendered clean modular MP4 reel: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
