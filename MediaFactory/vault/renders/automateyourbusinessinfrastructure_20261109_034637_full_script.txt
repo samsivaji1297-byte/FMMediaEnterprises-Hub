@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261109_034637
+Topic: how to automate business
+Title: Automate Your Business Infrastructure
+Hook: You're losing twenty hours weekly running operations manually.
+Voiceover Script: You're losing twenty hours weekly running operations manually. Grind doesn't scale; automated infrastructure does. Eliminate manual bottlenecks, deploy sovereign background scripts, and reclaim your time. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment 'OPERATOR' to get the full automation architecture blueprint.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: You're losing twenty hours weekly running operations manually.
+  Visual Prompt: cyberpunk terminal code automation fast typing dark UI
+
+Scene 2:
+  Text: You're losing twenty hours weekly running operations manually. Grind doesn't scale; automated infrastructure does. Eliminate manual bottlenecks, deploy sovereign background scripts, and reclaim your time. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: obsidian minimalist server rack glowing neon cyan
+
+Scene 3:
+  Text: Comment 'OPERATOR' to get the full automation architecture blueprint.
+  Visual Prompt: obsidian dashboard gold highlights
+
