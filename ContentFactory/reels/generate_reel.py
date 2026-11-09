@@ -8,46 +8,28 @@ if str(repo_root) not in sys.path:
 
 import json
 import os
-import random
 import time
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
-# --- High-Status Slow-Motion Background Video Pool ---
-VIDEO_BG_POOL = [
-    "https://assets.mixkit.co/videos/preview/mixkit-geometric-animation-of-futuristic-architecture-41584-large.mp4",
-    "https://assets.mixkit.co/videos/preview/mixkit-dark-abstract-background-with-moving-lights-41961-large.mp4",
-    "https://assets.mixkit.co/videos/preview/mixkit-luxury-gold-and-black-background-animation-43098-large.mp4"
-]
-
-def generate_reel_hook() -> dict:
-    """Queries AI models using the 5 Instructional Hook Architectures for high-retention vertical reels."""
+def generate_terminal_reel_hook() -> dict:
+    """Queries AI models using modular bracket architectures for high-retention Terminal Brutalist reels."""
     prompt = """
-    You are an elite direct-response copywriter crafting a short, high-status Instagram Reel hook.
+    You are an elite direct-response system architect crafting a high-status Terminal Brutalist Instagram Reel hook.
     
     Product & Framework Context:
     Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System', 
     'Operator Mindset Kit', and the '90-Minute Protocol'.
     
-    CORE COPYWRITING MANDATE:
-    - NEVER attack, lecture, or point out user failures. No fear-based hooks.
-    - INSTEAD, focus on revelation, clarity, and structural leverage: Show what is now possible. Reveal hidden mechanics and how modern AI/automation pipelines compress weeks of work into minutes.
-    
-    THE 5 INSTRUCTIONAL ARCHITECTURES:
-    1. “Here’s how…” (Practical Clarity - e.g., HERE'S HOW TO COMPRESS A WEEK OF CONTENT INTO 90 MINUTES)
-    2. “How to…” (New Capabilities - e.g., HOW TO DEPLOY AN AUTONOMOUS PIPELINE WITHOUT CODE)
-    3. “Here’s why…” (Information Gap - e.g., HERE'S WHY MANUAL SYSTEM BUILDING IS OBSOLETE)
-    4. “The easiest way to…” (Reduced Friction - e.g., THE EASIEST WAY TO TURN KNOWLEDGE INTO AN ASSET)
-    5. “Use this…” (Immediate Leverage - e.g., USE THIS PROMPT MECHANISM TO STRUCTURE YOUR OFFER)
-    
-    Rules for output generation:
-    - mainText: A 4 to 6 word uppercase punchy title split with line breaks (<br>) optimized for centered reading on a 1080x1920 screen.
-    - subText: A clean, high-clarity subline pointing to systemic leverage or possibility.
+    CORE DESIGN & COPYWRITING MANDATE:
+    - Focus on structural clarity, hidden mechanisms, and unlocked capabilities. Never use fear-based hooks.
+    - Use modular bracket structures (e.g., [THING], [SYSTEM], [PROTOCOL]) that signal precision and data architecture.
     
     Return ONLY valid JSON matching this exact structure with no extra markdown or fluff:
     {
-      "mainText": "HERE'S HOW TO COMPRESS<br>A WEEK OF WORK<br>INTO 90 MINUTES",
-      "subText": "WHAT WAS ONCE MANUAL IS NOW FULLY AUTOMATED"
+      "badge": "SYS.PROTOCOL // 01",
+      "mainText": "THERE'S A [SYSTEM]<br>HIDING INSIDE<br>YOUR [WORKFLOW]",
+      "subText": "COMPRESS WEEKS OF EXECUTION INTO 90 MINUTES"
     }
     """
 
@@ -83,75 +65,153 @@ def generate_reel_hook() -> dict:
         
     return json.loads(cleaned_text.strip())
 
-def render_video_reel(hook_data: dict):
-    """Renders a 1080x1920 video loop using Playwright headless recording."""
+def render_terminal_reel(hook_data: dict):
+    """Renders a 1080x1920 Terminal Brutalist reel with Web Audio API synthesis via Playwright."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
     template_path = Path(__file__).parent / 'template.html'
-    selected_video_url = random.choice(VIDEO_BG_POOL)
-    print(f"Selected Background Loop: {selected_video_url}")
 
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Editorial IG Reel Studio</title>
+  <title>Terminal Brutalist IG Reel Studio</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
-      width: 1080px; height: 1920px; background: #000000;
-      display: flex; flex-direction: column; justify-content: center; align-items: center;
-      position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
-      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
-      text-rendering: optimizeLegibility;
+      width: 1080px; height: 1920px; background: #000000; color: #FFFFFF;
+      display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;
+      position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace;
+      padding: 120px 90px;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
-    .bg-video {{
+    /* Swiss Grid & Scanline Overlay */
+    .grid-overlay {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: cover; filter: grayscale(100%) contrast(130%) brightness(38%); z-index: 1;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px; z-index: 1; pointer-events: none;
     }}
-    .bg-overlay {{
+    .scanline {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.3) 0%, rgba(0, 0, 0, 0.92) 100%);
-      z-index: 2;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
+      background-size: 100% 4px; z-index: 2; pointer-events: none;
     }}
-    .content-wrapper {{
-      position: relative; z-index: 3; width: 85%;
-      display: flex; flex-direction: column; align-items: center; text-align: center;
+    .content-container {{
+      position: relative; z-index: 3; width: 100%; height: 100%;
+      display: flex; flex-direction: column; justify-content: space-between;
     }}
-    .watermark {{
-      font-size: 1.15rem; letter-spacing: 0.32em; text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.55); margin-bottom: 80px; font-weight: 500;
+    .header-block {{
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 24px;
+      width: 100%;
     }}
-    .hook-main {{
-      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 5.2rem;
-      line-height: 1.06; text-transform: uppercase; color: #FFFFFF; letter-spacing: -0.01em;
-      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); margin-bottom: 48px;
+    .badge {{
+      font-size: 1.1rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700;
+      text-transform: uppercase;
     }}
-    .hook-sub {{
-      font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 500;
-      letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+    .timestamp {{
+      font-size: 1rem; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4);
+    }}
+    .main-hook {{
+      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 4.8rem;
+      line-height: 1.1; text-transform: uppercase; color: #FFFFFF;
+      letter-spacing: -0.02em; margin: auto 0;
+    }}
+    .main-hook span {{
+      color: #FF6B00;
+    }}
+    .footer-block {{
+      display: flex; flex-direction: column; gap: 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 32px;
+      width: 100%;
+    }}
+    .sub-text {{
+      font-size: 1.25rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
+    }}
+    .cta-link {{
+      font-size: 1.1rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700;
+      text-transform: uppercase;
+    }}
+    .cursor {{
+      display: inline-block; width: 16px; height: 36px; background: #FF6B00;
+      vertical-align: middle; animation: blink 1s infinite; margin-left: 8px;
+    }}
+    @keyframes blink {{
+      0%, 50% {{ opacity: 1; }}
+      51%, 100% {{ opacity: 0; }}
     }}
   </style>
 </head>
 <body>
-  <video class="bg-video" autoplay muted loop playsinline>
-    <source src="{selected_video_url}" type="video/mp4">
-  </video>
-  <div class="bg-overlay"></div>
-  <div class="content-wrapper">
-    <div class="watermark">@FMMEDIAENTERPRISES</div>
-    <div class="hook-main">{hook_data['mainText']}</div>
-    <div class="hook-sub">{hook_data['subText']}</div>
+  <div class="grid-overlay"></div>
+  <div class="scanline"></div>
+  
+  <div class="content-container">
+    <div class="header-block">
+      <div class="badge">{hook_data['badge']}</div>
+      <div class="timestamp">FM.ENGINE // SECURE</div>
+    </div>
+    
+    <div class="main-hook">
+      {hook_data['mainText']}<span class="cursor"></span>
+    </div>
+    
+    <div class="footer-block">
+      <div class="sub-text">{hook_data['subText']}</div>
+      <div class="cta-link">→ FMFRAMEWORKS.GUMROAD.COM</div>
+    </div>
   </div>
+
+  <script>
+    // In-House Web Audio API Sound Design Synthesizer
+    window.addEventListener('DOMContentLoaded', () => {{
+      try {{
+        const AudioContext = window.AudioContext || window.webkitAudioContext;
+        const ctx = new AudioContext();
+        
+        // Low Sub-Bass Drone Atmosphere
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(55, ctx.currentTime); // A1 note
+        
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 5.5);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        
+        osc.start();
+        osc.stop(ctx.currentTime + 6.0);
+        
+        // Mechanical UI Click Transient
+        setTimeout(() => {{
+          const clickOsc = ctx.createOscillator();
+          const clickGain = ctx.createGain();
+          clickOsc.type = 'square';
+          clickOsc.frequency.setValueAtTime(800, ctx.currentTime);
+          clickGain.gain.setValueAtTime(0.05, ctx.currentTime);
+          clickGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+          clickOsc.connect(clickGain);
+          clickGain.connect(ctx.destination);
+          clickOsc.start();
+          clickOsc.stop(ctx.currentTime + 0.05);
+        }, 150);
+      }} catch(e) {{
+        console.log('Audio Context suppressed');
+      }}
+    }});
+  </script>
 </body>
 </html>"""
 
     template_path.write_text(embedded_template, encoding='utf-8')
 
-    print("Launching Playwright video recorder...")
+    print("Launching Playwright Terminal recorder...")
     with sync_playwright() as p:
         browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox', '--autoplay-policy=no-user-gesture-required'])
         context = browser.new_context(
@@ -165,7 +225,7 @@ def render_video_reel(hook_data: dict):
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        print("Recording 6-second video loop...")
+        print("Recording 6-second Terminal Brutalist reel session...")
         time.sleep(6.0)
         
         context.close()
@@ -178,10 +238,10 @@ def render_video_reel(hook_data: dict):
             if final_output.exists():
                 final_output.unlink()
             latest_video.rename(final_output)
-            print(f"Video reel successfully rendered: {final_output}")
+            print(f"Terminal reel successfully rendered: {final_output}")
 
 if __name__ == "__main__":
-    print("Initializing Autonomous Reel Generation Engine...")
-    hook_payload = generate_reel_hook()
-    print("Reel Hook Payload:", hook_payload)
-    render_video_reel(hook_payload)
+    print("Initializing Terminal Brutalist Autonomous Reel Engine...")
+    hook_payload = generate_terminal_reel_hook()
+    print("Terminal Hook Payload:", hook_payload)
+    render_terminal_reel(hook_payload)
