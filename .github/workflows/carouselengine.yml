@@ -1,9 +1,9 @@
-name: Autonomous Carousel Engine (Every 1 Hours)
+name: Autonomous Carousel Engine (Every 2 Hours)
 
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */1 * * *'
+    - cron: '0 */2 * * *'
 
 jobs:
   run-carousel-pipeline:
