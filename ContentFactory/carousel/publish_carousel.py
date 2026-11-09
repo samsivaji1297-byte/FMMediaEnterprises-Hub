@@ -1,4 +1,5 @@
 import os
+import time
 import requests
 from pathlib import Path
 
@@ -8,12 +9,36 @@ IG_USER_ID = os.getenv("IG_USER_ID")
 
 def upload_image_to_hosting(image_path: Path) -> str:
     """Uses the repository's raw GitHub CDN URL for Meta API container consumption."""
-    repo_name = os.getenv("GITHUB_REPOSITORY", "FMMediaEnterprises/FMMediaEnterprises-Hub")
+    repo_name = os.getenv("GITHUB_REPOSITORY", "samsivaji1297-byte/FMMediaEnterprises-Hub")
     branch = "main"
     relative_path = f"ContentFactory/carousel/{image_path.name}"
     raw_url = f"https://raw.githubusercontent.com/{repo_name}/{branch}/{relative_path}"
     print(f"Using public asset URL for Meta API: {raw_url}")
     return raw_url
+
+def wait_for_container_ready(creation_id: str, max_attempts: int = 10, delay_seconds: int = 5):
+    """Polls Meta Graph API until the carousel media container status is FINISHED."""
+    status_url = f"https://graph.facebook.com/v19.0/{creation_id}"
+    params = {
+        "fields": "status_code,status",
+        "access_token": ACCESS_TOKEN
+    }
+    
+    print(f"Polling status for media container {creation_id}...")
+    for attempt in range(1, max_attempts + 1):
+        res = requests.get(status_url, params=params).json()
+        status_code = res.get("status_code")
+        print(f"Attempt {attempt}/{max_attempts}: Container status_code is '{status_code}'")
+        
+        if status_code == "FINISHED":
+            print("Media container processing FINISHED. Ready to publish.")
+            return True
+        elif status_code == "ERROR":
+            raise Exception(f"Meta media processing failed: {res}")
+        
+        time.sleep(delay_seconds)
+        
+    raise TimeoutError(f"Container {creation_id} was not ready within {max_attempts * delay_seconds} seconds.")
 
 def publish_carousel_to_ig():
     if not ACCESS_TOKEN or not IG_USER_ID:
@@ -66,9 +91,13 @@ def publish_carousel_to_ig():
         raise Exception(f"Failed to create main carousel container: {carousel_response}")
     
     creation_id = carousel_response["id"]
-    print(f"Main carousel container created: {creation_id}. Publishing to feed...")
+    print(f"Main carousel container created: {creation_id}.")
 
-    # Step 3: Publish the container
+    # Step 3: Poll Meta until the container finishes processing
+    wait_for_container_ready(creation_id)
+
+    # Step 4: Publish the container once ready
+    print("Publishing container to feed...")
     publish_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media_publish"
     publish_payload = {
         "creation_id": creation_id,
@@ -82,7 +111,7 @@ def publish_carousel_to_ig():
     published_media_id = publish_response['id']
     print(f"Successfully published Instagram Carousel! Post ID: {published_media_id}")
 
-    # Step 4: Drop a generic automated comment from FM Media Enterprises
+    # Step 5: Drop generic automated comment from FM
     comment_url = f"https://graph.facebook.com/v19.0/{published_media_id}/comments"
     comment_payload = {
         "message": "FM — Full operational protocol & sovereign frameworks available at fmframeworks.gumroad.com",
