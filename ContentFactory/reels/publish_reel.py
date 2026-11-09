@@ -43,7 +43,7 @@ def publish_reel_to_ig():
     if not ACCESS_TOKEN or not IG_USER_ID:
         raise ValueError("IG_ACCESS_TOKEN or IG_USER_ID environment variables are missing.")
 
-    video_path = Path(__file__).parent / "output" / "output-reel.webm"
+    video_path = Path(__file__).parent / "output" / "output-reel.mp4"
     if not video_path.exists():
         raise FileNotFoundError(f"Reel video file not found at: {video_path}")
 
