@@ -12,7 +12,22 @@ def get_reel_public_url(video_path: Path) -> str:
     relative_path = f"ContentFactory/reels/output/{video_path.name}"
     return f"https://raw.githubusercontent.com/{repo_name}/{branch}/{relative_path}"
 
-def wait_for_reel_ready(creation_id: str, max_attempts: int = 12, delay_seconds: int = 10):
+def ensure_url_accessible(url: str, max_retries: int = 12, delay: int = 5):
+    """Ensures the raw GitHub CDN file is fully propagated and returning HTTP 200 before calling Meta API."""
+    print(f"Verifying public availability of CDN video URL: {url}")
+    for attempt in range(1, max_retries + 1):
+        try:
+            res = requests.head(url, timeout=10)
+            if res.status_code == 200 and int(res.headers.get("Content-Length", 0)) > 1000:
+                print("CDN URL verified and ready for Meta ingestion.")
+                return True
+        except Exception:
+            pass
+        print(f"Waiting for GitHub CDN propagation... (Attempt {attempt}/{max_retries})")
+        time.sleep(delay)
+    raise TimeoutError(f"Video URL failed to propagate on GitHub CDN: {url}")
+
+def wait_for_reel_ready(creation_id: str, max_attempts: int = 15, delay_seconds: int = 10):
     status_url = f"https://graph.facebook.com/v19.0/{creation_id}"
     params = {"fields": "status_code,status", "access_token": ACCESS_TOKEN}
     
@@ -20,11 +35,13 @@ def wait_for_reel_ready(creation_id: str, max_attempts: int = 12, delay_seconds:
         res = requests.get(status_url, params=params).json()
         status_code = res.get("status_code")
         if status_code == "FINISHED":
+            print("Meta Reel processing completed successfully.")
             return True
         elif status_code == "ERROR":
             raise Exception(f"Meta Reel processing failed: {res}")
+        print(f"Meta Reel container processing... ({attempt}/{max_attempts})")
         time.sleep(delay_seconds)
-    raise TimeoutError("Reel container processing timed out.")
+    raise TimeoutError("Reel container processing timed out on Meta servers.")
 
 def publish_reel_to_ig():
     if not ACCESS_TOKEN or not IG_USER_ID:
@@ -35,6 +52,9 @@ def publish_reel_to_ig():
         raise FileNotFoundError(f"Reel video file not found at: {video_path}")
 
     video_url = get_reel_public_url(video_path)
+    
+    # Wait for GitHub CDN propagation before pinging Meta Graph API
+    ensure_url_accessible(video_url)
 
     container_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media"
     caption = (
@@ -50,6 +70,7 @@ def publish_reel_to_ig():
         "access_token": ACCESS_TOKEN
     }
     
+    print("Initiating Meta Reel container creation...")
     response = requests.post(container_url, data=payload).json()
     if "id" not in response:
         raise Exception(f"Failed to create Reel container: {response}")
@@ -67,7 +88,7 @@ def publish_reel_to_ig():
     published_media_id = publish_response['id']
     print(f"Successfully published Instagram Reel! Post ID: {published_media_id}")
 
-    # Drop automated comment driving the "Comment FM" engagement hook
+    # Post automated engagement comment
     comment_url = f"https://graph.facebook.com/v19.0/{published_media_id}/comments"
     comment_payload = {
         "message": "Comment FM below and I will instantly DM you the sovereign framework protocol link.",
