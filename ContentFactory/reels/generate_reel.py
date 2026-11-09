@@ -23,7 +23,6 @@ def ensure_ffmpeg():
             pass
 
 def generate_modular_reel_content() -> dict:
-    """Queries AI models for dead-simple, high-stopping-power hooks and clear step-by-step systems."""
     angles = [
         {
             "hook": "3 REASONS YOUR CONTENT ENGINE IS DRAINING YOUR TIME",
@@ -48,7 +47,6 @@ def generate_modular_reel_content() -> dict:
         }
     ]
     
-    # We can either pull a curated high-conversion angle or let the AI generate one using basic language
     selected = random.choice(angles)
     
     prompt = f"""
@@ -191,7 +189,6 @@ def render_modular_reel(content: dict):
   
   <div class="content-wrapper">
     <div class="header-block">
-      <!-- High-Stopping-Power Hook visible immediately on frame 1 -->
       <div class="main-title">{content['hookText']}</div>
       <div class="arrow-icon">↓</div>
     </div>
@@ -259,23 +256,25 @@ def render_modular_reel(content: dict):
             ensure_ffmpeg()
             
             if shutil.which("ffmpeg"):
+                print("Muxing dynamic stereo sound design soundtrack into MP4 container via FFmpeg...")
                 ffmpeg_cmd = [
                     "ffmpeg", "-y",
                     "-i", str(raw_output),
-                    "-f", "lavfi", "-i", "sine=frequency=55:duration=8.0",
-                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.015",
+                    "-f", "lavfi", "-i", "sine=frequency=60:duration=8.0",
+                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.03",
                     "-filter_complex",
-                    "[1:a]volume=0.12,lowpass=f=220[drone];"
-                    "[2:a]volume=0.03,highpass=f=1200[texture];"
-                    "[drone][texture]amix=inputs=2[mix];"
-                    "[mix]asetpts=PTS-STARTPTS[audio]",
+                    "[1:a]volume=0.25,lowpass=f=300[drone];"
+                    "[2:a]volume=0.06,highpass=f=1000[texture];"
+                    "[drone][texture]amix=inputs=2:duration=first[mix];"
+                    "[mix]aformat=channel_layouts=stereo,asetpts=PTS-STARTPTS[audio]",
                     "-map", "0:v", "-map", "[audio]",
                     "-c:v", "libx264", "-preset", "fast", "-crf", "22",
-                    "-c:a", "aac", "-b:a", "128k",
+                    "-c:a", "aac", "-b:a", "192k",
                     "-pix_fmt", "yuv420p", "-shortest",
                     str(final_output)
                 ]
                 subprocess.run(ffmpeg_cmd, check=True)
+                print(f"Dynamic audio-muxed modular MP4 reel successfully rendered: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
