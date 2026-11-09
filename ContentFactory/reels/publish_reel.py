@@ -13,7 +13,6 @@ def get_reel_public_url(video_path: Path) -> str:
     return f"https://raw.githubusercontent.com/{repo_name}/{branch}/{relative_path}"
 
 def ensure_url_accessible(url: str, max_retries: int = 12, delay: int = 5):
-    """Ensures the raw GitHub CDN file is fully propagated and returning HTTP 200 before calling Meta API."""
     print(f"Verifying public availability of CDN video URL: {url}")
     for attempt in range(1, max_retries + 1):
         try:
@@ -52,15 +51,16 @@ def publish_reel_to_ig():
         raise FileNotFoundError(f"Reel video file not found at: {video_path}")
 
     video_url = get_reel_public_url(video_path)
-    
-    # Wait for GitHub CDN propagation before pinging Meta Graph API
     ensure_url_accessible(video_url)
 
     container_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media"
+    
+    # Clean, breathable spaced caption layout with extra value sentence and balanced hashtags
     caption = (
         "What was once manual is now fully automated in 90 minutes. "
-        "Comment FM below and I'll instantly send you the complete sovereign architecture link.\n\n"
-        "#TheCompressionSystem #OperatorMindset #Automation #SystemArchitect"
+        "Stop trading hours for repetitive tasks and build systems that scale on autopilot.\n\n"
+        "Comment **FM** below and I'll instantly send you the complete sovereign architecture link.\n\n"
+        "#TheCompressionSystem #OperatorMindset #Automation #SystemArchitect #Python #SoftwareEngineering"
     )
     
     payload = {
@@ -88,7 +88,7 @@ def publish_reel_to_ig():
     published_media_id = publish_response['id']
     print(f"Successfully published Instagram Reel! Post ID: {published_media_id}")
 
-    # Post automated engagement comment
+    # Post automated engagement comment driving the "Comment FM" loop
     comment_url = f"https://graph.facebook.com/v19.0/{published_media_id}/comments"
     comment_payload = {
         "message": "Comment FM below and I will instantly DM you the sovereign framework protocol link.",
