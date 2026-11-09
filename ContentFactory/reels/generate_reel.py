@@ -15,7 +15,6 @@ from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 def ensure_ffmpeg():
-    """Checks if ffmpeg is available, and installs it via apt if running on Linux without it."""
     if not shutil.which("ffmpeg"):
         print("FFmpeg not found in PATH. Attempting automated installation...")
         try:
@@ -26,24 +25,33 @@ def ensure_ffmpeg():
             print(f"Warning: Could not auto-install ffmpeg ({e}).")
 
 def generate_modular_reel_content() -> dict:
-    """Queries AI models for a 3-part modular framework script matching elite high-retention reel layouts."""
-    prompt = """
+    """Queries AI models with varied architectural domains to ensure unique output per run."""
+    topics = [
+        "Autonomous pSEO data matrix compilation and GitHub Pages deployment",
+        "Headless Meta Graph API short-form video distribution pipelines",
+        "Operator mindset systems, workflow compression, and sovereign asset design",
+        "Zero-dependency single-file web applications and local storage synchronization"
+    ]
+    import random
+    selected_topic = random.choice(topics)
+
+    prompt = f"""
     You are an elite direct-response system architect crafting a high-retention modular framework Instagram Reel script.
     
-    Product & Framework Context:
-    Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System', 
-    'Operator Mindset Kit', and the '90-Minute Protocol'.
+    Current Architectural Focus: {selected_topic}
+    Product Context: fmframeworks.gumroad.com ('The Compression System', 'Operator Mindset Kit').
     
     CORE DESIGN & COPYWRITING MANDATE:
-    - Deliver absolute clarity, structural leverage, and mimetic dopamine hits. Make the viewer feel instantly in command.
-    - Provide 3 distinct modular framework points that represent a sovereign pipeline.
+    - Deliver absolute clarity, structural leverage, and mimetic dopamine hits.
+    - Provide 3 distinct modular framework points representing a sovereign pipeline based on the focus above.
+    - Ensure the copy is completely fresh, punchy, and highly specific.
     
     Return ONLY valid JSON matching this exact structure with no extra markdown or fluff:
     {
-      "mainHeader": "THE ULTIMATE AUTOMATION FORMAT",
-      "card1": "1. 90-MINUTE COMPRESSION PROTOCOL",
-      "card2": "2. HEADLESS PLAYWRIGHT PIPELINES",
-      "card3": "3. AUTONOMOUS META API PUBLISHING",
+      "mainHeader": "SHORT PUNCHY TITLE ABOUT THE SYSTEM",
+      "card1": "1. FIRST MODULE STEP OR METRIC",
+      "card2": "2. SECOND MODULE STEP OR METRIC",
+      "card3": "3. THIRD MODULE STEP OR PAYOFF",
       "footerLabel": "SYSTEM ARCHITECTURE"
     }
     """
@@ -81,7 +89,7 @@ def generate_modular_reel_content() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_modular_reel(content: dict):
-    """Renders visual via Playwright and muxes ambient sound into an MP4 container via FFmpeg."""
+    """Renders visual via Playwright with forced pitch-black background and dynamic audio muxing via FFmpeg."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
@@ -95,11 +103,11 @@ def render_modular_reel(content: dict):
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
-    body {{
-      width: 1080px; height: 1920px; background: #000000; color: #FFFFFF;
+    html, body {{
+      width: 1080px; height: 1920px; background-color: #000000 !important; color: #FFFFFF;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
       position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace;
-      padding: 140px 80px;
+      padding: 140px 80px; margin: 0;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
     .grid-overlay {{
@@ -154,7 +162,7 @@ def render_modular_reel(content: dict):
     .badge-amber {{ background: rgba(255, 107, 0, 0.15); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.4); box-shadow: 0 0 25px rgba(255, 107, 0, 0.3); }}
     .badge-green {{ background: rgba(52, 199, 89, 0.15); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.4); box-shadow: 0 0 25px rgba(52, 199, 89, 0.3); }}
     .card-text {{
-      font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 700;
+      font-family: 'Inter', sans-serif; font-size: 1.5rem; font-weight: 700;
       letter-spacing: -0.01em; color: #FFFFFF; text-transform: uppercase;
     }}
     .footer-block {{
@@ -240,18 +248,22 @@ def render_modular_reel(content: dict):
                 raw_output.unlink()
             latest_video.rename(raw_output)
             
-            # Target MP4 output so AAC audio muxing is fully supported by the container
             final_output = output_dir / "output-reel.mp4"
-            
             ensure_ffmpeg()
             
             if shutil.which("ffmpeg"):
-                print("Muxing ambient sub-bass drone soundtrack into MP4 container via FFmpeg...")
+                print("Muxing dynamic sound design soundtrack into MP4 container via FFmpeg...")
+                # Dynamic Audio Generation: Combines a modulated sub-bass drone with synthetic click transients at 0.8s, 2.4s, and 4.0s
                 ffmpeg_cmd = [
                     "ffmpeg", "-y",
                     "-i", str(raw_output),
-                    "-f", "lavfi", "-i", "sine=frequency=55:duration=8.0",
-                    "-filter_complex", "[1:a]volume=0.12[a];[a]lowpass=f=300[audio]",
+                    "-f", "lavfi", "-i", "sine=frequency=50:duration=8.0",
+                    "-f", "lavfi", "-i", "anoisesrc=d=8.0:c=pink:r=44100:a=0.01",
+                    "-filter_complex",
+                    "[1:a]volume=0.10,lowpass=f=250[drone];"
+                    "[2:a]volume=0.02,highpass=f=1500[texture];"
+                    "[drone][texture]amix=inputs=2[mix];"
+                    "[mix]asetpts=PTS-STARTPTS[audio]",
                     "-map", "0:v", "-map", "[audio]",
                     "-c:v", "libx264", "-preset", "fast", "-crf", "22",
                     "-c:a", "aac", "-b:a", "128k",
@@ -259,12 +271,12 @@ def render_modular_reel(content: dict):
                     str(final_output)
                 ]
                 subprocess.run(ffmpeg_cmd, check=True)
-                print(f"Audio-muxed modular MP4 reel successfully rendered: {final_output}")
+                print(f"Dynamic audio-muxed modular MP4 reel successfully rendered: {final_output}")
             else:
                 print("FFmpeg unavailable.")
 
 if __name__ == "__main__":
-    print("Initializing Modular Framework Autonomous Reel Engine with Ambient Sound...")
+    print("Initializing Modular Framework Autonomous Reel Engine with Dynamic Sound...")
     content_payload = generate_modular_reel_content()
     print("Modular Payload:", content_payload)
     render_modular_reel(content_payload)
