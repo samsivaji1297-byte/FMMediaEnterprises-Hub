@@ -153,7 +153,7 @@ def render_terminal_reel(hook_data: dict):
   <div class="content-container">
     <div class="header-block">
       <div class="badge">{hook_data['badge']}</div>
-      <div class="timestamp">FM.ENGINE // SECURE</div>
+      <div class="timestamp">SYS.ENGINE // SECURE</div>
     </div>
     
     <div class="main-hook">
@@ -167,17 +167,15 @@ def render_terminal_reel(hook_data: dict):
   </div>
 
   <script>
-    // In-House Web Audio API Sound Design Synthesizer
     window.addEventListener('DOMContentLoaded', () => {{
       try {{
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioContext();
         
-        // Low Sub-Bass Drone Atmosphere
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(55, ctx.currentTime); // A1 note
+        osc.frequency.setValueAtTime(55, ctx.currentTime);
         
         gain.gain.setValueAtTime(0.08, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 5.5);
@@ -188,7 +186,6 @@ def render_terminal_reel(hook_data: dict):
         osc.start();
         osc.stop(ctx.currentTime + 6.0);
         
-        // Mechanical UI Click Transient
         setTimeout(() => {{
           const clickOsc = ctx.createOscillator();
           const clickGain = ctx.createGain();
@@ -200,7 +197,7 @@ def render_terminal_reel(hook_data: dict):
           clickGain.connect(ctx.destination);
           clickOsc.start();
           clickOsc.stop(ctx.currentTime + 0.05);
-        }, 150);
+        }}, 150);
       }} catch(e) {{
         console.log('Audio Context suppressed');
       }}
