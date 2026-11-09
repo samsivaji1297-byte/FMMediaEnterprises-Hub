@@ -91,7 +91,7 @@ def publish_reel_to_ig():
     # Post automated engagement comment driving the "Comment FM" loop
     comment_url = f"https://graph.facebook.com/v19.0/{published_media_id}/comments"
     comment_payload = {
-        "message": "Comment FM below and I will instantly DM you the operator framework link.",
+        "message": "Comment FM below and I will DM you the compression system link.",
         "access_token": ACCESS_TOKEN
     }
     
