@@ -1,45 +1,53 @@
+import sys
+from pathlib import Path
+
+# Automatically inject repository root into sys.path so config.py loads cleanly
+repo_root = Path(__file__).resolve().parent.parent.parent
+if str(repo_root) not in sys.path:
+    sys.path.insert(0, str(repo_root))
+
 import json
 import os
 import random
 import time
-from pathlib import Path
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
-# --- Cinematic Video Background Loop Pool (Slow-Motion Moody B-Roll) ---
+# --- High-Status Slow-Motion Background Video Pool ---
 VIDEO_BG_POOL = [
-    # Dark Architectural / Glass Motion Texture
     "https://assets.mixkit.co/videos/preview/mixkit-geometric-animation-of-futuristic-architecture-41584-large.mp4",
-    # Moody Ambient Light Shadows
     "https://assets.mixkit.co/videos/preview/mixkit-dark-abstract-background-with-moving-lights-41961-large.mp4",
-    # Abstract Luxury Dark Particles
     "https://assets.mixkit.co/videos/preview/mixkit-luxury-gold-and-black-background-animation-43098-large.mp4"
 ]
 
 def generate_reel_hook() -> dict:
-    """Queries AI models using the 5 Instructional Hook Architectures for high-retention video reels."""
+    """Queries AI models using the 5 Instructional Hook Architectures for high-retention vertical reels."""
     prompt = """
-    You are an elite direct-response copywriter crafting a short, high-tension Instagram Reel hook.
+    You are an elite direct-response copywriter crafting a short, high-status Instagram Reel hook.
     
     Product & Framework Context:
     Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System', 
     'Operator Mindset Kit', and the '90-Minute Protocol'.
     
-    THE 5 INSTRUCTIONAL HOOK ARCHITECTURES:
-    1. “Here’s how…” (Practical Authority)
-    2. “How to…” (Outcome Orientation)
-    3. “Here’s why…” (Information Gap)
-    4. “The easiest way to…” (Reduced Friction)
-    5. “Use this…” (Immediate Utility)
+    CORE COPYWRITING MANDATE:
+    - NEVER attack, lecture, or point out user failures. No fear-based hooks.
+    - INSTEAD, focus on revelation, clarity, and structural leverage: Show what is now possible. Reveal hidden mechanics and how modern AI/automation pipelines compress weeks of work into minutes.
+    
+    THE 5 INSTRUCTIONAL ARCHITECTURES:
+    1. “Here’s how…” (Practical Clarity - e.g., HERE'S HOW TO COMPRESS A WEEK OF CONTENT INTO 90 MINUTES)
+    2. “How to…” (New Capabilities - e.g., HOW TO DEPLOY AN AUTONOMOUS PIPELINE WITHOUT CODE)
+    3. “Here’s why…” (Information Gap - e.g., HERE'S WHY MANUAL SYSTEM BUILDING IS OBSOLETE)
+    4. “The easiest way to…” (Reduced Friction - e.g., THE EASIEST WAY TO TURN KNOWLEDGE INTO AN ASSET)
+    5. “Use this…” (Immediate Leverage - e.g., USE THIS PROMPT MECHANISM TO STRUCTURE YOUR OFFER)
     
     Rules for output generation:
-    - mainText: A 4 to 6 word uppercase punchy title split with line breaks (<br>) optimized for centered reading on a vertical screen (e.g., HERE'S HOW TO BUILD<br>A PRODUCT IN 90 MINS).
-    - subText: A clean, high-curiosity subline pointing to the system or prompt mechanism.
+    - mainText: A 4 to 6 word uppercase punchy title split with line breaks (<br>) optimized for centered reading on a 1080x1920 screen.
+    - subText: A clean, high-clarity subline pointing to systemic leverage or possibility.
     
-    Return ONLY valid JSON matching this exact structure, with no extra markdown or fluff:
+    Return ONLY valid JSON matching this exact structure with no extra markdown or fluff:
     {
-      "mainText": "...",
-      "subText": "..."
+      "mainText": "HERE'S HOW TO COMPRESS<br>A WEEK OF WORK<br>INTO 90 MINUTES",
+      "subText": "WHAT WAS ONCE MANUAL IS NOW FULLY AUTOMATED"
     }
     """
 
@@ -76,13 +84,13 @@ def generate_reel_hook() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_video_reel(hook_data: dict):
-    """Renders a 1080x1920 cinematic video loop with centered typography using Playwright video recording."""
+    """Renders a 1080x1920 video loop using Playwright headless recording."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
     template_path = Path(__file__).parent / 'template.html'
     selected_video_url = random.choice(VIDEO_BG_POOL)
-    print(f"Selected Cinematic Background Loop: {selected_video_url}")
+    print(f"Selected Background Loop: {selected_video_url}")
 
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
@@ -90,20 +98,22 @@ def render_video_reel(hook_data: dict):
   <meta charset="UTF-8">
   <title>Editorial IG Reel Studio</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;600&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Inter:wght@400;500;600&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
       width: 1080px; height: 1920px; background: #000000;
       display: flex; flex-direction: column; justify-content: center; align-items: center;
       position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
+      -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }}
     .bg-video {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      object-fit: cover; filter: grayscale(100%) contrast(130%) brightness(40%); z-index: 1;
+      object-fit: cover; filter: grayscale(100%) contrast(130%) brightness(38%); z-index: 1;
     }}
     .bg-overlay {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.4) 0%, rgba(0, 0, 0, 0.9) 100%);
+      background: radial-gradient(circle at center, rgba(10, 10, 10, 0.3) 0%, rgba(0, 0, 0, 0.92) 100%);
       z-index: 2;
     }}
     .content-wrapper {{
@@ -111,17 +121,17 @@ def render_video_reel(hook_data: dict):
       display: flex; flex-direction: column; align-items: center; text-align: center;
     }}
     .watermark {{
-      font-size: 1.2rem; letter-spacing: 0.3em; text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.6); margin-bottom: 80px; font-weight: 600;
+      font-size: 1.15rem; letter-spacing: 0.32em; text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55); margin-bottom: 80px; font-weight: 500;
     }}
     .hook-main {{
-      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 5.4rem;
-      line-height: 1.08; text-transform: uppercase; color: #FFFFFF; letter-spacing: 0.02em;
+      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 5.2rem;
+      line-height: 1.06; text-transform: uppercase; color: #FFFFFF; letter-spacing: -0.01em;
       text-shadow: 0 4px 30px rgba(0, 0, 0, 0.9); margin-bottom: 48px;
     }}
     .hook-sub {{
-      font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 600;
-      letter-spacing: 0.35em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
+      font-family: 'Inter', sans-serif; font-size: 1.25rem; font-weight: 500;
+      letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
     }}
   </style>
@@ -141,9 +151,8 @@ def render_video_reel(hook_data: dict):
 
     template_path.write_text(embedded_template, encoding='utf-8')
 
-    print("Launching headless Playwright video recording engine...")
+    print("Launching Playwright video recorder...")
     with sync_playwright() as p:
-        # Launch browser with video recording enabled at vertical 1080x1920 resolution
         browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox', '--autoplay-policy=no-user-gesture-required'])
         context = browser.new_context(
             viewport={'width': 1080, 'height': 1920},
@@ -156,13 +165,12 @@ def render_video_reel(hook_data: dict):
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        print("Recording 6-second cinematic reel loop...")
-        time.sleep(6.0) # Duration of the recorded video loop
+        print("Recording 6-second video loop...")
+        time.sleep(6.0)
         
         context.close()
         browser.close()
         
-        # Locate the recorded webm file and rename it cleanly to output-reel.mp4 / webm
         recorded_files = list(output_dir.glob("*.webm"))
         if recorded_files:
             latest_video = max(recorded_files, key=os.path.getctime)
@@ -170,10 +178,10 @@ def render_video_reel(hook_data: dict):
             if final_output.exists():
                 final_output.unlink()
             latest_video.rename(final_output)
-            print(f"Cinematic video reel successfully rendered and saved to: {final_output}")
+            print(f"Video reel successfully rendered: {final_output}")
 
 if __name__ == "__main__":
-    print("Initializing Autonomous Cinematic Reel Engine...")
+    print("Initializing Autonomous Reel Generation Engine...")
     hook_payload = generate_reel_hook()
-    print("Generated Reel Hook Payload:", hook_payload)
+    print("Reel Hook Payload:", hook_payload)
     render_video_reel(hook_payload)
