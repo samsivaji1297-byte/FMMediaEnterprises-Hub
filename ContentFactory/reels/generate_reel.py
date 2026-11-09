@@ -12,25 +12,26 @@ import time
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
-def generate_kinetic_reel_content() -> dict:
-    """Queries AI models for a multi-phase kinetic reel script designed for high-dopamine retention and conversion."""
+def generate_modular_reel_content() -> dict:
+    """Queries AI models for a 3-part modular framework script matching elite high-retention reel layouts."""
     prompt = """
-    You are an elite direct-response system architect crafting a multi-phase kinetic Instagram Reel script.
+    You are an elite direct-response system architect crafting a high-retention modular framework Instagram Reel script.
     
     Product & Framework Context:
     Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System', 
     'Operator Mindset Kit', and the '90-Minute Protocol'.
     
-    CORE COPYWRITING MANDATE:
-    - Deliver absolute clarity, structural leverage, and mimetic dopamine hits. Make the viewer feel instantly productive and in control.
-    - Provide a multi-phase narrative arc: Phase 1 (The Hook), Phase 2 (The Mechanism / Code Reveal), Phase 3 (The Sovereign Payoff).
+    CORE DESIGN & COPYWRITING MANDATE:
+    - Deliver absolute clarity, structural leverage, and mimetic dopamine hits. Make the viewer feel instantly in command.
+    - Provide 3 distinct modular framework points that represent a sovereign pipeline.
     
     Return ONLY valid JSON matching this exact structure with no extra markdown or fluff:
     {
-      "badge": "SYS.KERNEL // 02",
-      "hookText": "HOW TO BUILD AN<br>AUTONOMOUS CONTENT<br>ENGINE IN 90 MINUTES",
-      "mechanismText": "INJECTING config.py<br>+ PLAYWRIGHT PIPELINES<br>+ META GRAPH API",
-      "payoffText": "DEPLOY ONCE.<br>RUN RECURSIVELY.<br>FMFRAMEWORKS.GUMROAD.COM"
+      "mainHeader": "THE ULTIMATE AUTOMATION FORMAT",
+      "card1": "1. 90-MINUTE COMPRESSION PROTOCOL",
+      "card2": "2. HEADLESS PLAYWRIGHT PIPELINES",
+      "card3": "3. AUTONOMOUS META API PUBLISHING",
+      "footerLabel": "SYSTEM ARCHITECTURE"
     }
     """
 
@@ -66,8 +67,8 @@ def generate_kinetic_reel_content() -> dict:
         
     return json.loads(cleaned_text.strip())
 
-def render_kinetic_reel(content: dict):
-    """Renders a kinetic 1080x1920 multi-phase reel with synchronized Web Audio sound design via Playwright."""
+def render_modular_reel(content: dict):
+    """Renders a 1080x1920 modular glassmorphism framework reel with Web Audio synthesis via Playwright."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
@@ -77,17 +78,18 @@ def render_kinetic_reel(content: dict):
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Kinetic Terminal IG Reel Studio</title>
+  <title>Modular Framework IG Reel Studio</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
       width: 1080px; height: 1920px; background: #000000; color: #FFFFFF;
-      display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start;
+      display: flex; flex-direction: column; justify-content: space-between; align-items: center;
       position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace;
-      padding: 120px 90px;
+      padding: 140px 80px;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
+    /* Swiss Grid & Scanline Overlay */
     .grid-overlay {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -99,52 +101,68 @@ def render_kinetic_reel(content: dict):
       background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
       background-size: 100% 4px; z-index: 2; pointer-events: none;
     }}
-    .content-container {{
+    .content-wrapper {{
       position: relative; z-index: 3; width: 100%; height: 100%;
-      display: flex; flex-direction: column; justify-content: space-between;
-    }}
-    .header-block {{
-      display: flex; justify-content: space-between; align-items: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.2); padding-bottom: 24px;
-      width: 100%;
-    }}
-    .badge {{
-      font-size: 1.1rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700;
-      text-transform: uppercase;
-    }}
-    .timestamp {{
-      font-size: 1rem; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4);
+      display: flex; flex-direction: column; justify-content: space-between; align-items: center;
     }}
     
-    /* Kinetic Phases */
-    .phase {{
-      position: absolute; top: 320px; left: 90px; right: 90px; bottom: 320px;
-      display: flex; flex-direction: column; justify-content: center;
-      opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease;
+    /* Top Header */
+    .header-block {{
+      display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
     }}
-    .phase.active {{
+    .main-title {{
+      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 3.8rem;
+      line-height: 1.15; text-transform: uppercase; color: #FFFFFF;
+      letter-spacing: -0.02em; margin-bottom: 24px; text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }}
+    .arrow-icon {{
+      font-size: 3rem; color: #FFFFFF; margin-top: 10px; animation: bounce 1.5s infinite ease-in-out;
+    }}
+    @keyframes bounce {{
+      0%, 100% {{ transform: translateY(0); }}
+      50% {{ transform: translateY(12px); }}
+    }}
+    
+    /* Modular Cards Container */
+    .cards-container {{
+      display: flex; flex-direction: column; gap: 28px; width: 100%; max-width: 920px;
+      margin: auto 0;
+    }}
+    .modular-card {{
+      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(12px); border-radius: 16px; padding: 36px 40px;
+      display: flex; align-items: center; gap: 32px;
+      opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+    }}
+    .modular-card.visible {{
       opacity: 1; transform: translateY(0);
     }}
     
-    .phase-title {{
-      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 4.5rem;
-      line-height: 1.12; text-transform: uppercase; color: #FFFFFF;
-      letter-spacing: -0.02em; margin-bottom: 32px;
+    /* Glowing Neon Badges */
+    .badge-icon {{
+      width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 700; flex-shrink: 0;
     }}
-    .phase-title span {{ color: #FF6B00; }}
+    .badge-red {{ background: rgba(255, 59, 48, 0.15); color: #FF3B30; border: 1px solid rgba(255, 59, 48, 0.4); box-shadow: 0 0 25px rgba(255, 59, 48, 0.3); }}
+    .badge-amber {{ background: rgba(255, 107, 0, 0.15); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.4); box-shadow: 0 0 25px rgba(255, 107, 0, 0.3); }}
+    .badge-green {{ background: rgba(52, 199, 89, 0.15); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.4); box-shadow: 0 0 25px rgba(52, 199, 89, 0.3); }}
     
-    .footer-block {{
-      display: flex; justify-content: space-between; align-items: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 32px;
-      width: 100%;
+    .card-text {{
+      font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 700;
+      letter-spacing: -0.01em; color: #FFFFFF; text-transform: uppercase;
     }}
-    .sub-text {{
-      font-size: 1.15rem; font-weight: 500; letter-spacing: 0.2em;
-      text-transform: uppercase; color: rgba(255, 255, 255, 0.7);
+    
+    /* Footer */
+    .footer-block {{
+      display: flex; justify-content: space-between; align-items: center; width: 100%;
+      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 28px;
+    }}
+    .footer-label {{
+      font-size: 1.1rem; letter-spacing: 0.25em; color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
     }}
     .cta-link {{
-      font-size: 1.1rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700;
-      text-transform: uppercase;
+      font-size: 1.15rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700; text-transform: uppercase;
     }}
   </style>
 </head>
@@ -152,81 +170,84 @@ def render_kinetic_reel(content: dict):
   <div class="grid-overlay"></div>
   <div class="scanline"></div>
   
-  <div class="content-container">
+  <div class="content-wrapper">
     <div class="header-block">
-      <div class="badge" id="badge-text">{content['badge']}</div>
-      <div class="timestamp">EXEC // SECURE</div>
+      <div class="main-title">{content['mainHeader']}</div>
+      <div class="arrow-icon">↓</div>
     </div>
     
-    <!-- Phase 1: Hook -->
-    <div class="phase active" id="phase-1">
-      <div class="phase-title">{content['hookText']}</div>
-    </div>
-    
-    <!-- Phase 2: Mechanism / Explanation -->
-    <div class="phase" id="phase-2">
-      <div class="phase-title">{content['mechanismText']}</div>
-    </div>
-    
-    <!-- Phase 3: Payoff / CTA -->
-    <div class="phase" id="phase-3">
-      <div class="phase-title">{content['payoffText']}</div>
+    <div class="cards-container">
+      <!-- Card 1 -->
+      <div class="modular-card" id="card-1">
+        <div class="badge-icon badge-red">∞</div>
+        <div class="card-text">{content['card1']}</div>
+      </div>
+      <!-- Card 2 -->
+      <div class="modular-card" id="card-2">
+        <div class="badge-icon badge-amber">α</div>
+        <div class="card-text">{content['card2']}</div>
+      </div>
+      <!-- Card 3 -->
+      <div class="modular-card" id="card-3">
+        <div class="badge-icon badge-green">✓</div>
+        <div class="card-text">{content['card3']}</div>
+      </div>
     </div>
     
     <div class="footer-block">
-      <div class="sub-text">SOVEREIGN PIPELINE</div>
+      <div class="footer-label">{content['footerLabel']}</div>
       <div class="cta-link">→ FMFRAMEWORKS.GUMROAD.COM</div>
     </div>
   </div>
 
   <script>
-    // Kinetic Phase Timeline & Web Audio Synthesizer
+    // Staggered card reveals & Web Audio synthesizer
     window.addEventListener('DOMContentLoaded', () => {{
       try {{
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioContext();
         
-        // Background Sub-Bass Drone
+        // Sub-bass atmospheric drone
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(55, ctx.currentTime);
-        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        osc.frequency.setValueAtTime(50, ctx.currentTime);
+        gain.gain.setValueAtTime(0.07, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 7.5);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
         osc.stop(ctx.currentTime + 8.0);
         
-        // UI Mechanical Ticks for Phase transitions
-        function playTick() {{
+        function playSnap() {{
           const t = ctx.currentTime;
           const cOsc = ctx.createOscillator();
           const cGain = ctx.createGain();
           cOsc.type = 'square';
-          cOsc.frequency.setValueAtTime(1200, t);
-          cGain.gain.setValueAtTime(0.04, t);
-          cGain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+          cOsc.frequency.setValueAtTime(900, t);
+          cGain.gain.setValueAtTime(0.05, t);
+          cGain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
           cOsc.connect(cGain);
           cGain.connect(ctx.destination);
           cOsc.start(t);
-          cOsc.stop(t + 0.04);
+          cOsc.stop(t + 0.05);
         }}
         
-        // Timeline switching phases at 2.5s and 5.0s
+        // Staggered reveal timeline
         setTimeout(() => {{
-          document.getElementById('phase-1').classList.remove('active');
-          document.getElementById('phase-2').classList.add('active');
-          document.getElementById('badge-text').innerText = 'SYS.KERNEL // 02.1';
-          playTick();
-        }}, 2500);
+          document.getElementById('card-1').classList.add('visible');
+          playSnap();
+        }}, 800);
         
         setTimeout(() => {{
-          document.getElementById('phase-2').classList.remove('active');
-          document.getElementById('phase-3').classList.add('active');
-          document.getElementById('badge-text').innerText = 'SYS.KERNEL // 03';
-          playTick();
-        }}, 5200);
+          document.getElementById('card-2').classList.add('visible');
+          playSnap();
+        }}, 2400);
+        
+        setTimeout(() => {{
+          document.getElementById('card-3').classList.add('visible');
+          playSnap();
+        }}, 4000);
 
       }} catch(e) {{
         console.log('Audio Context suppressed');
@@ -238,7 +259,7 @@ def render_kinetic_reel(content: dict):
 
     template_path.write_text(embedded_template, encoding='utf-8')
 
-    print("Launching Playwright Kinetic recorder...")
+    print("Launching Playwright Modular Framework recorder...")
     with sync_playwright() as p:
         browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox', '--autoplay-policy=no-user-gesture-required'])
         context = browser.new_context(
@@ -252,7 +273,7 @@ def render_kinetic_reel(content: dict):
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        print("Recording 8-second multi-phase kinetic reel session...")
+        print("Recording 8-second modular framework reel session...")
         time.sleep(8.0)
         
         context.close()
@@ -265,10 +286,10 @@ def render_kinetic_reel(content: dict):
             if final_output.exists():
                 final_output.unlink()
             latest_video.rename(final_output)
-            print(f"Kinetic reel successfully rendered: {final_output}")
+            print(f"Modular reel successfully rendered: {final_output}")
 
 if __name__ == "__main__":
-    print("Initializing Kinetic Multi-Phase Autonomous Reel Engine...")
-    content_payload = generate_kinetic_reel_content()
-    print("Kinetic Payload:", content_payload)
-    render_kinetic_reel(content_payload)
+    print("Initializing Modular Framework Autonomous Reel Engine...")
+    content_payload = generate_modular_reel_content()
+    print("Modular Payload:", content_payload)
+    render_modular_reel(content_payload)
