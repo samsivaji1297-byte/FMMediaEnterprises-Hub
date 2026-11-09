@@ -35,37 +35,41 @@ def generate_carousel_deck() -> list:
     - NEVER attack, lecture, or point out user failures. Do not use fear-based or pain-agitation hooks.
     - INSTEAD, focus on revelation, clarity, and structural leverage: Show what is now possible that wasn't possible before. Reveal hidden mechanics, operational blind spots, and how modern AI/automation pipelines compress weeks of work into minutes. People pay for absolute clarity and information architecture.
     
-    THE 5 INSTRUCTIONAL & REVELATORY HOOK ARCHITECTURES:
+    THE 5 INSIGHTFUL & REVELATORY HOOK ARCHITECTURES:
     1. “Here’s how…” (Practical Clarity - e.g., HERE'S HOW TO COMPRESS A WEEK OF PRODUCT BUILDING INTO 90 MINUTES)
     2. “How to…” (New Capabilities - e.g., HOW TO DEPLOY AN AUTONOMOUS CONTENT PIPELINE WITHOUT CODE)
     3. “Here’s why…” (Information Gap / Mechanics - e.g., HERE'S WHY MANUAL CONTENT CREATION IS OBSOLETE)
     4. “The easiest way to…” (Frictionless Execution - e.g., THE EASIEST WAY TO TURN KNOWLEDGE INTO A SELLABLE ASSET)
     5. “Use this…” (Immediate Leverage - e.g., USE THIS PROMPT MECHANISM TO STRUCTURE YOUR ENTIRE OFFER)
     
-    SLIDE STRUCTURE (4 slides total):
+    SLIDE STRUCTURE (4 slides total, strictly ordered 1 to 4):
     - Slide 1 (The Hook): Must use one of the 5 architectures above with tall uppercase stacking (<br>) focusing on unlocked potential or clarity.
     - Slide 2 (The Breakdown): Unpack the hidden mechanism or paradigm shift that makes this possible now.
     - Slide 3 (The Execution): Show the clean, actionable process or system architecture.
     - Slide 4 (The Call to Action): Guide them to fmframeworks.gumroad.com for the complete operational protocol.
     
-    Return ONLY a valid JSON object containing an array of 4 slides, with no extra markdown or fluff:
+    Return ONLY a valid JSON object containing an array of 4 slides, where each slide explicitly includes its sequence number (1 to 4), with no extra markdown or fluff:
     {
       "slides": [
         {
+          "slideNumber": 1,
           "mainText": "HERE'S HOW TO BUILD<br>A DIGITAL PRODUCT<br>IN 90 MINUTES",
           "subText": "WHAT WAS ONCE IMPOSSIBLE IS NOW AUTOMATED"
         },
         {
+          "slideNumber": 2,
           "mainText": "THE SHIFT:<br>FROM MANUAL GRIND<br>TO SYSTEMIC LEVERAGE",
           "subText": "HOW MODERN PIPELINES CHANGE THE EQUATION"
         },
         {
+          "slideNumber": 3,
           "mainText": "STEP 1:<br>EXTRACT THE CORE<br>KNOWLEDGE ASSET",
           "subText": "ELIMINATE THE FRICTION & COMPRESS"
         },
         {
+          "slideNumber": 4,
           "mainText": "GET THE FULL<br>COMPRESSION SYSTEM<br>PROTOCOL TODAY",
-          "subText": "LINK IN BIO / FMFRAMEWORKS.GUMROAD.COM"
+          "subText": "FMFRAMEWORKS.GUMROAD.COM"
         }
       ]
     }
@@ -105,7 +109,11 @@ def generate_carousel_deck() -> list:
         cleaned_text = cleaned_text[:-3]
         
     data = json.loads(cleaned_text.strip())
-    return data.get("slides", [])
+    raw_slides = data.get("slides", [])
+    
+    # Enforce strict ascending numerical order (1 -> 2 -> 3 -> 4) to prevent reverse sequencing bugs
+    sorted_slides = sorted(raw_slides, key=lambda x: int(x.get("slideNumber", 1)))
+    return sorted_slides
 
 def render_carousel(slides: list):
     """Renders each slide in the deck to a separate PNG using Playwright and fine-tuned editorial typography."""
@@ -150,22 +158,26 @@ def render_carousel(slides: list):
       z-index: 2;
     }}
     .content-wrapper {{
-      position: relative; z-index: 3; width: 85%;
+      position: relative; z-index: 3; width: 90%; max-width: 960px;
       display: flex; flex-direction: column; align-items: center; text-align: center;
+      padding: 0 40px;
     }}
     .watermark {{
       font-size: 1.1rem; letter-spacing: 0.32em; text-transform: uppercase;
       color: rgba(255, 255, 255, 0.55); margin-bottom: 56px; font-weight: 500;
     }}
     .hook-main {{
-      font-family: 'Playfair Display', serif; font-weight: 700; font-size: 4.6rem;
+      font-family: 'Playfair Display', serif; font-weight: 700; 
+      font-size: clamp(3.0rem, 4.6vw, 4.6rem);
       line-height: 1.08; text-transform: uppercase; color: #FFFFFF; letter-spacing: -0.01em;
       text-shadow: 0 4px 28px rgba(0, 0, 0, 0.9); margin-bottom: 44px;
+      word-break: break-word; overflow-wrap: break-word;
     }}
     .hook-sub {{
-      font-family: 'Inter', sans-serif; font-size: 1.2rem; font-weight: 500;
-      letter-spacing: 0.28em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
+      font-family: 'Inter', sans-serif; font-size: 1.15rem; font-weight: 500;
+      letter-spacing: 0.25em; text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
       text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+      word-break: break-word; overflow-wrap: break-word; max-width: 100%;
     }}
   </style>
 </head>
@@ -190,10 +202,10 @@ def render_carousel(slides: list):
             print(f"Saved {output_path.name}")
             
         browser.close()
-    print("All carousel slides rendered successfully with refined typography.")
+    print("All carousel slides rendered successfully with locked sequence and fluid text scaling.")
 
 if __name__ == "__main__":
     print("Initializing Multi-Slide Autonomous Carousel Engine...")
     slides_payload = generate_carousel_deck()
-    print(f"Parsed {len(slides_payload)} slides from AI model.")
+    print(f"Parsed and sequenced {len(slides_payload)} slides from AI model.")
     render_carousel(slides_payload)
