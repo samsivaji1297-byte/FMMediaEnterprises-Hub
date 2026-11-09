@@ -71,12 +71,18 @@ def publish_reel_to_ig():
     }
     
     print("Initiating Meta Reel container creation...")
-    response = requests.post(container_url, data=payload).json()
+    response = {}
+    for attempt in range(1, 4):
+        response = requests.post(container_url, data=payload).json()
+        if "id" in response:
+            break
+        print(f"Transient Meta API error encountered. Retrying in 10s... (Attempt {attempt}/3)")
+        time.sleep(10)
+
     if "id" not in response:
-        raise Exception(f"Failed to create Reel container: {response}")
+        raise Exception(f"Failed to create Reel container after 3 attempts: {response}")
 
     creation_id = response["id"]
-    wait_for_reel_ready(creation_id)
 
     publish_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media_publish"
     publish_payload = {"creation_id": creation_id, "access_token": ACCESS_TOKEN}
