@@ -55,12 +55,12 @@ def publish_reel_to_ig():
 
     container_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media"
     
-    # Clean, breathable spaced caption layout with extra value sentence and balanced hashtags
+    # Tailored caption highlighting operational compression, operator frameworks, and automated leverage
     caption = (
-        "What was once manual is now fully automated in 90 minutes. "
-        "Stop trading hours for repetitive tasks and build systems that scale on autopilot.\n\n"
-        "Comment **FM** below and I'll instantly send you the complete sovereign architecture link.\n\n"
-        "#TheCompressionSystem #OperatorMindset #Automation #SystemArchitect #Python #SoftwareEngineering"
+        "Most people trade hours for manual busywork instead of building systems that run themselves. "
+        "The Operator Mindset is about compressing hours of repetitive tasks into bulletproof automated pipelines.\n\n"
+        "Comment **FM** below and I'll instantly send you the complete framework protocol link.\n\n"
+        "#OperatorMindset #TheCompressionSystem #BusinessAutomation #DigitalLeverage #SovereignSystems #WorkflowAutomation"
     )
     
     payload = {
@@ -91,7 +91,7 @@ def publish_reel_to_ig():
     # Post automated engagement comment driving the "Comment FM" loop
     comment_url = f"https://graph.facebook.com/v19.0/{published_media_id}/comments"
     comment_payload = {
-        "message": "Comment FM below and I will instantly DM you the sovereign framework protocol link.",
+        "message": "Comment FM below and I will instantly DM you the operator framework link.",
         "access_token": ACCESS_TOKEN
     }
     
