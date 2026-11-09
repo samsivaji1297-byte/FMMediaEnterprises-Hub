@@ -8,6 +8,7 @@ if str(repo_root) not in sys.path:
 
 import json
 import os
+import subprocess
 import time
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
@@ -68,7 +69,7 @@ def generate_modular_reel_content() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_modular_reel(content: dict):
-    """Renders a 1080x1920 modular glassmorphism framework reel with Web Audio synthesis via Playwright."""
+    """Renders visual via Playwright, then uses FFmpeg to mux a deep ambient sub-bass drone soundtrack."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
@@ -89,7 +90,6 @@ def render_modular_reel(content: dict):
       padding: 140px 80px;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
-    /* Swiss Grid & Scanline Overlay */
     .grid-overlay {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -105,8 +105,6 @@ def render_modular_reel(content: dict):
       position: relative; z-index: 3; width: 100%; height: 100%;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
     }}
-    
-    /* Top Header */
     .header-block {{
       display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
     }}
@@ -122,8 +120,6 @@ def render_modular_reel(content: dict):
       0%, 100% {{ transform: translateY(0); }}
       50% {{ transform: translateY(12px); }}
     }}
-    
-    /* Modular Cards Container */
     .cards-container {{
       display: flex; flex-direction: column; gap: 28px; width: 100%; max-width: 920px;
       margin: auto 0;
@@ -138,8 +134,6 @@ def render_modular_reel(content: dict):
     .modular-card.visible {{
       opacity: 1; transform: translateY(0);
     }}
-    
-    /* Glowing Neon Badges */
     .badge-icon {{
       width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
       font-size: 1.8rem; font-weight: 700; flex-shrink: 0;
@@ -147,13 +141,10 @@ def render_modular_reel(content: dict):
     .badge-red {{ background: rgba(255, 59, 48, 0.15); color: #FF3B30; border: 1px solid rgba(255, 59, 48, 0.4); box-shadow: 0 0 25px rgba(255, 59, 48, 0.3); }}
     .badge-amber {{ background: rgba(255, 107, 0, 0.15); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.4); box-shadow: 0 0 25px rgba(255, 107, 0, 0.3); }}
     .badge-green {{ background: rgba(52, 199, 89, 0.15); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.4); box-shadow: 0 0 25px rgba(52, 199, 89, 0.3); }}
-    
     .card-text {{
       font-family: 'Inter', sans-serif; font-size: 1.6rem; font-weight: 700;
       letter-spacing: -0.01em; color: #FFFFFF; text-transform: uppercase;
     }}
-    
-    /* Footer */
     .footer-block {{
       display: flex; justify-content: space-between; align-items: center; width: 100%;
       border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 28px;
@@ -177,17 +168,14 @@ def render_modular_reel(content: dict):
     </div>
     
     <div class="cards-container">
-      <!-- Card 1 -->
       <div class="modular-card" id="card-1">
         <div class="badge-icon badge-red">∞</div>
         <div class="card-text">{content['card1']}</div>
       </div>
-      <!-- Card 2 -->
       <div class="modular-card" id="card-2">
         <div class="badge-icon badge-amber">α</div>
         <div class="card-text">{content['card2']}</div>
       </div>
-      <!-- Card 3 -->
       <div class="modular-card" id="card-3">
         <div class="badge-icon badge-green">✓</div>
         <div class="card-text">{content['card3']}</div>
@@ -201,57 +189,10 @@ def render_modular_reel(content: dict):
   </div>
 
   <script>
-    // Staggered card reveals & Web Audio synthesizer
     window.addEventListener('DOMContentLoaded', () => {{
-      try {{
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        const ctx = new AudioContext();
-        
-        // Sub-bass atmospheric drone
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(50, ctx.currentTime);
-        gain.gain.setValueAtTime(0.07, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 7.5);
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.start();
-        osc.stop(ctx.currentTime + 8.0);
-        
-        function playSnap() {{
-          const t = ctx.currentTime;
-          const cOsc = ctx.createOscillator();
-          const cGain = ctx.createGain();
-          cOsc.type = 'square';
-          cOsc.frequency.setValueAtTime(900, t);
-          cGain.gain.setValueAtTime(0.05, t);
-          cGain.gain.exponentialRampToValueAtTime(0.001, t + 0.05);
-          cOsc.connect(cGain);
-          cGain.connect(ctx.destination);
-          cOsc.start(t);
-          cOsc.stop(t + 0.05);
-        }}
-        
-        // Staggered reveal timeline
-        setTimeout(() => {{
-          document.getElementById('card-1').classList.add('visible');
-          playSnap();
-        }}, 800);
-        
-        setTimeout(() => {{
-          document.getElementById('card-2').classList.add('visible');
-          playSnap();
-        }}, 2400);
-        
-        setTimeout(() => {{
-          document.getElementById('card-3').classList.add('visible');
-          playSnap();
-        }}, 4000);
-
-      }} catch(e) {{
-        console.log('Audio Context suppressed');
-      }}
+      setTimeout(() => {{ document.getElementById('card-1').classList.add('visible'); }}, 800);
+      setTimeout(() => {{ document.getElementById('card-2').classList.add('visible'); }}, 2400);
+      setTimeout(() => {{ document.getElementById('card-3').classList.add('visible'); }}, 4000);
     }});
   </script>
 </body>
@@ -261,7 +202,7 @@ def render_modular_reel(content: dict):
 
     print("Launching Playwright Modular Framework recorder...")
     with sync_playwright() as p:
-        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox', '--autoplay-policy=no-user-gesture-required'])
+        browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox'])
         context = browser.new_context(
             viewport={'width': 1080, 'height': 1920},
             record_video_dir=str(output_dir),
@@ -273,7 +214,7 @@ def render_modular_reel(content: dict):
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        print("Recording 8-second modular framework reel session...")
+        print("Recording 8-second visual reel session...")
         time.sleep(8.0)
         
         context.close()
@@ -282,14 +223,30 @@ def render_modular_reel(content: dict):
         recorded_files = list(output_dir.glob("*.webm"))
         if recorded_files:
             latest_video = max(recorded_files, key=os.path.getctime)
+            raw_output = output_dir / "raw-reel.webm"
+            if raw_output.exists():
+                raw_output.unlink()
+            latest_video.rename(raw_output)
+            
+            # FFmpeg Post-Processing: Mux visual video with synthesized ambient sub-bass drone (55Hz / A1)
             final_output = output_dir / "output-reel.webm"
-            if final_output.exists():
-                final_output.unlink()
-            latest_video.rename(final_output)
-            print(f"Modular reel successfully rendered: {final_output}")
+            print("Muxing ambient sub-bass drone soundtrack via FFmpeg...")
+            
+            ffmpeg_cmd = [
+                "ffmpeg", "-y",
+                "-i", str(raw_output),
+                "-f", "lavfi", "-i", "sine=frequency=55:duration=8.0",
+                "-filter_complex", "[1:a]volume=0.12[a];[a]lowpass=f=300[audio]",
+                "-map", "0:v", "-map", "[audio]",
+                "-c:v", "copy", "-c:a", "aac", "-shortest",
+                str(final_output)
+            ]
+            
+            subprocess.run(ffmpeg_cmd, check=True)
+            print(f"Audio-muxed modular reel successfully rendered: {final_output}")
 
 if __name__ == "__main__":
-    print("Initializing Modular Framework Autonomous Reel Engine...")
+    print("Initializing Modular Framework Autonomous Reel Engine with Ambient Sound...")
     content_payload = generate_modular_reel_content()
     print("Modular Payload:", content_payload)
     render_modular_reel(content_payload)
