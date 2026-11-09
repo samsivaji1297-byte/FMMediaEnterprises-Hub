@@ -12,24 +12,25 @@ import time
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
-def generate_terminal_reel_hook() -> dict:
-    """Queries AI models using modular bracket architectures for high-retention Terminal Brutalist reels."""
+def generate_kinetic_reel_content() -> dict:
+    """Queries AI models for a multi-phase kinetic reel script designed for high-dopamine retention and conversion."""
     prompt = """
-    You are an elite direct-response system architect crafting a high-status Terminal Brutalist Instagram Reel hook.
+    You are an elite direct-response system architect crafting a multi-phase kinetic Instagram Reel script.
     
     Product & Framework Context:
     Digital operational frameworks (fmframeworks.gumroad.com), including 'The Compression System', 
     'Operator Mindset Kit', and the '90-Minute Protocol'.
     
-    CORE DESIGN & COPYWRITING MANDATE:
-    - Focus on structural clarity, hidden mechanisms, and unlocked capabilities. Never use fear-based hooks.
-    - Use modular bracket structures (e.g., [THING], [SYSTEM], [PROTOCOL]) that signal precision and data architecture.
+    CORE COPYWRITING MANDATE:
+    - Deliver absolute clarity, structural leverage, and mimetic dopamine hits. Make the viewer feel instantly productive and in control.
+    - Provide a multi-phase narrative arc: Phase 1 (The Hook), Phase 2 (The Mechanism / Code Reveal), Phase 3 (The Sovereign Payoff).
     
     Return ONLY valid JSON matching this exact structure with no extra markdown or fluff:
     {
-      "badge": "SYS.PROTOCOL // 01",
-      "mainText": "THERE'S A [SYSTEM]<br>HIDING INSIDE<br>YOUR [WORKFLOW]",
-      "subText": "COMPRESS WEEKS OF EXECUTION INTO 90 MINUTES"
+      "badge": "SYS.KERNEL // 02",
+      "hookText": "HOW TO BUILD AN<br>AUTONOMOUS CONTENT<br>ENGINE IN 90 MINUTES",
+      "mechanismText": "INJECTING config.py<br>+ PLAYWRIGHT PIPELINES<br>+ META GRAPH API",
+      "payoffText": "DEPLOY ONCE.<br>RUN RECURSIVELY.<br>FMFRAMEWORKS.GUMROAD.COM"
     }
     """
 
@@ -65,8 +66,8 @@ def generate_terminal_reel_hook() -> dict:
         
     return json.loads(cleaned_text.strip())
 
-def render_terminal_reel(hook_data: dict):
-    """Renders a 1080x1920 Terminal Brutalist reel with Web Audio API synthesis via Playwright."""
+def render_kinetic_reel(content: dict):
+    """Renders a kinetic 1080x1920 multi-phase reel with synchronized Web Audio sound design via Playwright."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
@@ -76,7 +77,7 @@ def render_terminal_reel(hook_data: dict):
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Terminal Brutalist IG Reel Studio</title>
+  <title>Kinetic Terminal IG Reel Studio</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -87,7 +88,6 @@ def render_terminal_reel(hook_data: dict):
       padding: 120px 90px;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
-    /* Swiss Grid & Scanline Overlay */
     .grid-overlay {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
       background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
@@ -115,34 +115,36 @@ def render_terminal_reel(hook_data: dict):
     .timestamp {{
       font-size: 1rem; letter-spacing: 0.15em; color: rgba(255, 255, 255, 0.4);
     }}
-    .main-hook {{
-      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 4.8rem;
-      line-height: 1.1; text-transform: uppercase; color: #FFFFFF;
-      letter-spacing: -0.02em; margin: auto 0;
+    
+    /* Kinetic Phases */
+    .phase {{
+      position: absolute; top: 320px; left: 90px; right: 90px; bottom: 320px;
+      display: flex; flex-direction: column; justify-content: center;
+      opacity: 0; transform: translateY(20px); transition: opacity 0.4s ease, transform 0.4s ease;
     }}
-    .main-hook span {{
-      color: #FF6B00;
+    .phase.active {{
+      opacity: 1; transform: translateY(0);
     }}
+    
+    .phase-title {{
+      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 4.5rem;
+      line-height: 1.12; text-transform: uppercase; color: #FFFFFF;
+      letter-spacing: -0.02em; margin-bottom: 32px;
+    }}
+    .phase-title span {{ color: #FF6B00; }}
+    
     .footer-block {{
-      display: flex; flex-direction: column; gap: 16px;
+      display: flex; justify-content: space-between; align-items: center;
       border-top: 1px solid rgba(255, 255, 255, 0.2); padding-top: 32px;
       width: 100%;
     }}
     .sub-text {{
-      font-size: 1.25rem; font-weight: 500; letter-spacing: 0.2em;
-      text-transform: uppercase; color: rgba(255, 255, 255, 0.85);
+      font-size: 1.15rem; font-weight: 500; letter-spacing: 0.2em;
+      text-transform: uppercase; color: rgba(255, 255, 255, 0.7);
     }}
     .cta-link {{
       font-size: 1.1rem; letter-spacing: 0.25em; color: #FF6B00; font-weight: 700;
       text-transform: uppercase;
-    }}
-    .cursor {{
-      display: inline-block; width: 16px; height: 36px; background: #FF6B00;
-      vertical-align: middle; animation: blink 1s infinite; margin-left: 8px;
-    }}
-    @keyframes blink {{
-      0%, 50% {{ opacity: 1; }}
-      51%, 100% {{ opacity: 0; }}
     }}
   </style>
 </head>
@@ -152,52 +154,80 @@ def render_terminal_reel(hook_data: dict):
   
   <div class="content-container">
     <div class="header-block">
-      <div class="badge">{hook_data['badge']}</div>
-      <div class="timestamp">SYS.ENGINE // SECURE</div>
+      <div class="badge" id="badge-text">{content['badge']}</div>
+      <div class="timestamp">EXEC // SECURE</div>
     </div>
     
-    <div class="main-hook">
-      {hook_data['mainText']}<span class="cursor"></span>
+    <!-- Phase 1: Hook -->
+    <div class="phase active" id="phase-1">
+      <div class="phase-title">{content['hookText']}</div>
+    </div>
+    
+    <!-- Phase 2: Mechanism / Explanation -->
+    <div class="phase" id="phase-2">
+      <div class="phase-title">{content['mechanismText']}</div>
+    </div>
+    
+    <!-- Phase 3: Payoff / CTA -->
+    <div class="phase" id="phase-3">
+      <div class="phase-title">{content['payoffText']}</div>
     </div>
     
     <div class="footer-block">
-      <div class="sub-text">{hook_data['subText']}</div>
+      <div class="sub-text">SOVEREIGN PIPELINE</div>
       <div class="cta-link">→ FMFRAMEWORKS.GUMROAD.COM</div>
     </div>
   </div>
 
   <script>
+    // Kinetic Phase Timeline & Web Audio Synthesizer
     window.addEventListener('DOMContentLoaded', () => {{
       try {{
         const AudioContext = window.AudioContext || window.webkitAudioContext;
         const ctx = new AudioContext();
         
+        // Background Sub-Bass Drone
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'sawtooth';
         osc.frequency.setValueAtTime(55, ctx.currentTime);
-        
         gain.gain.setValueAtTime(0.08, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 5.5);
-        
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 7.5);
         osc.connect(gain);
         gain.connect(ctx.destination);
-        
         osc.start();
-        osc.stop(ctx.currentTime + 6.0);
+        osc.stop(ctx.currentTime + 8.0);
+        
+        // UI Mechanical Ticks for Phase transitions
+        function playTick() {{
+          const t = ctx.currentTime;
+          const cOsc = ctx.createOscillator();
+          const cGain = ctx.createGain();
+          cOsc.type = 'square';
+          cOsc.frequency.setValueAtTime(1200, t);
+          cGain.gain.setValueAtTime(0.04, t);
+          cGain.gain.exponentialRampToValueAtTime(0.001, t + 0.04);
+          cOsc.connect(cGain);
+          cGain.connect(ctx.destination);
+          cOsc.start(t);
+          cOsc.stop(t + 0.04);
+        }}
+        
+        // Timeline switching phases at 2.5s and 5.0s
+        setTimeout(() => {{
+          document.getElementById('phase-1').classList.remove('active');
+          document.getElementById('phase-2').classList.add('active');
+          document.getElementById('badge-text').innerText = 'SYS.KERNEL // 02.1';
+          playTick();
+        }}, 2500);
         
         setTimeout(() => {{
-          const clickOsc = ctx.createOscillator();
-          const clickGain = ctx.createGain();
-          clickOsc.type = 'square';
-          clickOsc.frequency.setValueAtTime(800, ctx.currentTime);
-          clickGain.gain.setValueAtTime(0.05, ctx.currentTime);
-          clickGain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
-          clickOsc.connect(clickGain);
-          clickGain.connect(ctx.destination);
-          clickOsc.start();
-          clickOsc.stop(ctx.currentTime + 0.05);
-        }}, 150);
+          document.getElementById('phase-2').classList.remove('active');
+          document.getElementById('phase-3').classList.add('active');
+          document.getElementById('badge-text').innerText = 'SYS.KERNEL // 03';
+          playTick();
+        }}, 5200);
+
       }} catch(e) {{
         console.log('Audio Context suppressed');
       }}
@@ -208,7 +238,7 @@ def render_terminal_reel(hook_data: dict):
 
     template_path.write_text(embedded_template, encoding='utf-8')
 
-    print("Launching Playwright Terminal recorder...")
+    print("Launching Playwright Kinetic recorder...")
     with sync_playwright() as p:
         browser = p.chromium.launch(args=['--no-sandbox', '--disable-setuid-sandbox', '--autoplay-policy=no-user-gesture-required'])
         context = browser.new_context(
@@ -222,8 +252,8 @@ def render_terminal_reel(hook_data: dict):
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        print("Recording 6-second Terminal Brutalist reel session...")
-        time.sleep(6.0)
+        print("Recording 8-second multi-phase kinetic reel session...")
+        time.sleep(8.0)
         
         context.close()
         browser.close()
@@ -235,10 +265,10 @@ def render_terminal_reel(hook_data: dict):
             if final_output.exists():
                 final_output.unlink()
             latest_video.rename(final_output)
-            print(f"Terminal reel successfully rendered: {final_output}")
+            print(f"Kinetic reel successfully rendered: {final_output}")
 
 if __name__ == "__main__":
-    print("Initializing Terminal Brutalist Autonomous Reel Engine...")
-    hook_payload = generate_terminal_reel_hook()
-    print("Terminal Hook Payload:", hook_payload)
-    render_terminal_reel(hook_payload)
+    print("Initializing Kinetic Multi-Phase Autonomous Reel Engine...")
+    content_payload = generate_kinetic_reel_content()
+    print("Kinetic Payload:", content_payload)
+    render_kinetic_reel(content_payload)
