@@ -23,7 +23,7 @@ def ensure_ffmpeg():
             subprocess.run(["sudo", "apt-get", "install", "-y", "ffmpeg"], check=True, stdout=subprocess.DEVNULL)
             print("FFmpeg installed successfully.")
         except Exception as e:
-            print(f"Warning: Could not auto-install ffmpeg ({e}). Proceeding with raw video output.")
+            print(f"Warning: Could not auto-install ffmpeg ({e}).")
 
 def generate_modular_reel_content() -> dict:
     """Queries AI models for a 3-part modular framework script matching elite high-retention reel layouts."""
@@ -81,7 +81,7 @@ def generate_modular_reel_content() -> dict:
     return json.loads(cleaned_text.strip())
 
 def render_modular_reel(content: dict):
-    """Renders visual via Playwright and muxes ambient sound via FFmpeg."""
+    """Renders visual via Playwright and muxes ambient sound into an MP4 container via FFmpeg."""
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     
@@ -240,29 +240,28 @@ def render_modular_reel(content: dict):
                 raw_output.unlink()
             latest_video.rename(raw_output)
             
-            final_output = output_dir / "output-reel.webm"
+            # Target MP4 output so AAC audio muxing is fully supported by the container
+            final_output = output_dir / "output-reel.mp4"
             
-            # Ensure ffmpeg is available before attempting muxing
             ensure_ffmpeg()
             
             if shutil.which("ffmpeg"):
-                print("Muxing ambient sub-bass drone soundtrack via FFmpeg...")
+                print("Muxing ambient sub-bass drone soundtrack into MP4 container via FFmpeg...")
                 ffmpeg_cmd = [
                     "ffmpeg", "-y",
                     "-i", str(raw_output),
                     "-f", "lavfi", "-i", "sine=frequency=55:duration=8.0",
                     "-filter_complex", "[1:a]volume=0.12[a];[a]lowpass=f=300[audio]",
                     "-map", "0:v", "-map", "[audio]",
-                    "-c:v", "copy", "-c:a", "aac", "-shortest",
+                    "-c:v", "libx264", "-preset", "fast", "-crf", "22",
+                    "-c:a", "aac", "-b:a", "128k",
+                    "-pix_fmt", "yuv420p", "-shortest",
                     str(final_output)
                 ]
                 subprocess.run(ffmpeg_cmd, check=True)
-                print(f"Audio-muxed modular reel successfully rendered: {final_output}")
+                print(f"Audio-muxed modular MP4 reel successfully rendered: {final_output}")
             else:
-                print("FFmpeg unavailable. Falling back to raw recorded video.")
-                if final_output.exists():
-                    final_output.unlink()
-                raw_output.rename(final_output)
+                print("FFmpeg unavailable.")
 
 if __name__ == "__main__":
     print("Initializing Modular Framework Autonomous Reel Engine with Ambient Sound...")
