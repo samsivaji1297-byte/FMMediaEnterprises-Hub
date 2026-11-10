@@ -2,6 +2,7 @@ import os
 import json
 import requests
 import time
+import subprocess
 from datetime import datetime
 from pathlib import Path
 
@@ -17,6 +18,28 @@ class InstagramPublisher:
         self.api_version = "v19.0"
         self.base_url = f"https://graph.facebook.com/{self.api_version}"
 
+    def _commit_and_push_asset(self, video_path: Path):
+        """Commits and pushes the newly rendered asset to GitHub so the raw CDN URL becomes live."""
+        try:
+            print("[*] Committing and pushing new render asset to GitHub for CDN propagation...")
+            subprocess.run(["git", "config", "--global", "user.name", "Aurelian-WarRoom-Bot"], check=True, cwd=str(REPO_ROOT))
+            subprocess.run(["git", "config", "--global", "user.email", "bot@warroom.internal"], check=True, cwd=str(REPO_ROOT))
+            subprocess.run(["git", "add", str(video_path.relative_to(REPO_ROOT))], check=True, cwd=str(REPO_ROOT))
+            
+            txt_path = video_path.with_suffix(".txt")
+            if txt_path.exists():
+                subprocess.run(["git", "add", str(txt_path.relative_to(REPO_ROOT))], check=True, cwd=str(REPO_ROOT))
+                
+            debug_path = video_path.with_name(video_path.stem + "_full_script.txt")
+            if debug_path.exists():
+                subprocess.run(["git", "add", str(debug_path.relative_to(REPO_ROOT))], check=True, cwd=str(REPO_ROOT))
+
+            subprocess.run(["git", "commit", "-m", f"media(publisher): auto-commit new render {video_path.name} [skip ci]"], check=True, cwd=str(REPO_ROOT))
+            subprocess.run(["git", "push"], check=True, cwd=str(REPO_ROOT))
+            print("[✓] Asset successfully pushed to GitHub remote.")
+        except Exception as e:
+            print(f"[!] Warning during auto-commit/push: {e}")
+
     def publish_pending_reels(self):
         print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING PENDING REEL (STRICT SINGLETON) ===")
         
@@ -24,13 +47,11 @@ class InstagramPublisher:
             print(f"[!] Renders directory missing at {RENDERS_DIR}")
             return
 
-        # Find all MP4 renders in the directory, sorted by modification time (newest first)
         video_files = sorted(RENDERS_DIR.glob("*.mp4"), key=lambda p: p.stat().st_mtime, reverse=True)
         if not video_files:
             print("[!] No pending reels found in vault/renders/ directory.")
             return
 
-        # STRICT SINGLETON ENFORCEMENT: Take ONLY the single newest render file
         target_video_path = video_files[0]
         filename = target_video_path.name
         print(f"[*] Targeting newest singleton render file: {filename}")
@@ -50,8 +71,11 @@ class InstagramPublisher:
         }
 
         if filename in already_published:
-            print(f"[!] Warning: '{filename}' is already recorded as published. Skipping execution to prevent duplicate publishing.")
+            print(f"[!] Warning: '{filename}' is already recorded as published. Skipping execution.")
             return
+
+        # Ensure the file is pushed to remote GitHub before verifying CDN
+        self._commit_and_push_asset(target_video_path)
 
         txt_path = target_video_path.with_suffix(".txt")
         caption = ""
@@ -71,12 +95,10 @@ class InstagramPublisher:
                 "status": "MOCK_PUBLISHED"
             })
         else:
-            # Verify CDN URL availability before submitting to Meta
             if not self._verify_cdn_url(video_url):
-                print(f"[!] CDN URL not yet reachable. Skipping container creation for this cycle.")
+                print(f"[!] CDN URL not yet reachable after push propagation. Skipping container creation for this cycle.")
                 return
 
-            # Meta Graph API Container Creation & Publishing Sequence
             container_id = self._create_container(video_url, caption)
             if container_id and self._wait_for_container(container_id):
                 media_id = self._publish_container(container_id)
@@ -100,7 +122,7 @@ class InstagramPublisher:
             json.dump(published_log, f, indent=4)
         print(f"[✓] Published log updated successfully.")
 
-    def _verify_cdn_url(self, url: str, max_retries: int = 5, delay: int = 4) -> bool:
+    def _verify_cdn_url(self, url: str, max_retries: int = 6, delay: int = 5) -> bool:
         """Verifies that the raw GitHub CDN URL is live and accessible."""
         for attempt in range(1, max_retries + 1):
             try:
