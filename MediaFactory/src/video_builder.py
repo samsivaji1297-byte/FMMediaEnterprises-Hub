@@ -60,19 +60,13 @@ def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
 
 
 def _generate_vignette_mask(canvas_w: int = CANVAS_WIDTH, canvas_h: int = CANVAS_HEIGHT) -> Image.Image:
-    """Renders top and bottom contrast gradients to keep kinetic text razor-sharp over motion video."""
+    """Renders a balanced dark vignette gradient to keep kinetic text razor-sharp over motion video."""
     mask = Image.new("RGBA", (canvas_w, canvas_h), (0, 0, 0, 0))
     draw = ImageDraw.Draw(mask)
 
-    # Top dark gradient bar (for top HUD pill)
-    for y in range(0, 320):
-        alpha = int(220 * (1 - (y / 320)))
-        draw.line([(0, y), (canvas_w, y)], fill=(3, 5, 10, alpha))
-
-    # Center-bottom dark vignette for primary text
-    for y in range(canvas_h - 900, canvas_h):
-        progress = (y - (canvas_h - 900)) / 900
-        alpha = int(235 * progress)
+    for y in range(canvas_h - 950, canvas_h):
+        progress = (y - (canvas_h - 950)) / 950
+        alpha = int(240 * progress)
         draw.line([(0, y), (canvas_w, y)], fill=(3, 5, 10, alpha))
 
     return mask
@@ -82,45 +76,21 @@ def _generate_kinetic_text_overlay(
     chunk_text: str,
     theme_config: dict,
     font_path: str,
-    scene_type: str = "HOOK",
     canvas_w: int = CANVAS_WIDTH,
     canvas_h: int = CANVAS_HEIGHT,
 ) -> str:
     """
-    Renders enlarged kinetic typography directly onto 9:16 motion video.
-    Features heavy drop shadows, dynamic neon power-word highlights, and HUD badging.
+    Renders pure, unobstructed kinetic typography directly onto 9:16 motion video.
+    Zero amateur badges—only elite typography, neon highlights, and heavy drop shadows.
     """
     img = Image.new("RGBA", (canvas_w, canvas_h), (0, 0, 0, 0))
     
-    # 1. Apply dark gradient vignette
     vignette = _generate_vignette_mask(canvas_w, canvas_h)
     img.alpha_composite(vignette)
 
     draw = ImageDraw.Draw(img)
     accent_rgb = _hex_to_rgb(theme_config.get("accent", "#00E5FF"))
 
-    # 2. Top HUD Pill Badge
-    pill_text = f"■ SYSTEM // {scene_type}"
-    try:
-        font_pill = ImageFont.truetype(font_path, 28)
-    except Exception:
-        font_pill = ImageFont.load_default()
-
-    pill_x = 70
-    pill_y = 130
-    pill_w = 460
-    pill_h = 60
-
-    draw.rounded_rectangle(
-        [pill_x, pill_y, pill_x + pill_w, pill_y + pill_h],
-        radius=30,
-        fill=(6, 10, 18, 220),
-        outline=accent_rgb,
-        width=2
-    )
-    draw.text((pill_x + 32, pill_y + 14), pill_text, fill=accent_rgb, font=font_pill)
-
-    # 3. High-Impact Main Text (Enlarged to 86px for mobile prominence)
     try:
         font_main = ImageFont.truetype(font_path, 86)
     except Exception:
@@ -130,13 +100,13 @@ def _generate_kinetic_text_overlay(
     wrapped_lines = textwrap.wrap(cleaned_text, width=12)
 
     total_text_height = len(wrapped_lines) * 108
-    text_start_y = (canvas_h - total_text_height) // 2 + 120
+    text_start_y = (canvas_h - total_text_height) // 2 + 50
 
     current_y = text_start_y
     power_keywords = {
         "STOP", "RUNNING", "AUTOMATE", "MANUALLY", "OPERATIONS", "SYSTEMS", 
         "SOVEREIGN", "INFRASTRUCTURE", "LOSING", "HOURS", "KILL", "BOTTLENECK",
-        "BUILD", "OPERATOR", "DECLARED", "CONVERT", "FREEDOM", "LEVERAGE"
+        "BUILD", "OPERATOR", "DECLARED", "CONVERT", "FREEDOM", "LEVERAGE", "TRADING"
     }
 
     for line in wrapped_lines:
@@ -153,7 +123,6 @@ def _generate_kinetic_text_overlay(
             is_power_word = clean_w in power_keywords
             word_color = accent_rgb if is_power_word else (255, 255, 255)
 
-            # Heavy multi-layer drop shadow for ultimate separation from background
             draw.text((curr_x + 6, current_y + 6), word_str, fill=(0, 0, 0, 255), font=font_main)
             draw.text((curr_x + 3, current_y + 3), word_str, fill=(0, 0, 0, 220), font=font_main)
             draw.text((curr_x, current_y), word_str, fill=word_color + (255,), font=font_main)
@@ -169,7 +138,6 @@ def _generate_kinetic_text_overlay(
 
 
 def _process_micro_chunks(text: str, max_words_per_chunk: int = 4) -> list[str]:
-    """Splits full scripts into rapid 4-word micro-chunks for maximum retention."""
     words = text.split()
     if not words:
         return [text]
@@ -185,7 +153,7 @@ def build_video(
     theme: str = "sovereign",
     output_path: str = "final_reel.mp4",
 ):
-    print("[+] Initializing Elite Kinetic Motion Engine...")
+    print("[+] Initializing Pure Kinetic Motion Engine...")
     font_path = resolve_font_path()
 
     active_theme = script_data.get("theme", theme)
@@ -238,14 +206,7 @@ def build_video(
                 duration=chunk_duration,
             )
 
-        if chunk_idx == 0:
-            scene_type = "DISRUPTION HOOK"
-        elif chunk_idx == chunk_count - 1:
-            scene_type = "DIRECTIVE CTA"
-        else:
-            scene_type = f"PROTOCOL 0{chunk_idx}"
-
-        overlay_path = _generate_kinetic_text_overlay(chunk, theme_config, font_path, scene_type=scene_type)
+        overlay_path = _generate_kinetic_text_overlay(chunk, theme_config, font_path)
         temp_image_files.append(overlay_path)
 
         overlay_clip = ImageClip(overlay_path).with_duration(chunk_duration)
@@ -282,5 +243,5 @@ def build_video(
         except Exception:
             pass
 
-    print(f"[+] [{active_theme.upper()}] Kinetic Typography Reel successfully compiled -> {target_output}")
+    print(f"[+] [{active_theme.upper()}] Pure Kinetic Typography Reel successfully compiled -> {target_output}")
     return target_output
