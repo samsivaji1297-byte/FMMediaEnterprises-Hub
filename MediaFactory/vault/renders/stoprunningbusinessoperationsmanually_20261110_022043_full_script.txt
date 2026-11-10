@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261110_022043
+Topic: how to automate business
+Title: Stop Running Business Operations Manually
+Hook: Hard workers get outperformed by simple automation scripts.
+Voiceover Script: Hard workers get outperformed by simple automation scripts. Stop trading hours for manual execution. Build sovereign infrastructure that automates lead routing, client onboarding, and delivery on autopilot. Reclaim your leverage. Comment 'OPERATOR' below to get the access link.
+Call to Action: Comment OPERATOR to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Hard workers get outperformed by simple automation scripts.
+  Visual Prompt: dark terminal code runner screen cyber UI
+
+Scene 2:
+  Text: Hard workers get outperformed by simple automation scripts. Stop trading hours for manual execution. Build sovereign infrastructure that automates lead routing, client onboarding, and delivery on autopilot. Reclaim your leverage. Comment 'OPERATOR' below to get the access link.
+  Visual Prompt: futuristic server rack network obsidian minimalist
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
