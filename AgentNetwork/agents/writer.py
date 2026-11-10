@@ -1,5 +1,5 @@
 import os
-import json
+import random
 from pathlib import Path
 from AgentNetwork.core.schemas import ScriptPayload, SignalPayload
 
@@ -8,40 +8,40 @@ class ScriptEngineAgent:
         self.gemini_api_key = os.getenv("GEMINI_API_KEY")
 
     def generate_script(self, signal: SignalPayload) -> ScriptPayload:
-        print(f"[*] Generating high-friction conversion script for signal: {signal.signal_id}")
+        print(f"[*] Generating The Compression System monetization script for signal: {signal.signal_id}")
 
-        aggressive_hooks = [
-            f"You are burning 20 hours a week doing manual work.",
-            f"Stop trading manual hours for broken scale.",
-            f"Manual execution is killing your business leverage.",
-            f"If your business relies on manual tasks, it is broken."
+        # High-converting disruption hooks centered around audience myths and digital product leverage
+        compression_hooks = [
+            "YOU DON'T NEED AN AUDIENCE TO SELL DIGITAL PRODUCTS.",
+            "STOP WAITING FOR THOUSANDS OF FOLLOWERS TO START.",
+            "BUILD YOUR FIRST DIGITAL PRODUCT THIS WEEKEND.",
+            "ONE PROBLEM. ONE SOLUTION. ONE PAYMENT LINK."
         ]
         
-        import random
-        selected_hook = random.choice(aggressive_hooks)
+        selected_hook = random.choice(compression_hooks)
 
         voiceover = (
-            f"{selected_hook} Most operators stay trapped in low-leverage execution. "
-            f"High-yield systems deploy automated infrastructure to route leads, execute delivery, "
-            f"and scale without human bottlenecks. Reclaim sovereign control over your time. "
-            f"Comment OPERATOR below to deploy the full system."
+            f"{selected_hook} You don't need a team, a warehouse, or a complicated business. "
+            f"Find one problem someone already wants solved, use AI to turn the solution into a digital product, "
+            f"and put it where buyers can find it. Build your first version this weekend. "
+            f"Get the full system at fmframeworks.gumroad.com/l/CompressionSystem."
         )
 
         return ScriptPayload(
             script_id=f"script_{signal.signal_id}",
-            title="Sovereign Infrastructure Execution",
+            title="The Compression System",
             hook_text=selected_hook,
             body_points=[
-                "Deploy automated workflows",
-                "Eliminate manual bottlenecks",
-                "Scale sovereign infrastructure"
+                "Find one real problem",
+                "Use AI to build the solution",
+                "Launch your digital product"
             ],
             voiceover_script=voiceover,
-            call_to_action="Comment OPERATOR to deploy the automated architecture.",
+            call_to_action="Get The Compression System: fmframeworks.gumroad.com/l/CompressionSystem",
             theme="sovereign",
             visual_search_queries=[
-                "cyberpunk dark terminal",
-                "abstract glowing grid loop",
-                "futuristic dark server infrastructure"
+                "digital product architecture matrix",
+                "cyberpunk terminal glowing code",
+                "minimalist dark financial grid"
             ]
         )
