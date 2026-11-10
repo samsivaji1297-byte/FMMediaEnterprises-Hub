@@ -1,173 +1,45 @@
+import os
 import json
 from pathlib import Path
-from config import get_client, get_groq_client, call_with_fallback
-from google.genai import types
-from AgentNetwork.core.schemas import SignalPayload, ScriptPayload
-
-# Anchor repo root
-REPO_ROOT = Path(__file__).resolve().parent.parent.parent
-
-
-def _load_virality_dossier() -> str:
-    """Loads virality guidelines from vault/virality_dossier.md if available."""
-    dossier_path = REPO_ROOT / "vault" / "virality_dossier.md"
-    if dossier_path.exists():
-        try:
-            return dossier_path.read_text(encoding="utf-8").strip()
-        except Exception as e:
-            print(f"[!] Could not read virality dossier in writer.py: {e}")
-    return ""
-
-
-def _enforce_direct_response_cta(data: dict, keyword: str = "OPERATOR") -> dict:
-    """Guarantees that both the voiceover script and the CTA explicitly contain the conversion keyword."""
-    cta_text = data.get("call_to_action", "").strip()
-    voiceover = data.get("voiceover_script", "").strip()
-
-    keyword_trigger = f"Comment '{keyword}' below to get access."
-
-    # Enforce keyword in CTA overlay text
-    if not cta_text or keyword.lower() not in cta_text.lower():
-        data["call_to_action"] = f"Comment '{keyword}' below to unlock the system."
-
-    # Enforce keyword spoken in the voiceover script for audio synthesis
-    if keyword.lower() not in voiceover.lower():
-        if voiceover and not voiceover.endswith((".", "!", "?")):
-            voiceover += "."
-        data["voiceover_script"] = f"{voiceover} {keyword_trigger}".strip()
-
-    return data
-
+from AgentNetwork.core.schemas import ScriptPayload, SignalPayload
 
 class ScriptEngineAgent:
     def __init__(self):
-        self.gemini_client = get_client()
+        self.gemini_api_key = os.getenv("GEMINI_API_KEY")
 
     def generate_script(self, signal: SignalPayload) -> ScriptPayload:
-        dossier_context = _load_virality_dossier()
-        dossier_prompt = (
-            f"\nVIRALITY & HOOK FRAMEWORKS TO ENFORCE:\n{dossier_context}\n"
-            if dossier_context
-            else ""
-        )
+        print(f"[*] Generating high-friction conversion script for signal: {signal.signal_id}")
 
-        prompt = f"""
-You are a Master Short-Form Video Scriptwriter for Instagram Reels and YouTube Shorts.
-Convert this friction signal into a high-retention, fast-paced 15-20 second video script optimized for DIRECT-RESPONSE CONVERSIONS.
+        pain = signal.universal_pain_point or "wasting 20 hours weekly on manual labor"
 
-SIGNAL DATA:
-- Universal Pain Point: {signal.universal_pain_point}
-- Search Query Intent: {signal.search_query}
-- Initial Hook Seed: {signal.target_hook}
-- Actionable Takeaway: {signal.actionable_takeaway}
-- Content Pillar: {signal.content_pillar}
-{dossier_prompt}
-RETENTION & CONVERSION RULES:
-1. HOOK (0-3s): Punchy, provocative, or pattern-breaking. Max 10 words.
-2. VOICEOVER: Spoken script. No intro greetings. Start immediately with the core problem. Max 55 words total.
-   CRITICAL: The voiceover MUST end with an explicit spoken directive: "Comment 'OPERATOR' below to get the access link."
-3. VISUAL BULLETS: 2-3 short text overlays to display during the body.
-4. CALL TO ACTION: Single high-intent command instructing viewers to comment 'OPERATOR'.
-5. THEME: Select one of ['sovereign', 'ambient', 'kinetic'].
+        # Direct-response hooks designed to disrupt scrolling instantly
+        aggressive_hooks = [
+            f"You are burning 20 hours a week doing manual work.",
+            f"Stop trading manual hours for broken scale.",
+            f"Manual execution is killing your business leverage.",
+            f"If your business relies on manual tasks, it is broken."
+        ]
+        
+        import random
+        selected_hook = random.choice(aggressive_hooks)
 
-Return JSON matching this schema:
-{{
-    "title": "str",
-    "hook_text": "str",
-    "voiceover_script": "str",
-    "body_points": ["str", "str"],
-    "call_to_action": "str",
-    "theme": "sovereign|ambient|kinetic",
-    "visual_search_queries": ["str", "str"]
-}}
-"""
-
-        # 1. Gemini API Builder
-        def gemini_api_func_builder(model_name: str):
-            def execute():
-                res = self.gemini_client.models.generate_content(
-                    model=model_name,
-                    contents=prompt,
-                    config=types.GenerateContentConfig(
-                        response_mime_type="application/json"
-                    ),
-                )
-                return res.text
-            return execute
-
-        # 2. Groq API Builder (using official Groq client & JSON object mode)
-        def groq_api_func_builder(model_name: str):
-            def execute():
-                groq_client = get_groq_client()
-                res = groq_client.chat.completions.create(
-                    model=model_name,
-                    messages=[{"role": "user", "content": prompt}],
-                    response_format={"type": "json_object"},
-                    temperature=0.7
-                )
-                return res.choices[0].message.content
-            return execute
-
-        raw_json = ""
-        try:
-            # Pass both builders to match config.py's expected signature
-            raw_json = call_with_fallback(gemini_api_func_builder, groq_api_func_builder)
-            if raw_json:
-                data = json.loads(raw_json)
-
-                # Post-process to ensure CTA keyword is spoken and displayed
-                data = _enforce_direct_response_cta(data, keyword="OPERATOR")
-
-                return ScriptPayload(
-                    title=data.get("title", "relentless_execution"),
-                    hook_text=data.get(
-                        "hook_text",
-                        f"Stop wasting hours on {signal.universal_pain_point}.",
-                    ),
-                    voiceover_script=data.get("voiceover_script"),
-                    body_points=data.get(
-                        "body_points",
-                        [
-                            "Identify manual bottleneck",
-                            "Deploy automated trigger",
-                        ],
-                    ),
-                    call_to_action=data.get("call_to_action"),
-                    theme=data.get("theme", "kinetic"),
-                    visual_search_queries=data.get(
-                        "visual_search_queries",
-                        ["technology server core", "dark code matrix"],
-                    ),
-                )
-        except Exception as e:
-            print(f"[!] ScriptEngineAgent parsing / execution error: {e}")
-
-        # Safe Direct-Response Fallback ScriptPayload
-        fallback_data = {
-            "title": "relentless_execution",
-            "hook_text": f"Stop wasting hours on {signal.universal_pain_point}.",
-            "voiceover_script": f"Manual processes are operational leaks. Eliminate {signal.universal_pain_point} and scale execution.",
-            "body_points": [
-                "Isolate manual toil",
-                "Execute automated flow",
-            ],
-            "call_to_action": "Comment 'OPERATOR' below to deploy the framework.",
-            "theme": "kinetic",
-            "visual_search_queries": [
-                "dark tech network",
-                "cyberpunk code terminal",
-            ],
-        }
-        fallback_data = _enforce_direct_response_cta(
-            fallback_data, keyword="OPERATOR"
+        voiceover = (
+            f"{selected_hook} Most operators stay trapped in low-leverage execution. "
+            f"High-yield systems deploy automated infrastructure to route leads, execute delivery, "
+            f"and scale without human bottlenecks. Reclaim sovereign control over your time. "
+            f"Comment OPERATOR below to deploy the full system."
         )
 
         return ScriptPayload(
-            title=fallback_data["title"],
-            hook_text=fallback_data["hook_text"],
-            voiceover_script=fallback_data["voiceover_script"],
-            body_points=fallback_data["body_points"],
-            call_to_action=fallback_data["call_to_action"],
-            theme=fallback_data["theme"],
-            visual_search_queries=fallback_data["visual_search_queries"],
+            script_id=f"script_{signal.signal_id}",
+            title="Automate Business Operations",
+            hook_text=selected_hook,
+            voiceover_script=voiceover,
+            call_to_action="Comment OPERATOR to deploy the automated architecture.",
+            theme="sovereign",
+            visual_search_queries=[
+                "cyberpunk dark terminal",
+                "abstract glowing grid loop",
+                "futuristic dark server infrastructure"
+            ]
         )
