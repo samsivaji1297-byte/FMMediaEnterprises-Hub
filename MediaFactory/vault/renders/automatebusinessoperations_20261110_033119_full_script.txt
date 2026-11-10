@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261110_033119
+Topic: how to automate business
+Title: Automate Business Operations
+Hook: Stop trading manual hours for broken scale.
+Voiceover Script: Stop trading manual hours for broken scale. Most operators stay trapped in low-leverage execution. High-yield systems deploy automated infrastructure to route leads, execute delivery, and scale without human bottlenecks. Reclaim sovereign control over your time. Comment OPERATOR below to deploy the full system.
+Call to Action: Comment OPERATOR to deploy the automated architecture.
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: Stop trading manual hours for broken scale.
+  Visual Prompt: cyberpunk dark terminal
+
+Scene 2:
+  Text: Stop trading manual hours for broken scale. Most operators stay trapped in low-leverage execution. High-yield systems deploy automated infrastructure to route leads, execute delivery, and scale without human bottlenecks. Reclaim sovereign control over your time. Comment OPERATOR below to deploy the full system.
+  Visual Prompt: abstract glowing grid loop
+
+Scene 3:
+  Text: Comment OPERATOR to deploy the automated architecture.
+  Visual Prompt: obsidian dashboard gold highlights
+
