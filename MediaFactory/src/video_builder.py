@@ -29,7 +29,7 @@ from moviepy import (
 
 
 def _crop_and_center_video(clip: VideoFileClip, target_w: int, target_h: int) -> VideoFileClip:
-    """Crops a landscape or arbitrary clip to center 9:16 vertical before resizing."""
+    """Crops landscape or arbitrary footage into a clean 9:16 vertical stream before resizing."""
     orig_w, orig_h = clip.size
     target_aspect = target_w / target_h
     orig_aspect = orig_w / orig_h
@@ -56,119 +56,127 @@ def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
         hex_str = hex_str.lstrip('#')
         if len(hex_str) == 6:
             return tuple(int(hex_str[i:i+2], 16) for i in (0, 2, 4))
-    return (10, 15, 29)
+    return (0, 229, 255)  # Cyan default accent
 
 
-def _generate_ui_card_image(
+def _generate_vignette_mask(canvas_w: int = CANVAS_WIDTH, canvas_h: int = CANVAS_HEIGHT) -> Image.Image:
+    """
+    Renders a solid RGBA gradient overlay (top/bottom dark vignette)
+    to guarantee readability without obscuring full-screen motion footage.
+    """
+    mask = Image.new("RGBA", (canvas_w, canvas_h), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(mask)
+
+    # Top dark gradient bar (for metadata badge readability)
+    for y in range(0, 350):
+        alpha = int(210 * (1 - (y / 350)))
+        draw.line([(0, y), (canvas_w, y)], fill=(5, 8, 15, alpha))
+
+    # Bottom dark gradient bar (for caption focus)
+    for y in range(canvas_h - 600, canvas_h):
+        progress = (y - (canvas_h - 600)) / 600
+        alpha = int(230 * progress)
+        draw.line([(0, y), (canvas_w, y)], fill=(5, 8, 15, alpha))
+
+    return mask
+
+
+def _generate_kinetic_text_overlay(
     chunk_text: str,
     theme_config: dict,
     font_path: str,
+    scene_type: str = "HOOK",
     canvas_w: int = CANVAS_WIDTH,
     canvas_h: int = CANVAS_HEIGHT,
 ) -> str:
     """
-    Renders a high-end UI Terminal Card onto a solid RGB background canvas 
-    with zero alpha channel usage, ensuring 100% reliable Instagram rendering.
+    Renders a borderless RGBA kinetic typography overlay directly onto 
+    full-screen motion video. Uses neon keyword pops, top pill HUDs, and clean shadows.
     """
-    print(f"[✓] EXECUTING ELITE PIL UI CARD ENGINE FOR CHUNK: '{chunk_text[:30]}...'")
+    img = Image.new("RGBA", (canvas_w, canvas_h), (0, 0, 0, 0))
     
-    bg_hex = theme_config.get("bg", "#0A0F1D")
-    bg_rgb = _hex_to_rgb(bg_hex)
+    # 1. Apply smooth dark vignette to base alpha layer
+    vignette = _generate_vignette_mask(canvas_w, canvas_h)
+    img.alpha_composite(vignette)
 
-    # Solid RGB base canvas
-    img = Image.new("RGB", (canvas_w, canvas_h), bg_rgb)
     draw = ImageDraw.Draw(img)
+    accent_rgb = _hex_to_rgb(theme_config.get("accent", "#00E5FF"))
 
-    # Subtle ambient background grid lines
-    grid_color = (max(0, bg_rgb[0] + 12), max(0, bg_rgb[1] + 12), max(0, bg_rgb[2] + 16))
-    for x_line in range(0, canvas_w, 80):
-        draw.line([(x_line, 0), (x_line, canvas_h)], fill=grid_color, width=1)
-    for y_line in range(0, canvas_h, 80):
-        draw.line([(0, y_line), (canvas_w, y_line)], fill=grid_color, width=1)
+    # 2. Draw Top HUD / Metadata Pill (Non-intrusive top anchor)
+    pill_text = f"■ SYSTEM // {scene_type}"
+    try:
+        font_pill = ImageFont.truetype(font_path, 26)
+    except Exception:
+        font_pill = ImageFont.load_default()
 
-    # Card dimensions & positioning (Centered in 9:16)
-    card_w = 980
-    card_h = 760
-    card_x = (canvas_w - card_w) // 2
-    card_y = (canvas_h - card_h) // 2 + 80
-    radius = 32
+    pill_x = 80
+    pill_y = 120
+    pill_w = 420
+    pill_h = 56
 
-    accent_hex = theme_config.get("accent", "#00E5FF")
-    accent_rgb = _hex_to_rgb(accent_hex)
-
-    # 1. Draw Frosted Card Background (Rich Dark Slate Fill)
     draw.rounded_rectangle(
-        [card_x, card_y, card_x + card_w, card_y + card_h],
-        radius=radius,
-        fill=(14, 18, 28),
-        outline=(50, 60, 80),
-        width=3
-    )
-
-    # 2. Draw Accent Outer Glow Frame
-    draw.rounded_rectangle(
-        [card_x, card_y, card_x + card_w, card_y + card_h],
-        radius=radius,
+        [pill_x, pill_y, pill_x + pill_w, pill_y + pill_h],
+        radius=28,
+        fill=(8, 12, 22, 200),
         outline=accent_rgb,
         width=2
     )
+    draw.text((pill_x + 30, pill_y + 12), pill_text, fill=accent_rgb, font=font_pill)
 
-    # 3. Draw Top System Pill Badge
-    badge_text = "■ WAR ROOM INTEL // LIVE EXECUTION"
+    # 3. Render High-Impact Kinetic Typography (Centered 9:16 layout)
     try:
-        font_badge = ImageFont.truetype(font_path, 22)
-    except Exception:
-        font_badge = ImageFont.load_default()
-
-    badge_w = 460
-    badge_h = 48
-    badge_x = card_x + 60
-    badge_y = card_y + 50
-
-    draw.rounded_rectangle(
-        [badge_x, badge_y, badge_x + badge_w, badge_y + badge_h],
-        radius=24,
-        fill=(accent_rgb[0]//4, accent_rgb[1]//4, accent_rgb[2]//4),
-        outline=accent_rgb,
-        width=1
-    )
-    draw.text(
-        (badge_x + 25, badge_y + 12),
-        badge_text,
-        fill=accent_rgb,
-        font=font_badge
-    )
-
-    # 4. Wrap and Render Main Caption Text
-    try:
-        font_main = ImageFont.truetype(font_path, 50)
+        font_main = ImageFont.truetype(font_path, 68)
     except Exception:
         font_main = ImageFont.load_default()
 
     cleaned_text = chunk_text.upper().strip()
-    wrapped_lines = textwrap.wrap(cleaned_text, width=20)
-    
-    text_y = badge_y + 90
+    words = cleaned_text.split()
+    wrapped_lines = textwrap.wrap(cleaned_text, width=14)
 
+    # Center text vertically in the prime viewing zone
+    total_text_height = len(wrapped_lines) * 92
+    text_start_y = (canvas_h - total_text_height) // 2 + 100
+
+    current_y = text_start_y
     for line in wrapped_lines:
-        draw.text((card_x + 62, text_y + 2), line, fill=(0, 0, 0), font=font_main)
-        draw.text((card_x + 60, text_y), line, fill=(255, 255, 255), font=font_main)
-        text_y += 72
+        line_words = line.split()
+        
+        # Calculate line width for perfect center alignment
+        total_line_w = sum(draw.textlength(w + " ", font=font_main) for w in line_words)
+        start_x = (canvas_w - total_line_w) // 2
 
+        curr_x = start_x
+        for w in line_words:
+            word_str = w + " "
+            w_len = draw.textlength(word_str, font=font_main)
+
+            # Highlight key action/power words in theme neon accent
+            is_power_word = any(pw in w for pw in ["STOP", "RUNNING", "AUTOMATE", "MANUALLY", "OPERATIONS", "SYSTEMS", "SOVEREIGN", "DECK"])
+            word_color = accent_rgb if is_power_word else (255, 255, 255)
+
+            # Heavy drop shadow for instant legibility over active b-roll
+            draw.text((curr_x + 4, current_y + 4), word_str, fill=(0, 0, 0, 240), font=font_main)
+            draw.text((curr_x, current_y), word_str, fill=word_color + (255,), font=font_main)
+
+            curr_x += w_len
+
+        current_y += 92
+
+    # Save temporary alpha overlay frame
     os.makedirs("MediaFactory/vault/temp", exist_ok=True)
-    temp_img_path = f"MediaFactory/vault/temp/card_{abs(hash(chunk_text))}.png"
+    temp_img_path = f"MediaFactory/vault/temp/kinetic_{abs(hash(chunk_text))}.png"
     img.save(temp_img_path, "PNG")
     return temp_img_path
 
 
-def _process_micro_chunks(text: str, max_words_per_chunk: int = 6) -> list[str]:
+def _process_micro_chunks(text: str, max_words_per_chunk: int = 5) -> list[str]:
+    """Splits full scripts into punchy, rapid-fire text cards for high retention."""
     words = text.split()
     if not words:
         return [text]
     chunks = []
     for i in range(0, len(words), max_words_per_chunk):
-        chunk = " ".join(words[i:i + max_words_per_chunk])
-        chunks.append(chunk)
+        chunks.append(" ".join(words[i:i + max_words_per_chunk]))
     return chunks if chunks else [text]
 
 
@@ -178,7 +186,7 @@ def build_video(
     theme: str = "sovereign",
     output_path: str = "final_reel.mp4",
 ):
-    print("[+] Initializing Elite Solid-State Video Builder Engine...")
+    print("[+] Initializing Kinetic Motion Video Builder Engine...")
     font_path = resolve_font_path()
 
     active_theme = script_data.get("theme", theme)
@@ -193,11 +201,11 @@ def build_video(
     if not raw_voiceover:
         raw_voiceover = script_data.get("title", "EXECUTE")
 
-    text_chunks = _process_micro_chunks(raw_voiceover, max_words_per_chunk=6)
+    text_chunks = _process_micro_chunks(raw_voiceover, max_words_per_chunk=5)
     chunk_count = len(text_chunks)
     chunk_duration = total_duration / max(chunk_count, 1)
 
-    visual_queries = script_data.get("visual_search_queries") or ["dark aesthetic"]
+    visual_queries = script_data.get("visual_search_queries") or ["dark abstract motion", "cyberpunk code terminal", "futuristic server room"]
     scene_clips = []
     temp_image_files = []
 
@@ -205,9 +213,11 @@ def build_video(
         q_idx = min(int((chunk_idx / chunk_count) * len(visual_queries)), len(visual_queries) - 1)
         search_query = str(visual_queries[q_idx]).lower()
 
+        # Fetch vertical motion b-roll clip
         bg_video_path = fetch_background_video(search_query, chunk_idx, chunk_duration)
         safe_bg_color = _hex_to_rgb(theme_config.get("bg", "#0A0F1D"))
 
+        # Base Video Layer
         bg_clip = None
         if bg_video_path and os.path.exists(bg_video_path):
             try:
@@ -222,7 +232,7 @@ def build_video(
 
                 bg_clip = _crop_and_center_video(raw_bg, CANVAS_WIDTH, CANVAS_HEIGHT)
             except Exception as e:
-                print(f"[!] Background video error for chunk {chunk_idx+1}: {e}. Falling back to solid color.")
+                print(f"[!] Background video error for chunk {chunk_idx+1}: {e}. Falling back to dark canvas.")
 
         if bg_clip is None:
             bg_clip = ColorClip(
@@ -231,14 +241,22 @@ def build_video(
                 duration=chunk_duration,
             )
 
-        # Generate pre-composited Solid UI Card Graphic via PIL
-        card_img_path = _generate_ui_card_image(chunk, theme_config, font_path)
-        temp_image_files.append(card_img_path)
+        # Scene Tagging for HUD
+        if chunk_idx == 0:
+            scene_type = "DISRUPTION HOOK"
+        elif chunk_idx == chunk_count - 1:
+            scene_type = "DIRECTIVE CTA"
+        else:
+            scene_type = f"CORE PROTOCOL 0{chunk_idx}"
 
-        card_clip = ImageClip(card_img_path).with_duration(chunk_duration)
+        # Generate Transparent Kinetic Typography Overlay
+        overlay_path = _generate_kinetic_text_overlay(chunk, theme_config, font_path, scene_type=scene_type)
+        temp_image_files.append(overlay_path)
+
+        overlay_clip = ImageClip(overlay_path).with_duration(chunk_duration)
         
-        # Composite chunk directly without faulty opacity wrappers
-        chunk_composite = CompositeVideoClip([bg_clip, card_clip]).with_duration(chunk_duration)
+        # Composite text directly OVER live full-screen video
+        chunk_composite = CompositeVideoClip([bg_clip, overlay_clip]).with_duration(chunk_duration)
         scene_clips.append(chunk_composite)
 
     if not scene_clips:
@@ -264,6 +282,7 @@ def build_video(
         logger=None,
     )
 
+    # Cleanup temp frame overlays
     for img_path in temp_image_files:
         try:
             if os.path.exists(img_path):
@@ -271,5 +290,5 @@ def build_video(
         except Exception:
             pass
 
-    print(f"[+] [{active_theme.upper()}] Bulletproof Terminal UI Card Reel successfully compiled -> {target_output}")
+    print(f"[+] [{active_theme.upper()}] Kinetic Typography Reel successfully compiled -> {target_output}")
     return target_output
