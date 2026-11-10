@@ -26,7 +26,6 @@ class InstagramPublisher:
             print(f"[!] Renders directory missing at {RENDERS_DIR}")
             return
 
-        # Find all mp4 files in MediaFactory/vault/renders/
         video_files = list(RENDERS_DIR.glob("*.mp4"))
         if not video_files:
             print("[!] No pending reels found in vault/renders/ directory.")
@@ -40,7 +39,6 @@ class InstagramPublisher:
             except Exception:
                 published_log = []
 
-        # Build a set of filenames that have already been SUCCESSFULLY published
         already_published = {
             item.get("filename") 
             for item in published_log 
@@ -50,11 +48,9 @@ class InstagramPublisher:
         for video_path in video_files:
             filename = video_path.name
             
-            # If the filename collides with a previously logged entry, generate a clean, non-bloated variant
             if filename in already_published:
                 print(f"[!] Warning: '{filename}' already marked as published. Regenerating unique asset signature...")
                 
-                # Strip out historical numeric chunks/timestamps to isolate the clean core slug
                 stem = video_path.stem
                 parts = stem.split("_")
                 clean_parts = [p for p in parts if not (p.isdigit() or (len(p) in {4, 8, 10, 12, 16} and p.isalnum()))]
@@ -62,26 +58,20 @@ class InstagramPublisher:
                 if not clean_parts:
                     clean_parts = parts[:2] if len(parts) >= 2 else ["reel"]
 
-                # Keep slug compact (max 30 chars)
                 short_slug = "_".join(clean_parts)[:30].strip("_")
                 if not short_slug:
                     short_slug = "execution_reel"
 
-                # Timestamp first and foremost + short cryptographic suffix
                 timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
                 short_hash = uuid.uuid4().hex[:4]
                 new_stem = f"{timestamp_str}_{short_slug}_{short_hash}"
 
                 new_video_path = video_path.with_name(f"{new_stem}.mp4")
-                
-                # Rename the mp4 file safely
                 video_path.rename(new_video_path)
                 
-                # Rename associated .txt caption file if present
                 txt_path = video_path.with_suffix(".txt")
                 if txt_path.exists():
-                    new_txt_path = txt_path.with_name(f"{new_stem}.txt")
-                    txt_path.rename(new_txt_path)
+                    txt_path.rename(txt_path.with_name(f"{new_stem}.txt"))
                 
                 video_path = new_video_path
                 filename = video_path.name
@@ -92,7 +82,6 @@ class InstagramPublisher:
             if txt_path.exists():
                 caption = txt_path.read_text(encoding="utf-8")
 
-            # CDN URL where GitHub Actions pushed the rendered video asset
             video_url = f"https://raw.githubusercontent.com/{self.repo}/main/MediaFactory/vault/renders/{filename}"
             print(f"[*] Processing Reel: {filename}")
             print(f"[*] CDN Target URL: {video_url}")
@@ -105,6 +94,11 @@ class InstagramPublisher:
                     "published_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
                     "status": "MOCK_PUBLISHED"
                 })
+                continue
+
+            # Verify CDN URL availability before submitting to Meta
+            if not self._verify_cdn_url(video_url):
+                print(f"[!] CDN URL not yet reachable. Skipping container creation for this cycle.")
                 continue
 
             # Meta Graph API Container Creation & Publishing Sequence
@@ -120,10 +114,23 @@ class InstagramPublisher:
                         "status": "PUBLISHED"
                     })
 
-        # Sync published history back to vault
         PUBLISHED_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(PUBLISHED_FILE, "w", encoding="utf-8") as f:
             json.dump(published_log, f, indent=4)
+
+    def _verify_cdn_url(self, url: str, max_retries: int = 5, delay: int = 4) -> bool:
+        """Verifies that the raw GitHub CDN URL is live and accessible."""
+        for attempt in range(1, max_retries + 1):
+            try:
+                res = requests.head(url, timeout=10)
+                if res.status_code == 200:
+                    print(f"[✓] CDN URL verified live (Attempt {attempt})")
+                    return True
+                print(f"[*] CDN returned status {res.status_code}. Waiting for propagation ({attempt}/{max_retries})...")
+            except Exception as e:
+                print(f"[*] CDN check exception: {e}. Retrying ({attempt}/{max_retries})...")
+            time.sleep(delay)
+        return False
 
     def _create_container(self, video_url, caption):
         url = f"{self.base_url}/{self.user_id}/media"
@@ -133,23 +140,32 @@ class InstagramPublisher:
             "caption": caption,
             "access_token": self.access_token
         }
-        res = requests.post(url, data=payload, timeout=15)
-        data = res.json()
-        if "error" in data:
-            print(f"[!] Container Creation Error: {data['error'].get('message')}")
-        return data.get("id")
+        try:
+            res = requests.post(url, data=payload, timeout=20)
+            data = res.json()
+            if "error" in data:
+                print(f"[!] Container Creation Error: {data['error'].get('message')}")
+                return None
+            return data.get("id")
+        except Exception as e:
+            print(f"[!] Container creation request failed: {e}")
+            return None
 
-    def _wait_for_container(self, container_id, max_attempts=12):
+    def _wait_for_container(self, container_id, max_attempts=15):
         url = f"{self.base_url}/{container_id}?fields=status_code&access_token={self.access_token}"
         for _ in range(max_attempts):
-            res = requests.get(url, timeout=10).json()
-            status = res.get("status_code")
-            if status == "FINISHED":
-                return True
-            elif status == "ERROR":
-                print(f"[!] Meta processing failed for container {container_id}")
-                return False
-            time.sleep(5)
+            try:
+                res = requests.get(url, timeout=10).json()
+                status = res.get("status_code")
+                if status == "FINISHED":
+                    return True
+                elif status == "ERROR":
+                    print(f"[!] Meta processing failed for container {container_id}")
+                    return False
+            except Exception:
+                pass
+            time.sleep(6)
+        print(f"[!] Container processing timed out for {container_id}")
         return False
 
     def _publish_container(self, container_id):
@@ -158,11 +174,16 @@ class InstagramPublisher:
             "creation_id": container_id,
             "access_token": self.access_token
         }
-        res = requests.post(url, data=payload, timeout=15)
-        data = res.json()
-        if "error" in data:
-            print(f"[!] Publish Container Error: {data['error'].get('message')}")
-        return data.get("id")
+        try:
+            res = requests.post(url, data=payload, timeout=20)
+            data = res.json()
+            if "error" in data:
+                print(f"[!] Publish Container Error: {data['error'].get('message')}")
+                return None
+            return data.get("id")
+        except Exception as e:
+            print(f"[!] Publish container request failed: {e}")
+            return None
 
 if __name__ == "__main__":
     publisher = InstagramPublisher()
