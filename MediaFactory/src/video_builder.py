@@ -56,7 +56,7 @@ def _hex_to_rgb(hex_str: str) -> tuple[int, int, int]:
         hex_str = hex_str.lstrip('#')
         if len(hex_str) == 6:
             return tuple(int(hex_str[i:i+2], 16) for i in (0, 2, 4))
-    return (10, 15, 29)  # Fallback sovereign dark obsidian RGB
+    return (10, 15, 29)
 
 
 def _generate_ui_card_image(
@@ -68,20 +68,19 @@ def _generate_ui_card_image(
 ) -> str:
     """
     Renders a high-end UI Terminal Card onto a solid RGB background canvas 
-    eliminating all transparency/alpha encoding bugs on Instagram.
+    with zero alpha channel usage, ensuring 100% reliable Instagram rendering.
     """
     print(f"[✓] EXECUTING ELITE PIL UI CARD ENGINE FOR CHUNK: '{chunk_text[:30]}...'")
     
-    # Resolve background color safely as RGB tuple
     bg_hex = theme_config.get("bg", "#0A0F1D")
     bg_rgb = _hex_to_rgb(bg_hex)
 
-    # Create solid RGB base canvas (Guarantees zero transparency encoding failures)
+    # Solid RGB base canvas
     img = Image.new("RGB", (canvas_w, canvas_h), bg_rgb)
     draw = ImageDraw.Draw(img)
 
-    # Draw subtle ambient background grid / gradient lines for high-end aesthetic
-    grid_color = (bg_rgb[0] + 15, bg_rgb[1] + 15, bg_rgb[2] + 20)
+    # Subtle ambient background grid lines
+    grid_color = (max(0, bg_rgb[0] + 12), max(0, bg_rgb[1] + 12), max(0, bg_rgb[2] + 16))
     for x_line in range(0, canvas_w, 80):
         draw.line([(x_line, 0), (x_line, canvas_h)], fill=grid_color, width=1)
     for y_line in range(0, canvas_h, 80):
@@ -94,16 +93,15 @@ def _generate_ui_card_image(
     card_y = (canvas_h - card_h) // 2 + 80
     radius = 32
 
-    # Parse theme color tokens
     accent_hex = theme_config.get("accent", "#00E5FF")
     accent_rgb = _hex_to_rgb(accent_hex)
 
-    # 1. Draw Frosted Glassmorphic Card Background (Deep Obsidian Opaque)
+    # 1. Draw Frosted Card Background (Rich Dark Slate Fill)
     draw.rounded_rectangle(
         [card_x, card_y, card_x + card_w, card_y + card_h],
         radius=radius,
-        fill=(14, 18, 28),         # Solid rich dark slate fill (Zero alpha)
-        outline=(50, 60, 80),      # Structural inner edge
+        fill=(14, 18, 28),
+        outline=(50, 60, 80),
         width=3
     )
 
@@ -111,7 +109,7 @@ def _generate_ui_card_image(
     draw.rounded_rectangle(
         [card_x, card_y, card_x + card_w, card_y + card_h],
         radius=radius,
-        outline=accent_rgb,        # Theme neon border
+        outline=accent_rgb,
         width=2
     )
 
@@ -141,7 +139,7 @@ def _generate_ui_card_image(
         font=font_badge
     )
 
-    # 4. Wrap and Render Main Caption Text with High Legibility
+    # 4. Wrap and Render Main Caption Text
     try:
         font_main = ImageFont.truetype(font_path, 50)
     except Exception:
@@ -153,12 +151,10 @@ def _generate_ui_card_image(
     text_y = badge_y + 90
 
     for line in wrapped_lines:
-        # Subtle drop shadow for crisp readability over any background
         draw.text((card_x + 62, text_y + 2), line, fill=(0, 0, 0), font=font_main)
         draw.text((card_x + 60, text_y), line, fill=(255, 255, 255), font=font_main)
         text_y += 72
 
-    # 5. Save temporary frame asset
     os.makedirs("MediaFactory/vault/temp", exist_ok=True)
     temp_img_path = f"MediaFactory/vault/temp/card_{abs(hash(chunk_text))}.png"
     img.save(temp_img_path, "PNG")
@@ -166,7 +162,6 @@ def _generate_ui_card_image(
 
 
 def _process_micro_chunks(text: str, max_words_per_chunk: int = 6) -> list[str]:
-    """Splits heavy text blocks into fast-paced micro-captions."""
     words = text.split()
     if not words:
         return [text]
@@ -213,7 +208,6 @@ def build_video(
         bg_video_path = fetch_background_video(search_query, chunk_idx, chunk_duration)
         safe_bg_color = _hex_to_rgb(theme_config.get("bg", "#0A0F1D"))
 
-        # Background Layer with Bulletproof Fallback
         bg_clip = None
         if bg_video_path and os.path.exists(bg_video_path):
             try:
@@ -237,22 +231,14 @@ def build_video(
                 duration=chunk_duration,
             )
 
-        # Contrast mask overlay (Safely applied without transparency glitches)
-        dark_overlay = ColorClip(
-            size=(CANVAS_WIDTH, CANVAS_HEIGHT),
-            color=(0, 0, 0),
-            duration=chunk_duration,
-        ).with_opacity(float(theme_config.get("mask_opacity", 0.65)))
-
         # Generate pre-composited Solid UI Card Graphic via PIL
         card_img_path = _generate_ui_card_image(chunk, theme_config, font_path)
         temp_image_files.append(card_img_path)
 
-        # Load as a pure RGB ImageClip (No alpha channel vulnerability)
         card_clip = ImageClip(card_img_path).with_duration(chunk_duration)
         
-        # Composite chunk
-        chunk_composite = CompositeVideoClip([bg_clip, dark_overlay, card_clip]).with_duration(chunk_duration)
+        # Composite chunk directly without faulty opacity wrappers
+        chunk_composite = CompositeVideoClip([bg_clip, card_clip]).with_duration(chunk_duration)
         scene_clips.append(chunk_composite)
 
     if not scene_clips:
@@ -278,7 +264,6 @@ def build_video(
         logger=None,
     )
 
-    # Cleanup temp card images
     for img_path in temp_image_files:
         try:
             if os.path.exists(img_path):
