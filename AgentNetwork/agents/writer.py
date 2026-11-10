@@ -12,7 +12,6 @@ class ScriptEngineAgent:
 
         pain = signal.universal_pain_point or "wasting 20 hours weekly on manual labor"
 
-        # Direct-response hooks designed to disrupt scrolling instantly
         aggressive_hooks = [
             f"You are burning 20 hours a week doing manual work.",
             f"Stop trading manual hours for broken scale.",
@@ -34,6 +33,11 @@ class ScriptEngineAgent:
             script_id=f"script_{signal.signal_id}",
             title="Automate Business Operations",
             hook_text=selected_hook,
+            body_points=[
+                "Deploy automated workflows",
+                "Eliminate manual bottlenecks",
+                "Scale sovereign infrastructure"
+            ],
             voiceover_script=voiceover,
             call_to_action="Comment OPERATOR to deploy the automated architecture.",
             theme="sovereign",
