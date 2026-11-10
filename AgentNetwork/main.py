@@ -5,7 +5,6 @@ import argparse
 from pathlib import Path
 from datetime import datetime
 
-# Anchor repo root to sys.path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
@@ -20,7 +19,6 @@ from AgentNetwork.agents.analytics_agent import InstagramAnalyticsAgent
 from AgentNetwork.agents.sales_agent import SalesDMOperator
 
 def generate_voiceover_failsafe(text: str, output_path: str):
-    """Generates TTS audio with zero dependency on local sub-modules."""
     try:
         from MediaFactory.src import tts
         if hasattr(tts, "generate_voiceover"):
@@ -43,18 +41,15 @@ def generate_voiceover_failsafe(text: str, output_path: str):
 
 def run_war_room_pipeline():
     print("\n=======================================================")
-    print("      DIGITAL WAR ROOM // FULL FLEET EXECUTION         ")
+    print("    DIGITAL WAR ROOM // SINGLE REEL EXECUTION          ")
     print("=======================================================\n")
 
-    # 1. Grand Strategist: Evaluate War Map Fronts
     strategist = GrandStrategist()
     war_state = strategist.evaluate_strategy()
 
-    # 2. Revenue Enforcer: Check Daily Baseline
     enforcer = RevenueEnforcer(target_daily_conversions=1)
     enforce_status = enforcer.enforce()
 
-    # 3. Active Demand Intake (Directly targeting 'top_demand_angles' -> 'intent_phrase')
     demand_summary_path = REPO_ROOT / "vault" / "active_demand_summary.json"
     topic = None
 
@@ -74,7 +69,6 @@ def run_war_room_pipeline():
 
     print(f"[+] Selected Demand Execution Topic: '{topic}'")
 
-    # 4. Writer Engine via ScriptEngineAgent (Native JSON Enforcement)
     print("\n=== [WRITER ENGINE]: Generating Dynamic Script & Blueprint ===")
     
     if enforce_status.get("status") == "EMERGENCY_PIVOT":
@@ -96,7 +90,6 @@ def run_war_room_pipeline():
     writer_agent = ScriptEngineAgent()
     script_payload = writer_agent.generate_script(signal)
 
-    # Map ScriptPayload to dictionary blueprint structure required by video_builder
     blueprint = {
         "title": script_payload.title,
         "hook": script_payload.hook_text,
@@ -120,7 +113,6 @@ def run_war_room_pipeline():
         ]
     }
 
-    # 5. MediaFactory Vault Renders & Debug Dump
     print("\n=== [MEDIAFACTORY]: Generating Audio & Video Assets ===")
     
     title_raw = blueprint.get("title", "relentless_execution")
@@ -136,11 +128,9 @@ def run_war_room_pipeline():
     renders_dir.mkdir(parents=True, exist_ok=True)
     audio_dir.mkdir(parents=True, exist_ok=True)
 
-    # Write .txt Caption
     caption_text = blueprint.get("caption", f"{title.replace('_', ' ').title()}\n\n#execution #mindset #operator")
     (renders_dir / f"{title}.txt").write_text(caption_text, encoding="utf-8")
 
-    # Write Full Script Debug Dump TXT file
     script_debug_path = renders_dir / f"{title}_full_script.txt"
     debug_dump = f"""=== GENERATED SCRIPT DEBUG DUMP ===
 Timestamp: {timestamp}
@@ -159,7 +149,6 @@ Theme: {script_payload.theme}
     script_debug_path.write_text(debug_dump, encoding="utf-8")
     print(f"[✓] Full script debug dump saved to: {script_debug_path.name}")
 
-    # Audio & Video Generation
     full_voiceover_text = script_payload.voiceover_script
     audio_path = audio_dir / f"{title}_audio.mp3"
     
@@ -177,12 +166,10 @@ Theme: {script_payload.theme}
     except Exception as e:
         print(f"[!] Video Rendering failed: {e}")
 
-    # 6. Instagram Publisher: Dispatch Pending Reels to Instagram via Meta Graph API
-    print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING PENDING REELS ===")
+    print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING REEL ===")
     publisher = InstagramPublisher()
     publisher.publish_pending_reels()
 
-    # AUTO-ARCHIVE (Hardened against dictionary structures)
     archive_dir = renders_dir / "archived"
     archive_dir.mkdir(parents=True, exist_ok=True)
     published_tracker = REPO_ROOT / "vault" / "published_reels.json"
@@ -193,7 +180,7 @@ Theme: {script_payload.theme}
             if isinstance(published_data, dict):
                 published_files = set(published_data.keys())
             elif isinstance(published_data, list):
-                published_files = set(str(item) for item in published_data)
+                published_files = set(str(item.get("filename")) for item in published_data if isinstance(item, dict))
             else:
                 published_files = set()
             
@@ -210,11 +197,9 @@ Theme: {script_payload.theme}
         except Exception as e:
             print(f"[!] Archival Check Warning: {e}")
 
-    # 7. Instagram Analytics Agent: Scrape Performance & Train Intelligence Memory
     analytics_agent = InstagramAnalyticsAgent()
     analytics_agent.update_intelligence()
 
-    # 8. SalesDMOperator: Scans inbound post comments, dispatches conversion DMs, and feeds sales logs back to RevenueEnforcer
     print("\n[+] Triggering Direct-Response Sales & DM Operator...")
     sales_op = SalesDMOperator()
     sales_op.run_sales_sweep()
@@ -225,5 +210,5 @@ if __name__ == "__main__":
     parser.add_argument("--count", type=int, default=1)
     args = parser.parse_args()
 
-    for i in range(args.count):
-        run_war_room_pipeline()
+    # Strictly 1 execution pass, ignoring batch loops
+    run_war_room_pipeline()
