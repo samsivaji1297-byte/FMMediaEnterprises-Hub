@@ -10,8 +10,6 @@ class ScriptEngineAgent:
     def generate_script(self, signal: SignalPayload) -> ScriptPayload:
         print(f"[*] Generating high-friction conversion script for signal: {signal.signal_id}")
 
-        pain = signal.universal_pain_point or "wasting 20 hours weekly on manual labor"
-
         aggressive_hooks = [
             f"You are burning 20 hours a week doing manual work.",
             f"Stop trading manual hours for broken scale.",
@@ -31,7 +29,7 @@ class ScriptEngineAgent:
 
         return ScriptPayload(
             script_id=f"script_{signal.signal_id}",
-            title="Automate Business Operations",
+            title="Sovereign Infrastructure Execution",
             hook_text=selected_hook,
             body_points=[
                 "Deploy automated workflows",
