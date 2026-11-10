@@ -2,13 +2,11 @@ import os
 import json
 import requests
 import time
-import uuid
 from datetime import datetime
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent.parent
 RENDERS_DIR = REPO_ROOT / "MediaFactory" / "vault" / "renders"
-QUEUE_FILE = REPO_ROOT / "vault" / "queue.json"
 PUBLISHED_FILE = REPO_ROOT / "vault" / "published_reels.json"
 
 class InstagramPublisher:
@@ -20,16 +18,22 @@ class InstagramPublisher:
         self.base_url = f"https://graph.facebook.com/{self.api_version}"
 
     def publish_pending_reels(self):
-        print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING PENDING REELS ===")
+        print("\n=== [INSTAGRAM PUBLISHER]: DISPATCHING PENDING REEL (STRICT SINGLETON) ===")
         
         if not RENDERS_DIR.exists():
             print(f"[!] Renders directory missing at {RENDERS_DIR}")
             return
 
-        video_files = list(RENDERS_DIR.glob("*.mp4"))
+        # Find all MP4 renders in the directory, sorted by modification time (newest first)
+        video_files = sorted(RENDERS_DIR.glob("*.mp4"), key=lambda p: p.stat().st_mtime, reverse=True)
         if not video_files:
             print("[!] No pending reels found in vault/renders/ directory.")
             return
+
+        # STRICT SINGLETON ENFORCEMENT: Take ONLY the single newest render file
+        target_video_path = video_files[0]
+        filename = target_video_path.name
+        print(f"[*] Targeting newest singleton render file: {filename}")
 
         published_log = []
         if PUBLISHED_FILE.exists():
@@ -45,61 +49,32 @@ class InstagramPublisher:
             if isinstance(item, dict) and item.get("status") in ["PUBLISHED", "MOCK_PUBLISHED"]
         }
 
-        for video_path in video_files:
-            filename = video_path.name
-            
-            if filename in already_published:
-                print(f"[!] Warning: '{filename}' already marked as published. Regenerating unique asset signature...")
-                
-                stem = video_path.stem
-                parts = stem.split("_")
-                clean_parts = [p for p in parts if not (p.isdigit() or (len(p) in {4, 8, 10, 12, 16} and p.isalnum()))]
-                
-                if not clean_parts:
-                    clean_parts = parts[:2] if len(parts) >= 2 else ["reel"]
+        if filename in already_published:
+            print(f"[!] Warning: '{filename}' is already recorded as published. Skipping execution to prevent duplicate publishing.")
+            return
 
-                short_slug = "_".join(clean_parts)[:30].strip("_")
-                if not short_slug:
-                    short_slug = "execution_reel"
+        txt_path = target_video_path.with_suffix(".txt")
+        caption = ""
+        if txt_path.exists():
+            caption = txt_path.read_text(encoding="utf-8")
 
-                timestamp_str = datetime.now().strftime("%Y%m%d_%H%M%S")
-                short_hash = uuid.uuid4().hex[:4]
-                new_stem = f"{timestamp_str}_{short_slug}_{short_hash}"
+        video_url = f"https://raw.githubusercontent.com/{self.repo}/main/MediaFactory/vault/renders/{filename}"
+        print(f"[*] Processing Reel: {filename}")
+        print(f"[*] CDN Target URL: {video_url}")
 
-                new_video_path = video_path.with_name(f"{new_stem}.mp4")
-                video_path.rename(new_video_path)
-                
-                txt_path = video_path.with_suffix(".txt")
-                if txt_path.exists():
-                    txt_path.rename(txt_path.with_name(f"{new_stem}.txt"))
-                
-                video_path = new_video_path
-                filename = video_path.name
-                print(f"[✓] Renamed asset to: '{filename}'")
-
-            txt_path = video_path.with_suffix(".txt")
-            caption = ""
-            if txt_path.exists():
-                caption = txt_path.read_text(encoding="utf-8")
-
-            video_url = f"https://raw.githubusercontent.com/{self.repo}/main/MediaFactory/vault/renders/{filename}"
-            print(f"[*] Processing Reel: {filename}")
-            print(f"[*] CDN Target URL: {video_url}")
-
-            if not self.access_token or not self.user_id:
-                print("[!] IG_ACCESS_TOKEN or IG_USER_ID not configured. Running dry-run mode.")
-                published_log.append({
-                    "filename": filename,
-                    "media_id": f"mock_id_{filename}",
-                    "published_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
-                    "status": "MOCK_PUBLISHED"
-                })
-                continue
-
+        if not self.access_token or not self.user_id:
+            print("[!] IG_ACCESS_TOKEN or IG_USER_ID not configured. Running dry-run mode.")
+            published_log.append({
+                "filename": filename,
+                "media_id": f"mock_id_{filename}",
+                "published_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
+                "status": "MOCK_PUBLISHED"
+            })
+        else:
             # Verify CDN URL availability before submitting to Meta
             if not self._verify_cdn_url(video_url):
                 print(f"[!] CDN URL not yet reachable. Skipping container creation for this cycle.")
-                continue
+                return
 
             # Meta Graph API Container Creation & Publishing Sequence
             container_id = self._create_container(video_url, caption)
@@ -113,10 +88,17 @@ class InstagramPublisher:
                         "published_at": time.strftime("%Y-%m-%dT%H:%M:%SZ"),
                         "status": "PUBLISHED"
                     })
+                else:
+                    print("[!] Failed to publish container.")
+                    return
+            else:
+                print("[!] Container processing failed or timed out.")
+                return
 
         PUBLISHED_FILE.parent.mkdir(parents=True, exist_ok=True)
         with open(PUBLISHED_FILE, "w", encoding="utf-8") as f:
             json.dump(published_log, f, indent=4)
+        print(f"[✓] Published log updated successfully.")
 
     def _verify_cdn_url(self, url: str, max_retries: int = 5, delay: int = 4) -> bool:
         """Verifies that the raw GitHub CDN URL is live and accessible."""
