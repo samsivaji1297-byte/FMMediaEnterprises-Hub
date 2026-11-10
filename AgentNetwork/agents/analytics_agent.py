@@ -29,7 +29,6 @@ class InstagramAnalyticsAgent:
             res = requests.get(url, timeout=10)
             data = res.json()
             
-            # Handle API-level errors (e.g. missing permissions or unsupported metrics)
             if "error" in data:
                 err_msg = data["error"].get("message", "Unknown API error")
                 err_code = data["error"].get("code")
@@ -66,8 +65,8 @@ class InstagramAnalyticsAgent:
         }
 
     def update_intelligence(self):
-        """Processes published media, updates performance scores, and trains intelligence memory."""
-        print("\n=== [INSTAGRAM ANALYTICS AGENT]: SCRAPING PERFORMANCE DATA ===")
+        """Processes published media, updates performance scores, and trains intelligence memory on the last 8 reels."""
+        print("\n=== [INSTAGRAM ANALYTICS AGENT]: SCRAPING PERFORMANCE DATA (LAST 8 REELS) ===")
 
         if not PUBLISHED_LOG.exists():
             print("[!] No published_reels.json found in vault. Skipping analytics sweep.")
@@ -75,6 +74,13 @@ class InstagramAnalyticsAgent:
 
         with open(PUBLISHED_LOG, "r", encoding="utf-8") as f:
             published_items = json.load(f)
+
+        if not isinstance(published_items, list):
+            published_items = []
+
+        # Restrict sweep window exclusively to the last 8 published items
+        target_items = published_items[-8:]
+        print(f"[*] Total logged reels: {len(published_items)}. Analyzing sliding window of last {len(target_items)} reels.")
 
         intelligence_data = {
             "last_analytics_run": datetime.utcnow().isoformat(),
@@ -90,16 +96,16 @@ class InstagramAnalyticsAgent:
             except Exception:
                 pass
 
-        for item in published_items:
-            # Handle cases where published_items contains strings or invalid objects
+        for item in target_items:
             if isinstance(item, str):
                 continue
                 
             media_id = item.get("media_id")
             hook_text = item.get("hook_text", "Unknown Hook")
             
-            if not media_id:
-                continue
+            if not media_id or str(media_id).startswith("mock_id_"):
+                # Skip mock items during live analytics sweeps if desired, or let mock handle it
+                pass
 
             metrics = self.fetch_media_metrics(media_id)
             if not metrics:
@@ -109,8 +115,7 @@ class InstagramAnalyticsAgent:
             saves = metrics.get("saved", 0)
             shares = metrics.get("shares", 0)
 
-            # Calculate Capital Efficiency Index (CEI) / Engagement Ratio
-            # Saves & Shares carry 3x weight (indicates viral/friction value)
+            # Capital Efficiency Index (CEI) / Engagement Ratio
             engagement_score = (plays * 0.1) + (saves * 3.0) + (shares * 3.0)
 
             intelligence_data["aggregate_stats"]["total_plays"] += plays
@@ -126,13 +131,20 @@ class InstagramAnalyticsAgent:
                 "score": round(engagement_score, 2)
             }
 
-            # Classify High vs Underperforming
-            if engagement_score > 300 and entry not in intelligence_data["top_performing_hooks"]:
-                intelligence_data["top_performing_hooks"].append(entry)
-            elif engagement_score < 50 and entry not in intelligence_data["underperforming_hooks"]:
-                intelligence_data["underperforming_hooks"].append(entry)
+            # Classify High vs Underperforming (avoiding duplicates)
+            if engagement_score > 300:
+                if not any(h.get("media_id") == media_id for h in intelligence_data["top_performing_hooks"]):
+                    intelligence_data["top_performing_hooks"].append(entry)
+            elif engagement_score < 50:
+                if not any(h.get("media_id") == media_id for h in intelligence_data["underperforming_hooks"]):
+                    intelligence_data["underperforming_hooks"].append(entry)
 
             print(f"[✓] Scraped Reel {media_id} | Plays: {plays} | Saves: {saves} | Score: {round(engagement_score, 2)}")
+
+        # Keep top/underperforming hooks trimmed to recent elite performers
+        intelligence_data["top_performing_hooks"] = sorted(
+            intelligence_data["top_performing_hooks"], key=lambda x: x.get("score", 0), reverse=True
+        )[:10]
 
         # Persist updated memory
         INTELLIGENCE_FILE.parent.mkdir(parents=True, exist_ok=True)
