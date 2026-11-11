@@ -1,5 +1,5 @@
-# SEO Research Signal: overwhelmed by too many productivity systems
-**Generated:** 2026-11-10 16:44:23 UTC
+# SEO Research Signal: income control vs effort disconnect
+**Generated:** 2026-11-11 16:50:31 UTC
 **Engine:** DuckDuckGo Dual-Layer Scraper (Web + Forum Hybrid)
 ---
 
