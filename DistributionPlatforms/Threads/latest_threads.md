@@ -1,28 +1,11 @@
-**Reel Hook:** “Stop letting price‑fear lock your earnings. 🚀”  
-**Caption:** “Turn a 2‑minute pricing decision into a $5 k/month engine.”
+**Reel Hook:** “Stuck in a tiny agency while the world goes remote? 🚀”  
+**Caption:** “Break the invisible tax that’s draining your career agency.”
 
----
+1️⃣ **The Agency‑Stagnation Tax** – You’re not lazy. Your brain is charging you a hidden “agency‑identity tax” every day you stay in a role that doesn’t match your self‑image.  
 
-**Post 1️⃣ – The Invisible Ceiling**  
-You’ve built the product, nailed the workflow, but when it’s time to set a price you *freeze*. That hesitation isn’t laziness – it’s a **confidence‑reward misalignment**. Your brain treats price as a personal judgment call, not a data problem. The result? You cap income at what feels “safe,” leaving $‑potential on the table.
+2️⃣ **Why It Feels Impossible to Leave** – Status‑quo bias + sunk‑cost fallacy = a mental lock. You’re paying the price of *what you’ve already invested* instead of the *value you could create* elsewhere.  
 
----
+3️⃣ **The Sovereign Pivot Engine** – A zero‑touch, programmatic pipeline that lets you **launch a remote freelance gig while still employed**. Build a client funnel, automate proposals, and validate demand in 48 h.  
 
-**Post 2️⃣ – The Data‑Driven Antidote**  
-Imagine feeding your past sales, market comps, and conversion rates into a tiny AI that spits out a *price range* with confidence scores. No more guesswork. One click, and you have a **pricing engine** that aligns effort with revenue, turning every sale into a predictable profit multiplier.
-
----
-
-**Post 3️⃣ – Deploy in 3 Steps**  
-1️⃣ Pull 30‑day sales + competitor data into a Google Sheet.  
-2️⃣ Connect the sheet to a no‑code AI pricing tool (e.g., **PricePilot**).  
-3️⃣ Use the suggested range, test, and let the engine iterate.  
-
-Result: **+30 % revenue lift** in the first month *without* extra work.
-
----
-
-**Post 4️⃣ – The Sovereign Shortcut**  
-If you want a plug‑and‑play system that does all three steps automatically, grab the **Compression System**. It builds a zero‑touch pricing pipeline that scales with you – no spreadsheets, no analysis paralysis. 🎯  
-
-🔗 [Get the Compression System – $197](https://fmframeworks.gumroad.com/l/CompressionSystem)
+4️⃣ **Take Action Now** – Download the free “Agency‑Exit Blueprint” checklist and start earning the rates you deserve without quitting tomorrow. 👇  
+[Link to lead magnet]
