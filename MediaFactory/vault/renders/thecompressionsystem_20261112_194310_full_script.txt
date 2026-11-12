@@ -1,0 +1,22 @@
+=== GENERATED SCRIPT DEBUG DUMP ===
+Timestamp: 20261112_194310
+Topic: how to automate business
+Title: The Compression System
+Hook: BUILD YOUR FIRST DIGITAL PRODUCT THIS WEEKEND.
+Voiceover Script: BUILD YOUR FIRST DIGITAL PRODUCT THIS WEEKEND. You don't need a team, a warehouse, or a complicated business. Find one problem someone already wants solved, use AI to turn the solution into a digital product, and put it where buyers can find it. Build your first version this weekend. Get the full system at fmframeworks.gumroad.com/l/CompressionSystem.
+Call to Action: Get The Compression System: fmframeworks.gumroad.com/l/CompressionSystem
+Theme: sovereign
+
+--- SCENES ---
+Scene 1:
+  Text: BUILD YOUR FIRST DIGITAL PRODUCT THIS WEEKEND.
+  Visual Prompt: digital product architecture matrix
+
+Scene 2:
+  Text: BUILD YOUR FIRST DIGITAL PRODUCT THIS WEEKEND. You don't need a team, a warehouse, or a complicated business. Find one problem someone already wants solved, use AI to turn the solution into a digital product, and put it where buyers can find it. Build your first version this weekend. Get the full system at fmframeworks.gumroad.com/l/CompressionSystem.
+  Visual Prompt: cyberpunk terminal glowing code
+
+Scene 3:
+  Text: Get The Compression System: fmframeworks.gumroad.com/l/CompressionSystem
+  Visual Prompt: obsidian dashboard gold highlights
+
