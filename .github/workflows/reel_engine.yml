@@ -24,8 +24,9 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install dependencies and Playwright Chromium
+      - name: Install FFmpeg, Python dependencies, and Playwright Chromium
         run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
           pip install groq playwright
           playwright install chromium --with-deps
 
