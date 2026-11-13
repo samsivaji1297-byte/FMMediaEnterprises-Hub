@@ -143,14 +143,25 @@ Return ONLY a valid JSON object matching this schema, strictly adhering to chara
   ]
 }"""
 
-    res = client.chat.completions.create(
-        model="llama-3.3-70b-versatile",
-        messages=[
-            {"role": "system", "content": system_prompt},
-            {"role": "user", "content": f"Generate Reel JSON for this premise:\n{topic_brief}"}
-        ],
-        response_format={"type": "json_object"},
-        temperature=0.5
+    models_to_try = ["openai/gpt-oss-120b", "llama-3.1-8b-instant"]
+    res = None
+
+    for model_id in models_to_try:
+        try:
+            res = client.chat.completions.create(
+                model=model_id,
+                messages=[
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": f"Generate Reel JSON for this premise:\n{topic_brief}"}
+                ],
+                response_format={"type": "json_object"},
+                temperature=0.5
+            )
+            break
+        except Exception as e:
+            print(f"Model {model_id} failed ({e}), trying fallback...")
+            if model_id == models_to_try[-1]:
+                raise
     )
 
     data = json.loads(res.choices[0].message.content)
