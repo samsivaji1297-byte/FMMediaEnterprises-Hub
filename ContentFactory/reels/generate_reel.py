@@ -14,13 +14,18 @@ import time
 from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
-def ensure_ffmpeg():
+def ensure_dependencies():
+    """Ensure ffmpeg and gTTS are available for audio generation."""
     if not shutil.which("ffmpeg"):
         try:
             subprocess.run(["sudo", "apt-get", "update"], check=True, stdout=subprocess.DEVNULL)
             subprocess.run(["sudo", "apt-get", "install", "-y", "ffmpeg"], check=True, stdout=subprocess.DEVNULL)
         except Exception:
             pass
+    try:
+        import gtts
+    except ImportError:
+        subprocess.run([sys.executable, "-m", "pip", "install", "gtts"], check=True, stdout=subprocess.DEVNULL)
 
 def generate_modular_reel_content() -> dict:
     angles = [
@@ -29,21 +34,24 @@ def generate_modular_reel_content() -> dict:
             "card1": "1. WRITING EVERY SINGLE POST MANUALLY",
             "card2": "2. ZERO AUTOMATED DISTRIBUTION PIPELINES",
             "card3": "3. IGNORING ZERO-DEPENDENCY ARCHITECTURE",
-            "footer": "COMMENT FM FOR THE WORKFLOW"
+            "footer": "COMMENT FM FOR THE WORKFLOW",
+            "spoken": "Three reasons your content engine is draining your time. First, writing every single post manually. Second, having zero automated distribution pipelines. And third, ignoring zero dependency architecture. Comment FM for the workflow."
         },
         {
             "hook": "HOW TO STOP WASTING 10 HOURS A WEEK ON CONTENT",
             "card1": "1. BUILD A 90-MINUTE AUTOMATION ROUTINE",
             "card2": "2. LET PYTHON HANDLE THE HEAVY LIFTING",
             "card3": "3. DEPLOY REELS ON AUTOPILOT",
-            "footer": "COMMENT FM FOR THE BLUEPRINT"
+            "footer": "COMMENT FM FOR THE BLUEPRINT",
+            "spoken": "How to stop wasting ten hours a week on content. First, build a ninety minute automation routine. Second, let Python handle the heavy lifting. Third, deploy reels on autopilot. Comment FM for the blueprint."
         },
         {
             "hook": "THE EXACT SYSTEM I USE TO RUN MY BUSINESS ON AUTO-PILOT",
             "card1": "1. PROGRAMMATIC SEO & DATA MATRIX",
             "card2": "2. HEADLESS API CONTENT FACTORY",
             "card3": "3. RECURSIVE CRON SCHEDULING",
-            "footer": "COMMENT FM FOR THE SYSTEM"
+            "footer": "COMMENT FM FOR THE SYSTEM",
+            "spoken": "The exact system I use to run my business on autopilot. First, programmatic SEO and data matrices. Second, a headless API content factory. Third, recursive cron scheduling. Comment FM for the system."
         }
     ]
     
@@ -59,7 +67,8 @@ def generate_modular_reel_content() -> dict:
       "card1": "{selected['card1']}",
       "card2": "{selected['card2']}",
       "card3": "{selected['card3']}",
-      "footerLabel": "{selected['footer']}"
+      "footerLabel": "{selected['footer']}",
+      "spoken": "{selected['spoken']}"
     }}
     """
 
@@ -95,7 +104,23 @@ def generate_modular_reel_content() -> dict:
         
     return json.loads(cleaned_text.strip())
 
+def synthesize_voiceover(text: str, output_path: Path):
+    """Generate high-fidelity voiceover using gTTS."""
+    try:
+        from gtts import gTTS
+        tts = gTTS(text=text, lang='en', tld='com', slow=False)
+        tts.save(str(output_path))
+        print(f"Voiceover successfully synthesized: {output_path}")
+    except Exception as e:
+        print(f"Voiceover generation fallback triggered: {e}")
+        # Fallback silent audio track if network/gTTS fails
+        subprocess.run([
+            "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono", 
+            "-t", "8", str(output_path)
+        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
 def render_modular_reel(content: dict):
+    ensure_dependencies()
     output_dir = Path(__file__).parent / 'output'
     output_dir.mkdir(exist_ok=True)
     frames_dir = output_dir / 'frames'
@@ -103,33 +128,36 @@ def render_modular_reel(content: dict):
         shutil.rmtree(frames_dir)
     frames_dir.mkdir(exist_ok=True)
     
+    audio_path = output_dir / 'voiceover.mp3'
+    synthesize_voiceover(content['spoken'], audio_path)
+
     template_path = Path(__file__).parent / 'template.html'
 
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Modular Framework IG Reel Studio</title>
+  <title>Sovereign Modular IG Reel Studio</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     html, body {{
-      width: 1080px; height: 1920px; background: #000000 !important; color: #FFFFFF;
+      width: 1080px; height: 1920px; background: #050505 !important; color: #FFFFFF;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
       position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace, sans-serif;
-      padding: 260px 80px 140px 80px; margin: 0;
+      padding: 240px 80px 140px 80px; margin: 0;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }}
+    .ambient-glow {{
+      position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+      width: 800px; height: 800px; background: radial-gradient(circle, rgba(255,107,0,0.12) 0%, rgba(0,0,0,0) 70%);
+      z-index: 1; pointer-events: none;
     }}
     .grid-overlay {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-      background-size: 60px 60px; z-index: 1; pointer-events: none;
-    }}
-    .scanline {{
-      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.3) 50%);
-      background-size: 100% 4px; z-index: 2; pointer-events: none;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+      background-size: 80px 80px; z-index: 1; pointer-events: none;
     }}
     .content-wrapper {{
       position: relative; z-index: 3; width: 100%; height: 100%;
@@ -139,57 +167,61 @@ def render_modular_reel(content: dict):
       display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
     }}
     .main-title {{
-      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 3.8rem;
-      line-height: 1.15; text-transform: uppercase; color: #FFFFFF;
-      letter-spacing: -0.02em; margin-bottom: 20px; text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+      font-family: 'Inter', sans-serif; font-weight: 800; font-size: 3.6rem;
+      line-height: 1.2; text-transform: uppercase; color: #FFFFFF;
+      letter-spacing: -0.03em; margin-bottom: 24px; text-shadow: 0 10px 30px rgba(0,0,0,0.9);
+      border-bottom: 3px solid #FF6B00; padding-bottom: 20px; width: 100%;
     }}
     .arrow-icon {{
-      font-size: 2.8rem; color: #FFFFFF; margin-top: 5px; animation: bounce 1.5s infinite ease-in-out;
+      font-size: 2.8rem; color: #FF6B00; margin-top: 10px; animation: bounce 1.2s infinite ease-in-out;
+      filter: drop-shadow(0 0 15px rgba(255,107,0,0.5));
     }}
     @keyframes bounce {{
       0%, 100% {{ transform: translateY(0); }}
-      50% {{ transform: translateY(10px); }}
+      50% {{ transform: translateY(12px); }}
     }}
     .cards-container {{
-      display: flex; flex-direction: column; gap: 26px; width: 100%; max-width: 920px;
+      display: flex; flex-direction: column; gap: 28px; width: 100%; max-width: 940px;
       margin: auto 0;
     }}
     .modular-card {{
-      background: rgba(255, 255, 255, 0.04); border: 1px solid rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(12px); border-radius: 16px; padding: 34px 38px;
+      background: rgba(20, 20, 20, 0.75); border: 1px solid rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px); border-radius: 18px; padding: 36px 40px;
       display: flex; align-items: center; gap: 32px;
-      opacity: 0; transform: translateY(30px); transition: opacity 0.5s ease, transform 0.5s ease;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+      opacity: 0; transform: translateY(40px) scale(0.98); 
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.7);
     }}
     .modular-card.visible {{
-      opacity: 1; transform: translateY(0);
+      opacity: 1; transform: translateY(0) scale(1);
+      border-color: rgba(255, 255, 255, 0.25);
     }}
     .badge-icon {{
-      width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 1.7rem; font-weight: 700; flex-shrink: 0;
+      width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 700; flex-shrink: 0; font-family: 'Inter', sans-serif;
     }}
-    .badge-red {{ background: rgba(255, 59, 48, 0.15); color: #FF3B30; border: 1px solid rgba(255, 59, 48, 0.4); box-shadow: 0 0 25px rgba(255, 59, 48, 0.3); }}
-    .badge-amber {{ background: rgba(255, 107, 0, 0.15); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.4); box-shadow: 0 0 25px rgba(255, 107, 0, 0.3); }}
-    .badge-green {{ background: rgba(52, 199, 89, 0.15); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.4); box-shadow: 0 0 25px rgba(52, 199, 89, 0.3); }}
+    .badge-red {{ background: rgba(255, 59, 48, 0.18); color: #FF3B30; border: 1px solid rgba(255, 59, 48, 0.5); box-shadow: 0 0 30px rgba(255, 59, 48, 0.4); }}
+    .badge-amber {{ background: rgba(255, 107, 0, 0.18); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.5); box-shadow: 0 0 30px rgba(255, 107, 0, 0.4); }}
+    .badge-green {{ background: rgba(52, 199, 89, 0.18); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.5); box-shadow: 0 0 30px rgba(52, 199, 89, 0.4); }}
     .card-text {{
       font-family: 'Inter', sans-serif; font-size: 1.45rem; font-weight: 700;
       letter-spacing: -0.01em; color: #FFFFFF; text-transform: uppercase;
     }}
     .footer-block {{
       display: flex; justify-content: space-between; align-items: center; width: 100%;
-      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 26px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 28px;
     }}
     .footer-label {{
-      font-size: 1.1rem; letter-spacing: 0.2em; color: #FF6B00; font-weight: 700; text-transform: uppercase;
+      font-size: 1.15rem; letter-spacing: 0.2em; color: #FF6B00; font-weight: 700; text-transform: uppercase;
     }}
     .cta-link {{
-      font-size: 1.1rem; letter-spacing: 0.25em; color: #FFFFFF; font-weight: 600; text-transform: uppercase;
+      font-size: 1.15rem; letter-spacing: 0.25em; color: #FFFFFF; font-weight: 600; text-transform: uppercase;
     }}
   </style>
 </head>
-<body style="background: #000000;">
+<body>
+  <div class="ambient-glow"></div>
   <div class="grid-overlay"></div>
-  <div class="scanline"></div>
   
   <div class="content-wrapper">
     <div class="header-block">
@@ -220,9 +252,9 @@ def render_modular_reel(content: dict):
 
   <script>
     window.addEventListener('DOMContentLoaded', () => {{
-      setTimeout(() => {{ document.getElementById('card-1').classList.add('visible'); }}, 800);
-      setTimeout(() => {{ document.getElementById('card-2').classList.add('visible'); }}, 2400);
-      setTimeout(() => {{ document.getElementById('card-3').classList.add('visible'); }}, 4000);
+      setTimeout(() => {{ document.getElementById('card-1').classList.add('visible'); }}, 900);
+      setTimeout(() => {{ document.getElementById('card-2').classList.add('visible'); }}, 2800);
+      setTimeout(() => {{ document.getElementById('card-3').classList.add('visible'); }}, 4700);
     }});
   </script>
 </body>
@@ -239,19 +271,17 @@ def render_modular_reel(content: dict):
         page.goto(file_url, wait_until='networkidle')
         page.evaluate("document.fonts.ready")
         
-        # Capture frames at 30fps for 8 seconds (240 total frames)
         fps = 30
         total_seconds = 8.0
         total_frames = int(fps * total_seconds)
         interval = 1.0 / fps
         
-        print("Capturing pristine frame screenshots...")
+        print("Capturing sovereign-grade frame screenshots...")
         start_time = time.time()
         for i in range(total_frames):
             frame_path = frames_dir / f"frame_{i:04d}.png"
             page.screenshot(path=str(frame_path), type="png")
             
-            # Keep sync with real time simulation
             target_elapsed = (i + 1) * interval
             actual_elapsed = time.time() - start_time
             if target_elapsed > actual_elapsed:
@@ -259,21 +289,34 @@ def render_modular_reel(content: dict):
                 
         browser.close()
         
+        video_only_output = output_dir / "temp_video.mp4"
         final_output = output_dir / "output-reel.mp4"
-        ensure_ffmpeg()
+        ensure_dependencies()
         
         if shutil.which("ffmpeg"):
-            print("Compiling frames into final MP4 via FFmpeg...")
-            ffmpeg_cmd = [
+            print("Compiling video frames into MP4 via FFmpeg...")
+            ffmpeg_video_cmd = [
                 "ffmpeg", "-y",
                 "-framerate", str(fps),
                 "-i", str(frames_dir / "frame_%04d.png"),
-                "-c:v", "libx264", "-preset", "fast", "-crf", "20",
+                "-c:v", "libx264", "-preset", "fast", "-crf", "18",
                 "-pix_fmt", "yuv420p",
+                str(video_only_output)
+            ]
+            subprocess.run(ffmpeg_video_cmd, check=True)
+
+            print("Muxing voiceover audio track with video...")
+            ffmpeg_mux_cmd = [
+                "ffmpeg", "-y",
+                "-i", str(video_only_output),
+                "-i", str(audio_path),
+                "-c:v", "copy",
+                "-c:a", "aac", "-b:a", "192k",
+                "-shortest",
                 str(final_output)
             ]
-            subprocess.run(ffmpeg_cmd, check=True)
-            print(f"Flawless frame-rendered MP4 reel successfully created: {final_output}")
+            subprocess.run(ffmpeg_mux_cmd, check=True)
+            print(f"Sovereign-grade audio-synced reel successfully created: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
