@@ -322,7 +322,7 @@ def render_modular_reel(content: dict):
         print("Capturing elite sovereign-grade visual frames...")
         start_time = time.time()
         for i in range(total_frames):
-            frame_path = frames_dir / f"frame_%04d.png" % i
+            frame_path = frames_dir / f"frame_{i:04d}.png"
             page.screenshot(path=str(frame_path), type="png")
             
             target_elapsed = (i + 1) * interval
