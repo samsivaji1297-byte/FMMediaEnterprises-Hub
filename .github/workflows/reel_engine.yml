@@ -1,0 +1,55 @@
+name: Reel Engine Pipeline
+
+on:
+  workflow_dispatch:
+    inputs:
+      topic_brief:
+        description: 'Topic or angle for the Reel'
+        required: true
+        default: 'Stop trading time for dollars. Build a headless digital asset engine.'
+
+permissions:
+  contents: write
+
+jobs:
+  build-reel:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies and Playwright Chromium
+        run: |
+          pip install groq playwright
+          playwright install chromium --with-deps
+
+      - name: Run Reel Compiler & Renderer
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+          TOPIC_BRIEF: ${{ github.event.inputs.topic_brief }}
+        run: |
+          python -c "
+          import os
+          from ContentFactory.reelengine.reel_compiler import compile_reel
+          from ContentFactory.reelengine.render_engine import render_html_to_mp4
+
+          brief = os.environ['TOPIC_BRIEF']
+          html_path = 'ContentFactory/reelengine/output.html'
+          mp4_path = 'ContentFactory/reelengine/reel_output.mp4'
+
+          compile_reel(brief, html_path)
+          render_html_to_mp4(html_path, mp4_path)
+          "
+
+      - name: Upload MP4 Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-reel-mp4
+          path: ContentFactory/reelengine/reel_output.mp4
+          retention-days: 7
