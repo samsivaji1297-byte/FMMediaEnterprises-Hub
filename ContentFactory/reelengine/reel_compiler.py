@@ -162,11 +162,9 @@ Return ONLY a valid JSON object matching this schema, strictly adhering to chara
             print(f"Model {model_id} failed ({e}), trying fallback...")
             if model_id == models_to_try[-1]:
                 raise
-    )
 
     data = json.loads(res.choices[0].message.content)
-    
-    # Format background wall
+
     lines = data["wall_lines"]
     col1 = "".join(f"<p>{l}</p>" for l in lines[0:6])
     col2 = "".join(f"<p>{l}</p>" for l in lines[6:12])
