@@ -1,96 +1,96 @@
-# SEO Research Signal: feeling stuck in career low agency
-**Generated:** 2026-11-12 17:19:19 UTC
+# SEO Research Signal: income control vs effort disconnect
+**Generated:** 2026-11-13 16:55:45 UTC
 **Engine:** DuckDuckGo Dual-Layer Scraper (Web + Forum Hybrid)
 ---
 
 ## 1. Web SERP Articles & Insights
 
-### 1. 3 Reasons You’re Stuck in a Low Agency Mindset - Nick Wignall
-- **URL:** https://nickwignall.com/low-agency-mindset/
-- **Snippet:** Jun 23, 2025 · There are 3 primary limiting beliefs that keep people stuck in a low agency mindset — written by psychologist Nick Wignall
+### 1. Outcome Control vs. Effort Control ~ Future of CIO
+- **URL:** https://futureofcio.blogspot.com/2024/10/outcome-control-vs-effort-control.html
+- **Snippet:** Oct 8, 2024 · Outcome control is centered around achieving specific results with greater autonomy for agents, while effort control focuses on monitoring the actions taken to achieve those results with closer oversight.
 
-### 2. What To Do When You're Stuck in Your Career | Indeed.com11 Reasons You Might Feel Stuck in Your Job - IndeedFeeling stuck in your career? These six strategies can help ...3 Signs You're Stuck In Your Career (And How To Fix It) - ForbesFeeling Stuck in Career: Diagnose Your Type of StagnationCareer Plateau: 7 Signs You're Stuck and How to Break Free
-- **URL:** https://www.indeed.com/career-advice/career-development/career-stuck
-- **Snippet:** See full list on indeed.com See full list on indeed.com Expand your social network 1. Learn about different fields and companies 2. Ask for advice 3. Collaborate on ideas 4. Share your knowledge 5. Discover job opportunities Get inspired 1. Do something you used to love, like drawing or painting 2. Take up a new hobby, like ballroom dancing or coaching a youth soccer team 3. Take a trip 4. Reconnect with old friends 5. Practice yoga or meditation 6. Read motivating books or listen to self-improvement podcasts 7. Spend time in nature Create goals 1. Specific:Your goals should be clearly defined rather than vague statements. 2. Measurable:You should be able to measure goals in objective ways, like numbers, ranking or percentages. 3. Attainable:Make your goals realistic. 4. Relevant:Your goals should address your specific concerns and have a direct impact on improving them. 5. Time-based:Set a deadline for your goals and benchmarks along the way. See full list on indeed.com Jun 15, 2026 · Learn what it means to feel stuck in your job, 11 reasons why you might feel stuck at your job and 11 ways to move forward with your career. Feeling like your career is stuck in neutral? Learn why this happens to almost everyone and discover effective strategies for moving past obstacles. Feb 25, 2025 · Feeling stuck in your job? Discover three signs of career stagnation and learn effective strategies to reignite your passion and advance your professional journey. Feeling stuck in career? Learn the three types of stagnation and a diagnostic framework to identify yours - plus specific solutions. Sep 1, 2025 · Feeling stuck at work? Learn the 7 warning signs of a career plateau and proven strategies to break free. Discover if it's time for a career change.
+### 2. Measuring AI Value: Effort vs Income Disconnect - LinkedIn
+- **URL:** https://www.linkedin.com/posts/yonman_the-8-software-engineering-metrics-ai-broke-activity-7480912391535280128-8V5a
+- **Snippet:** As AI adoption matures leader realize a deeper problem: our industry is not very good at measuring the relation between effort and value.
 
-### 3. 11 Reasons You Might Feel Stuck in Your Job - Indeed
-- **URL:** https://www.indeed.com/career-advice/career-development/i-feel-stuck-in-my-job
-- **Snippet:** Jun 15, 2026 · Learn what it means to feel stuck in your job, 11 reasons why you might feel stuck at your job and 11 ways to move forward with your career.
+### 3. Value vs. Effort Matrix: The 2x2 Prioritization Guide (2026)
+- **URL:** https://www.koji.so/docs/value-vs-effort-prioritization-matrix
+- **Snippet:** Use the value vs. effort matrix to prioritize your roadmap: the four quadrants, how to score each axis, pitfalls to avoid, and how to ground the value axis in real customer research.
 
-### 4. Feeling stuck in your career? These six strategies can help ...3 Signs You're Stuck In Your Career (And How To Fix It) - ForbesFeeling Stuck in Career: Diagnose Your Type of StagnationCareer Plateau: 7 Signs You're Stuck and How to Break Free
-- **URL:** https://career.io/career-advice/feeling-stuck-in-your-career
-- **Snippet:** Feeling like your career is stuck in neutral? Learn why this happens to almost everyone and discover effective strategies for moving past obstacles. Feb 25, 2025 · Feeling stuck in your job? Discover three signs of career stagnation and learn effective strategies to reignite your passion and advance your professional journey. Feeling stuck in career? Learn the three types of stagnation and a diagnostic framework to identify yours - plus specific solutions. Sep 1, 2025 · Feeling stuck at work? Learn the 7 warning signs of a career plateau and proven strategies to break free. Discover if it's time for a career change.
+### 4. A comparison between the effort-reward imbalance and demand ...
+- **URL:** https://pmc.ncbi.nlm.nih.gov/articles/PMC151684/
+- **Snippet:** Because the demand/control model contains no information on the personal characteristics of the worker, using a partial effort/reward imbalance model, i.e., with the psychological measure (intrinsic demand) removed, allows for a comparison of the "objective" elements of both models.
 
-### 5. 3 Signs You're Stuck In Your Career (And How To Fix It) - Forbes
-- **URL:** https://www.forbes.com/sites/shodewan/2025/02/25/3-signs-youre-stuck-in-your-career-and-how-to-fix-it/
-- **Snippet:** Feb 25, 2025 · Feeling stuck in your job? Discover three signs of career stagnation and learn effective strategies to reignite your passion and advance your professional journey.
+### 5. Does effort increase or decrease reward valuation ...
+- **URL:** https://onlinelibrary.wiley.com/doi/full/10.1111/psyp.14536
+- **Snippet:** Feb 7, 2024 · This test was conducted in an attempt to integrate two research literatures with opposite findings: Effort justification occurs when high effort leads to high reward valuation, whereas effort discounting occurs when high effort leads to low reward valuation.
 
 ---
 ## 2. Reddit Community Friction Signals
 
-### 1. I'm stuck in a terrible small agency and want out. I feel ...
-- **URL:** https://www.reddit.com/r/marketing/comments/13w9czk/im_stuck_in_a_terrible_small_agency_and_want_out/
-- **Snippet:** I am part of a really small agency that used to be bigger when I started 11 years ago (yes ELEVEN years ago). I live in a very LCOL area and am comfortable, but the salary is really low compared to what other employees beneath me go on to make when leaving and taking remote jobs.
+### 1. Detachment vs effort : r/Stoicism - Reddit
+- **URL:** https://www.reddit.com/r/Stoicism/comments/1891fjh/detachment_vs_effort/
+- **Snippet:** I'm making my way though Marcus Aurelius and Epictetus and reading a lot about the detachment from things we can't control. To me it sounds really similar to themes in Christianity and Buddhism and I really appreciate it and think this is a great way to live through adversity.
 
-### 2. Feeling stuck in my agency : r/usajobs - Reddit
-- **URL:** https://www.reddit.com/r/usajobs/comments/xd6ozq/feeling_stuck_in_my_agency/
-- **Snippet:** Feeling same here and felt same as my current pos reached ceiling. Just curious for different position in different agencies, will the years of service and probation period resets.
+### 2. Out of My Control vs In My Control : r/selfreliance - Reddit
+- **URL:** https://www.reddit.com/r/selfreliance/comments/yag4nk/out_of_my_control_vs_in_my_control/
+- **Snippet:** This is to say you must control things over time by repeated mindfulness in moderation and effort. Very few things in life are like a light switch with on and off positions.
 
-### 3. What to do if you feel you are stuck in the wrong career?
-- **URL:** https://www.reddit.com/r/careerguidance/comments/n60yl7/what_to_do_if_you_feel_you_are_stuck_in_the_wrong/
-- **Snippet:** I feel for you. I'm 32 and currently going through a similar situation in terms of my job in healthcare. I feel completely burnt out by it mostly feeling like I'm just a cog in a big machine. Recently, I've gotten really into watch repair and I'm seriously considering going to watchmaking school. This would require me to move across the country away from all of my family and friends.
+### 3. Deconstructing Work - The disconnect between work and income ...
+- **URL:** https://www.reddit.com/r/economy/comments/6bo448/deconstructing_work_the_disconnect_between_work/
+- **Snippet:** Deconstructing Work - The disconnect between work and income, societal value, and self-fulfillment
 
-### 4. How do I stop feeling trapped in my corporate job - Reddit
-- **URL:** https://www.reddit.com/r/jobs/comments/xp3jho/how_do_i_stop_feeling_trapped_in_my_corporate_job/
-- **Snippet:** However, I can’t get over this feeling of turning away from years of hard work and opportunity to get where I am. I wish I could come back to this job in a few years time when/if I have more desire and ambition. Any advice on how to get over feeling trapped in a comfortable corporate job?
+### 4. Actual effort vs. profit for architect, contractor ... - Reddit
+- **URL:** https://www.reddit.com/r/architecture/comments/81ts2t/actual_effort_vs_profit_for_architect_contractor/
+- **Snippet:** I'm pretty sure everyone would make this same chart with their profession in the left-most spot. Do real estate agents really consider their work to not count as "effort?"
 
-### 5. Feeling stuck in my career and not sure what to do - Reddit
-- **URL:** https://www.reddit.com/r/careeradvice/comments/ppluh9/feeling_stuck_in_my_career_and_not_sure_what_to_do/
-- **Snippet:** Feeling stuck in my career and not sure what to do I'm in a current situation where I'm ready to leave my current line of work; I'm no longer excited to go to work, I'm burnt out and I take the bare minimum amount of shifts that I need in order to stay afloat financially. I either need a long hiatus from the position or leave it entirely.
+### 5. Cost vs Effort : r/cissp - Reddit
+- **URL:** https://www.reddit.com/r/cissp/comments/13u184d/cost_vs_effort/
+- **Snippet:** If you spend a lot of effort securing the workstations that can access the unsupported equipment, the risk is greatly lowered. I’d say that is the part of the typical scenario not seen in the question.
 
 ---
 ## Raw Intelligence Context
 ```text
 === GENERAL WEB CONTEXT ===
-Title: 3 Reasons You’re Stuck in a Low Agency Mindset - Nick Wignall
-URL: https://nickwignall.com/low-agency-mindset/
-Body: Jun 23, 2025 · There are 3 primary limiting beliefs that keep people stuck in a low agency mindset — written by psychologist Nick Wignall
+Title: Outcome Control vs. Effort Control ~ Future of CIO
+URL: https://futureofcio.blogspot.com/2024/10/outcome-control-vs-effort-control.html
+Body: Oct 8, 2024 · Outcome control is centered around achieving specific results with greater autonomy for agents, while effort control focuses on monitoring the actions taken to achieve those results with closer oversight.
 
-Title: What To Do When You're Stuck in Your Career | Indeed.com11 Reasons You Might Feel Stuck in Your Job - IndeedFeeling stuck in your career? These six strategies can help ...3 Signs You're Stuck In Your Career (And How To Fix It) - ForbesFeeling Stuck in Career: Diagnose Your Type of StagnationCareer Plateau: 7 Signs You're Stuck and How to Break Free
-URL: https://www.indeed.com/career-advice/career-development/career-stuck
-Body: See full list on indeed.com See full list on indeed.com Expand your social network 1. Learn about different fields and companies 2. Ask for advice 3. Collaborate on ideas 4. Share your knowledge 5. Discover job opportunities Get inspired 1. Do something you used to love, like drawing or painting 2. Take up a new hobby, like ballroom dancing or coaching a youth soccer team 3. Take a trip 4. Reconnect with old friends 5. Practice yoga or meditation 6. Read motivating books or listen to self-improvement podcasts 7. Spend time in nature Create goals 1. Specific:Your goals should be clearly defined rather than vague statements. 2. Measurable:You should be able to measure goals in objective ways, like numbers, ranking or percentages. 3. Attainable:Make your goals realistic. 4. Relevant:Your goals should address your specific concerns and have a direct impact on improving them. 5. Time-based:Set a deadline for your goals and benchmarks along the way. See full list on indeed.com Jun 15, 2026 · Learn what it means to feel stuck in your job, 11 reasons why you might feel stuck at your job and 11 ways to move forward with your career. Feeling like your career is stuck in neutral? Learn why this happens to almost everyone and discover effective strategies for moving past obstacles. Feb 25, 2025 · Feeling stuck in your job? Discover three signs of career stagnation and learn effective strategies to reignite your passion and advance your professional journey. Feeling stuck in career? Learn the three types of stagnation and a diagnostic framework to identify yours - plus specific solutions. Sep 1, 2025 · Feeling stuck at work? Learn the 7 warning signs of a career plateau and proven strategies to break free. Discover if it's time for a career change.
+Title: Measuring AI Value: Effort vs Income Disconnect - LinkedIn
+URL: https://www.linkedin.com/posts/yonman_the-8-software-engineering-metrics-ai-broke-activity-7480912391535280128-8V5a
+Body: As AI adoption matures leader realize a deeper problem: our industry is not very good at measuring the relation between effort and value.
 
-Title: 11 Reasons You Might Feel Stuck in Your Job - Indeed
-URL: https://www.indeed.com/career-advice/career-development/i-feel-stuck-in-my-job
-Body: Jun 15, 2026 · Learn what it means to feel stuck in your job, 11 reasons why you might feel stuck at your job and 11 ways to move forward with your career.
+Title: Value vs. Effort Matrix: The 2x2 Prioritization Guide (2026)
+URL: https://www.koji.so/docs/value-vs-effort-prioritization-matrix
+Body: Use the value vs. effort matrix to prioritize your roadmap: the four quadrants, how to score each axis, pitfalls to avoid, and how to ground the value axis in real customer research.
 
-Title: Feeling stuck in your career? These six strategies can help ...3 Signs You're Stuck In Your Career (And How To Fix It) - ForbesFeeling Stuck in Career: Diagnose Your Type of StagnationCareer Plateau: 7 Signs You're Stuck and How to Break Free
-URL: https://career.io/career-advice/feeling-stuck-in-your-career
-Body: Feeling like your career is stuck in neutral? Learn why this happens to almost everyone and discover effective strategies for moving past obstacles. Feb 25, 2025 · Feeling stuck in your job? Discover three signs of career stagnation and learn effective strategies to reignite your passion and advance your professional journey. Feeling stuck in career? Learn the three types of stagnation and a diagnostic framework to identify yours - plus specific solutions. Sep 1, 2025 · Feeling stuck at work? Learn the 7 warning signs of a career plateau and proven strategies to break free. Discover if it's time for a career change.
+Title: A comparison between the effort-reward imbalance and demand ...
+URL: https://pmc.ncbi.nlm.nih.gov/articles/PMC151684/
+Body: Because the demand/control model contains no information on the personal characteristics of the worker, using a partial effort/reward imbalance model, i.e., with the psychological measure (intrinsic demand) removed, allows for a comparison of the "objective" elements of both models.
 
-Title: 3 Signs You're Stuck In Your Career (And How To Fix It) - Forbes
-URL: https://www.forbes.com/sites/shodewan/2025/02/25/3-signs-youre-stuck-in-your-career-and-how-to-fix-it/
-Body: Feb 25, 2025 · Feeling stuck in your job? Discover three signs of career stagnation and learn effective strategies to reignite your passion and advance your professional journey.
+Title: Does effort increase or decrease reward valuation ...
+URL: https://onlinelibrary.wiley.com/doi/full/10.1111/psyp.14536
+Body: Feb 7, 2024 · This test was conducted in an attempt to integrate two research literatures with opposite findings: Effort justification occurs when high effort leads to high reward valuation, whereas effort discounting occurs when high effort leads to low reward valuation.
 
 === REDDIT FRICTION CONTEXT ===
-Title: I'm stuck in a terrible small agency and want out. I feel ...
-URL: https://www.reddit.com/r/marketing/comments/13w9czk/im_stuck_in_a_terrible_small_agency_and_want_out/
-Body: I am part of a really small agency that used to be bigger when I started 11 years ago (yes ELEVEN years ago). I live in a very LCOL area and am comfortable, but the salary is really low compared to what other employees beneath me go on to make when leaving and taking remote jobs.
+Title: Detachment vs effort : r/Stoicism - Reddit
+URL: https://www.reddit.com/r/Stoicism/comments/1891fjh/detachment_vs_effort/
+Body: I'm making my way though Marcus Aurelius and Epictetus and reading a lot about the detachment from things we can't control. To me it sounds really similar to themes in Christianity and Buddhism and I really appreciate it and think this is a great way to live through adversity.
 
-Title: Feeling stuck in my agency : r/usajobs - Reddit
-URL: https://www.reddit.com/r/usajobs/comments/xd6ozq/feeling_stuck_in_my_agency/
-Body: Feeling same here and felt same as my current pos reached ceiling. Just curious for different position in different agencies, will the years of service and probation period resets.
+Title: Out of My Control vs In My Control : r/selfreliance - Reddit
+URL: https://www.reddit.com/r/selfreliance/comments/yag4nk/out_of_my_control_vs_in_my_control/
+Body: This is to say you must control things over time by repeated mindfulness in moderation and effort. Very few things in life are like a light switch with on and off positions.
 
-Title: What to do if you feel you are stuck in the wrong career?
-URL: https://www.reddit.com/r/careerguidance/comments/n60yl7/what_to_do_if_you_feel_you_are_stuck_in_the_wrong/
-Body: I feel for you. I'm 32 and currently going through a similar situation in terms of my job in healthcare. I feel completely burnt out by it mostly feeling like I'm just a cog in a big machine. Recently, I've gotten really into watch repair and I'm seriously considering going to watchmaking school. This would require me to move across the country away from all of my family and friends.
+Title: Deconstructing Work - The disconnect between work and income ...
+URL: https://www.reddit.com/r/economy/comments/6bo448/deconstructing_work_the_disconnect_between_work/
+Body: Deconstructing Work - The disconnect between work and income, societal value, and self-fulfillment
 
-Title: How do I stop feeling trapped in my corporate job - Reddit
-URL: https://www.reddit.com/r/jobs/comments/xp3jho/how_do_i_stop_feeling_trapped_in_my_corporate_job/
-Body: However, I can’t get over this feeling of turning away from years of hard work and opportunity to get where I am. I wish I could come back to this job in a few years time when/if I have more desire and ambition. Any advice on how to get over feeling trapped in a comfortable corporate job?
+Title: Actual effort vs. profit for architect, contractor ... - Reddit
+URL: https://www.reddit.com/r/architecture/comments/81ts2t/actual_effort_vs_profit_for_architect_contractor/
+Body: I'm pretty sure everyone would make this same chart with their profession in the left-most spot. Do real estate agents really consider their work to not count as "effort?"
 
-Title: Feeling stuck in my career and not sure what to do - Reddit
-URL: https://www.reddit.com/r/careeradvice/comments/ppluh9/feeling_stuck_in_my_career_and_not_sure_what_to_do/
-Body: Feeling stuck in my career and not sure what to do I'm in a current situation where I'm ready to leave my current line of work; I'm no longer excited to go to work, I'm burnt out and I take the bare minimum amount of shifts that I need in order to stay afloat financially. I either need a long hiatus from the position or leave it entirely.
+Title: Cost vs Effort : r/cissp - Reddit
+URL: https://www.reddit.com/r/cissp/comments/13u184d/cost_vs_effort/
+Body: If you spend a lot of effort securing the workstations that can access the unsupported equipment, the risk is greatly lowered. I’d say that is the part of the typical scenario not seen in the question.
 
 ```
