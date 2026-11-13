@@ -95,34 +95,35 @@ body{display:flex;align-items:center;justify-content:center;font-family:Inter,"H
   <div id="vig" class="fx"></div><div id="grain" class="fx"></div><div id="flash" class="fx"></div>
 </div>
 <script>
-(function(){{
+(function(){
   var frame=document.getElementById('frame'),cam=document.getElementById('cam'),num=document.getElementById('num'),n=document.getElementById('n'),fl=document.getElementById('flash'),timers=[],iv;
-  var wall=document.getElementById('wall');wall.querySelectorAll('div').forEach(function(d){{d.innerHTML+=d.innerHTML;}});
+  var wall=document.getElementById('wall');wall.querySelectorAll('div').forEach(function(d){d.innerHTML+=d.innerHTML;});
   var TARGET={counter_target};
   var STEP_MS=Math.max(16, Math.floor(2000/Math.max(1,TARGET)));
-  function fit(){{var s=Math.min(window.innerWidth/1080,window.innerHeight/1920);frame.style.transform='scale('+s+')';}}
+  function fit(){var s=Math.min(window.innerWidth/1080,window.innerHeight/1920);frame.style.transform='scale('+s+')';}
   window.addEventListener('resize',fit);fit();
-  function at(ms,fn){{timers.push(setTimeout(fn,ms));}}
-  function flash(){{fl.classList.add('on');setTimeout(function(){{fl.classList.remove('on');}},60);}}
-  function run(){{
+  function at(ms,fn){timers.push(setTimeout(fn,ms));}
+  function flash(){fl.classList.add('on');setTimeout(function(){fl.classList.remove('on');},60);}
+  function run(){
     timers.forEach(clearTimeout);clearInterval(iv);timers=[];
     frame.className='';num.classList.remove('done');n.textContent='00';
     cam.style.transition='none';cam.style.transform='scale(1)';void cam.offsetWidth;
     cam.style.transition='transform 13.4s linear';cam.style.transform='scale(1.08)';
-    at(2600,function(){{flash();frame.classList.add('s2');}});
-    at(3300,function(){{var v=0;iv=setInterval(function(){{v++;n.textContent=(v<10?'0':'')+v;if(v>=TARGET){{clearInterval(iv);num.classList.add('done');flash();}}}},STEP_MS);}});
-    at(5700,function(){{frame.classList.add('s3');}});
-    at(8200,function(){{flash();frame.classList.add('s4');}});
-  }}
+    at(2600,function(){flash();frame.classList.add('s2');});
+    at(3300,function(){var v=0;iv=setInterval(function(){v++;n.textContent=(v<10?'0':'')+v;if(v>=TARGET){clearInterval(iv);num.classList.add('done');flash();}},STEP_MS);});
+    at(5700,function(){frame.classList.add('s3');});
+    at(8200,function(){flash();frame.classList.add('s4');});
+  }
   run();
-}})();
+})();
 </script>
 </body>
 </html>"""
 
+
 def compile_reel(topic_brief: str, output_path: str):
     system_prompt = """You are an elite brutalist copywriter and motion-graphics script generator.
-Your tone is cold, sovereign, high-leverage, and razor-sharp (think Peter Thiel meets high-end digital publishing). Avoid fluff, generic advice, or marketing cliches entirely.
+Your tone is cold, sovereign, high-leverage, and razor-sharp. Avoid fluff, generic advice, or marketing cliches entirely.
 
 Return ONLY a valid JSON object matching this schema, strictly adhering to character limits to prevent layout breaking:
 {
@@ -135,7 +136,7 @@ Return ONLY a valid JSON object matching this schema, strictly adhering to chara
   "beat_2": "Single word + period (e.g., 'Paste.')",
   "beat_3": "Single word + period (e.g., 'Post.')",
   "punchline_text": "2-4 words for the white background box (e.g., 'It’s that simple.')",
-  "subtext_plain": "3-5 words (e.g., 'Claude wrote them.')",
+  "subtext_plain": "3-5 words (e.g., 'AI wrote them.')",
   "subtext_italic": "2-4 words italicized (e.g., 'Prompts included.')",
   "cta_text": "Call to action text (e.g., 'Comment FM')",
   "wall_lines": [
@@ -165,7 +166,10 @@ Return ONLY a valid JSON object matching this schema, strictly adhering to chara
 
     data = json.loads(res.choices[0].message.content)
 
-    lines = data["wall_lines"]
+    lines = data.get("wall_lines", [])
+    while len(lines) < 18:
+        lines.append("Execute with zero friction.")
+
     col1 = "".join(f"<p>{l}</p>" for l in lines[0:6])
     col2 = "".join(f"<p>{l}</p>" for l in lines[6:12])
     col3 = "".join(f"<p>{l}</p>" for l in lines[12:18])
@@ -173,22 +177,27 @@ Return ONLY a valid JSON object matching this schema, strictly adhering to chara
     hook_html = f'{data["hook_before"]} <span class="inv">{data["hook_highlight"]}</span><br>{data["hook_after"]}'
     punchline_html = f'<span>{data["punchline_text"]}</span>'
 
-    html = HTML_TEMPLATE_SKELETON.format(
-        wall_col_1=col1,
-        wall_col_2=col2,
-        wall_col_3=col3,
-        hook_html=hook_html,
-        counter_target=int(data["counter_target"]),
-        counter_label=data["counter_label"],
-        beat_1=data["beat_1"],
-        beat_2=data["beat_2"],
-        beat_3=data["beat_3"],
-        punchline_html=punchline_html,
-        subtext_plain=data["subtext_plain"],
-        subtext_italic=data["subtext_italic"],
-        cta_text=data["cta_text"]
-    )
+    replacements = {
+        "{wall_col_1}": col1,
+        "{wall_col_2}": col2,
+        "{wall_col_3}": col3,
+        "{hook_html}": hook_html,
+        "{counter_target}": str(int(data["counter_target"])),
+        "{counter_label}": str(data["counter_label"]),
+        "{beat_1}": str(data["beat_1"]),
+        "{beat_2}": str(data["beat_2"]),
+        "{beat_3}": str(data["beat_3"]),
+        "{punchline_html}": punchline_html,
+        "{subtext_plain}": str(data["subtext_plain"]),
+        "{subtext_italic}": str(data["subtext_italic"]),
+        "{cta_text}": str(data["cta_text"]),
+    }
 
+    html = HTML_TEMPLATE_SKELETON
+    for token, value in replacements.items():
+        html = html.replace(token, value)
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
     with open(output_path, "w", encoding="utf-8") as f:
         f.write(html)
     print(f"Compiled high-fidelity reel HTML to {output_path}")
