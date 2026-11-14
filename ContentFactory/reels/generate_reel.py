@@ -15,7 +15,6 @@ from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 def ensure_dependencies():
-    """Ensure ffmpeg is available."""
     if not shutil.which("ffmpeg"):
         try:
             subprocess.run(["sudo", "apt-get", "update"], check=True, stdout=subprocess.DEVNULL)
@@ -27,23 +26,23 @@ def generate_modular_reel_content() -> dict:
     angles = [
         {
             "hook": "YOUR CONTENT ENGINE IS DRAINING YOUR TIME",
-            "card1": "MANUAL WRITING KILLS SCALE",
-            "card2": "ZERO DISTRIBUTION PIPELINES",
-            "card3": "IGNORING ZERO-DEPENDENCY ARCHITECTURE",
+            "point1": "WRITING EVERY POST MANUALLY",
+            "point2": "ZERO DISTRIBUTION PIPELINES",
+            "point3": "IGNORING AUTOMATION ARCHITECTURE",
             "footer": "COMMENT FM FOR THE WORKFLOW"
         },
         {
             "hook": "STOP WASTING 10 HOURS A WEEK ON CONTENT",
-            "card1": "BUILD A 90-MINUTE AUTOMATION ROUTINE",
-            "card2": "LET PYTHON HANDLE THE HEAVY LIFTING",
-            "card3": "DEPLOY REELS ON AUTOPILOT",
+            "point1": "BUILD A 90-MINUTE ROUTINE",
+            "point2": "LET PYTHON HANDLE THE HEAVY LIFTING",
+            "point3": "DEPLOY REELS ON AUTOPILOT",
             "footer": "COMMENT FM FOR THE BLUEPRINT"
         },
         {
-            "hook": "THE EXACT SYSTEM I USE TO RUN MY BUSINESS ON AUTO-PILOT",
-            "card1": "PROGRAMMATIC SEO & DATA MATRIX",
-            "card2": "HEADLESS API CONTENT FACTORY",
-            "card3": "RECURSIVE CRON SCHEDULING",
+            "hook": "THE SYSTEM I USE TO RUN MY BUSINESS ON AUTO-PILOT",
+            "point1": "PROGRAMMATIC SEO MATRIX",
+            "point2": "HEADLESS API CONTENT FACTORY",
+            "point3": "RECURSIVE CRON SCHEDULING",
             "footer": "COMMENT FM FOR THE SYSTEM"
         }
     ]
@@ -57,9 +56,9 @@ def generate_modular_reel_content() -> dict:
     Return ONLY valid JSON matching this exact structure with no extra markdown or fluff:
     {{
       "hookText": "{selected['hook']}",
-      "card1": "{selected['card1']}",
-      "card2": "{selected['card2']}",
-      "card3": "{selected['card3']}",
+      "point1": "{selected['point1']}",
+      "point2": "{selected['point2']}",
+      "point3": "{selected['point3']}",
       "footerLabel": "{selected['footer']}"
     }}
     """
@@ -97,7 +96,6 @@ def generate_modular_reel_content() -> dict:
     return json.loads(cleaned_text.strip())
 
 def generate_silent_audio(output_path: Path, duration_seconds: int = 10):
-    """Generate a clean silent audio track via FFmpeg."""
     subprocess.run([
         "ffmpeg", "-y", "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=mono",
         "-t", str(duration_seconds), str(output_path)
@@ -118,157 +116,114 @@ def render_modular_reel(content: dict):
 
     template_path = Path(__file__).parent / 'template.html'
 
-    # Premium, elite dark-mode glassmorphic styling
+    # Full-screen kinetic typography layout with zero boxed elements
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elite Sovereign Reel Studio</title>
+  <title>Kinetic Sovereign Reel Studio</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     html, body {{
-      width: 1080px; height: 1920px; background: #070709 !important; color: #FFFFFF;
-      display: flex; flex-direction: column; justify-content: space-between; align-items: center;
-      position: relative; overflow: hidden; font-family: 'Plus Jakarta Sans', sans-serif;
-      padding: 200px 70px 160px 70px; margin: 0;
+      width: 1080px; height: 1920px; background: #000000 !important; color: #FFFFFF;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
+      position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
+      padding: 120px 80px; margin: 0; text-align: center;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
     
-    /* Ambient lighting layers for rich depth */
-    .ambient-glow-1 {{
-      position: absolute; top: -100px; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 800px; background: radial-gradient(circle, rgba(255,107,0,0.12) 0%, rgba(0,0,0,0) 70%);
-      z-index: 1; pointer-events: none;
-    }}
-    .ambient-glow-2 {{
-      position: absolute; bottom: -100px; left: 50%; transform: translateX(-50%);
-      width: 800px; height: 800px; background: radial-gradient(circle, rgba(52,199,89,0.06) 0%, rgba(0,0,0,0) 70%);
-      z-index: 1; pointer-events: none;
-    }}
-    .grid-pattern {{
+    .vignette {{
       position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-      background-size: 50px 50px; z-index: 1; pointer-events: none;
+      background: radial-gradient(circle at center, rgba(20,20,25,1) 0%, rgba(0,0,0,1) 85%);
+      z-index: 1; pointer-events: none;
     }}
 
-    .content-wrapper {{
+    .stage {{
       position: relative; z-index: 3; width: 100%; height: 100%;
-      display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+      display: flex; flex-direction: column; justify-content: center; align-items: center;
     }}
 
-    /* Top Executive Header Card */
-    .exec-header {{
-      width: 100%; background: rgba(20, 20, 28, 0.7);
-      border: 1px solid rgba(255, 255, 255, 0.08); border-top: 1px solid rgba(255, 255, 255, 0.15);
-      border-radius: 20px; padding: 28px 36px; display: flex; flex-direction: column; gap: 12px;
-      backdrop-filter: blur(20px); box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    }}
-    .exec-badge-row {{
-      display: flex; align-items: center; justify-content: space-between; width: 100%;
-    }}
-    .exec-tag {{
-      font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; font-weight: 700;
-      letter-spacing: 0.2em; color: #FF6B00; text-transform: uppercase;
-    }}
-    .exec-status-pill {{
-      display: flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem; color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05);
-      padding: 6px 14px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
-    }}
-    .status-dot {{ width: 8px; height: 8px; background: #34C759; border-radius: 50%; box-shadow: 0 0 10px #34C759; }}
-    
-    .main-title {{
-      font-weight: 800; font-size: 2.8rem; line-height: 1.15; text-transform: uppercase;
-      color: #FFFFFF; letter-spacing: -0.02em;
+    @keyframes popIn {{
+      0% {{ opacity: 0; transform: scale(0.92) translateY(20px); }}
+      100% {{ opacity: 1; transform: scale(1) translateY(0); }}
     }}
 
-    /* Sequential Glass Cards */
-    .cards-container {{
-      display: flex; flex-direction: column; gap: 24px; width: 100%; max-width: 940px;
-      margin: auto 0;
+    @keyframes fadeOut {{
+      0% {{ opacity: 1; transform: scale(1); }}
+      100% {{ opacity: 0; transform: scale(1.05); }}
     }}
 
-    @keyframes revealCard {{
-      0% {{ opacity: 0; transform: translateY(30px) scale(0.98); }}
-      100% {{ opacity: 1; transform: translateY(0) scale(1); border-color: rgba(255, 107, 0, 0.4); box-shadow: 0 0 30px rgba(255, 107, 0, 0.12), 0 20px 40px rgba(0,0,0,0.5); }}
+    .kinetic-sequence {{
+      position: absolute; width: 100%; opacity: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
     }}
 
-    .modular-card {{
-      background: rgba(16, 16, 22, 0.75); border: 1px solid rgba(255, 255, 255, 0.08);
-      border-top: 1px solid rgba(255, 255, 255, 0.15); backdrop-filter: blur(16px);
-      border-radius: 20px; padding: 32px 36px; display: flex; align-items: center; gap: 28px;
-      opacity: 0; transform: translateY(30px) scale(0.98);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    /* Sequence Timing across 10 seconds */
+    #seq-hook {{
+      animation: popIn 0.4s ease forwards 0.2s, fadeOut 0.3s ease forwards 3.2s;
+    }}
+    #seq-point1 {{
+      animation: popIn 0.4s ease forwards 3.5s, fadeOut 0.3s ease forwards 5.8s;
+    }}
+    #seq-point2 {{
+      animation: popIn 0.4s ease forwards 6.1s, fadeOut 0.3s ease forwards 8.2s;
+    }}
+    #seq-point3 {{
+      animation: popIn 0.4s ease forwards 8.4s;
     }}
 
-    #card-1 {{ animation: revealCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.2s forwards; }}
-    #card-2 {{ animation: revealCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) 4.2s forwards; }}
-    #card-3 {{ animation: revealCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) 7.0s forwards; }}
-
-    .card-badge {{
-      width: 54px; height: 54px; border-radius: 14px; background: rgba(255, 107, 0, 0.15);
-      border: 1px solid rgba(255, 107, 0, 0.4); display: flex; align-items: center; justify-content: center;
-      font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; font-weight: 700; color: #FF6B00;
-      flex-shrink: 0; box-shadow: 0 0 20px rgba(255, 107, 0, 0.2);
-    }}
-    .card-text {{
-      font-weight: 800; font-size: 1.5rem; letter-spacing: -0.01em; color: #FFFFFF;
-      text-transform: uppercase;
+    .badge-top {{
+      font-size: 1.5rem; font-weight: 700; letter-spacing: 0.3em; color: #FF6B00;
+      text-transform: uppercase; margin-bottom: 30px;
     }}
 
-    /* Sleek Footer Signature */
-    .footer-block {{
-      width: 100%; display: flex; justify-content: space-between; align-items: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.08); padding-top: 28px;
+    .hero-text {{
+      font-weight: 900; font-size: 5.2rem; line-height: 1.08; text-transform: uppercase;
+      color: #FFFFFF; letter-spacing: -0.03em; max-width: 950px;
     }}
-    .footer-brand {{
-      font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; letter-spacing: 0.25em;
-      color: #FF6B00; font-weight: 700; text-transform: uppercase;
+
+    .highlight {{
+      color: #FF6B00;
     }}
-    .footer-action {{
-      font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; letter-spacing: 0.2em;
-      color: rgba(255, 255, 255, 0.5); text-transform: uppercase;
+
+    .footer-watermark {{
+      position: absolute; bottom: 80px; left: 50%; transform: translateX(-50%);
+      font-size: 1.2rem; font-weight: 700; letter-spacing: 0.3em; color: rgba(255,255,255,0.3);
+      text-transform: uppercase; z-index: 4;
     }}
   </style>
 </head>
 <body>
-  <div class="ambient-glow-1"></div>
-  <div class="ambient-glow-2"></div>
-  <div class="grid-pattern"></div>
+  <div class="vignette"></div>
   
-  <div class="content-wrapper">
-    <div class="exec-header">
-      <div class="exec-badge-row">
-        <div class="exec-tag">// SYSTEM ARCHITECTURE</div>
-        <div class="exec-status-pill">
-          <div class="status-dot"></div> ACTIVE PIPELINE
-        </div>
-      </div>
-      <div class="main-title">{content['hookText']}</div>
+  <div class="stage">
+    <!-- Hook Sequence -->
+    <div class="kinetic-sequence" id="seq-hook">
+      <div class="badge-top">// THE PROBLEM</div>
+      <div class="hero-text">{content['hookText']}</div>
     </div>
-    
-    <div class="cards-container">
-      <div class="modular-card" id="card-1">
-        <div class="card-badge">01</div>
-        <div class="card-text">{content['card1']}</div>
-      </div>
-      <div class="modular-card" id="card-2">
-        <div class="card-badge">02</div>
-        <div class="card-text">{content['card2']}</div>
-      </div>
-      <div class="modular-card" id="card-3">
-        <div class="card-badge">03</div>
-        <div class="card-text">{content['card3']}</div>
-      </div>
+
+    <!-- Point 1 -->
+    <div class="kinetic-sequence" id="seq-point1">
+      <div class="badge-top">01 / MISTAKE</div>
+      <div class="hero-text">{content['point1']}</div>
     </div>
-    
-    <div class="footer-block">
-      <div class="footer-brand">FM FRAMEWORKS</div>
-      <div class="footer-action">{content['footerLabel']}</div>
+
+    <!-- Point 2 -->
+    <div class="kinetic-sequence" id="seq-point2">
+      <div class="badge-top">02 / MISTAKE</div>
+      <div class="hero-text">{content['point2']}</div>
+    </div>
+
+    <!-- Point 3 -->
+    <div class="kinetic-sequence" id="seq-point3">
+      <div class="badge-top">03 / MISTAKE</div>
+      <div class="hero-text">{content['point3']}</div>
     </div>
   </div>
+
+  <div class="footer-watermark">{content['footerLabel']}</div>
 </body>
 </html>"""
 
@@ -287,7 +242,7 @@ def render_modular_reel(content: dict):
         total_frames = int(fps * total_seconds)
         interval = 1.0 / fps
         
-        print("Capturing elite glassmorphic frames...")
+        print("Capturing kinetic typography frames...")
         start_time = time.time()
         for i in range(total_frames):
             frame_path = frames_dir / f"frame_{i:04d}.png"
@@ -327,7 +282,7 @@ def render_modular_reel(content: dict):
                 str(final_output)
             ]
             subprocess.run(ffmpeg_mux_cmd, check=True)
-            print(f"Elite glassmorphic reel successfully created: {final_output}")
+            print(f"Kinetic sovereign reel successfully created: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
