@@ -105,7 +105,7 @@ def generate_modular_reel_content() -> dict:
     return json.loads(cleaned_text.strip())
 
 def synthesize_voiceover(text: str, output_path: Path):
-    """Generate high-fidelity voiceover using gTTS."""
+    """Generate voiceover using gTTS."""
     try:
         from gtts import gTTS
         tts = gTTS(text=text, lang='en', tld='com', slow=False)
@@ -132,11 +132,12 @@ def render_modular_reel(content: dict):
 
     template_path = Path(__file__).parent / 'template.html'
 
+    # Clean HTML template using pure CSS keyframe animations for deterministic frame rendering
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Elite Sovereign Reel Studio</title>
+  <title>Deterministic Sovereign Reel Studio</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;600;800;900&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -144,17 +145,12 @@ def render_modular_reel(content: dict):
       width: 1080px; height: 1920px; background: #030305 !important; color: #FFFFFF;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
       position: relative; overflow: hidden; font-family: 'JetBrains Mono', monospace, sans-serif;
-      padding: 180px 70px 120px 70px; margin: 0;
+      padding: 160px 70px 120px 70px; margin: 0;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
     .ambient-glow-top {{
       position: absolute; top: -150px; left: 50%; transform: translateX(-50%);
       width: 900px; height: 900px; background: radial-gradient(circle, rgba(255,107,0,0.15) 0%, rgba(0,0,0,0) 70%);
-      z-index: 1; pointer-events: none;
-    }}
-    .ambient-glow-bottom {{
-      position: absolute; bottom: -200px; left: 50%; transform: translateX(-50%);
-      width: 900px; height: 900px; background: radial-gradient(circle, rgba(52,199,89,0.08) 0%, rgba(0,0,0,0) 70%);
       z-index: 1; pointer-events: none;
     }}
     .grid-overlay {{
@@ -168,16 +164,15 @@ def render_modular_reel(content: dict):
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
     }}
     
-    /* Top Visual Context Zone (Kallaway Style Split Mockup) */
     .visual-mockup-container {{
-      width: 100%; height: 340px; background: rgba(15, 15, 20, 0.85);
+      width: 100%; height: 300px; background: rgba(15, 15, 20, 0.85);
       border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 24px;
       backdrop-filter: blur(20px); display: flex; flex-direction: column;
       overflow: hidden; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
-      margin-bottom: 30px;
+      margin-bottom: 20px;
     }}
     .mockup-header {{
-      background: rgba(25, 25, 35, 0.9); padding: 16px 24px;
+      background: rgba(25, 25, 35, 0.9); padding: 14px 24px;
       display: flex; align-items: center; justify-content: space-between;
       border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }}
@@ -186,74 +181,72 @@ def render_modular_reel(content: dict):
     .dot-red {{ background: #FF5F56; }}
     .dot-yellow {{ background: #FFBD2E; }}
     .dot-green {{ background: #27C93F; }}
-    .mockup-url {{
-      font-size: 0.9rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em;
-    }}
+    .mockup-url {{ font-size: 0.9rem; color: rgba(255,255,255,0.5); letter-spacing: 0.1em; }}
     .mockup-body {{
       flex: 1; display: flex; align-items: center; justify-content: center;
-      padding: 20px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.8rem;
+      padding: 20px; font-family: 'Inter', sans-serif; font-weight: 800; font-size: 1.6rem;
       color: #FF6B00; text-transform: uppercase; letter-spacing: -0.02em; text-align: center;
       background: radial-gradient(circle at center, rgba(255,107,0,0.08) 0%, transparent 70%);
     }}
 
     .header-block {{
       display: flex; flex-direction: column; align-items: center; text-align: center; width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
     }}
     .main-title {{
-      font-family: 'Inter', sans-serif; font-weight: 900; font-size: 3.2rem;
+      font-family: 'Inter', sans-serif; font-weight: 900; font-size: 3.0rem;
       line-height: 1.15; text-transform: uppercase; color: #FFFFFF;
       letter-spacing: -0.03em; text-shadow: 0 10px 30px rgba(0,0,0,0.9);
     }}
     
     .cards-container {{
-      display: flex; flex-direction: column; gap: 24px; width: 100%; max-width: 940px;
+      display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 940px;
       margin: auto 0;
     }}
+
+    /* Deterministic Keyframe Animations */
+    @keyframes revealCard {{
+      0% {{ opacity: 0; transform: translateY(35px) scale(0.98); }}
+      100% {{ opacity: 1; transform: translateY(0) scale(1); border-color: rgba(255, 107, 0, 0.4); box-shadow: 0 0 35px rgba(255, 107, 0, 0.15), 0 20px 50px rgba(0,0,0,0.7); }}
+    }}
+
     .modular-card {{
       background: rgba(18, 18, 24, 0.8); border: 1px solid rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(16px); border-radius: 20px; padding: 32px 36px;
+      backdrop-filter: blur(16px); border-radius: 20px; padding: 28px 34px;
       display: flex; align-items: center; gap: 28px;
-      opacity: 0; transform: translateY(35px) scale(0.98); 
-      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 0; transform: translateY(35px) scale(0.98);
       box-shadow: 0 20px 50px rgba(0,0,0,0.7);
     }}
-    .modular-card.visible {{
-      opacity: 1; transform: translateY(0) scale(1);
-      border-color: rgba(255, 107, 0, 0.4);
-      box-shadow: 0 0 35px rgba(255, 107, 0, 0.15), 0 20px 50px rgba(0,0,0,0.7);
-    }}
+
+    #card-1 {{ animation: revealCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) 1.0s forwards; }}
+    #card-2 {{ animation: revealCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) 3.2s forwards; }}
+    #card-3 {{ animation: revealCard 0.4s cubic-bezier(0.16, 1, 0.3, 1) 5.4s forwards; }}
+
     .badge-icon {{
-      width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 1.6rem; font-weight: 800; flex-shrink: 0; font-family: 'Inter', sans-serif;
+      width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; font-weight: 800; flex-shrink: 0; font-family: 'Inter', sans-serif;
     }}
-    .badge-red {{ background: rgba(255, 59, 48, 0.18); color: #FF3B30; border: 1px solid rgba(255, 59, 48, 0.5); box-shadow: 0 0 25px rgba(255, 59, 48, 0.3); }}
-    .badge-amber {{ background: rgba(255, 107, 0, 0.18); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.5); box-shadow: 0 0 25px rgba(255, 107, 0, 0.3); }}
-    .badge-green {{ background: rgba(52, 199, 89, 0.18); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.5); box-shadow: 0 0 25px rgba(52, 199, 89, 0.3); }}
+    .badge-red {{ background: rgba(255, 59, 48, 0.18); color: #FF3B30; border: 1px solid rgba(255, 59, 48, 0.5); }}
+    .badge-amber {{ background: rgba(255, 107, 0, 0.18); color: #FF6B00; border: 1px solid rgba(255, 107, 0, 0.5); }}
+    .badge-green {{ background: rgba(52, 199, 89, 0.18); color: #34C759; border: 1px solid rgba(52, 199, 89, 0.5); }}
     .card-text {{
-      font-family: 'Inter', sans-serif; font-size: 1.4rem; font-weight: 800;
+      font-family: 'Inter', sans-serif; font-size: 1.35rem; font-weight: 800;
       letter-spacing: -0.01em; color: #FFFFFF; text-transform: uppercase;
     }}
     
     .footer-block {{
       display: flex; justify-content: space-between; align-items: center; width: 100%;
-      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 24px; margin-top: 20px;
+      border-top: 1px solid rgba(255, 255, 255, 0.15); padding-top: 20px; margin-top: 10px;
     }}
-    .footer-label {{
-      font-size: 1.1rem; letter-spacing: 0.2em; color: #FF6B00; font-weight: 800; text-transform: uppercase;
-    }}
-    .cta-link {{
-      font-size: 1.1rem; letter-spacing: 0.25em; color: rgba(255,255,255,0.8); font-weight: 700; text-transform: uppercase;
-    }}
+    .footer-label {{ font-size: 1.05rem; letter-spacing: 0.2em; color: #FF6B00; font-weight: 800; text-transform: uppercase; }}
+    .cta-link {{ font-size: 1.05rem; letter-spacing: 0.25em; color: rgba(255,255,255,0.8); font-weight: 700; text-transform: uppercase; }}
   </style>
 </head>
 <body>
   <div class="ambient-glow-top"></div>
-  <div class="ambient-glow-bottom"></div>
   <div class="grid-overlay"></div>
   
   <div class="content-wrapper">
-    <!-- Top Visual Split Component -->
     <div class="visual-mockup-container">
       <div class="mockup-header">
         <div class="mockup-dots">
@@ -263,9 +256,7 @@ def render_modular_reel(content: dict):
         </div>
         <div class="mockup-url">system://matrix/execution_core</div>
       </div>
-      <div class="mockup-body">
-        AUTOMATED PIPELINE MATRIX ACTIVE
-      </div>
+      <div class="mockup-body">AUTOMATED PIPELINE MATRIX ACTIVE</div>
     </div>
 
     <div class="header-block">
@@ -292,14 +283,6 @@ def render_modular_reel(content: dict):
       <div class="cta-link">FMFRAMEWORKS</div>
     </div>
   </div>
-
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {{
-      setTimeout(() => {{ document.getElementById('card-1').classList.add('visible'); }}, 900);
-      setTimeout(() => {{ document.getElementById('card-2').classList.add('visible'); }}, 2800);
-      setTimeout(() => {{ document.getElementById('card-3').classList.add('visible'); }}, 4700);
-    }});
-  </script>
 </body>
 </html>"""
 
@@ -319,7 +302,7 @@ def render_modular_reel(content: dict):
         total_frames = int(fps * total_seconds)
         interval = 1.0 / fps
         
-        print("Capturing elite sovereign-grade visual frames...")
+        print("Capturing deterministic sovereign-grade frames...")
         start_time = time.time()
         for i in range(total_frames):
             frame_path = frames_dir / f"frame_{i:04d}.png"
@@ -337,7 +320,7 @@ def render_modular_reel(content: dict):
         ensure_dependencies()
         
         if shutil.which("ffmpeg"):
-            print("Compiling video frames into MP4 via FFmpeg...")
+            print("Compiling frames into MP4 via FFmpeg...")
             ffmpeg_video_cmd = [
                 "ffmpeg", "-y",
                 "-framerate", str(fps),
@@ -348,7 +331,7 @@ def render_modular_reel(content: dict):
             ]
             subprocess.run(ffmpeg_video_cmd, check=True)
 
-            print("Muxing voiceover audio track with video...")
+            print("Muxing audio track with video...")
             ffmpeg_mux_cmd = [
                 "ffmpeg", "-y",
                 "-i", str(video_only_output),
@@ -359,7 +342,7 @@ def render_modular_reel(content: dict):
                 str(final_output)
             ]
             subprocess.run(ffmpeg_mux_cmd, check=True)
-            print(f"Elite visual-upgraded reel successfully created: {final_output}")
+            print(f"Deterministic sovereign reel successfully created: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
