@@ -15,17 +15,13 @@ from playwright.sync_api import sync_playwright
 from config import get_client, get_groq_client, call_with_fallback, DEFAULT_HYBRID_CASCADE
 
 def ensure_dependencies():
-    """Ensure ffmpeg and gTTS are available for audio generation."""
+    """Ensure ffmpeg is available."""
     if not shutil.which("ffmpeg"):
         try:
             subprocess.run(["sudo", "apt-get", "update"], check=True, stdout=subprocess.DEVNULL)
             subprocess.run(["sudo", "apt-get", "install", "-y", "ffmpeg"], check=True, stdout=subprocess.DEVNULL)
         except Exception:
             pass
-    try:
-        import gtts
-    except ImportError:
-        subprocess.run([sys.executable, "-m", "pip", "install", "gtts"], check=True, stdout=subprocess.DEVNULL)
 
 def generate_modular_reel_content() -> dict:
     angles = [
@@ -34,24 +30,21 @@ def generate_modular_reel_content() -> dict:
             "card1": "01 / MANUAL WRITING",
             "card2": "02 / ZERO DISTRIBUTION PIPELINES",
             "card3": "03 / NO ZERO-DEPENDENCY ARCHITECTURE",
-            "footer": "COMMENT FM FOR THE WORKFLOW",
-            "spoken": "Three reasons your content engine is draining your time. First, writing every single post manually. Second, having zero automated distribution pipelines. And third, ignoring zero dependency architecture. Comment FM for the workflow."
+            "footer": "COMMENT FM FOR THE WORKFLOW"
         },
         {
             "hook": "STOP WASTING 10 HOURS A WEEK ON CONTENT",
             "card1": "01 / 90-MINUTE AUTOMATION ROUTINE",
             "card2": "02 / PYTHON HANDLES THE HEAVY LIFTING",
             "card3": "03 / DEPLOY REELS ON AUTOPILOT",
-            "footer": "COMMENT FM FOR THE BLUEPRINT",
-            "spoken": "How to stop wasting ten hours a week on content. First, build a ninety minute automation routine. Second, let Python handle the heavy lifting. Third, deploy reels on autopilot. Comment FM for the blueprint."
+            "footer": "COMMENT FM FOR THE BLUEPRINT"
         },
         {
             "hook": "THE EXACT SYSTEM I USE TO RUN MY BUSINESS ON AUTO-PILOT",
             "card1": "01 / PROGRAMMATIC SEO MATRIX",
             "card2": "02 / HEADLESS API FACTORY",
             "card3": "03 / RECURSIVE CRON SCHEDULING",
-            "footer": "COMMENT FM FOR THE SYSTEM",
-            "spoken": "The exact system I use to run my business on autopilot. First, programmatic SEO and data matrices. Second, a headless API content factory. Third, recursive cron scheduling. Comment FM for the system."
+            "footer": "COMMENT FM FOR THE SYSTEM"
         }
     ]
     
@@ -67,8 +60,7 @@ def generate_modular_reel_content() -> dict:
       "card1": "{selected['card1']}",
       "card2": "{selected['card2']}",
       "card3": "{selected['card3']}",
-      "footerLabel": "{selected['footer']}",
-      "spoken": "{selected['spoken']}"
+      "footerLabel": "{selected['footer']}"
     }}
     """
 
@@ -104,19 +96,12 @@ def generate_modular_reel_content() -> dict:
         
     return json.loads(cleaned_text.strip())
 
-def synthesize_voiceover(text: str, output_path: Path):
-    """Generate voiceover using gTTS."""
-    try:
-        from gtts import gTTS
-        tts = gTTS(text=text, lang='en', tld='com', slow=False)
-        tts.save(str(output_path))
-        print(f"Voiceover successfully synthesized: {output_path}")
-    except Exception as e:
-        print(f"Voiceover generation fallback triggered: {e}")
-        subprocess.run([
-            "ffmpeg", "-y", "-f", "lavfi", "-i", "anullsrc=r=44100:cl=mono", 
-            "-t", "8", str(output_path)
-        ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+def generate_silent_audio(output_path: Path, duration_seconds: int = 10):
+    """Generate a clean, reliable silent audio track via FFmpeg to guarantee zero network/TTS dropouts."""
+    subprocess.run([
+        "ffmpeg", "-y", "-f", "lavfi", "-i", f"anullsrc=r=44100:cl=mono",
+        "-t", str(duration_seconds), str(output_path)
+    ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
 def render_modular_reel(content: dict):
     ensure_dependencies()
@@ -127,17 +112,19 @@ def render_modular_reel(content: dict):
         shutil.rmtree(frames_dir)
     frames_dir.mkdir(exist_ok=True)
     
-    audio_path = output_dir / 'voiceover.mp3'
-    synthesize_voiceover(content['spoken'], audio_path)
+    # Use a fixed 10-second duration for smooth, un-rushed reading pacing
+    total_seconds = 10.0
+    audio_path = output_dir / 'silent_track.mp3'
+    generate_silent_audio(audio_path, int(total_seconds))
 
     template_path = Path(__file__).parent / 'template.html'
 
-    # Ultra-clean minimalist typographic layout with zero container boxes
+    # High-contrast, clean minimalist typographic layout with perfectly timed keyframes
     embedded_template = f"""<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Minimalist Sovereign Reel Studio</title>
+  <title>Stable Sovereign Reel Studio</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&family=Inter:wght@400;700;900&display=swap');
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -145,13 +132,13 @@ def render_modular_reel(content: dict):
       width: 1080px; height: 1920px; background: #000000 !important; color: #FFFFFF;
       display: flex; flex-direction: column; justify-content: space-between; align-items: center;
       position: relative; overflow: hidden; font-family: 'Inter', sans-serif;
-      padding: 220px 90px 180px 90px; margin: 0;
+      padding: 240px 90px 200px 90px; margin: 0;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }}
     
     .ambient-glow {{
       position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-      width: 700px; height: 700px; background: radial-gradient(circle, rgba(255,107,0,0.08) 0%, rgba(0,0,0,0) 70%);
+      width: 800px; height: 800px; background: radial-gradient(circle, rgba(255,107,0,0.1) 0%, rgba(0,0,0,0) 70%);
       z-index: 1; pointer-events: none;
     }}
 
@@ -161,53 +148,50 @@ def render_modular_reel(content: dict):
       text-align: center;
     }}
 
-    /* Massive Minimalist Hook */
     .hook-block {{
       width: 100%;
-      display: flex; flex-direction: column; align-items: center; gap: 20px;
+      display: flex; flex-direction: column; align-items: center; gap: 24px;
     }}
     .hook-tag {{
-      font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; font-weight: 700;
+      font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; font-weight: 700;
       letter-spacing: 0.3em; color: #FF6B00; text-transform: uppercase;
     }}
     .main-title {{
-      font-weight: 900; font-size: 4.2rem; line-height: 1.1; text-transform: uppercase;
-      color: #FFFFFF; letter-spacing: -0.03em; max-width: 900px;
+      font-weight: 900; font-size: 4.5rem; line-height: 1.12; text-transform: uppercase;
+      color: #FFFFFF; letter-spacing: -0.03em; max-width: 920px;
     }}
 
-    /* Sequential Minimalist Points */
     .points-container {{
-      display: flex; flex-direction: column; gap: 40px; width: 100%; max-width: 900px;
+      display: flex; flex-direction: column; gap: 45px; width: 100%; max-width: 900px;
       margin: auto 0;
     }}
 
     @keyframes fadeInText {{
-      0% {{ opacity: 0; transform: translateY(20px); }}
+      0% {{ opacity: 0; transform: translateY(25px); }}
       100% {{ opacity: 1; transform: translateY(0); }}
     }}
 
     .minimal-point {{
-      font-family: 'JetBrains Mono', monospace; font-size: 2.2rem; font-weight: 700;
-      color: #E0E0E0; text-transform: uppercase; letter-spacing: -0.02em;
-      opacity: 0; transform: translateY(20px); text-align: left;
-      padding-left: 30px; border-left: 4px solid #FF6B00;
+      font-family: 'JetBrains Mono', monospace; font-size: 2.3rem; font-weight: 700;
+      color: #F0F0F0; text-transform: uppercase; letter-spacing: -0.02em;
+      opacity: 0; transform: translateY(25px); text-align: left;
+      padding-left: 35px; border-left: 5px solid #FF6B00;
     }}
 
-    #point-1 {{ animation: fadeInText 0.4s ease forwards 1.0s; }}
-    #point-2 {{ animation: fadeInText 0.4s ease forwards 3.2s; }}
-    #point-3 {{ animation: fadeInText 0.4s ease forwards 5.4s; }}
+    #point-1 {{ animation: fadeInText 0.4s ease forwards 1.5s; }}
+    #point-2 {{ animation: fadeInText 0.4s ease forwards 4.5s; }}
+    #point-3 {{ animation: fadeInText 0.4s ease forwards 7.2s; }}
 
-    /* Clean Minimalist Footer */
     .footer-block {{
-      width: 100%; display: flex; flex-direction: column; align-items: center; gap: 12px;
-      border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 30px;
+      width: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.12); padding-top: 35px;
     }}
     .footer-label {{
-      font-family: 'JetBrains Mono', monospace; font-size: 1.3rem; letter-spacing: 0.25em;
+      font-family: 'JetBrains Mono', monospace; font-size: 1.4rem; letter-spacing: 0.25em;
       color: #FF6B00; font-weight: 700; text-transform: uppercase;
     }}
     .footer-sub {{
-      font-size: 1rem; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.4); text-transform: uppercase;
+      font-size: 1.05rem; letter-spacing: 0.2em; color: rgba(255, 255, 255, 0.4); text-transform: uppercase;
     }}
   </style>
 </head>
@@ -246,11 +230,10 @@ def render_modular_reel(content: dict):
         page.evaluate("document.fonts.ready")
         
         fps = 30
-        total_seconds = 8.0
         total_frames = int(fps * total_seconds)
         interval = 1.0 / fps
         
-        print("Capturing minimalist sovereign frames...")
+        print("Capturing stable sovereign frames...")
         start_time = time.time()
         for i in range(total_frames):
             frame_path = frames_dir / f"frame_{i:04d}.png"
@@ -279,7 +262,7 @@ def render_modular_reel(content: dict):
             ]
             subprocess.run(ffmpeg_video_cmd, check=True)
 
-            print("Muxing audio track with video...")
+            print("Muxing stable audio track with video...")
             ffmpeg_mux_cmd = [
                 "ffmpeg", "-y",
                 "-i", str(video_only_output),
@@ -290,7 +273,7 @@ def render_modular_reel(content: dict):
                 str(final_output)
             ]
             subprocess.run(ffmpeg_mux_cmd, check=True)
-            print(f"Minimalist sovereign reel successfully created: {final_output}")
+            print(f"Stable sovereign reel successfully created: {final_output}")
 
 if __name__ == "__main__":
     content_payload = generate_modular_reel_content()
