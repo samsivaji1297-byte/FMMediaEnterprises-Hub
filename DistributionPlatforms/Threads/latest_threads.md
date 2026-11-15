@@ -1,24 +1,27 @@
-**Reel Hook:** “What if the *hours you work* aren’t the thing that decides your paycheck?”  
-**Caption:** Unmask the Effort‑Value Illusion and start charging for results, not grind. 👇  
+**Reel Hook & Caption**  
+🧠 *Your brain is paying a hidden tax every time you open a new app.*  
+💡 *Cut the tax in half with one‑command automation.*  
 
-**Thread 1️⃣ – The Bias in Plain Sight**  
-> Most creators think: *“I’m working 60 h/week, so I must earn more.”*  
-> Reality: Clients care about **outcomes**, not the sweat you pour in. The brain’s effort‑value illusion tricks you into underpricing.  
+---
 
-**Thread 2️⃣ – Quantify Value, Not Time**  
-> Grab a simple 2 × 2 **Value‑vs‑Effort Matrix**:  
-> • **High Value / Low Effort** → Premium rates.  
-> • **Low Value / High Effort** → Kill or automate.  
-> Use the matrix to audit every offer before you quote a price.  
+**Post 1️⃣ – The Silent Tax You Never Knew Existed**  
+Every extra productivity app adds a *micro‑decision*: “Which tool do I open next?” Those micro‑decisions compound, stealing ~2 hours a week of pure thinking power. #AttentionFragmentation  
 
-**Thread 3️⃣ – Build an Outcome‑Driven Billing Engine**  
-> 1️⃣ Define a clear deliverable KPI (e.g., “+15 % conversion”).  
-> 2️⃣ Tie payment milestones to KPI hits, not hours logged.  
-> 3️⃣ Automate invoices with Zapier + Stripe → zero‑touch cash flow.  
+---
 
-**Thread 4️⃣ – The Payoff**  
-> Swap “hours‑worked” for “impact‑delivered” and watch your hourly rate *explode* without working longer. Ready to break the illusion? 🚀  
+**Post 2️⃣ – Why “More Tools = More Productivity” Is a Myth**  
+Your brain has ~100 W of cognitive bandwidth. Switching between Notion, Todoist, ClickUp, and a habit tracker burns that bandwidth like a leaky faucet—dripping focus, flooding overwhelm. #DecisionFatigue  
 
----  
+---
 
-###
+**Post 3️⃣ – One‑Command Solution: The 5‑Minute Consolidation Ritual**  
+1️⃣ Choose ONE “hub” (Notion, Coda, or Airtable).  
+2️⃣ Export every task list as CSV.  
+3️⃣ Import into a master “Dashboard” page.  
+4️⃣ Set a single daily reminder: “Open Dashboard → Do 1”.  
+5️⃣ Close all other apps. You’ve just reclaimed 8–10 hours of mental energy per month. #ZeroSwitch  
+
+---
+
+**Post 4️⃣ – Ready to Stop Paying the Tax?**  
+Grab the **Attention‑Fragmentation Playbook** – a step‑by‑step, $197 framework that builds a *single‑command* productivity hub, auto‑syncs your data, and eliminates the need for 7+ apps. 👉 [Get it now]
