@@ -1,27 +1,27 @@
 **Reel Hook & Caption**  
-🧠 *Your brain is paying a hidden tax every time you open a new app.*  
-💡 *Cut the tax in half with one‑command automation.*  
+🚨 *“Your 10‑app productivity stack is secretly stealing 8 hours a week – here’s the one‑click fix.”*  
+🧩 *Swipe 👉 to see how to collapse the chaos.*  
 
 ---
 
-**Post 1️⃣ – The Silent Tax You Never Knew Existed**  
-Every extra productivity app adds a *micro‑decision*: “Which tool do I open next?” Those micro‑decisions compound, stealing ~2 hours a week of pure thinking power. #AttentionFragmentation  
+**Thread 1 – The Silent Leak**  
+You’ve built a toolbox of 8‑12 apps: Todoist, Notion, Trello, ClickUp, Asana, Google Keep, Evernote, etc. Each promises “clarity,” but every time you open one you spend **30 seconds** deciding *where* to add a task. Multiply that by 50 daily actions → **25 minutes** lost *just* on tool‑hopping. That’s the **Choice‑Overload Leak**.
 
 ---
 
-**Post 2️⃣ – Why “More Tools = More Productivity” Is a Myth**  
-Your brain has ~100 W of cognitive bandwidth. Switching between Notion, Todoist, ClickUp, and a habit tracker burns that bandwidth like a leaky faucet—dripping focus, flooding overwhelm. #DecisionFatigue  
+**Thread 2 – The Cognitive Tax**  
+Your brain treats each switch as a mini‑tax. Neuroscience shows a **switch cost** of ~300 ms per decision. 50 switches = **15 seconds** of pure mental tax *per day*—but the real cost is the **exponential fatigue** that follows, eroding willpower and causing you to abandon tasks halfway.
 
 ---
 
-**Post 3️⃣ – One‑Command Solution: The 5‑Minute Consolidation Ritual**  
-1️⃣ Choose ONE “hub” (Notion, Coda, or Airtable).  
-2️⃣ Export every task list as CSV.  
-3️⃣ Import into a master “Dashboard” page.  
-4️⃣ Set a single daily reminder: “Open Dashboard → Do 1”.  
-5️⃣ Close all other apps. You’ve just reclaimed 8–10 hours of mental energy per month. #ZeroSwitch  
+**Thread 3 – One‑Command Collapse**  
+Enter the **Zero‑Switch Dashboard**: a single Notion page that pulls tasks, notes, calendar events, and project boards via API integrations. One click → everything you need. Result: **+3 hrs/week** of pure execution time and a *clear mental runway* for deep work.
 
 ---
 
-**Post 4️⃣ – Ready to Stop Paying the Tax?**  
-Grab the **Attention‑Fragmentation Playbook** – a step‑by‑step, $197 framework that builds a *single‑command* productivity hub, auto‑syncs your data, and eliminates the need for 7+ apps. 👉 [Get it now]
+**Thread 4 – Quick Implementation**  
+1️⃣ Duplicate the free “One‑Command Dashboard” template (link in bio).  
+2️⃣ Connect your top 3 apps via Zapier/Make.  
+3️⃣ Set a daily 5‑minute “Dashboard Scan” ritual.  
+
+You’ll feel the overload melt away *by tomorrow*. Ready to try? 👇
