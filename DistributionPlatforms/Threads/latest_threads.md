@@ -1,27 +1,37 @@
-**Reel Hook & Caption**  
-🚨 *“Your 10‑app productivity stack is secretly stealing 8 hours a week – here’s the one‑click fix.”*  
-🧩 *Swipe 👉 to see how to collapse the chaos.*  
+**Reel Hook:**  
+🧠 *Your brain is drowning in apps.*  
+🚀 *One‑command flow can rescue it.*
+
+**Caption:**  
+Stop the planning‑paralysis loop. Here’s how to collapse a chaotic stack into a single, unstoppable workflow.
 
 ---
 
-**Thread 1 – The Silent Leak**  
-You’ve built a toolbox of 8‑12 apps: Todoist, Notion, Trello, ClickUp, Asana, Google Keep, Evernote, etc. Each promises “clarity,” but every time you open one you spend **30 seconds** deciding *where* to add a task. Multiply that by 50 daily actions → **25 minutes** lost *just* on tool‑hopping. That’s the **Choice‑Overload Leak**.
+**Post 1️⃣ – The Hidden Cost**  
+Every extra productivity app adds ~30 seconds of decision time *and* forces a context switch. Multiply that by 10 apps, 5 times a day, and you’ve lost **≈25 minutes** of deep work. That’s **≈2 hours** a week—time you’ll never get back.
 
 ---
 
-**Thread 2 – The Cognitive Tax**  
-Your brain treats each switch as a mini‑tax. Neuroscience shows a **switch cost** of ~300 ms per decision. 50 switches = **15 seconds** of pure mental tax *per day*—but the real cost is the **exponential fatigue** that follows, eroding willpower and causing you to abandon tasks halfway.
+**Post 2️⃣ – The Loop Explained**  
+1️⃣ Open App A → decide what to log.  
+2️⃣ Switch to App B → re‑enter the same task.  
+3️⃣ Switch to App C → duplicate notes.  
+Your brain treats each switch as a mini‑task, draining working‑memory and triggering decision fatigue. The loop feeds itself until you freeze.
 
 ---
 
-**Thread 3 – One‑Command Collapse**  
-Enter the **Zero‑Switch Dashboard**: a single Notion page that pulls tasks, notes, calendar events, and project boards via API integrations. One click → everything you need. Result: **+3 hrs/week** of pure execution time and a *clear mental runway* for deep work.
+**Post 3️⃣ – One‑Command Collapse**  
+🔧 **Solution:** Build a *single‑command* “Inbox → Route” engine.  
+- Capture everything in one place (email, voice, quick note).  
+- Auto‑tag & route to your calendar, project board, or notes via a Zapier/Make script.  
+- No more manual hand‑offs.  
+
+Result? **+3 hrs/week** of uninterrupted focus.
 
 ---
 
-**Thread 4 – Quick Implementation**  
-1️⃣ Duplicate the free “One‑Command Dashboard” template (link in bio).  
-2️⃣ Connect your top 3 apps via Zapier/Make.  
-3️⃣ Set a daily 5‑minute “Dashboard Scan” ritual.  
+**Post 4️⃣ – Get the Blueprint**  
+Ready to kill the loop? Grab the **Compression System** – a $197 framework that wires your favorite tools into a zero‑touch pipeline.  
+👉 <https://fmframeworks.gumroad.com/l/CompressionSystem>  
 
-You’ll feel the overload melt away *by tomorrow*. Ready to try? 👇
+Turn chaos into a single, frictionless flow. #Productivity #SovereignOperator
