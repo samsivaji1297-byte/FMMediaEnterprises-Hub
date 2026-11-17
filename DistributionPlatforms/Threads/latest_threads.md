@@ -1,28 +1,23 @@
-**Reel Hook:**  
-🚀 *Feel trapped in a low‑pay agency? The secret isn’t “working harder” – it’s seeing the upside you’re blind to.*  
-**Caption:** *Unlock the hidden lever that lets you exit without sacrificing cash flow.*
+**Reel Hook:** *“Your talent is invisible. Make it impossible to ignore.”*  
+**Caption:** *Stop the low‑pay agency grind with a portfolio that sells for you.*
 
 ---
 
-**Post 1️⃣ – The Blind Spot**  
-You’re grinding 40‑plus hours, still earning the same $45k. Your brain treats that paycheck as *the only* safe option. That’s *Opportunity‑Blindness*: the bias that makes the familiar feel priceless and the unknown feel risky. 🎯
+**Post 1️⃣ – The Invisible Talent Problem**  
+You’ve got the chops, but nobody sees them. In a world where hiring decisions are made in seconds, a missing portfolio is a *silent deal‑breaker*. 🎯  
 
----
+**Post 2️⃣ – Why Traditional Portfolios Fail**  
+Most creators dump PDFs or scattered links. Decision‑makers need *one‑click credibility*: case studies, metrics, and social proof in a single, scroll‑free experience.  
 
-**Post 2️⃣ – Flip the Bias**  
-What if you could **validate** a $5k‑month side‑service in 48 hours *while* keeping your day job? A tiny, data‑driven experiment proves the upside, instantly rewires the bias, and gives you a safety net to jump.
+**Post 3️⃣ – The Sovereign Solution**  
+Build a **Dynamic Showcase Engine**: live project dashboards, ROI snapshots, and client testimonials that auto‑update. Zero‑touch, high‑impact.  
 
----
+**Post 4️⃣ – Quick‑Start Blueprint**  
+1️⃣ Choose a hosted showcase platform (Webflow, Notion, or Carrd).  
+2️⃣ Populate with 3‑metric case studies (traffic ↑, revenue ↑, churn ↓).  
+3️⃣ Add a “Hire Me” funnel with calendar integration.  
 
-**Post 3️⃣ – The Zero‑Risk Funnel**  
-Build a 3‑step automated client‑acquisition funnel:  
-1️⃣ Identify a micro‑niche pain point.  
-2️⃣ Deploy a low‑cost lead magnet (one‑page audit).  
-3️⃣ Use a booked‑call calendar that only shows *qualified* prospects.  
+🚀 Ready to turn invisible talent into inbound contracts? Grab the **Compression System** and automate the entire pipeline for $197.  
 
-Result? Real revenue signals without quitting.
-
----
-
-**Post 4️⃣ – Your Exit Blueprint**  
-Combine the validated side‑service with the funnel and you have a **$197 Compression System** that turns the “I can’t leave” myth into a concrete, cash‑back plan. Ready to see the upside? 👉 https://fmframeworks.gumroad.com/l/CompressionSystem
+---  
+###
