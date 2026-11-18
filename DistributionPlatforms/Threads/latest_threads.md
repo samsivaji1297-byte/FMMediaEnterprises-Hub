@@ -1,41 +1,20 @@
-**Reel Hook & Caption**  
-🚀 *Stop letting imagined shame lock the door on your dream.*  
-💡 *Turn future‑regret into forward‑momentum with one simple mental hack.*
+**Reel Hook:** “What if you could test‑run a business *without* ever risking your reputation?”  
 
----
+**Caption:** “Your brand is your biggest asset. Guard it while you build. 👇”  
 
-**Post 1 – The Regret‑Avoidance Loop**  
-Every founder who *never launched* tells the same story: “I was terrified of looking back and seeing a failed startup on my résumé.” That’s not just fear – it’s a *future‑regret simulation* that convinces your brain failure is inevitable.  
+---  
 
-🔍 **Spot the loop:**  
-1️⃣ Imagine a disastrous launch → 2️⃣ Feel shame → 3️⃣ Cancel the plan → 4️⃣ Reinforce the belief you’re “not cut out.”  
+1️⃣ **Post 1 – The Hidden Cost**  
+> Most founders fear failure, but the real blocker is *identity‑protection fear* – the dread that a flop will scar your personal brand forever.  
 
-Break the loop before it writes your future.
+2️⃣ **Post 2 – Why Logic Fails**  
+> Our brains treat reputational loss as a permanent scar. Loss‑aversion makes a single flop feel like a career‑ending event, even when the financial stakes are low.  
 
----
+3️⃣ **Post 3 – The Reputation‑Shield Blueprint**  
+> 👉 Step 1: Run a **micro‑validation** (≤$100) inside a *closed‑community* under a pseudonym.  
+> 👉 Step 2: Capture data, iterate, and only **reveal your name** once you have a 3×‑ROI signal.  
 
-**Post 2 – The 3‑Minute Fear‑Proof Blueprint**  
-Swap the *what‑if* nightmare for a concrete safety net:  
+4️⃣ **Post 4 – Immediate Win**  
+> Deploy the **Zero‑Risk Pre‑Sale Funnel** and lock in paying customers before you ever sign a contract. Your brand stays pristine, your cash flow starts early.  
 
-1️⃣ **Micro‑Commit:** Write a 30‑second “launch‑commit” note (date, micro‑goal).  
-2️⃣ **Zero‑Risk Test:** Validate the core idea with a single paid ad and a $50 spend.  
-3️⃣ **Future‑Self Letter:** Draft a brief letter from your *future successful self* thanking you for taking the risk.  
-
-Do this now – it takes less time than scrolling through “why I can’t start.”
-
----
-
-**Post 3 – Convert Regret into Revenue**  
-When the fear of future shame is gone, the *real cost* becomes clear: **lost income, missed market share, and the hidden tax of unfulfilled potential**.  
-
-✅ Use the **Compression System** to automate the micro‑commit → validation → launch pipeline.  
-✅ Turn a $50 test into a data‑driven launch that scales without the emotional baggage.  
-
-Ready to silence the inner critic? Grab the framework that makes fear *work for* you, not against you.
-
----
-
-**Post 4 – CTA**  
-🔗 **Free the future you deserve.** Download the *Zero‑Risk Startup Validation Framework* now and start building the launch plan that *future‑regret* can’t touch.  
-
-💬 Drop “🛡️” in the comments if you’re ready to flip fear into fuel.
+💡 *Ready to protect your reputation while you launch? Grab the full $197 “Reputation‑Shield System” now.*
