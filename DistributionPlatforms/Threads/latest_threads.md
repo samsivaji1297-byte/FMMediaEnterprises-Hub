@@ -1,20 +1,33 @@
-**Reel Hook:** “What if you could test‑run a business *without* ever risking your reputation?”  
+**Reel Hook & Caption**  
+🚀 *Your savings are screaming “don’t risk me.”*  
+💡 *Turn that scream into a launch‑signal with a 3‑step safety net.*  
 
-**Caption:** “Your brand is your biggest asset. Guard it while you build. 👇”  
+---
 
----  
+**Post 1 – The Panic Trigger**  
+Every time you stare at your bank app, the “€10 k” flashes like a red light. That’s **Capital‑Commitment Paralysis** – your brain’s built‑in loss‑aversion alarm. It’s not laziness; it’s a survival reflex hijacked by modern entrepreneurship.
 
-1️⃣ **Post 1 – The Hidden Cost**  
-> Most founders fear failure, but the real blocker is *identity‑protection fear* – the dread that a flop will scar your personal brand forever.  
+---
 
-2️⃣ **Post 2 – Why Logic Fails**  
-> Our brains treat reputational loss as a permanent scar. Loss‑aversion makes a single flop feel like a career‑ending event, even when the financial stakes are low.  
+**Post 2 – Re‑wire the Alarm**  
+Swap the “lose‑everything” story for a **Risk‑Bounded Validation Loop**:  
+1️⃣ Define a *micro‑revenue* hypothesis (e.g., pre‑sell 20 units).  
+2️⃣ Collect €1 k deposits *before* you spend a cent on product.  
+3️⃣ Use that cash to fund the first batch.  
 
-3️⃣ **Post 3 – The Reputation‑Shield Blueprint**  
-> 👉 Step 1: Run a **micro‑validation** (≤$100) inside a *closed‑community* under a pseudonym.  
-> 👉 Step 2: Capture data, iterate, and only **reveal your name** once you have a 3×‑ROI signal.  
+Result? Your savings stay *intact* while the market funds the launch.
 
-4️⃣ **Post 4 – Immediate Win**  
-> Deploy the **Zero‑Risk Pre‑Sale Funnel** and lock in paying customers before you ever sign a contract. Your brand stays pristine, your cash flow starts early.  
+---
 
-💡 *Ready to protect your reputation while you launch? Grab the full $197 “Reputation‑Shield System” now.*
+**Post 3 – The 3‑Day Action Sprint**  
+Set a timer for 72 hours.  
+- Day 1: Write a 200‑word value proposition and post it on a niche forum.  
+- Day 2: Capture 5 interested emails with a simple “early‑access” form.  
+- Day 3: Offer a €50 pre‑order to the first 3 respondents.  
+
+If you hit €150, you’ve validated *and* earned back a slice of that €10 k before it ever left your account.
+
+---
+
+**Post 4 – Call to Action**  
+Ready to convert fear into funded momentum? Grab the **Capital‑Commitment Paralysis Playbook** – a $197, step‑by‑step system that turns every euro of savings into a *validated* launch budget. 👉 https://fmframeworks.gumroad.com/l/CompressionSystem
