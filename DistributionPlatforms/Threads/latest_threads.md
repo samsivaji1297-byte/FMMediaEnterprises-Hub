@@ -1,27 +1,23 @@
-**Reel Hook:**  
-🛑 *“You’ve got 17 tabs open, 12 apps installed, and still can’t start the report.”*  
-**Caption:** *The perfect‑app trap is stealing your day. Let’s break it.*
+**Reel Hook & Caption**  
+🚨 *Paralyzed by “the perfect app”?* Stop the endless scroll and reclaim 8 hrs/week. 👇  
 
 ---
 
-**1️⃣ The “Perfect‑App” Mirage**  
-- You spend hours comparing features, reading reviews, and still feel *nothing* clicks.  
-- The brain treats every extra option as a potential loss → **loss‑aversion** spikes.  
+**1️⃣ The hidden tax you don’t see**  
+Every extra app you open costs ~5 minutes of mental bandwidth. Open 12 apps → you’ve just burned 1 hour of *decision‑fatigue* before you even start work. #ProductivityTax  
 
-**2️⃣ Why Your Brain Freezes**  
-- **Cognitive‑load tax**: each option adds ~200 ms of mental processing.  
-- 6–8 options push you past the *working‑memory* sweet spot → decision‑delay kicks in.  
+**2️⃣ Confidence erosion in action**  
+When you can’t pick, your brain tells you “I’m not good enough.” That self‑doubt compounds, making the next decision feel *harder* than the last. It’s a feedback loop, not a personality flaw. #ConfidenceErosion  
 
-**3️⃣ The One‑Command Solution**  
-- **Step 1:** Write down the *single outcome* you need (e.g., “capture daily tasks”).  
-- **Step 2:** Rank every app on a **0‑2 scale** for that outcome (0 = no, 1 = maybe, 2 = yes).  
-- **Step 3:** Pick the *first* app that hits a **2** – no more than **3** candidates total.  
+**3️⃣ The one‑command antidote**  
+🔧 Build a **Zero‑Choice Stack**: pick ONE hub (e.g., Notion + Zapier) and lock everything else behind a single “Add to Hub” button. No more hunting, just executing. #ZeroChoice  
 
-**4️⃣ Real‑World Example**  
-- I trimmed my stack from **12** tools to **1** (Notion) in **45 minutes**.  
-- Result: +3 h/week focused work, -2 h/week decision‑fatigue.  
+**4️⃣ Quick‑Start Blueprint**  
+- ✅ Choose *one* core app (your “anchor”).  
+- ✅ Map all current tools to a single Zapier/IFTTT workflow.  
+- ✅ Set a 48‑hour deadline to deactivate every other app.  
 
-**5️⃣ Quick Win**  
-💡 *Set a 15‑minute timer. When it dings, the app with the highest score is your new tool. No more “perfect” debates.*  
+💥 Result: +8 hrs/week, +30% focus, +0% decision‑fatigue. Ready to flip the switch?  
 
-🔗 Want a ready‑made decision‑funnel? Grab the **Perfectionism‑Proof App Selector** (link in bio).
+---  
+📌 *Save this thread & DM “STACK” for a free 15‑min audit of your tool jungle.*
