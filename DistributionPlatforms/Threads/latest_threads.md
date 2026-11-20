@@ -1,23 +1,16 @@
-**Reel Hook & Caption**  
-🚨 *Paralyzed by “the perfect app”?* Stop the endless scroll and reclaim 8 hrs/week. 👇  
+**Reel Hook:** *“Your brain’s secret budget is being drained by tiny app choices—stop the leak in 4 quick slides.”*  
+**Caption:** *Micro‑Decision Fatigue is the silent killer of output. Here’s how to fix it with ONE command.*  
 
----
+**Slide 1️⃣ – The Leak**  
+Every morning you open: email → calendar → notes → to‑do → timer → project board… Each click = a micro‑decision. Research shows **≈ 30 seconds** of executive‑function loss per switch. After 10 switches you’ve lost **5 minutes** of pure thinking power.  
 
-**1️⃣ The hidden tax you don’t see**  
-Every extra app you open costs ~5 minutes of mental bandwidth. Open 12 apps → you’ve just burned 1 hour of *decision‑fatigue* before you even start work. #ProductivityTax  
+**Slide 2️⃣ – The Symptom**  
+You stare at 12 open tabs, can’t pick a “best” productivity app, and end up doing *nothing*. That’s the classic **Micro‑Decision Fatigue Tax** – the brain says “I’m exhausted, better not decide.”  
 
-**2️⃣ Confidence erosion in action**  
-When you can’t pick, your brain tells you “I’m not good enough.” That self‑doubt compounds, making the next decision feel *harder* than the last. It’s a feedback loop, not a personality flaw. #ConfidenceErosion  
+**Slide 3️⃣ – The Antidote**  
+Enter a **One‑Click Workflow Engine**: a single script that launches *all* your core tools (email, calendar, notes, timer) in a pre‑configured layout, and auto‑assigns tasks via AI. No more “which app first?” – you press **⌘ + Shift + P** and you’re in the flow.  
 
-**3️⃣ The one‑command antidote**  
-🔧 Build a **Zero‑Choice Stack**: pick ONE hub (e.g., Notion + Zapier) and lock everything else behind a single “Add to Hub” button. No more hunting, just executing. #ZeroChoice  
+**Slide 4️⃣ – Quick Win**  
+Try the **Compression System** (‑$197) that bundles a zero‑setup GTD template, AI task‑router, and a one‑command launcher. Users report **+2 hours** of focused work per week after the first day.  
 
-**4️⃣ Quick‑Start Blueprint**  
-- ✅ Choose *one* core app (your “anchor”).  
-- ✅ Map all current tools to a single Zapier/IFTTT workflow.  
-- ✅ Set a 48‑hour deadline to deactivate every other app.  
-
-💥 Result: +8 hrs/week, +30% focus, +0% decision‑fatigue. Ready to flip the switch?  
-
----  
-📌 *Save this thread & DM “STACK” for a free 15‑min audit of your tool jungle.*
+🔗 *Grab it now →* https://fmframeworks.gumroad.com/l/CompressionSystem
