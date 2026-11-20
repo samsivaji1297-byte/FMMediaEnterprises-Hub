@@ -51,10 +51,12 @@ status: publish
 
 # [Repeat Title as H1]
 
-> **Executive Summary:** [Provide an authoritative, 2-sentence direct answer summarizing the core mechanism and solution immediately below the H1. This is specifically formatted for Google Featured Snippets and LLM citation ingestion.]
+**Direct Answer:** [Write a crisp, 2-sentence answer-first summary immediately under the H1 naming the exact bottleneck, the root mechanism, and the practical fix without filler or hype.]
+
+> **Executive Summary:** [Expand with 1-2 concrete operational takeaways, metrics, or architectural shifts so both human readers and AI answer engines can extract a complete standalone passage.]
 
 ## The Core Friction & Root Cause
-[Dissect the raw forum pain point ruthlessly. Explain the systemic failure of conventional approaches.]
+[Dissect the raw forum pain point ruthlessly. Explain why conventional approaches fail and isolate the exact system constraint.]
 
 ## Comparative Breakdown: Conventional vs. Sovereign
 | Operational Dimension | Conventional Approach | Sovereign Operator Architecture |
@@ -73,7 +75,7 @@ status: publish
 ## Frequently Asked Questions
 
 ### Q: What is the primary bottleneck in conventional execution?
-A: [Concise, direct answer optimized for FAQ schema extraction.]
+A: [Concise, direct answer detailing the constraint.]
 
 ### Q: How do autonomous pipelines solve manual content friction?
 A: [Concise, direct answer detailing system leverage.]
@@ -121,6 +123,83 @@ def extract_section(content: str, tag_name: str) -> str:
         return content.split(start_delim)[1].split(end_delim)[0].strip()
 
     return content.strip()
+
+
+def parse_blogger_metadata(blogger_markdown: str) -> tuple[str, list[str], str]:
+    """Extracts title, tags, and a clean summary description from the Blogger draft."""
+    title_match = re.search(r"^title:\s*[\"']?(.+?)[\"']?\s*$", blogger_markdown, re.MULTILINE)
+    title = title_match.group(1).strip() if title_match else "Sovereign Operator Briefing"
+
+    tags_match = re.search(r"^tags:\s*\[([^\]]+)\]\s*$", blogger_markdown, re.MULTILINE)
+    if tags_match:
+        tags = [t.strip().strip("\"'") for t in tags_match.group(1).split(",") if t.strip()]
+    else:
+        tags = ["Productivity", "Systems", "Sovereign Operator", "Execution"]
+
+    answer_match = re.search(r"\*\*Direct Answer:\*\*\s*(.+)", blogger_markdown)
+    exec_match = re.search(r">\s*\*\*Executive Summary:\*\*\s*(.+)", blogger_markdown)
+
+    parts = []
+    if answer_match:
+        parts.append(re.sub(r"<[^>]+>", "", answer_match.group(1)).strip())
+    if exec_match:
+        parts.append(re.sub(r"<[^>]+>", "", exec_match.group(1)).strip())
+
+    description = " ".join(parts).strip()
+    if not description:
+        description = f"Operational diagnostic and execution architecture on {title}."
+
+    return title, tags, description
+
+
+def build_json_ld(title: str, tags: list[str], description: str) -> str:
+    """Builds a valid BlogPosting + Organization JSON-LD script block."""
+    published_iso = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+    schema = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": "https://fmframeworks.gumroad.com/#organization",
+                "name": "FM Media Enterprises",
+                "url": "https://fmframeworks.gumroad.com/l/CompressionSystem",
+            },
+            {
+                "@type": "BlogPosting",
+                "headline": title[:110],
+                "description": description[:300],
+                "datePublished": published_iso,
+                "dateModified": published_iso,
+                "keywords": ", ".join(tags),
+                "author": {
+                    "@type": "Organization",
+                    "@id": "https://fmframeworks.gumroad.com/#organization",
+                    "name": "FM Media Enterprises",
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "@id": "https://fmframeworks.gumroad.com/#organization",
+                    "name": "FM Media Enterprises",
+                },
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                },
+            },
+        ],
+    }
+
+    return f'\n<script type="application/ld+json">\n{json.dumps(schema, indent=2)}\n</script>\n'
+
+
+def inject_blogger_schema(blogger_markdown: str) -> tuple[str, str]:
+    """Injects JSON-LD schema into Blogger markdown once and returns (updated_markdown, title)."""
+    title, tags, description = parse_blogger_metadata(blogger_markdown)
+    if 'type="application/ld+json"' in blogger_markdown:
+        return blogger_markdown, title
+
+    schema_block = build_json_ld(title=title, tags=tags, description=description)
+    return blogger_markdown.rstrip() + schema_block, title
 
 
 def generate_recognition_assets(raw_payload: str) -> str:
@@ -225,11 +304,10 @@ def process_latest_research():
 
     threads_content = extract_section(content, "THREADS")
     substack_content = extract_section(content, "SUBSTACK")
-    blogger_content = extract_section(content, "BLOGGER")
+    raw_blogger_content = extract_section(content, "BLOGGER")
+    blogger_content, new_title = inject_blogger_schema(raw_blogger_content)
 
-    title_match = re.search(r"title:\s*[\"']([^\"']+)[\"']", blogger_content)
-    if title_match:
-        new_title = title_match.group(1)
+    if new_title:
         record_title(new_title)
         print(f"[Anti-Duplication] Recorded new title to history: '{new_title}'")
 
