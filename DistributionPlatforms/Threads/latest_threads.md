@@ -1,33 +1,27 @@
-**Reel Hook & Caption**  
-🚀 *Your savings are screaming “don’t risk me.”*  
-💡 *Turn that scream into a launch‑signal with a 3‑step safety net.*  
+**Reel Hook:**  
+🛑 *“You’ve got 17 tabs open, 12 apps installed, and still can’t start the report.”*  
+**Caption:** *The perfect‑app trap is stealing your day. Let’s break it.*
 
 ---
 
-**Post 1 – The Panic Trigger**  
-Every time you stare at your bank app, the “€10 k” flashes like a red light. That’s **Capital‑Commitment Paralysis** – your brain’s built‑in loss‑aversion alarm. It’s not laziness; it’s a survival reflex hijacked by modern entrepreneurship.
+**1️⃣ The “Perfect‑App” Mirage**  
+- You spend hours comparing features, reading reviews, and still feel *nothing* clicks.  
+- The brain treats every extra option as a potential loss → **loss‑aversion** spikes.  
 
----
+**2️⃣ Why Your Brain Freezes**  
+- **Cognitive‑load tax**: each option adds ~200 ms of mental processing.  
+- 6–8 options push you past the *working‑memory* sweet spot → decision‑delay kicks in.  
 
-**Post 2 – Re‑wire the Alarm**  
-Swap the “lose‑everything” story for a **Risk‑Bounded Validation Loop**:  
-1️⃣ Define a *micro‑revenue* hypothesis (e.g., pre‑sell 20 units).  
-2️⃣ Collect €1 k deposits *before* you spend a cent on product.  
-3️⃣ Use that cash to fund the first batch.  
+**3️⃣ The One‑Command Solution**  
+- **Step 1:** Write down the *single outcome* you need (e.g., “capture daily tasks”).  
+- **Step 2:** Rank every app on a **0‑2 scale** for that outcome (0 = no, 1 = maybe, 2 = yes).  
+- **Step 3:** Pick the *first* app that hits a **2** – no more than **3** candidates total.  
 
-Result? Your savings stay *intact* while the market funds the launch.
+**4️⃣ Real‑World Example**  
+- I trimmed my stack from **12** tools to **1** (Notion) in **45 minutes**.  
+- Result: +3 h/week focused work, -2 h/week decision‑fatigue.  
 
----
+**5️⃣ Quick Win**  
+💡 *Set a 15‑minute timer. When it dings, the app with the highest score is your new tool. No more “perfect” debates.*  
 
-**Post 3 – The 3‑Day Action Sprint**  
-Set a timer for 72 hours.  
-- Day 1: Write a 200‑word value proposition and post it on a niche forum.  
-- Day 2: Capture 5 interested emails with a simple “early‑access” form.  
-- Day 3: Offer a €50 pre‑order to the first 3 respondents.  
-
-If you hit €150, you’ve validated *and* earned back a slice of that €10 k before it ever left your account.
-
----
-
-**Post 4 – Call to Action**  
-Ready to convert fear into funded momentum? Grab the **Capital‑Commitment Paralysis Playbook** – a $197, step‑by‑step system that turns every euro of savings into a *validated* launch budget. 👉 https://fmframeworks.gumroad.com/l/CompressionSystem
+🔗 Want a ready‑made decision‑funnel? Grab the **Perfectionism‑Proof App Selector** (link in bio).
