@@ -1,16 +1,28 @@
-**Reel Hook:** *“Your brain’s secret budget is being drained by tiny app choices—stop the leak in 4 quick slides.”*  
-**Caption:** *Micro‑Decision Fatigue is the silent killer of output. Here’s how to fix it with ONE command.*  
+**Reel Hook & Caption**  
+🚀 *Stop trading hours for dollars. Flip the script to “outcome‑first” and watch income explode.*  
+💡 *Swipe 👉 for the 4‑step engine that turns results into revenue without extra work.*  
 
-**Slide 1️⃣ – The Leak**  
-Every morning you open: email → calendar → notes → to‑do → timer → project board… Each click = a micro‑decision. Research shows **≈ 30 seconds** of executive‑function loss per switch. After 10 switches you’ve lost **5 minutes** of pure thinking power.  
+---  
 
-**Slide 2️⃣ – The Symptom**  
-You stare at 12 open tabs, can’t pick a “best” productivity app, and end up doing *nothing*. That’s the classic **Micro‑Decision Fatigue Tax** – the brain says “I’m exhausted, better not decide.”  
+**1️⃣ The Hidden Tax**  
+Every hour you log is a hidden tax on your future earnings. Companies still grade you on “time spent,” not on the results you deliver. That’s why you hit a ceiling no matter how hard you hustle.  
 
-**Slide 3️⃣ – The Antidote**  
-Enter a **One‑Click Workflow Engine**: a single script that launches *all* your core tools (email, calendar, notes, timer) in a pre‑configured layout, and auto‑assigns tasks via AI. No more “which app first?” – you press **⌘ + Shift + P** and you’re in the flow.  
+---  
 
-**Slide 4️⃣ – Quick Win**  
-Try the **Compression System** (‑$197) that bundles a zero‑setup GTD template, AI task‑router, and a one‑command launcher. Users report **+2 hours** of focused work per week after the first day.  
+**2️⃣ Why the Tax Exists**  
+It’s the **Outcome‑Control Gap** – a principal‑agent problem where bosses can see your screen time but not the impact you create. The system rewards visibility, not value, so you’re forced to “look busy.”  
 
-🔗 *Grab it now →* https://fmframeworks.gumroad.com/l/CompressionSystem
+---  
+
+**3️⃣ Flip the Equation**  
+➡️ Adopt an **Outcome‑Based Compensation Blueprint**: define clear KPIs, tie payouts to metric thresholds, and automate reporting. Suddenly your income scales with impact, not inbox volume.  
+
+---  
+
+**4️⃣ Deploy the Engine**  
+1️⃣ Map your core deliverables → measurable outcomes.  
+2️⃣ Build a simple Google Sheet or Airtable tracker that auto‑calculates payouts.  
+3️⃣ Pitch the model to clients or managers as a “Performance‑Based Contract.”  
+4️⃣ Watch revenue rise while hours stay flat.  
+
+💥 *Ready to kill the time‑for‑money tax? Grab the free “Outcome‑Control Gap Playbook” in my bio.*
