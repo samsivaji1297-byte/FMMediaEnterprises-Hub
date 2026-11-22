@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/sitemap.xml
