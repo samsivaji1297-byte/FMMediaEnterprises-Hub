@@ -1,0 +1,15 @@
+Yes—it happens in Australia, and the Big Four plus Macquarie operate dedicated private banking divisions specifically built around this model. Because of Australia's tax rules, superannuation laws, and property market, the mechanics lean heavily into a few local variations.
+The Australian Private Banking Landscape
+In Australia, banks generally segment wealthy clients by investable assets (excluding the family home) or high income:
+| Institution | Typical Entry Threshold | Core Focus |
+|---|---|---|
+| Macquarie Private Bank | ~$1M+ investable assets or cash | Investment platforms, wrap accounts, and cash management |
+| Commonwealth Private | $450k+ household income and $2.5M+ to invest/borrow | Fast-tracked property/business lending and wholesale investments |
+| NAB Private Wealth | $2.5M+ investable assets or $400k+ annual income | Business owners, medical/legal partners, and succession planning |
+| ANZ Private / Westpac Private | ~$3M+ in funds to invest or borrow | Family trusts, commercial lending, and intergenerational wealth |
+How Australian Banks Monetize Wealthy Clients
+ * Massive, Low-Overhead Lending (Property & Margin): Australian banks are heavily weighted toward property and commercial credit. As one Australian private banking executive famously put it, it is far cheaper for a bank to administer one $10 million mortgage for a wealthy client than twenty $500,000 mortgages for retail buyers. They also issue high-volume loans against commercial property, investment portfolios (margin lending), and business equity.
+ * Platform & "Wrap" Fees (SMSFs & Trusts): Because Australia's top marginal tax rate sits at 45% (plus the Medicare levy), wealthy Australians rarely hold assets in their personal names. Instead, they use Family Trusts (discretionary trusts) and Self-Managed Super Funds (SMSFs). Banks—especially Macquarie—make substantial recurring fees by providing the digital "wrap" platforms and cash management accounts (CMAs) that accountants and advisers use to administer these trusts and SMSFs.
+ * Wholesale ("Sophisticated") Investor Products: Under the Corporations Act, once an Australian holds $2.5 million in net assets or earns $250,000+ per year for two years, they legally qualify as a Wholesale / Sophisticated Investor. Banks strip away retail consumer protections and sell them higher-margin private credit funds, corporate bonds, commercial property syndicates, and structured products that retail customers aren't legally allowed to buy.
+ * SME & Commercial Cross-Sell: A huge proportion of Australia's private banking clients are business owners, medical specialists, and law/accounting partners. Winning their personal home loan and family trust business gives the bank an inside track to provide their business overdrafts, commercial property loans, equipment finance, and merchant facilities.
+(Note: Unlike in the US, the "step-up in cost basis at death" loophole doesn't exist in Australia—Australian Capital Gains Tax rules are stricter on inherited assets, though trusts and superannuation still allow major tax deferral while alive.)
