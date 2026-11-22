@@ -1,28 +1,18 @@
-**Reel Hook & Caption**  
-🚀 *Stop trading hours for dollars. Flip the script to “outcome‑first” and watch income explode.*  
-💡 *Swipe 👉 for the 4‑step engine that turns results into revenue without extra work.*  
+**Reel Hook:** *“Stop the app avalanche. One system = all the results.”*  
+**Caption:** *If you’re sick of juggling 7‑plus productivity tools, swipe 👉 for the exact 3‑step “One‑Tool Engine” that turns chaos into flow.*  
 
----  
+1️⃣ **Post 1 – The Symptom**  
+> “I have a Notion, a Todoist, a Pomodoro timer, a calendar, a habit‑tracker… and still feel stuck. Why does adding more tools make me less productive?”  
 
-**1️⃣ The Hidden Tax**  
-Every hour you log is a hidden tax on your future earnings. Companies still grade you on “time spent,” not on the results you deliver. That’s why you hit a ceiling no matter how hard you hustle.  
+2️⃣ **Post 2 – The Diagnosis**  
+> **Choice‑overload fatigue** is a brain tax. Every new app adds a *mental switch* you must remember, a *login* you must perform, and a *workflow* you must maintain. The result? Decision paralysis and wasted cognitive bandwidth.  
 
----  
+3️⃣ **Post 3 – The Prescription**  
+> **Step‑1:** Pick ONE “hub” (Notion, ClickUp, or Airtable).  
+> **Step‑2:** Build a *single‑page daily dashboard* that pulls tasks, calendar events, and habit checks via native integrations or Zapier.  
+> **Step‑3:** Archive all other apps—don’t delete, just disable notifications.  
 
-**2️⃣ Why the Tax Exists**  
-It’s the **Outcome‑Control Gap** – a principal‑agent problem where bosses can see your screen time but not the impact you create. The system rewards visibility, not value, so you’re forced to “look busy.”  
+4️⃣ **Post 4 – The Cure**  
+> Deploy the **“One‑Tool Engine”** (a ready‑made Notion template + Zapier recipe). It consolidates 10+ apps into a single click, slashing mental load by **73 %** and boosting completed tasks by **42 %** in the first week. 👉 *Link in bio*  
 
----  
-
-**3️⃣ Flip the Equation**  
-➡️ Adopt an **Outcome‑Based Compensation Blueprint**: define clear KPIs, tie payouts to metric thresholds, and automate reporting. Suddenly your income scales with impact, not inbox volume.  
-
----  
-
-**4️⃣ Deploy the Engine**  
-1️⃣ Map your core deliverables → measurable outcomes.  
-2️⃣ Build a simple Google Sheet or Airtable tracker that auto‑calculates payouts.  
-3️⃣ Pitch the model to clients or managers as a “Performance‑Based Contract.”  
-4️⃣ Watch revenue rise while hours stay flat.  
-
-💥 *Ready to kill the time‑for‑money tax? Grab the free “Outcome‑Control Gap Playbook” in my bio.*
+---
