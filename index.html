@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="google-site-verification" content="FPbFEpxBUFTx7MtdU9jqCpp978MG5gAeVutf3fjDdGM" />
+  <title>90-Minute Execution Diagnostic | FM Media Enterprises</title>
+  <meta name="description" content="Find out whether your bottleneck is shipping a digital product in 90 minutes or executing daily 90-minute focus blocks, then get the matching system." />
+  <link rel="canonical" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/" />
+  <style>
+    :root {
+      --bg: #0f1115;
+      --card: #171a21;
+      --text: #f3f5f8;
+      --muted: #a4acb9;
+      --accent: #4f8cff;
+      --border: #282e3a;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .wrap {
+      max-width: 780px;
+      margin: 0 auto;
+      padding: 40px 20px 64px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    h1 { margin: 0 0 10px; font-size: 1.9rem; line-height: 1.25; }
+    h2 { margin: 0 0 12px; font-size: 1.25rem; }
+    p { margin: 0 0 14px; color: var(--muted); }
+    .question { margin-bottom: 18px; }
+    .question label {
+      display: block;
+      color: var(--text);
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+    }
+    button.primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .result-box {
+      display: none;
+      margin-top: 20px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+    }
+    a.cta {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--accent);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    .seo-copy p, .seo-copy li { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card">
+      <h1>90-Minute Execution Bottleneck Diagnostic</h1>
+      <p>Answer three quick questions to see whether you lose momentum while <strong>building and listing a digital product</strong> or while <strong>showing up for daily focus blocks</strong>.</p>
+
+      <form id="diagForm">
+        <div class="question">
+          <label for="q1">1. Where do you stall most often?</label>
+          <select id="q1">
+            <option value="build">Choosing a topic, outlining, formatting, or writing a listing</option>
+            <option value="focus">Starting a daily focus block or staying off distractions for 90 minutes</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label for="q2">2. What happens to your ideas right now?</label>
+          <select id="q2">
+            <option value="build">They sit half-finished because each small step eats the weekend</option>
+            <option value="focus">I save guides and plan, then lose momentum when motivation drops</option>
+          </select>
+        </div>
+
+        <div class="question">
+          <label for="q3">3. What do you need most in the next 24 hours?</label>
+          <select id="q3">
+            <option value="build">A fast workflow to turn a concept and prompts into a live listing</option>
+            <option value="focus">A strict daily 90-minute block timer and 30-day proof log</option>
+          </select>
+        </div>
+
+        <button type="submit" class="primary">Run Diagnostic</button>
+      </form>
+
+      <div id="resultBox" class="result-box" aria-live="polite">
+        <h2 id="resultTitle"></h2>
+        <p id="resultSummary"></p>
+        <a id="resultLink" class="cta" href="#" rel="noopener">Open System on Gumroad</a>
+      </div>
+    </section>
+
+    <section class="card seo-copy">
+      <h2>How the 90-Minute Build &amp; Execution Framework Works</h2>
+      <p>Solo builders and operators usually hit one of two walls: overthinking product assembly and sales copy, or relying on temporary motivation instead of a repeatable daily block. This diagnostic matches your primary friction point to a structured system.</p>
+      <ul>
+        <li><strong>Product Creation Bottleneck:</strong> Uses step-by-step prompts, templates, and post drafts to move from four decisions to a live listing in a focused 90-minute sprint.</li>
+        <li><strong>Daily Execution Bottleneck:</strong> Uses a 90-minute Lock, Work, and Evidence block structure across 30 days to record concrete daily output without negotiating standards.</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("diagForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const vals = [
+        document.getElementById("q1").value,
+        document.getElementById("q2").value,
+        document.getElementById("q3").value
+      ];
+      const buildScore = vals.filter(v => v === "build").length;
+      const box = document.getElementById("resultBox");
+      const title = document.getElementById("resultTitle");
+      const summary = document.getElementById("resultSummary");
+      const link = document.getElementById("resultLink");
+
+      if (buildScore >= 2) {
+        title.textContent = "Primary Match: The Compression System";
+        summary.textContent = "Your bottleneck is turning decisions and drafts into a formatted product and listing without losing a whole weekend. Built for shipping a digital product in 90 minutes.";
+        link.href = "https://fmframeworks.gumroad.com/l/CompressionSystem?wanted=true";
+        link.textContent = "Get The Compression System on Gumroad";
+      } else {
+        title.textContent = "Primary Match: The 90-Minute Protocol Tracker";
+        summary.textContent = "Your bottleneck is consistent daily execution once initial motivation fades. Built around one distraction-free 90-minute block per day with a 30-day log.";
+        link.href = "https://fmframeworks.gumroad.com/l/90Minute-ProtocolTracker?wanted=true";
+        link.textContent = "Get The 90-Minute Protocol Tracker on Gumroad";
+      }
+      box.style.display = "block";
+    });
+  </script>
+</body>
+</html>
