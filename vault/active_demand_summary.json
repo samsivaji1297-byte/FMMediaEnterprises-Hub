@@ -1,81 +1,81 @@
 {
-    "last_synthesized": "2026-11-22T12:16:41.298116",
+    "last_synthesized": "2026-11-23T14:00:50.125079",
     "total_active_intents": 50,
     "top_demand_angles": [
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business with ai",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business processes with ai",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business whatsapp",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "automate business with claude",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business tasks",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business development",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "how to automate * business",
             "intent_phrase": "how to automate business page messenger response",
-            "harvested_at": "2026-11-22T12:16:40.783693"
+            "harvested_at": "2026-11-23T14:00:49.497673"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for beginners",
-            "harvested_at": "2026-11-22T12:16:40.845523"
+            "harvested_at": "2026-11-23T14:00:49.571850"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for beginners microsoft",
-            "harvested_at": "2026-11-22T12:16:40.845523"
+            "harvested_at": "2026-11-23T14:00:49.571850"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for coding",
-            "harvested_at": "2026-11-22T12:16:40.845523"
+            "harvested_at": "2026-11-23T14:00:49.571850"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for real estate",
-            "harvested_at": "2026-11-22T12:16:40.845523"
+            "harvested_at": "2026-11-23T14:00:49.571850"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for marketing",
-            "harvested_at": "2026-11-22T12:16:40.845523"
+            "harvested_at": "2026-11-23T14:00:49.571850"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for trading",
-            "harvested_at": "2026-11-22T12:16:40.845523"
+            "harvested_at": "2026-11-23T14:00:49.571850"
         },
         {
             "source_seed": "ai agents for *",
             "intent_phrase": "ai agents for economic research",
-            "harvested_at": "2026-11-22T12:16:40.845523"
+            "harvested_at": "2026-11-23T14:00:49.571850"
         }
     ],
     "primary_focus_niche": "Automation, Sovereignty & Execution Readiness"
