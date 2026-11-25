@@ -2,39 +2,44 @@ import os
 import re
 import json
 import time
+import urllib.error
 import urllib.parse
 import urllib.request
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
-# Unambiguous domain seeds aligned with your exact offers
+# Focused domain seeds aligned with $27 Mental Sovereignty Framework & $197 The Compression System
 SEED_TOPICS = [
     "self improvement",
     "masculinity discipline",
     "mindset shift",
     "self recognition",
+    "mental sovereignty",
     "personal finance",
+    "financial runway",
     "wealth building",
     "dopamine detox",
+    "deep work",
     "digital product",
     "gumroad product",
-    "solo business"
+    "solo business",
+    "solo operator"
 ]
 
-# Transactional & utility-grade modifiers
+# Interactive utility-grade modifiers (prioritizes calculators, scorecards, and audits over generic templates)
 INTENT_MODIFIERS = [
     "calculator",
-    "template",
-    "system",
-    "tracker",
-    "checklist",
     "scorecard",
+    "audit",
+    "system",
+    "diagnostic",
     "planner",
-    "audit"
+    "checklist",
+    "tracker"
 ]
 
 ALPHABET_SWEEP = ["", " a", " c", " f", " m", " p", " s", " w"]
 
-# Hard blocklist for informational definitions, test prep, vehicle GPS, B2B HR, and clinical noise
+# Hard blocklist for informational definitions, finance admin/tax/accounting, spreadsheets, coding tutorials, and clinical/B2B noise
 BLOCKED_PHRASES = [
     "what is ",
     "who is ",
@@ -63,10 +68,45 @@ BLOCKED_PHRASES = [
     "amazon price",
     "price drop",
     "coupon",
-    "software demo"
+    "software demo",
+    "accounting",
+    "agreement",
+    "filing",
+    "statement",
+    "invoice",
+    "contract",
+    "tax return",
+    "coding project",
+    "free excel",
+    "excel",
+    "python",
+    "apple numbers",
+    "passport",
+    "supply chain",
+    "espr",
+    "apa ",
+    "spreadsheet",
+    "google sheets",
+    "notion template",
+    "bank statement",
+    "balance sheet",
+    "income statement",
+    "tax ",
+    "irs ",
+    "llc ",
+    "dropshipping",
+    "amazon fba",
+    "credit score",
+    "mortgage",
+    "student loan"
 ]
 
-# Multi-word or unambiguous domain anchors (prevents "self-fit" or "car tracker" false positives)
+WORD_BOUNDARY_BLOCKS = {
+    "excel", "python", "espr", "apa", "gps", "for act", "act test", "sat test",
+    "irs", "llc", "tax", "statement", "filing", "invoice", "contract", "agreement"
+}
+
+# Unambiguous domain anchors aligned with the four core utility pillars
 REQUIRED_DOMAIN_ANCHORS = [
     "self improvement",
     "self-improvement",
@@ -80,6 +120,7 @@ REQUIRED_DOMAIN_ANCHORS = [
     "dopamine",
     "habit",
     "focus",
+    "deep work",
     "personal finance",
     "wealth",
     "savings",
@@ -90,16 +131,24 @@ REQUIRED_DOMAIN_ANCHORS = [
     "digital product",
     "gumroad",
     "solo business",
+    "solo operator",
     "creator",
     "side hustle",
     "monetization"
 ]
 
+# Active GroqCloud models
 GROQ_MODELS = [
     "openai/gpt-oss-120b",
     "openai/gpt-oss-20b",
-    "llama-3.3-70b-versatile",
-    "llama-3.1-8b-instant"
+    "qwen/qwen3.8-27b"
+]
+
+ARCHETYPE_ORDER = [
+    "sovereignty_diagnostic",
+    "revenue_calculator",
+    "financial_runway",
+    "execution_audit"
 ]
 
 ARCHETYPE_TEMPLATES = {
@@ -209,24 +258,140 @@ ARCHETYPE_TEMPLATES = {
     }
 }
 
+CURATED_EVERGREEN_UTILITIES = [
+    {
+        "slug": "mental-sovereignty-self-recognition-audit",
+        "title": "Mental Sovereignty & Self-Recognition Audit",
+        "target_query": "self recognition mindset discipline scorecard",
+        "meta_description": "Benchmark your internal frame, self-directed standards, and impulse control under pressure.",
+        "archetype": "sovereignty_diagnostic",
+        "direct_answer": "Score your internal validation independence, stress impulse control, and non-negotiable daily follow-through to locate your primary mindset leak."
+    },
+    {
+        "slug": "masculine-discipline-consistency-diagnostic",
+        "title": "Masculine Discipline & Frame Consistency Diagnostic",
+        "target_query": "masculinity discipline system scorecard",
+        "meta_description": "Measure daily execution consistency without motivation and identify external validation traps.",
+        "archetype": "sovereignty_diagnostic",
+        "direct_answer": "Quantify how reliably your standards hold under fatigue and distraction, then install a concrete daily sovereignty protocol."
+    },
+    {
+        "slug": "mindset-shift-composure-readiness-scorecard",
+        "title": "Mindset Shift & Emotional Composure Scorecard",
+        "target_query": "mindset shift self improvement diagnostic",
+        "meta_description": "Evaluate emotional neutrality, internal locus of control, and daily habit adherence.",
+        "archetype": "sovereignty_diagnostic",
+        "direct_answer": "Measure how strongly external feedback sways your decisions and generate a focused protocol to lock in self-directed standards."
+    },
+    {
+        "slug": "digital-product-gumroad-revenue-calculator",
+        "title": "Digital Product & Gumroad Revenue Calculator",
+        "target_query": "gumroad digital product pricing revenue calculator",
+        "meta_description": "Model offer price point, weekly buyer volume, and distribution consistency for solo digital products.",
+        "archetype": "revenue_calculator",
+        "direct_answer": "Project your realistic monthly cashflow by multiplying offer price, weekly buyer velocity, and distribution consistency."
+    },
+    {
+        "slug": "solo-operator-offer-compression-calculator",
+        "title": "Solo Operator Offer & Monetization Calculator",
+        "target_query": "solo business monetization system calculator",
+        "meta_description": "Calculate revenue upside from raising offer price anchors and tightening distribution cadence.",
+        "archetype": "revenue_calculator",
+        "direct_answer": "Determine whether your fastest revenue lever is lifting front-end ticket price, increasing weekly buyer conversion, or fixing distribution consistency."
+    },
+    {
+        "slug": "creator-side-hustle-pricing-yield-calculator",
+        "title": "Creator Product Pricing & Yield Calculator",
+        "target_query": "digital product side hustle revenue calculator",
+        "meta_description": "Forecast weekly and monthly revenue across entry and flagship digital product tiers.",
+        "archetype": "revenue_calculator",
+        "direct_answer": "Calculate exact weekly buyer volume required at your current price point to hit your monthly solo income target."
+    },
+    {
+        "slug": "personal-finance-runway-leverage-calculator",
+        "title": "Personal Finance Runway & Margin Calculator",
+        "target_query": "personal finance runway wealth calculator",
+        "meta_description": "Calculate months of sovereign financial runway from core burn, liquid reserves, and monthly surplus rate.",
+        "archetype": "financial_runway",
+        "direct_answer": "Measure how many months of independent operating runway your liquid reserve provides and how fast your current surplus rate expands your margin."
+    },
+    {
+        "slug": "wealth-building-burn-buffer-analyzer",
+        "title": "Wealth Building Burn & Buffer Analyzer",
+        "target_query": "wealth building savings runway analyzer",
+        "meta_description": "Benchmark your liquid floor against monthly overhead to unlock asymmetric decision-making.",
+        "archetype": "financial_runway",
+        "direct_answer": "Identify whether high fixed burn or a thin savings rate is keeping you in defensive mode, and generate a staged capital buffer plan."
+    },
+    {
+        "slug": "net-worth-surplus-velocity-calculator",
+        "title": "Net Worth & Savings Surplus Velocity Calculator",
+        "target_query": "net worth savings rate financial runway calculator",
+        "meta_description": "Estimate how quickly monthly surplus compounds into a 12-month sovereign reserve floor.",
+        "archetype": "financial_runway",
+        "direct_answer": "Compare your monthly burn against liquid reserves and surplus rate to see when you cross a resilient 6-to-12-month operating floor."
+    },
+    {
+        "slug": "dopamine-detox-deep-work-bandwidth-audit",
+        "title": "Dopamine Detox & Deep Work Bandwidth Audit",
+        "target_query": "dopamine detox focus system audit",
+        "meta_description": "Quantify weekly hours lost to context switching and calculate recoverable deep-work output.",
+        "archetype": "execution_audit",
+        "direct_answer": "Audit how many productive hours you lose each week to context switches and low-leverage tasks, then reclaim uninterrupted deep-work blocks."
+    },
+    {
+        "slug": "solo-operator-execution-bottleneck-audit",
+        "title": "Solo Operator Execution & Habit System Audit",
+        "target_query": "habit discipline execution system audit",
+        "meta_description": "Measure focus fragmentation against weekly shipped assets to eliminate operational drag.",
+        "archetype": "execution_audit",
+        "direct_answer": "Diagnose execution drag by comparing weekly distraction load against completed deep-work blocks to compress project ship cycles."
+    },
+    {
+        "slug": "deep-work-time-compression-calculator",
+        "title": "Deep Work & Time Compression Audit",
+        "target_query": "deep work focus distraction audit calculator",
+        "meta_description": "Calculate recoverable weekly execution hours by cutting context switches and batching low-leverage admin.",
+        "archetype": "execution_audit",
+        "direct_answer": "Estimate how many high-leverage hours you recover each month by eliminating context switches and protecting morning execution blocks."
+    }
+]
+
 
 def is_niche_relevant(text):
     low = " " + re.sub(r"\s+", " ", str(text).lower().strip()) + " "
-    if any(bad in low for bad in BLOCKED_PHRASES):
-        return False
+    for bad in BLOCKED_PHRASES:
+        token = bad.strip()
+        if token in WORD_BOUNDARY_BLOCKS:
+            if re.search(rf"(?<!\w){re.escape(token)}(?!\w)", low):
+                return False
+        else:
+            if bad in low:
+                return False
     return any(anchor in low for anchor in REQUIRED_DOMAIN_ANCHORS)
 
 
-def fetch_json(url, headers=None, timeout=10):
+def fetch_json_with_status(url, headers=None, timeout=10):
     req = urllib.request.Request(
         url,
-        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.1)"}
+        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.2)"}
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-    except Exception:
-        return None
+            status_code = getattr(resp, "status", None) or resp.getcode()
+            raw_text = resp.read().decode("utf-8", errors="replace")
+            if not raw_text.strip():
+                return None, status_code, "Empty response body"
+            return json.loads(raw_text), status_code, None
+    except urllib.error.HTTPError as e:
+        err_snippet = ""
+        try:
+            err_snippet = e.read().decode("utf-8", errors="replace")[:200]
+        except Exception:
+            pass
+        return None, e.code, f"HTTP {e.code}: {err_snippet}"
+    except Exception as e:
+        return None, None, str(e)
 
 
 def harvest_autocomplete(query):
@@ -238,66 +403,90 @@ def harvest_autocomplete(query):
         f"https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q={q_enc}",
         f"https://duckduckgo.com/ac/?q={q_enc}&type=list",
     ]:
-        data = fetch_json(url)
-        if isinstance(data, list) and len(data) > 1:
-            results.update(data[1])
+        data, _, _ = fetch_json_with_status(url, timeout=10)
+        if isinstance(data, list) and len(data) > 1 and isinstance(data[1], list):
+            results.update(str(item) for item in data[1] if item)
 
     return [item for item in results if is_niche_relevant(item)]
 
 
 def harvest_marketplace_proof():
-    """Extracts proven commercial phrasing from Gumroad & Etsy buyer-intent probes."""
+    """Extracts proven commercial phrasing from Gumroad buyer-intent probes."""
     proof_queries = []
     commercial_probes = [
         "site:gumroad.com/l/ mindset framework",
-        "site:gumroad.com/l/ personal finance tracker",
         "site:gumroad.com/l/ discipline system",
         "site:gumroad.com/l/ self improvement",
-        "site:etsy.com/listing/ personal finance budget tracker",
-        "site:etsy.com/listing/ habit discipline planner"
+        "site:gumroad.com/l/ digital product",
+        "site:gumroad.com/l/ personal finance runway",
+        "site:gumroad.com/l/ solo business"
     ]
     for probe in commercial_probes:
         proof_queries.extend(harvest_autocomplete(probe))
-        time.sleep(0.3)
+        time.sleep(0.25)
     return list(set(proof_queries))
 
 
 def harvest_live_community_intent():
-    """Fault-tolerant pull of active buyer/user questions from public Reddit & StackExchange JSON."""
+    """Fault-tolerant pull of active buyer/user questions from public Reddit & StackExchange JSON with diagnostics."""
     intent_phrases = set()
+    se_raw_count = 0
+    se_kept_count = 0
+    se_failures = []
 
     se_urls = [
         "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=personal%20finance%20savings%20runway&site=money&pagesize=15",
         "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=discipline%20focus%20habit%20system&site=productivity&pagesize=15"
     ]
     for url in se_urls:
-        data = fetch_json(url, timeout=8)
-        if isinstance(data, dict):
-            for item in data.get("items", []):
-                title = item.get("title", "")
-                if title and is_niche_relevant(title):
-                    intent_phrases.add(title)
+        data, status, err = fetch_json_with_status(url, timeout=8)
+        if err or not isinstance(data, dict):
+            se_failures.append(err or f"HTTP {status} non-dict")
+            continue
+        items = data.get("items", [])
+        se_raw_count += len(items)
+        for item in items:
+            title = item.get("title", "")
+            if title and is_niche_relevant(title):
+                intent_phrases.add(title)
+                se_kept_count += 1
 
+    reddit_raw_count = 0
+    reddit_kept_count = 0
+    reddit_failures = []
     reddit_queries = [
-        "https://www.reddit.com/r/selfimprovement/search.json?q=system+OR+framework+OR+tracker&restrict_sr=1&sort=top&t=month&limit=15",
-        "https://www.reddit.com/r/personalfinance/search.json?q=budget+OR+savings+OR+net+worth+tracker&restrict_sr=1&sort=top&t=month&limit=15",
+        "https://www.reddit.com/r/selfimprovement/search.json?q=system+OR+framework+OR+scorecard&restrict_sr=1&sort=top&t=month&limit=15",
+        "https://www.reddit.com/r/personalfinance/search.json?q=savings+runway+OR+net+worth+OR+budget&restrict_sr=1&sort=top&t=month&limit=15",
         "https://www.reddit.com/r/Entrepreneur/search.json?q=digital+product+pricing+OR+gumroad&restrict_sr=1&sort=top&t=month&limit=15"
     ]
     for r_url in reddit_queries:
-        data = fetch_json(
+        data, status, err = fetch_json_with_status(
             r_url,
-            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.1 (by /u/fmmedia_bot)"},
+            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.2 (by /u/fmmedia_bot)"},
             timeout=8
         )
-        if isinstance(data, dict):
-            children = data.get("data", {}).get("children", [])
-            for child in children:
-                title = child.get("data", {}).get("title", "")
-                if title and is_niche_relevant(title):
-                    intent_phrases.add(title)
-        time.sleep(0.4)
+        if err or not isinstance(data, dict):
+            reddit_failures.append(err or f"HTTP {status} non-dict")
+            time.sleep(0.35)
+            continue
+        children = data.get("data", {}).get("children", [])
+        reddit_raw_count += len(children)
+        for child in children:
+            title = child.get("data", {}).get("title", "")
+            if title and is_niche_relevant(title):
+                intent_phrases.add(title)
+                reddit_kept_count += 1
+        time.sleep(0.35)
 
-    print(f"[Intent] Pulled {len(intent_phrases)} live community & Q&A buyer-intent signals.")
+    print(
+        f"[Intent] Pulled {len(intent_phrases)} live community signals "
+        f"(StackExchange: {se_kept_count}/{se_raw_count} kept; Reddit: {reddit_kept_count}/{reddit_raw_count} kept)."
+    )
+    if se_failures:
+        print(f"[Intent] StackExchange notices: {' | '.join(se_failures[:2])}")
+    if reddit_failures:
+        print(f"[Intent] Reddit notices (normal when runner IP is rate-limited): {' | '.join(reddit_failures[:2])}")
+
     return list(intent_phrases)
 
 
@@ -306,7 +495,7 @@ def harvest_gsc_telemetry():
     site_url = os.environ.get("GSC_SITE_URL", "").strip()
 
     if not creds_raw or not site_url:
-        print("[GSC] Credentials or GSC_SITE_URL not set yet — skipping first-party telemetry.")
+        print("[GSC] GSC_CREDENTIALS_JSON or GSC_SITE_URL not configured — skipping first-party telemetry.")
         return []
 
     try:
@@ -319,8 +508,9 @@ def harvest_gsc_telemetry():
         )
         service = build("searchconsole", "v1", credentials=credentials)
 
-        end_date = (datetime.utcnow() - timedelta(days=3)).strftime("%Y-%m-%d")
-        start_date = (datetime.utcnow() - timedelta(days=33)).strftime("%Y-%m-%d")
+        now_utc = datetime.now(timezone.utc)
+        end_date = (now_utc - timedelta(days=3)).strftime("%Y-%m-%d")
+        start_date = (now_utc - timedelta(days=33)).strftime("%Y-%m-%d")
 
         request_body = {
             "startDate": start_date,
@@ -342,11 +532,15 @@ def harvest_gsc_telemetry():
         }
 
         response = service.searchanalytics().query(siteUrl=site_url, body=request_body).execute()
+        rows = response.get("rows", [])
+        niche_matched = 0
         opportunities = []
-        for row in response.get("rows", []):
+
+        for row in rows:
             query_text = row["keys"][0]
             if not is_niche_relevant(query_text):
                 continue
+            niche_matched += 1
             impressions = row.get("impressions", 0)
             position = row.get("position", 100)
             if impressions >= 10 and 7.0 <= position <= 30.0:
@@ -356,134 +550,320 @@ def harvest_gsc_telemetry():
                     "position": round(position, 1),
                     "source": "GSC"
                 })
-        print(f"[GSC] Extracted {len(opportunities)} niche striking-distance queries.")
+
+        if len(rows) == 0:
+            print(f"[GSC] Auth succeeded for {site_url}, but API returned 0 non-branded rows ({start_date} to {end_date}).")
+        else:
+            print(
+                f"[GSC] API returned {len(rows)} raw rows -> {niche_matched} niche-relevant -> "
+                f"{len(opportunities)} striking-distance queries (impressions>=10, pos 7.0-30.0)."
+            )
         return opportunities
     except Exception as e:
-        print(f"[GSC] Telemetry check skipped due to error: {e}")
+        print(f"[GSC] Telemetry check skipped safely due to error: {e}")
         return []
 
 
 def _parse_json_loose(raw_text):
-    cleaned = raw_text.strip()
-    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
+    if raw_text is None:
+        raise ValueError("Model returned None content")
+    cleaned = str(raw_text).strip()
+    cleaned = re.sub(r"<think>.*?</think>", "", cleaned, flags=re.DOTALL | re.IGNORECASE).strip()
+    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned, flags=re.IGNORECASE)
     cleaned = re.sub(r"\s*```$", "", cleaned)
-    start = cleaned.find("{")
-    end = cleaned.rfind("}")
-    if start != -1 and end != -1 and end > start:
-        cleaned = cleaned[start:end + 1]
-    return json.loads(cleaned)
+    if not cleaned:
+        raise ValueError("Model content was empty after stripping reasoning tags and markdown fences")
+
+    try:
+        parsed = json.loads(cleaned)
+        if isinstance(parsed, list):
+            return {"utilities": parsed}
+        if isinstance(parsed, dict):
+            return parsed
+    except json.JSONDecodeError:
+        pass
+
+    obj_start, obj_end = cleaned.find("{"), cleaned.rfind("}")
+    arr_start, arr_end = cleaned.find("["), cleaned.rfind("]")
+    candidates = []
+    if obj_start != -1 and obj_end > obj_start:
+        candidates.append((obj_start, cleaned[obj_start:obj_end + 1]))
+    if arr_start != -1 and arr_end > arr_start:
+        candidates.append((arr_start, cleaned[arr_start:arr_end + 1]))
+    candidates.sort(key=lambda x: x[0])
+
+    for _, snippet in candidates:
+        try:
+            parsed = json.loads(snippet)
+            if isinstance(parsed, list):
+                return {"utilities": parsed}
+            if isinstance(parsed, dict):
+                return parsed
+        except json.JSONDecodeError:
+            continue
+
+    raise ValueError(f"Could not extract valid JSON object/array from model output: {cleaned[:180]}")
 
 
 def _pick_archetype(text, idx):
     low = text.lower()
-    if any(k in low for k in ["gumroad", "digital product", "sell", "pricing", "revenue", "launch", "offer", "monetization", "side hustle"]):
+    if any(k in low for k in ["gumroad", "digital product", "sell", "pricing", "revenue", "launch", "offer", "monetization", "side hustle", "solo business", "solo operator", "creator"]):
         return "revenue_calculator"
     if any(k in low for k in ["personal finance", "wealth", "savings", "net worth", "budget", "debt", "runway"]):
         return "financial_runway"
-    if any(k in low for k in ["focus", "dopamine", "habit", "productivity", "workflow", "routine"]):
+    if any(k in low for k in ["focus", "dopamine", "habit", "deep work", "productivity", "workflow", "routine", "execution"]):
         return "execution_audit"
     if any(k in low for k in ["mindset", "sovereignty", "recognition", "masculin", "discipline", "self improvement", "self-improvement"]):
         return "sovereignty_diagnostic"
-    order = ["sovereignty_diagnostic", "revenue_calculator", "financial_runway", "execution_audit"]
-    return order[idx % len(order)]
+    return ARCHETYPE_ORDER[idx % len(ARCHETYPE_ORDER)]
+
+
+def _sanitize_slug(raw_slug, fallback_text):
+    candidate = raw_slug or fallback_text or "diagnostic-tool"
+    slug = re.sub(r"[^a-z0-9]+", "-", str(candidate).lower()).strip("-")
+    return slug[:60].strip("-") or "diagnostic-tool"
 
 
 def _enrich_utility(raw_util, idx):
-    archetype = raw_util.get("archetype")
+    util = dict(raw_util)
+    archetype = util.get("archetype")
     if archetype not in ARCHETYPE_TEMPLATES:
-        archetype = _pick_archetype(raw_util.get("title", "") + " " + raw_util.get("target_query", ""), idx)
+        archetype = _pick_archetype(f"{util.get('title', '')} {util.get('target_query', '')}", idx)
 
     tpl = ARCHETYPE_TEMPLATES[archetype]
-    raw_util["archetype"] = archetype
-    raw_util["formula_mode"] = tpl["formula_mode"]
-    raw_util["bridge_offer"] = raw_util.get("bridge_offer") if raw_util.get("bridge_offer") in ("sovereignty", "compression") else tpl["bridge_offer"]
+    util["archetype"] = archetype
+    util["formula_mode"] = tpl["formula_mode"]
+    util["bridge_offer"] = tpl["bridge_offer"]
+    util["slug"] = _sanitize_slug(util.get("slug", ""), util.get("title", "") or util.get("target_query", ""))
+    util["title"] = str(util.get("title") or "Interactive Utility").strip()[:110]
+    util["target_query"] = str(util.get("target_query") or util["title"]).strip()[:100]
+    util["meta_description"] = str(util.get("meta_description") or f"Interactive diagnostic and calibrated action protocol for {util['target_query']}.").strip()[:155]
 
-    if not raw_util.get("inputs") or len(raw_util["inputs"]) < 3:
-        raw_util["inputs"] = tpl["inputs"]
+    raw_inputs = util.get("inputs")
+    if not isinstance(raw_inputs, list) or len(raw_inputs) < 3:
+        util["inputs"] = [dict(item) for item in tpl["inputs"]]
     else:
-        for i, inp in enumerate(raw_util["inputs"][:3]):
+        normalized_inputs = []
+        for i, inp in enumerate(raw_inputs[:3]):
             ref = tpl["inputs"][i]
-            inp.setdefault("min", ref["min"])
-            inp.setdefault("max", ref["max"])
-            inp.setdefault("default", ref["default"])
-            inp.setdefault("unit", ref["unit"])
-            inp.setdefault("weight", ref["weight"])
+            item = dict(inp) if isinstance(inp, dict) else {}
+            item.setdefault("id", ref["id"])
+            item.setdefault("label", ref["label"])
+            item.setdefault("min", ref["min"])
+            item.setdefault("max", ref["max"])
+            item.setdefault("default", ref["default"])
+            item.setdefault("unit", ref["unit"])
+            item.setdefault("weight", ref["weight"])
+            normalized_inputs.append(item)
+        util["inputs"] = normalized_inputs
 
-    raw_util["protocols"] = raw_util.get("protocols") if isinstance(raw_util.get("protocols"), dict) else tpl["protocols"]
+    raw_protocols = util.get("protocols") if isinstance(util.get("protocols"), dict) else {}
+    normalized_protocols = {}
     for tier in ("low", "mid", "high"):
-        if not raw_util["protocols"].get(tier):
-            raw_util["protocols"][tier] = tpl["protocols"][tier]
+        steps = raw_protocols.get(tier)
+        if isinstance(steps, list) and len([s for s in steps if str(s).strip()]) >= 2:
+            normalized_protocols[tier] = [str(s).strip() for s in steps[:3]]
+        else:
+            normalized_protocols[tier] = list(tpl["protocols"][tier])
+    util["protocols"] = normalized_protocols
 
-    if not raw_util.get("direct_answer"):
-        raw_util["direct_answer"] = (
-            f"Use this interactive diagnostic to benchmark your current baseline for '{raw_util.get('target_query', raw_util.get('title', 'this system'))}', "
+    if not util.get("direct_answer"):
+        util["direct_answer"] = (
+            f"Use this interactive diagnostic to benchmark your current baseline for '{util['target_query']}', "
             f"spot your primary bottleneck, and generate a calibrated action protocol."
         )
-    return raw_util
+    else:
+        util["direct_answer"] = str(util["direct_answer"]).strip()
+
+    return util
+
+
+def _build_query_utility(query, idx, forced_archetype=None):
+    cleaned = "".join(ch if ch.isalnum() or ch == " " else " " for ch in str(query).lower()).strip()
+    words = [w for w in cleaned.split() if len(w) > 1]
+    if len(words) < 2:
+        return None
+    slug = "-".join(words[:6])[:55].strip("-")
+    if not slug:
+        return None
+
+    archetype = forced_archetype or _pick_archetype(str(query), idx)
+    suffix_label = {
+        "revenue_calculator": "Revenue Calculator",
+        "financial_runway": "Runway & Margin Analyzer",
+        "execution_audit": "Execution Bandwidth Audit",
+        "sovereignty_diagnostic": "Self-Recognition & Sovereignty Diagnostic"
+    }[archetype]
+    base_title = " ".join(w.capitalize() for w in words[:5])
+    return _enrich_utility({
+        "slug": slug,
+        "title": f"{base_title}: {suffix_label}",
+        "target_query": str(query)[:85],
+        "meta_description": f"Interactive {suffix_label.lower()} and dynamic action protocol for {str(query)[:85]}.",
+        "archetype": archetype
+    }, idx)
+
+
+def balance_utilities(primary_utilities, raw_candidates, target_total=14, max_per_archetype=4):
+    """Caps single-archetype dominance and maintains even coverage across all 4 utility archetypes."""
+    buckets = {arch: [] for arch in ARCHETYPE_ORDER}
+    seen_slugs = set()
+    seen_titles = set()
+
+    def _try_add(util, target_bucket=None):
+        arch = target_bucket or util["archetype"]
+        if arch not in buckets or len(buckets[arch]) >= max_per_archetype:
+            return False
+        slug = util["slug"]
+        title_key = util["title"].lower()
+        if slug in seen_slugs or title_key in seen_titles:
+            return False
+        seen_slugs.add(slug)
+        seen_titles.add(title_key)
+        buckets[arch].append(util)
+        return True
+
+    for u in primary_utilities:
+        _try_add(u)
+
+    # Top up underrepresented archetypes from harvested niche candidates
+    for arch in ARCHETYPE_ORDER:
+        if len(buckets[arch]) >= 3:
+            continue
+        for idx, q in enumerate(raw_candidates):
+            if len(buckets[arch]) >= 3:
+                break
+            if not is_niche_relevant(q):
+                continue
+            if _pick_archetype(str(q), idx) != arch:
+                continue
+            candidate_util = _build_query_utility(q, idx, forced_archetype=arch)
+            if candidate_util:
+                _try_add(candidate_util, target_bucket=arch)
+
+    # Guarantee minimum balanced coverage using curated pillar blueprints if any bucket is still short
+    for idx, blueprint in enumerate(CURATED_EVERGREEN_UTILITIES):
+        arch = blueprint["archetype"]
+        if len(buckets[arch]) >= 3:
+            continue
+        enriched = _enrich_utility(blueprint, idx)
+        _try_add(enriched, target_bucket=arch)
+
+    # Interleave round-robin across archetypes so output is balanced across both offers
+    balanced = []
+    pos = 0
+    while len(balanced) < target_total:
+        added_this_round = False
+        for arch in ARCHETYPE_ORDER:
+            if pos < len(buckets[arch]) and len(balanced) < target_total:
+                balanced.append(buckets[arch][pos])
+                added_this_round = True
+        if not added_this_round:
+            break
+        pos += 1
+
+    counts = {arch: len([u for u in balanced if u["archetype"] == arch]) for arch in ARCHETYPE_ORDER}
+    print(f"[Balance] Final utility distribution across archetypes: {counts}")
+    return balanced
 
 
 def _fallback_utilities_from_queries(raw_candidates):
     selected = []
     seen_slugs = set()
 
-    for q in raw_candidates:
+    for idx, q in enumerate(raw_candidates):
         if not is_niche_relevant(q):
             continue
-        cleaned = "".join(ch if ch.isalnum() or ch == " " else " " for ch in str(q).lower()).strip()
-        words = [w for w in cleaned.split() if len(w) > 1]
-        if len(words) < 3:
+        util = _build_query_utility(q, idx)
+        if not util or util["slug"] in seen_slugs:
             continue
-        slug = "-".join(words[:6])[:55].strip("-")
-        if not slug or slug in seen_slugs:
-            continue
-        seen_slugs.add(slug)
-
-        idx = len(selected)
-        archetype = _pick_archetype(str(q), idx)
-        suffix_label = {
-            "revenue_calculator": "Revenue Calculator",
-            "financial_runway": "Runway & Margin Analyzer",
-            "execution_audit": "Execution Bandwidth Audit",
-            "sovereignty_diagnostic": "Self-Recognition & Sovereignty Diagnostic"
-        }[archetype]
-
-        base_title = " ".join(w.capitalize() for w in words[:5])
-        util = _enrich_utility({
-            "slug": slug,
-            "title": f"{base_title}: {suffix_label}",
-            "target_query": str(q)[:85],
-            "meta_description": f"Interactive {suffix_label.lower()} and dynamic action protocol for {str(q)[:85]}.",
-            "archetype": archetype
-        }, idx)
+        seen_slugs.add(util["slug"])
         selected.append(util)
-        if len(selected) >= 14:
+        if len(selected) >= 32:
             break
 
-    return selected
+    return balance_utilities(selected, raw_candidates, target_total=14, max_per_archetype=4)
+
+
+def _resolve_groq_models(headers):
+    """Checks active models on the Groq key so unavailable IDs are skipped cleanly."""
+    data, status, err = fetch_json_with_status(
+        "https://api.groq.com/openai/v1/models",
+        headers=headers,
+        timeout=10
+    )
+    if err or not isinstance(data, dict) or not isinstance(data.get("data"), list):
+        print(f"[Groq] Model catalog check unavailable ({err or f'HTTP {status}'}) — using default model list.")
+        return list(GROQ_MODELS)
+
+    available_ids = {m.get("id") for m in data["data"] if isinstance(m, dict) and m.get("id")}
+    prioritized = [m for m in GROQ_MODELS if m in available_ids]
+    if prioritized:
+        print(f"[Groq] Active preferred models detected: {prioritized}")
+        return prioritized
+
+    excluded_tokens = ("whisper", "guard", "orpheus", "tts", "safeguard")
+    dynamic_chat = sorted(
+        mid for mid in available_ids
+        if not any(tok in mid.lower() for tok in excluded_tokens)
+    )
+    if dynamic_chat:
+        print(f"[Groq] Preferred models not found; trying available catalog models: {dynamic_chat[:4]}")
+        return dynamic_chat[:4]
+
+    return list(GROQ_MODELS)
+
+
+def _call_groq_model(model_name, prompt, headers, use_reasoning_effort=True):
+    body = {
+        "model": model_name,
+        "messages": [
+            {"role": "system", "content": "Output raw JSON only. Never wrap in markdown fences or extra prose."},
+            {"role": "user", "content": prompt}
+        ],
+        "temperature": 0.25,
+        "max_completion_tokens": 4096
+    }
+    if use_reasoning_effort:
+        if model_name.startswith("openai/gpt-oss"):
+            body["reasoning_effort"] = "low"
+        elif model_name.startswith("qwen/"):
+            body["reasoning_effort"] = "none"
+
+    payload = json.dumps(body).encode("utf-8")
+    req = urllib.request.Request(
+        "https://api.groq.com/openai/v1/chat/completions",
+        data=payload,
+        headers=headers
+    )
+    with urllib.request.urlopen(req, timeout=60) as resp:
+        status_code = getattr(resp, "status", None) or resp.getcode()
+        raw_body = resp.read().decode("utf-8", errors="replace")
+        return status_code, raw_body
 
 
 def filter_with_groq(raw_candidates):
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
-        print("[Groq] Missing GROQ_API_KEY — using niche-filtered archetype fallback.")
+        print("[Groq] Missing GROQ_API_KEY — using niche-filtered balanced archetype fallback.")
         return _fallback_utilities_from_queries(raw_candidates)
 
     filtered_pool = [c for c in raw_candidates if is_niche_relevant(c)][:160]
     if not filtered_pool:
         filtered_pool = raw_candidates[:120]
 
-    prompt = f"""You are a programmatic SEO and buyer-intent architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator brand.
+    prompt = f"""You are a programmatic SEO and buyer-intent architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator brand pointing toward two flagship offers: $27 Mental Sovereignty Framework ("sovereignty") and $197 The Compression System ("compression").
 Analyze these raw search & buyer-intent signals:
 {json.dumps(filtered_pool, indent=2)}
 
 RULES:
-1. DISCARD generic informational definitions ("what is..."), test prep, vehicle GPS trackers, B2B payroll/HR software, and clinical/medical queries.
+1. DISCARD generic informational definitions ("what is..."), accounting/tax/invoice/contract forms, Excel/spreadsheet/Python templates, vehicle GPS trackers, B2B payroll/HR software, and clinical/medical queries.
 2. KEEP ONLY high-intent user/buyer queries that justify a standalone interactive tool across 4 distinct archetypes:
    - "sovereignty_diagnostic" (mindset, self-recognition, masculinity, discipline, emotional control -> bridge_offer: "sovereignty")
    - "financial_runway" (personal finance, burn rate, savings buffer, wealth leverage -> bridge_offer: "sovereignty")
    - "revenue_calculator" (digital products, pricing, Gumroad launches, solo monetization -> bridge_offer: "compression")
    - "execution_audit" (time wasted, focus, dopamine control, workflow bottlenecks -> bridge_offer: "compression")
-3. Distribute the 12 to 16 tools evenly across all 4 archetypes so the site has genuine functional variety.
+3. Distribute 12 to 16 tools EVENLY across all 4 archetypes (3 to 4 per archetype — do NOT let any single archetype dominate).
 4. For each tool, write a sharp 1-sentence "direct_answer" that immediately answers the user's underlying question, plus tailored "low", "mid", and "high" action protocols (3 steps each).
 
 Return ONLY valid JSON:
@@ -510,47 +890,75 @@ Return ONLY valid JSON:
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.1)"
+        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.2)"
     }
 
-    for model_name in GROQ_MODELS:
-        payload = json.dumps({
-            "model": model_name,
-            "messages": [
-                {"role": "system", "content": "Output raw JSON only. Never wrap in markdown fences."},
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.25
-        }).encode("utf-8")
+    models_to_try = _resolve_groq_models(headers)
 
-        req = urllib.request.Request(
-            "https://api.groq.com/openai/v1/chat/completions",
-            data=payload,
-            headers=headers
-        )
-        try:
-            with urllib.request.urlopen(req, timeout=45) as resp:
-                data = json.loads(resp.read().decode("utf-8"))
-                content = data["choices"][0]["message"]["content"]
+    for model_name in models_to_try:
+        for allow_reasoning_param in (True, False):
+            try:
+                status_code, raw_body = _call_groq_model(
+                    model_name,
+                    prompt,
+                    headers,
+                    use_reasoning_effort=allow_reasoning_param
+                )
+                if status_code != 200 or not raw_body.strip():
+                    print(f"[Groq] {model_name} HTTP {status_code} empty/non-200 body: {raw_body[:300]}")
+                    break
+
+                try:
+                    data = json.loads(raw_body)
+                except json.JSONDecodeError as je:
+                    print(f"[Groq] {model_name} HTTP {status_code} returned non-JSON body ({je}): {raw_body[:300]}")
+                    break
+
+                choices = data.get("choices") or []
+                choice = choices[0] if choices else {}
+                finish_reason = choice.get("finish_reason")
+                message = choice.get("message") or {}
+                content = message.get("content")
+
+                if not content or not str(content).strip():
+                    print(
+                        f"[Groq] {model_name} HTTP {status_code} returned empty message content "
+                        f"(finish_reason={finish_reason}): {raw_body[:300]}"
+                    )
+                    break
+
                 parsed = _parse_json_loose(content)
                 valid_utils = []
                 for idx, u in enumerate(parsed.get("utilities", [])):
-                    if is_niche_relevant(u.get("title", "") + " " + u.get("target_query", "")):
+                    if not isinstance(u, dict):
+                        continue
+                    check_text = f"{u.get('title', '')} {u.get('target_query', '')}"
+                    if is_niche_relevant(check_text):
                         valid_utils.append(_enrich_utility(u, idx))
-                if valid_utils:
-                    print(f"[Groq] Succeeded with model: {model_name} ({len(valid_utils)} distinct utilities)")
-                    return valid_utils
-        except urllib.error.HTTPError as e:
-            err_body = ""
-            try:
-                err_body = e.read().decode("utf-8", errors="replace")[:250]
-            except Exception:
-                pass
-            print(f"[Groq] {model_name} failed ({e.code}): {err_body}")
-        except Exception as e:
-            print(f"[Groq] {model_name} failed: {e}")
 
-    print("[Groq] All model attempts failed — using niche-filtered archetype fallback.")
+                if valid_utils:
+                    print(f"[Groq] Succeeded with {model_name} (HTTP {status_code}, {len(valid_utils)} niche-valid utilities before balancing)")
+                    return balance_utilities(valid_utils, filtered_pool, target_total=14, max_per_archetype=4)
+
+                print(f"[Groq] {model_name} HTTP {status_code} produced 0 niche-valid utilities. Content snippet: {str(content)[:300]}")
+                break
+
+            except urllib.error.HTTPError as e:
+                err_body = ""
+                try:
+                    err_body = e.read().decode("utf-8", errors="replace")[:300]
+                except Exception:
+                    pass
+                print(f"[Groq] {model_name} HTTP {e.code} error: {err_body}")
+                if e.code == 400 and allow_reasoning_param and "reasoning_effort" in err_body:
+                    print(f"[Groq] Retrying {model_name} without reasoning_effort parameter...")
+                    continue
+                break
+            except Exception as e:
+                print(f"[Groq] {model_name} failed ({type(e).__name__}): {e}")
+                break
+
+    print("[Groq] All model attempts failed — using niche-filtered balanced archetype fallback.")
     return _fallback_utilities_from_queries(raw_candidates)
 
 
@@ -561,7 +969,6 @@ def main():
     for topic in SEED_TOPICS:
         for mod in INTENT_MODIFIERS[:4]:
             for suffix in ALPHABET_SWEEP[:4]:
-                # Put topic first so autocomplete stays anchored to your niche
                 q = f"{topic} {mod}{suffix}".strip()
                 all_queries.update(harvest_autocomplete(q))
                 time.sleep(0.25)
@@ -577,7 +984,7 @@ def main():
 
     utilities = filter_with_groq(combined_pool)
     output_payload = {
-        "updated_at": datetime.utcnow().isoformat() + "Z",
+        "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "raw_signal_count": len(combined_pool),
         "gsc_opportunities": gsc_hits,
         "utilities": utilities
@@ -586,7 +993,7 @@ def main():
     with open("validated_demand.json", "w", encoding="utf-8") as f:
         json.dump(output_payload, f, indent=2)
 
-    print(f"Saved {len(utilities)} standalone utilities to validated_demand.json.")
+    print(f"Saved {len(utilities)} balanced standalone utilities to validated_demand.json.")
 
 
 if __name__ == "__main__":
