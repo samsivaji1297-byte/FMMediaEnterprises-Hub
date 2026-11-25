@@ -1,26 +1,26 @@
 {
-  "updated_at": "2026-11-25T00:46:43.458823Z",
-  "raw_signal_count": 480,
+  "updated_at": "2026-11-25T01:05:00.685643Z",
+  "raw_signal_count": 211,
   "gsc_opportunities": [],
   "utilities": [
     {
-      "slug": "how-to-post-product-in-gumroad",
-      "title": "How To Post Product In Gumroad Calculator",
-      "target_query": "how to post product in gumroad",
-      "meta_description": "Interactive browser calculator and diagnostic for how to post product in gumroad.",
+      "slug": "study-self-improvement-basics",
+      "title": "Study Self Improvement Basics Calculator",
+      "target_query": "study self improvement basics",
+      "meta_description": "Interactive browser tool and diagnostic for study self improvement basics.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -28,10 +28,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -39,23 +39,23 @@
       "bridge_offer": "compression"
     },
     {
-      "slug": "create-workflow-free-template",
-      "title": "Create Workflow Free Template Calculator",
-      "target_query": "create workflow free template",
-      "meta_description": "Interactive browser calculator and diagnostic for create workflow free template.",
+      "slug": "professional-self-improvement-system",
+      "title": "Professional Self Improvement System Calculator",
+      "target_query": "professional self improvement system",
+      "meta_description": "Interactive browser tool and diagnostic for professional self improvement system.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -63,10 +63,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -74,23 +74,23 @@
       "bridge_offer": "operator"
     },
     {
-      "slug": "how-to-sell-in-gumroad",
-      "title": "How To Sell In Gumroad Calculator",
-      "target_query": "how to sell in gumroad",
-      "meta_description": "Interactive browser calculator and diagnostic for how to sell in gumroad.",
+      "slug": "home-improvement-project-tracker",
+      "title": "Home Improvement Project Tracker Calculator",
+      "target_query": "home improvement project tracker",
+      "meta_description": "Interactive browser tool and diagnostic for home improvement project tracker.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -98,10 +98,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -109,23 +109,23 @@
       "bridge_offer": "compression"
     },
     {
-      "slug": "checklist-for-starting-business",
-      "title": "Checklist For Starting Business Calculator",
-      "target_query": "checklist for starting a business",
-      "meta_description": "Interactive browser calculator and diagnostic for checklist for starting a business.",
+      "slug": "business-scorecard-software-features",
+      "title": "Business Scorecard Software Features Calculator",
+      "target_query": "business scorecard software features",
+      "meta_description": "Interactive browser tool and diagnostic for business scorecard software features.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -133,10 +133,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -144,23 +144,23 @@
       "bridge_offer": "operator"
     },
     {
-      "slug": "diagnostic-formulation-in-psychiatry",
-      "title": "Diagnostic Formulation In Psychiatry Calculator",
-      "target_query": "diagnostic formulation in psychiatry",
-      "meta_description": "Interactive browser calculator and diagnostic for diagnostic formulation in psychiatry.",
+      "slug": "business-scorecard-software-reviews",
+      "title": "Business Scorecard Software Reviews Calculator",
+      "target_query": "business scorecard software reviews",
+      "meta_description": "Interactive browser tool and diagnostic for business scorecard software reviews.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -168,10 +168,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -179,23 +179,23 @@
       "bridge_offer": "compression"
     },
     {
-      "slug": "notion-templates-for-beginners",
-      "title": "Notion Templates For Beginners Calculator",
-      "target_query": "notion templates for beginners",
-      "meta_description": "Interactive browser calculator and diagnostic for notion templates for beginners.",
+      "slug": "personal-loan-financial-services-calculator",
+      "title": "Personal Loan Financial Services Calculator Calculator",
+      "target_query": "personal loan financial services calculator",
+      "meta_description": "Interactive browser tool and diagnostic for personal loan financial services calculator.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -203,10 +203,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -214,23 +214,23 @@
       "bridge_offer": "operator"
     },
     {
-      "slug": "habit-tracker-template-james-clear",
-      "title": "Habit Tracker Template James Clear Calculator",
-      "target_query": "habit tracker template james clear",
-      "meta_description": "Interactive browser calculator and diagnostic for habit tracker template james clear.",
+      "slug": "install-self-improvement-system",
+      "title": "Install Self Improvement System Calculator",
+      "target_query": "install self improvement system",
+      "meta_description": "Interactive browser tool and diagnostic for install self improvement system.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -238,10 +238,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -249,23 +249,23 @@
       "bridge_offer": "compression"
     },
     {
-      "slug": "code-for-making-calculator",
-      "title": "Code For Making Calculator Calculator",
-      "target_query": "c code for making calculator",
-      "meta_description": "Interactive browser calculator and diagnostic for c code for making calculator.",
+      "slug": "wealth-tracker-login-issues",
+      "title": "Wealth Tracker Login Issues Calculator",
+      "target_query": "wealth tracker login issues",
+      "meta_description": "Interactive browser tool and diagnostic for wealth tracker login issues.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -273,10 +273,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -284,23 +284,23 @@
       "bridge_offer": "operator"
     },
     {
-      "slug": "learn-content-creation-workflow",
-      "title": "Learn Content Creation Workflow Calculator",
-      "target_query": "learn content creation workflow",
-      "meta_description": "Interactive browser calculator and diagnostic for learn content creation workflow.",
+      "slug": "monitoring-workflow-professional-session",
+      "title": "Monitoring Workflow Professional Session Calculator",
+      "target_query": "monitoring workflow professional session",
+      "meta_description": "Interactive browser tool and diagnostic for monitoring workflow professional session.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -308,10 +308,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -319,23 +319,23 @@
       "bridge_offer": "compression"
     },
     {
-      "slug": "templates-for-selling-digital-products",
-      "title": "Templates For Selling Digital Products Calculator",
-      "target_query": "templates for selling digital products",
-      "meta_description": "Interactive browser calculator and diagnostic for templates for selling digital products.",
+      "slug": "tracker-autotracker-tutorial",
+      "title": "Tracker Autotracker Tutorial Calculator",
+      "target_query": "tracker autotracker tutorial",
+      "meta_description": "Interactive browser tool and diagnostic for tracker autotracker tutorial.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -343,10 +343,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -354,23 +354,23 @@
       "bridge_offer": "operator"
     },
     {
-      "slug": "digital-diagnostics-phone-number",
-      "title": "Digital Diagnostics Phone Number Calculator",
-      "target_query": "digital diagnostics phone number",
-      "meta_description": "Interactive browser calculator and diagnostic for digital diagnostics phone number.",
+      "slug": "digital-product-launch-strategy",
+      "title": "Digital Product Launch Strategy Calculator",
+      "target_query": "digital product launch strategy",
+      "meta_description": "Interactive browser tool and diagnostic for digital product launch strategy.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -378,10 +378,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -389,23 +389,23 @@
       "bridge_offer": "compression"
     },
     {
-      "slug": "content-template-for-social-media",
-      "title": "Content Template For Social Media Calculator",
-      "target_query": "content template for social media",
-      "meta_description": "Interactive browser calculator and diagnostic for content template for social media.",
+      "slug": "production-of-masculinity-and-femininity",
+      "title": "Production Of Masculinity And Femininity Calculator",
+      "target_query": "production of masculinity and femininity",
+      "meta_description": "Interactive browser tool and diagnostic for production of masculinity and femininity.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -413,10 +413,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -424,23 +424,23 @@
       "bridge_offer": "operator"
     },
     {
-      "slug": "physical-product-vs-digital-product",
-      "title": "Physical Product Vs Digital Product Calculator",
-      "target_query": "physical product vs digital product",
-      "meta_description": "Interactive browser calculator and diagnostic for physical product vs digital product.",
+      "slug": "basic-monitoring-lab-workflow",
+      "title": "Basic Monitoring Lab Workflow Calculator",
+      "target_query": "basic monitoring lab workflow",
+      "meta_description": "Interactive browser tool and diagnostic for basic monitoring lab workflow.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -448,10 +448,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
@@ -459,23 +459,23 @@
       "bridge_offer": "compression"
     },
     {
-      "slug": "how-to-use-notion-template",
-      "title": "How To Use Notion Template Calculator",
-      "target_query": "how to use a notion template",
-      "meta_description": "Interactive browser calculator and diagnostic for how to use a notion template.",
+      "slug": "habit-tracker-for-pc",
+      "title": "Habit Tracker For Pc Calculator",
+      "target_query": "habit tracker for pc",
+      "meta_description": "Interactive browser tool and diagnostic for habit tracker for pc.",
       "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Current Execution Pace (1-100)",
+          "label": "Current Execution Consistency (1-100)",
           "min": 1,
           "max": 100,
-          "default": 45,
+          "default": 50,
           "weight": 1.2
         },
         {
           "id": "inp2",
-          "label": "Workflow Bottleneck Severity (1-100)",
+          "label": "Constraint / Friction Level (1-100)",
           "min": 1,
           "max": 100,
           "default": 60,
@@ -483,10 +483,10 @@
         },
         {
           "id": "inp3",
-          "label": "Weekly Output Consistency (1-100)",
+          "label": "Weekly Leverage Commitment (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
+          "default": 55,
           "weight": 1.1
         }
       ],
