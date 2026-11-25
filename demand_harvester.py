@@ -6,6 +6,7 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 
+# Unambiguous domain seeds aligned with your exact offers
 SEED_TOPICS = [
     "self improvement",
     "masculinity discipline",
@@ -19,8 +20,8 @@ SEED_TOPICS = [
     "solo business"
 ]
 
+# Transactional & utility-grade modifiers
 INTENT_MODIFIERS = [
-    "kit",
     "calculator",
     "template",
     "system",
@@ -31,30 +32,15 @@ INTENT_MODIFIERS = [
     "audit"
 ]
 
-SPEND_SIGNAL_WORDS = [
-    "kit",
-    "template",
-    "calculator",
-    "checklist",
-    "system",
-    "tracker",
-    "scorecard",
-    "planner",
-    "framework",
-    "blueprint"
-]
-
 ALPHABET_SWEEP = ["", " a", " c", " f", " m", " p", " s", " w"]
 
+# Hard blocklist for informational definitions, test prep, vehicle GPS, B2B HR, and clinical noise
 BLOCKED_PHRASES = [
     "what is ",
-    "what was ",
     "who is ",
-    "how does ",
     "define ",
     "definition",
     "meaning of",
-    "bpi ",
     "psychiatry",
     "psychiatric",
     "phone number",
@@ -80,6 +66,7 @@ BLOCKED_PHRASES = [
     "software demo"
 ]
 
+# Multi-word or unambiguous domain anchors (prevents "self-fit" or "car tracker" false positives)
 REQUIRED_DOMAIN_ANCHORS = [
     "self improvement",
     "self-improvement",
@@ -124,11 +111,6 @@ ARCHETYPE_TEMPLATES = {
             {"id": "inp2", "label": "Target Weekly Buyers", "min": 1, "max": 100, "default": 12, "unit": "sales", "weight": 1.0},
             {"id": "inp3", "label": "Distribution Consistency (%)", "min": 10, "max": 100, "default": 60, "unit": "%", "weight": 1.0}
         ],
-        "kit_items": [
-            "Offer Positioning Sheet: 1-sentence outcome promise + price anchor matrix.",
-            "90-Minute Packaging Checklist: core asset, quick-start template, and checkout page.",
-            "Traffic-to-Checkout Loop: daily intent query targeting + direct Gumroad link."
-        ],
         "protocols": {
             "low": [
                 "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
@@ -154,11 +136,6 @@ ARCHETYPE_TEMPLATES = {
             {"id": "inp1", "label": "Monthly Core Burn ($)", "min": 500, "max": 15000, "default": 3200, "unit": "$", "weight": 1.0},
             {"id": "inp2", "label": "Liquid Reserve Buffer ($)", "min": 500, "max": 100000, "default": 15000, "unit": "$", "weight": 1.0},
             {"id": "inp3", "label": "Monthly Savings / Surplus Rate (%)", "min": 0, "max": 80, "default": 22, "unit": "%", "weight": 1.0}
-        ],
-        "kit_items": [
-            "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
-            "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
-            "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
         ],
         "protocols": {
             "low": [
@@ -186,11 +163,6 @@ ARCHETYPE_TEMPLATES = {
             {"id": "inp2", "label": "Daily Context Switches / Distractions", "min": 1, "max": 30, "default": 10, "unit": "x", "weight": 1.0},
             {"id": "inp3", "label": "Deep Work Blocks Completed / Week", "min": 0, "max": 14, "default": 4, "unit": "blocks", "weight": 1.0}
         ],
-        "kit_items": [
-            "Friction Elimination Filter: list of low-leverage loops to cut, batch, or script.",
-            "90-Minute Morning Sprint Protocol: zero-feed deep-work block structure.",
-            "Weekly Shipped-Asset Scorecard: tracks shipped outputs instead of hours logged."
-        ],
         "protocols": {
             "low": [
                 "Eliminate non-essential notifications and batch communications into two 20-minute windows daily.",
@@ -216,11 +188,6 @@ ARCHETYPE_TEMPLATES = {
             {"id": "inp1", "label": "Self-Directed Standards vs External Validation (1-100)", "min": 1, "max": 100, "default": 58, "unit": "/100", "weight": 1.25},
             {"id": "inp2", "label": "Impulse & Dopamine Control Under Stress (1-100)", "min": 1, "max": 100, "default": 52, "unit": "/100", "weight": 1.15},
             {"id": "inp3", "label": "Daily Follow-Through Without Motivation (1-100)", "min": 1, "max": 100, "default": 60, "unit": "/100", "weight": 1.2}
-        ],
-        "kit_items": [
-            "Self-Recognition Mirror Audit: separates internal standards from borrowed validation.",
-            "72-Hour Dopamine & Noise Reset: strips reactive feeds and emotional drift.",
-            "Invariant Daily Standard Card: 3 non-negotiable rules executed regardless of mood."
         ],
         "protocols": {
             "low": [
@@ -250,15 +217,10 @@ def is_niche_relevant(text):
     return any(anchor in low for anchor in REQUIRED_DOMAIN_ANCHORS)
 
 
-def has_spend_signal(text):
-    low = str(text).lower()
-    return any(w in low for w in SPEND_SIGNAL_WORDS)
-
-
 def fetch_json(url, headers=None, timeout=10):
     req = urllib.request.Request(
         url,
-        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.2)"}
+        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.1)"}
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -284,12 +246,13 @@ def harvest_autocomplete(query):
 
 
 def harvest_marketplace_proof():
+    """Extracts proven commercial phrasing from Gumroad & Etsy buyer-intent probes."""
     proof_queries = []
     commercial_probes = [
         "site:gumroad.com/l/ mindset framework",
         "site:gumroad.com/l/ personal finance tracker",
-        "site:gumroad.com/l/ discipline kit",
-        "site:gumroad.com/l/ self improvement system",
+        "site:gumroad.com/l/ discipline system",
+        "site:gumroad.com/l/ self improvement",
         "site:etsy.com/listing/ personal finance budget tracker",
         "site:etsy.com/listing/ habit discipline planner"
     ]
@@ -300,6 +263,7 @@ def harvest_marketplace_proof():
 
 
 def harvest_live_community_intent():
+    """Fault-tolerant pull of active buyer/user questions from public Reddit & StackExchange JSON."""
     intent_phrases = set()
 
     se_urls = [
@@ -315,14 +279,14 @@ def harvest_live_community_intent():
                     intent_phrases.add(title)
 
     reddit_queries = [
-        "https://www.reddit.com/r/selfimprovement/search.json?q=system+OR+framework+OR+tracker+OR+kit&restrict_sr=1&sort=top&t=month&limit=15",
+        "https://www.reddit.com/r/selfimprovement/search.json?q=system+OR+framework+OR+tracker&restrict_sr=1&sort=top&t=month&limit=15",
         "https://www.reddit.com/r/personalfinance/search.json?q=budget+OR+savings+OR+net+worth+tracker&restrict_sr=1&sort=top&t=month&limit=15",
         "https://www.reddit.com/r/Entrepreneur/search.json?q=digital+product+pricing+OR+gumroad&restrict_sr=1&sort=top&t=month&limit=15"
     ]
     for r_url in reddit_queries:
         data = fetch_json(
             r_url,
-            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.2 (by /u/fmmedia_bot)"},
+            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.1 (by /u/fmmedia_bot)"},
             timeout=8
         )
         if isinstance(data, dict):
@@ -390,11 +354,8 @@ def harvest_gsc_telemetry():
                     "query": query_text,
                     "impressions": impressions,
                     "position": round(position, 1),
-                    "spend_signal": has_spend_signal(query_text),
                     "source": "GSC"
                 })
-        # Prioritize active spend-signal queries first, then highest impressions
-        opportunities.sort(key=lambda x: (x["spend_signal"], x["impressions"]), reverse=True)
         print(f"[GSC] Extracted {len(opportunities)} niche striking-distance queries.")
         return opportunities
     except Exception as e:
@@ -448,9 +409,6 @@ def _enrich_utility(raw_util, idx):
             inp.setdefault("unit", ref["unit"])
             inp.setdefault("weight", ref["weight"])
 
-    if not raw_util.get("kit_items") or not isinstance(raw_util.get("kit_items"), list):
-        raw_util["kit_items"] = tpl["kit_items"]
-
     raw_util["protocols"] = raw_util.get("protocols") if isinstance(raw_util.get("protocols"), dict) else tpl["protocols"]
     for tier in ("low", "mid", "high"):
         if not raw_util["protocols"].get(tier):
@@ -458,8 +416,8 @@ def _enrich_utility(raw_util, idx):
 
     if not raw_util.get("direct_answer"):
         raw_util["direct_answer"] = (
-            f"Use this interactive asset kit and diagnostic to benchmark '{raw_util.get('target_query', raw_util.get('title', 'this system'))}', "
-            f"isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+            f"Use this interactive diagnostic to benchmark your current baseline for '{raw_util.get('target_query', raw_util.get('title', 'this system'))}', "
+            f"spot your primary bottleneck, and generate a calibrated action protocol."
         )
     return raw_util
 
@@ -468,10 +426,7 @@ def _fallback_utilities_from_queries(raw_candidates):
     selected = []
     seen_slugs = set()
 
-    # Prioritize queries containing explicit spend/asset words
-    ordered_candidates = sorted(raw_candidates, key=lambda q: has_spend_signal(q), reverse=True)
-
-    for q in ordered_candidates:
+    for q in raw_candidates:
         if not is_niche_relevant(q):
             continue
         cleaned = "".join(ch if ch.isalnum() or ch == " " else " " for ch in str(q).lower()).strip()
@@ -486,10 +441,10 @@ def _fallback_utilities_from_queries(raw_candidates):
         idx = len(selected)
         archetype = _pick_archetype(str(q), idx)
         suffix_label = {
-            "revenue_calculator": "Revenue & Pricing Kit",
-            "financial_runway": "Runway & Margin Kit",
-            "execution_audit": "Execution Bandwidth Kit",
-            "sovereignty_diagnostic": "Self-Recognition & Sovereignty Kit"
+            "revenue_calculator": "Revenue Calculator",
+            "financial_runway": "Runway & Margin Analyzer",
+            "execution_audit": "Execution Bandwidth Audit",
+            "sovereignty_diagnostic": "Self-Recognition & Sovereignty Diagnostic"
         }[archetype]
 
         base_title = " ".join(w.capitalize() for w in words[:5])
@@ -497,7 +452,7 @@ def _fallback_utilities_from_queries(raw_candidates):
             "slug": slug,
             "title": f"{base_title}: {suffix_label}",
             "target_query": str(q)[:85],
-            "meta_description": f"Plug-and-play {suffix_label.lower()} and dynamic diagnostic for {str(q)[:82]}.",
+            "meta_description": f"Interactive {suffix_label.lower()} and dynamic action protocol for {str(q)[:85]}.",
             "archetype": archetype
         }, idx)
         selected.append(util)
@@ -513,43 +468,35 @@ def filter_with_groq(raw_candidates):
         print("[Groq] Missing GROQ_API_KEY — using niche-filtered archetype fallback.")
         return _fallback_utilities_from_queries(raw_candidates)
 
-    filtered_pool = [c for c in raw_candidates if is_niche_relevant(c)]
-    filtered_pool.sort(key=lambda q: has_spend_signal(q), reverse=True)
-    filtered_pool = filtered_pool[:160]
+    filtered_pool = [c for c in raw_candidates if is_niche_relevant(c)][:160]
+    if not filtered_pool:
+        filtered_pool = raw_candidates[:120]
 
     prompt = f"""You are a programmatic SEO and buyer-intent architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator brand.
-Analyze these raw search & buyer-intent signals (prioritizing active spend words like kit, template, calculator, checklist, system, tracker):
+Analyze these raw search & buyer-intent signals:
 {json.dumps(filtered_pool, indent=2)}
 
 RULES:
-1. DISCARD broad informational questions ("what is...", "what was...", "how does..."), bank-specific queries ("bpi"), test prep, vehicle GPS trackers, B2B payroll/HR software, and clinical queries.
-2. KEEP ONLY high-intent buyer/user queries that justify a plug-and-play interactive Asset Kit across 4 distinct archetypes:
+1. DISCARD generic informational definitions ("what is..."), test prep, vehicle GPS trackers, B2B payroll/HR software, and clinical/medical queries.
+2. KEEP ONLY high-intent user/buyer queries that justify a standalone interactive tool across 4 distinct archetypes:
    - "sovereignty_diagnostic" (mindset, self-recognition, masculinity, discipline, emotional control -> bridge_offer: "sovereignty")
    - "financial_runway" (personal finance, burn rate, savings buffer, wealth leverage -> bridge_offer: "sovereignty")
    - "revenue_calculator" (digital products, pricing, Gumroad launches, solo monetization -> bridge_offer: "compression")
    - "execution_audit" (time wasted, focus, dopamine control, workflow bottlenecks -> bridge_offer: "compression")
-3. Distribute the 12 to 16 asset kits evenly across all 4 archetypes so the site has genuine functional variety.
-4. For each asset kit, write:
-   - "direct_answer": 1 sharp sentence answering the user's underlying question.
-   - "kit_items": 3 concrete, plug-and-play asset components included in this page's kit (e.g., checklists, templates, audit sheets).
-   - "protocols": tailored "low", "mid", and "high" execution steps (3 steps each).
+3. Distribute the 12 to 16 tools evenly across all 4 archetypes so the site has genuine functional variety.
+4. For each tool, write a sharp 1-sentence "direct_answer" that immediately answers the user's underlying question, plus tailored "low", "mid", and "high" action protocols (3 steps each).
 
 Return ONLY valid JSON:
 {{
   "utilities": [
     {{
       "slug": "kebab-case-slug",
-      "title": "Distinct Asset Kit & Tool Title",
+      "title": "Distinct Tool Title",
       "target_query": "exact buyer or user query",
       "meta_description": "Under 155 chars description",
       "archetype": "sovereignty_diagnostic",
       "direct_answer": "Direct plain-English answer to the user's question.",
       "bridge_offer": "sovereignty",
-      "kit_items": [
-        "Kit component 1",
-        "Kit component 2",
-        "Kit component 3"
-      ],
       "protocols": {{
         "low": ["Low tier step 1", "Low tier step 2", "Low tier step 3"],
         "mid": ["Mid tier step 1", "Mid tier step 2", "Mid tier step 3"],
@@ -563,7 +510,7 @@ Return ONLY valid JSON:
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.2)"
+        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.1)"
     }
 
     for model_name in GROQ_MODELS:
@@ -591,7 +538,7 @@ Return ONLY valid JSON:
                     if is_niche_relevant(u.get("title", "") + " " + u.get("target_query", "")):
                         valid_utils.append(_enrich_utility(u, idx))
                 if valid_utils:
-                    print(f"[Groq] Succeeded with model: {model_name} ({len(valid_utils)} asset kits)")
+                    print(f"[Groq] Succeeded with model: {model_name} ({len(valid_utils)} distinct utilities)")
                     return valid_utils
         except urllib.error.HTTPError as e:
             err_body = ""
@@ -612,8 +559,9 @@ def main():
     all_queries = set()
 
     for topic in SEED_TOPICS:
-        for mod in INTENT_MODIFIERS[:5]:
+        for mod in INTENT_MODIFIERS[:4]:
             for suffix in ALPHABET_SWEEP[:4]:
+                # Put topic first so autocomplete stays anchored to your niche
                 q = f"{topic} {mod}{suffix}".strip()
                 all_queries.update(harvest_autocomplete(q))
                 time.sleep(0.25)
@@ -638,7 +586,7 @@ def main():
     with open("validated_demand.json", "w", encoding="utf-8") as f:
         json.dump(output_payload, f, indent=2)
 
-    print(f"Saved {len(utilities)} standalone asset kits to validated_demand.json.")
+    print(f"Saved {len(utilities)} standalone utilities to validated_demand.json.")
 
 
 if __name__ == "__main__":
