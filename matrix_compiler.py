@@ -18,17 +18,17 @@ BASE_URL = resolve_base_url()
 
 OFFER_BRIDGES = {
     "sovereignty": {
-        "badge": "PSYCHOLOGICAL ARCHITECTURE • $27",
+        "badge": "PSYCHOLOGICAL ARCHITECTURE",
         "headline": "Mental Sovereignty Framework: Psychological Architecture for Authentic Self-Recognition",
         "subtext": "Stop outsourcing your standards to external validation. Install the complete self-recognition architecture for unshakeable clarity, discipline, and internal authority.",
-        "cta": "Access Mental Sovereignty Framework ($27) →",
+        "cta": "Access Mental Sovereignty Framework →",
         "url": "https://fmframeworks.gumroad.com/l/mentalsovereigntyframework"
     },
     "compression": {
-        "badge": "90-MINUTE SPRINT SYSTEM • $197",
+        "badge": "90-MINUTE SPRINT SYSTEM",
         "headline": "The Compression System: Build a Sellable Digital Product in 90 Minutes",
         "subtext": "Eliminate weeks of planning drag. Architect, package, and launch a high-margin digital asset in one focused execution sprint.",
-        "cta": "Get The Compression System ($197) →",
+        "cta": "Get The Compression System →",
         "url": f"{BASE_URL}/go/compression/"
     }
 }
