@@ -6,29 +6,31 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 
+# Core pillars: self-improvement, masculinity, mindset, finances, and solo-operator leverage
 SEED_TOPICS = [
     "self improvement system",
-    "masculinity framework",
-    "mindset discipline",
+    "masculinity discipline",
+    "mindset self recognition",
     "personal finance system",
-    "wealth building tracker",
-    "focus and dopamine control",
+    "wealth runway tracker",
+    "dopamine focus protocol",
     "digital product launch",
-    "solo operator workflow"
+    "solo business pricing"
 ]
 
-TOOL_MODIFIERS = [
+# Transactional & high-friction buyer-intent modifiers
+INTENT_MODIFIERS = [
     "calculator for",
-    "scorecard for",
-    "diagnostic for",
+    "template for",
+    "system for",
     "tracker for",
-    "plan for",
-    "audit for",
-    "blueprint for",
-    "ratio calculator"
+    "checklist for",
+    "scorecard for",
+    "cost of",
+    "worth it"
 ]
 
-ALPHABET_SWEEP = ["", " a", " b", " c", " d", " f", " m", " s", " w"]
+ALPHABET_SWEEP = ["", " a", " c", " f", " m", " p", " s", " w"]
 
 BLOCKED_TERMS = [
     "psychiatry",
@@ -48,8 +50,9 @@ BLOCKED_TERMS = [
 NICHE_TERMS = [
     "self", "improvement", "masculin", "mindset", "discipline", "habit",
     "focus", "finance", "financial", "wealth", "money", "income", "savings",
-    "invest", "debt", "gumroad", "digital product", "creator", "workflow",
-    "system", "protocol", "scorecard", "calculator", "tracker", "routine"
+    "invest", "debt", "runway", "gumroad", "digital product", "creator",
+    "workflow", "system", "protocol", "scorecard", "calculator", "tracker",
+    "routine", "pricing", "sovereignty", "recognition", "leverage"
 ]
 
 GROQ_MODELS = [
@@ -58,6 +61,113 @@ GROQ_MODELS = [
     "llama-3.3-70b-versatile",
     "llama-3.1-8b-instant"
 ]
+
+ARCHETYPE_TEMPLATES = {
+    "revenue_calculator": {
+        "formula_mode": "revenue_projection",
+        "bridge_offer": "compression",
+        "inputs": [
+            {"id": "inp1", "label": "Offer Price Point ($)", "min": 10, "max": 500, "default": 47, "unit": "$", "weight": 1.0},
+            {"id": "inp2", "label": "Target Weekly Buyers", "min": 1, "max": 100, "default": 12, "unit": "sales", "weight": 1.0},
+            {"id": "inp3", "label": "Distribution Consistency (%)", "min": 10, "max": 100, "default": 60, "unit": "%", "weight": 1.0}
+        ],
+        "protocols": {
+            "low": [
+                "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
+                "Switch from passive posting to daily direct-intent distribution targeting active problem queries.",
+                "Set a 7-day ship deadline to get your checkout link live in front of real traffic."
+            ],
+            "mid": [
+                "Raise your front-end offer anchor or bundle a quick-start template to lift average order value.",
+                "Replace manual posting with scheduled multi-channel distribution pointing to one checkout route.",
+                "Track conversion rate per 100 clicks and rewrite your headline around the #1 buyer objection."
+            ],
+            "high": [
+                "Introduce a high-margin $197+ implementation tier or flagship system alongside your entry offer.",
+                "Automate traffic harvesting across search utilities and evergreen distribution loops.",
+                "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
+            ]
+        }
+    },
+    "financial_runway": {
+        "formula_mode": "wealth_ratio",
+        "bridge_offer": "sovereignty",
+        "inputs": [
+            {"id": "inp1", "label": "Monthly Core Burn ($)", "min": 500, "max": 15000, "default": 3200, "unit": "$", "weight": 1.0},
+            {"id": "inp2", "label": "Liquid Reserve Buffer ($)", "min": 500, "max": 100000, "default": 15000, "unit": "$", "weight": 1.0},
+            {"id": "inp3", "label": "Monthly Savings / Surplus Rate (%)", "min": 0, "max": 80, "default": 22, "unit": "%", "weight": 1.0}
+        ],
+        "protocols": {
+            "low": [
+                "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+                "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+                "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+            ],
+            "mid": [
+                "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+                "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+                "Cap fixed lifestyle overhead while scaling independent income streams."
+            ],
+            "high": [
+                "Your runway gives you high strategic leverage—deploy excess capital into cash-flowing assets.",
+                "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+                "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+            ]
+        }
+    },
+    "execution_audit": {
+        "formula_mode": "time_saved",
+        "bridge_offer": "compression",
+        "inputs": [
+            {"id": "inp1", "label": "Weekly Hours Lost to Low-Leverage Tasks", "min": 1, "max": 40, "default": 14, "unit": "hrs", "weight": 1.0},
+            {"id": "inp2", "label": "Daily Context Switches / Distractions", "min": 1, "max": 30, "default": 10, "unit": "x", "weight": 1.0},
+            {"id": "inp3", "label": "Deep Work Blocks Completed / Week", "min": 0, "max": 14, "default": 4, "unit": "blocks", "weight": 1.0}
+        ],
+        "protocols": {
+            "low": [
+                "Eliminate non-essential notifications and batch communications into two 20-minute windows daily.",
+                "Protect one uninterrupted 90-minute execution block every morning before opening feeds.",
+                "Cut or automate the single repetitive task consuming the most weekly hours."
+            ],
+            "mid": [
+                "Standardize your top recurring workflow into a repeatable checklist or script to remove friction.",
+                "Stack deep-work blocks on your highest-energy days and push admin to low-energy hours.",
+                "Measure output by shipped assets per week rather than hours spent at the screen."
+            ],
+            "high": [
+                "Your execution cadence is tight—delegate or script remaining maintenance steps to free 10+ hrs/wk.",
+                "Compress multi-week projects into single-sprint launches using repeatable templates.",
+                "Protect your recovered bandwidth strictly for high-leverage strategic moves."
+            ]
+        }
+    },
+    "sovereignty_diagnostic": {
+        "formula_mode": "readiness_score",
+        "bridge_offer": "sovereignty",
+        "inputs": [
+            {"id": "inp1", "label": "Self-Directed Standards vs External Validation (1-100)", "min": 1, "max": 100, "default": 58, "unit": "/100", "weight": 1.25},
+            {"id": "inp2", "label": "Impulse & Dopamine Control Under Stress (1-100)", "min": 1, "max": 100, "default": 52, "unit": "/100", "weight": 1.15},
+            {"id": "inp3", "label": "Daily Follow-Through Without Motivation (1-100)", "min": 1, "max": 100, "default": 60, "unit": "/100", "weight": 1.2}
+        ],
+        "protocols": {
+            "low": [
+                "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+                "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+                "Replace reactive scrolling with deliberate physical resets and written self-audits."
+            ],
+            "mid": [
+                "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+                "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+                "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+            ],
+            "high": [
+                "Your internal frame is locked in—channel this stability into high-stakes creative or financial execution.",
+                "Codify your personal operating principles so decisions require zero emotional deliberation.",
+                "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+            ]
+        }
+    }
+}
 
 
 def is_niche_relevant(text):
@@ -68,7 +178,10 @@ def is_niche_relevant(text):
 
 
 def fetch_json(url, headers=None, timeout=10):
-    req = urllib.request.Request(url, headers=headers or {"User-Agent": "Mozilla/5.0"})
+    req = urllib.request.Request(
+        url,
+        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.0)"}
+    )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
             return json.loads(resp.read().decode("utf-8"))
@@ -93,17 +206,60 @@ def harvest_autocomplete(query):
 
 
 def harvest_marketplace_proof():
+    """Extracts proven commercial phrasing from Gumroad & Etsy buyer-intent probes."""
     proof_queries = []
     commercial_probes = [
-        "site:gumroad.com/l/ mindset system",
-        "site:gumroad.com/l/ finance tracker",
-        "site:gumroad.com/l/ habit protocol",
-        "site:etsy.com/listing/ personal finance tracker"
+        "site:gumroad.com/l/ mindset framework",
+        "site:gumroad.com/l/ personal finance tracker",
+        "site:gumroad.com/l/ discipline system",
+        "site:etsy.com/listing/ budget runway tracker",
+        "site:etsy.com/listing/ habit discipline planner"
     ]
     for probe in commercial_probes:
         proof_queries.extend(harvest_autocomplete(probe))
-        time.sleep(0.35)
+        time.sleep(0.3)
     return list(set(proof_queries))
+
+
+def harvest_live_community_intent():
+    """Fault-tolerant pull of active buyer/user questions from public Reddit & StackExchange JSON."""
+    intent_phrases = set()
+
+    # 1. StackExchange Money / Personal Finance & Productivity active questions
+    se_urls = [
+        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=runway%20savings%20system&site=money&pagesize=15",
+        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=discipline%20focus%20routine&site=productivity&pagesize=15"
+    ]
+    for url in se_urls:
+        data = fetch_json(url, timeout=8)
+        if isinstance(data, dict):
+            for item in data.get("items", []):
+                title = item.get("title", "")
+                if title and is_niche_relevant(title):
+                    intent_phrases.add(title)
+
+    # 2. Reddit public search JSON (gracefully skips if runner IP is throttled)
+    reddit_queries = [
+        "https://www.reddit.com/r/selfimprovement/search.json?q=system+OR+framework+OR+tracker&restrict_sr=1&sort=top&t=month&limit=15",
+        "https://www.reddit.com/r/personalFinance/search.json?q=runway+OR+calculator+OR+tracker&restrict_sr=1&sort=top&t=month&limit=15",
+        "https://www.reddit.com/r/Entrepreneur/search.json?q=digital+product+pricing+OR+gumroad&restrict_sr=1&sort=top&t=month&limit=15"
+    ]
+    for r_url in reddit_queries:
+        data = fetch_json(
+            r_url,
+            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.0 (by /u/fmmedia_bot)"},
+            timeout=8
+        )
+        if isinstance(data, dict):
+            children = data.get("data", {}).get("children", [])
+            for child in children:
+                title = child.get("data", {}).get("title", "")
+                if title and is_niche_relevant(title):
+                    intent_phrases.add(title)
+        time.sleep(0.4)
+
+    print(f"[Intent] Pulled {len(intent_phrases)} live community & Q&A buyer-intent signals.")
+    return list(intent_phrases)
 
 
 def harvest_gsc_telemetry():
@@ -179,17 +335,52 @@ def _parse_json_loose(raw_text):
     return json.loads(cleaned)
 
 
-def _infer_bridge_and_mode(text, idx):
+def _pick_archetype(text, idx):
     low = text.lower()
-    if any(k in low for k in ["gumroad", "digital product", "sell", "pricing", "revenue", "launch", "offer"]):
-        return "revenue_projection", "compression"
-    if any(k in low for k in ["finance", "money", "wealth", "invest", "savings", "debt", "budget", "income"]):
-        return "wealth_ratio", "operator"
-    if any(k in low for k in ["time", "workflow", "routine", "habit", "focus", "dopamine", "schedule"]):
-        return "time_saved", "operator"
-    modes = ["readiness_score", "time_saved", "wealth_ratio", "revenue_projection"]
-    bridges = ["operator", "compression"]
-    return modes[idx % len(modes)], bridges[idx % len(bridges)]
+    if any(k in low for k in ["gumroad", "digital product", "sell", "pricing", "revenue", "launch", "offer", "income"]):
+        return "revenue_calculator"
+    if any(k in low for k in ["finance", "money", "wealth", "invest", "savings", "debt", "budget", "runway", "cost"]):
+        return "financial_runway"
+    if any(k in low for k in ["time", "workflow", "routine", "focus", "dopamine", "schedule", "productivity"]):
+        return "execution_audit"
+    if any(k in low for k in ["mindset", "sovereignty", "recognition", "masculin", "discipline", "self improvement", "habit"]):
+        return "sovereignty_diagnostic"
+    order = ["sovereignty_diagnostic", "revenue_calculator", "financial_runway", "execution_audit"]
+    return order[idx % len(order)]
+
+
+def _enrich_utility(raw_util, idx):
+    archetype = raw_util.get("archetype")
+    if archetype not in ARCHETYPE_TEMPLATES:
+        archetype = _pick_archetype(raw_util.get("title", "") + " " + raw_util.get("target_query", ""), idx)
+
+    tpl = ARCHETYPE_TEMPLATES[archetype]
+    raw_util["archetype"] = archetype
+    raw_util["formula_mode"] = tpl["formula_mode"]
+    raw_util["bridge_offer"] = raw_util.get("bridge_offer") if raw_util.get("bridge_offer") in ("sovereignty", "compression") else tpl["bridge_offer"]
+
+    if not raw_util.get("inputs") or len(raw_util["inputs"]) < 3:
+        raw_util["inputs"] = tpl["inputs"]
+    else:
+        for i, inp in enumerate(raw_util["inputs"][:3]):
+            ref = tpl["inputs"][i]
+            inp.setdefault("min", ref["min"])
+            inp.setdefault("max", ref["max"])
+            inp.setdefault("default", ref["default"])
+            inp.setdefault("unit", ref["unit"])
+            inp.setdefault("weight", ref["weight"])
+
+    raw_util["protocols"] = raw_util.get("protocols") if isinstance(raw_util.get("protocols"), dict) else tpl["protocols"]
+    for tier in ("low", "mid", "high"):
+        if not raw_util["protocols"].get(tier):
+            raw_util["protocols"][tier] = tpl["protocols"][tier]
+
+    if not raw_util.get("direct_answer"):
+        raw_util["direct_answer"] = (
+            f"Use this interactive diagnostic to benchmark your current baseline for '{raw_util.get('target_query', raw_util.get('title', 'this system'))}', "
+            f"spot your primary bottleneck, and generate a calibrated action protocol."
+        )
+    return raw_util
 
 
 def _fallback_utilities_from_queries(raw_candidates):
@@ -209,27 +400,23 @@ def _fallback_utilities_from_queries(raw_candidates):
         seen_slugs.add(slug)
 
         idx = len(selected)
-        mode, bridge = _infer_bridge_and_mode(str(q), idx)
-        title = " ".join(w.capitalize() for w in words[:6]) + " Tool"
-        selected.append({
+        archetype = _pick_archetype(str(q), idx)
+        suffix_label = {
+            "revenue_calculator": "Revenue Calculator",
+            "financial_runway": "Runway & Margin Analyzer",
+            "execution_audit": "Execution Bandwidth Audit",
+            "sovereignty_diagnostic": "Self-Recognition & Sovereignty Diagnostic"
+        }[archetype]
+
+        base_title = " ".join(w.capitalize() for w in words[:5])
+        util = _enrich_utility({
             "slug": slug,
-            "title": title,
-            "target_query": str(q)[:80],
-            "meta_description": f"Standalone interactive calculator and action plan for {str(q)[:92]}.",
-            "tool_type": "calculator",
-            "inputs": [
-                {"id": "inp1", "label": "Baseline Consistency (1-100)", "min": 1, "max": 100, "default": 50, "weight": 1.2},
-                {"id": "inp2", "label": "Execution Friction / Drag (1-100)", "min": 1, "max": 100, "default": 55, "weight": 1.0},
-                {"id": "inp3", "label": "Weekly Target Commitment (1-100)", "min": 1, "max": 100, "default": 65, "weight": 1.15}
-            ],
-            "formula_mode": mode,
-            "bridge_offer": bridge,
-            "action_steps": [
-                "Lock one non-negotiable daily block before checking feeds or messages.",
-                "Cut the single lowest-leverage task dragging your weekly execution score.",
-                "Review your numbers every Sunday and adjust targets based on real output."
-            ]
-        })
+            "title": f"{base_title}: {suffix_label}",
+            "target_query": str(q)[:85],
+            "meta_description": f"Interactive {suffix_label.lower()} and dynamic action protocol for {str(q)[:85]}.",
+            "archetype": archetype
+        }, idx)
+        selected.append(util)
         if len(selected) >= 14:
             break
 
@@ -239,64 +426,62 @@ def _fallback_utilities_from_queries(raw_candidates):
 def filter_with_groq(raw_candidates):
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
-        print("[Groq] Missing GROQ_API_KEY — using niche-filtered fallback.")
+        print("[Groq] Missing GROQ_API_KEY — using niche-filtered archetype fallback.")
         return _fallback_utilities_from_queries(raw_candidates)
 
     filtered_pool = [c for c in raw_candidates if is_niche_relevant(c)][:160]
     if not filtered_pool:
         filtered_pool = raw_candidates[:120]
 
-    prompt = f"""You are a programmatic SEO and conversion architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator brand.
-Analyze these raw search queries:
+    prompt = f"""You are a programmatic SEO and buyer-intent architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator brand.
+Analyze these raw search & buyer-intent signals:
 {json.dumps(filtered_pool, indent=2)}
 
 RULES:
-1. DISCARD generic informational fluff and off-topic queries (medical, psychiatry, phone numbers, unrelated software).
-2. KEEP ONLY high-intent queries where a standalone interactive calculator, diagnostic, or planner delivers immediate practical value and leads naturally to a paid system.
-3. Produce 12 to 16 distinct, standalone micro-utilities.
+1. DISCARD generic informational fluff and off-topic queries (medical, psychiatry, phone numbers).
+2. KEEP ONLY high-intent user/buyer queries that justify a standalone interactive tool across 4 distinct archetypes:
+   - "sovereignty_diagnostic" (mindset, self-recognition, masculinity, discipline, emotional control -> bridge_offer: "sovereignty")
+   - "financial_runway" (personal finance, burn rate, savings buffer, wealth leverage -> bridge_offer: "sovereignty")
+   - "revenue_calculator" (digital products, pricing, Gumroad launches, solo monetization -> bridge_offer: "compression")
+   - "execution_audit" (time wasted, focus, workflow bottlenecks, deep work -> bridge_offer: "compression")
+3. Distribute the 12 to 16 tools evenly across all 4 archetypes so the site has genuine functional variety.
+4. For each tool, write a sharp 1-sentence "direct_answer" that immediately answers the user's underlying question, plus tailored "low", "mid", and "high" action protocols (3 steps each).
 
-Return ONLY valid JSON matching this exact structure:
+Return ONLY valid JSON:
 {{
   "utilities": [
     {{
       "slug": "kebab-case-slug",
-      "title": "Standalone Tool Title",
-      "target_query": "primary query",
+      "title": "Distinct Tool Title",
+      "target_query": "exact buyer or user query",
       "meta_description": "Under 155 chars description",
-      "tool_type": "calculator",
-      "inputs": [
-        {{"id": "inp1", "label": "Specific input 1", "min": 1, "max": 100, "default": 50, "weight": 1.2}},
-        {{"id": "inp2", "label": "Specific input 2", "min": 1, "max": 100, "default": 55, "weight": 1.0}},
-        {{"id": "inp3", "label": "Specific input 3", "min": 1, "max": 100, "default": 65, "weight": 1.15}}
-      ],
-      "formula_mode": "readiness_score",
-      "bridge_offer": "operator",
-      "action_steps": [
-        "Step 1 concrete action",
-        "Step 2 concrete action",
-        "Step 3 concrete action"
-      ]
+      "archetype": "sovereignty_diagnostic",
+      "direct_answer": "Direct plain-English answer to the user's question.",
+      "bridge_offer": "sovereignty",
+      "protocols": {{
+        "low": ["Low tier step 1", "Low tier step 2", "Low tier step 3"],
+        "mid": ["Mid tier step 1", "Mid tier step 2", "Mid tier step 3"],
+        "high": ["High tier scaling step 1", "High tier scaling step 2", "High tier scaling step 3"]
+      }}
     }}
   ]
 }}
-Allowed formula_mode values: "revenue_projection", "wealth_ratio", "time_saved", "readiness_score".
-Allowed bridge_offer values: "compression", "operator".
 """
 
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (compatible; FMMediaHarvester/1.0)"
+        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.0)"
     }
 
     for model_name in GROQ_MODELS:
         payload = json.dumps({
             "model": model_name,
             "messages": [
-                {"role": "system", "content": "Output raw JSON only. Never wrap in markdown code blocks."},
+                {"role": "system", "content": "Output raw JSON only. Never wrap in markdown fences."},
                 {"role": "user", "content": prompt}
             ],
-            "temperature": 0.2
+            "temperature": 0.25
         }).encode("utf-8")
 
         req = urllib.request.Request(
@@ -309,23 +494,13 @@ Allowed bridge_offer values: "compression", "operator".
                 data = json.loads(resp.read().decode("utf-8"))
                 content = data["choices"][0]["message"]["content"]
                 parsed = _parse_json_loose(content)
-                utilities = [
-                    u for u in parsed.get("utilities", [])
-                    if is_niche_relevant(u.get("title", "") + " " + u.get("target_query", ""))
-                ]
-                if utilities:
-                    for idx, u in enumerate(utilities):
-                        if not u.get("action_steps"):
-                            u["action_steps"] = [
-                                "Set a daily floor you can hit even on low-energy days.",
-                                "Remove distractions during your primary execution block.",
-                                "Track weekly results and double down on what moves the needle."
-                            ]
-                        if not u.get("bridge_offer"):
-                            _, b = _infer_bridge_and_mode(u.get("title", ""), idx)
-                            u["bridge_offer"] = b
-                    print(f"[Groq] Succeeded with model: {model_name} ({len(utilities)} utilities)")
-                    return utilities
+                valid_utils = []
+                for idx, u in enumerate(parsed.get("utilities", [])):
+                    if is_niche_relevant(u.get("title", "") + " " + u.get("target_query", "")):
+                        valid_utils.append(_enrich_utility(u, idx))
+                if valid_utils:
+                    print(f"[Groq] Succeeded with model: {model_name} ({len(valid_utils)} distinct utilities)")
+                    return valid_utils
         except urllib.error.HTTPError as e:
             err_body = ""
             try:
@@ -336,28 +511,29 @@ Allowed bridge_offer values: "compression", "operator".
         except Exception as e:
             print(f"[Groq] {model_name} failed: {e}")
 
-    print("[Groq] All model attempts failed — using niche-filtered fallback.")
+    print("[Groq] All model attempts failed — using niche-filtered archetype fallback.")
     return _fallback_utilities_from_queries(raw_candidates)
 
 
 def main():
-    print("Starting multi-layer niche demand harvest...")
+    print("Starting multi-layer user & buyer intent harvest...")
     all_queries = set()
 
     for topic in SEED_TOPICS:
-        for mod in TOOL_MODIFIERS[:4]:
+        for mod in INTENT_MODIFIERS[:4]:
             for suffix in ALPHABET_SWEEP[:4]:
                 q = f"{mod} {topic}{suffix}".strip()
                 all_queries.update(harvest_autocomplete(q))
                 time.sleep(0.25)
 
     all_queries.update(harvest_marketplace_proof())
+    all_queries.update(harvest_live_community_intent())
 
     gsc_hits = harvest_gsc_telemetry()
     gsc_queries = [item["query"] for item in gsc_hits]
 
     combined_pool = gsc_queries + list(all_queries)
-    print(f"Total niche-filtered raw signals harvested: {len(combined_pool)}")
+    print(f"Total niche-filtered buyer & user intent signals harvested: {len(combined_pool)}")
 
     utilities = filter_with_groq(combined_pool)
     output_payload = {
@@ -370,7 +546,7 @@ def main():
     with open("validated_demand.json", "w", encoding="utf-8") as f:
         json.dump(output_payload, f, indent=2)
 
-    print(f"Saved {len(utilities)} validated standalone utilities to validated_demand.json.")
+    print(f"Saved {len(utilities)} standalone utilities to validated_demand.json.")
 
 
 if __name__ == "__main__":
