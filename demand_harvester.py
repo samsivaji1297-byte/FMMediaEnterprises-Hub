@@ -6,7 +6,6 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 
-# Core niche seeds: self-improvement, masculinity, mindset, finances, and solo-operator systems
 SEED_TOPICS = [
     "self improvement system",
     "masculinity framework",
@@ -31,7 +30,6 @@ TOOL_MODIFIERS = [
 
 ALPHABET_SWEEP = ["", " a", " b", " c", " d", " f", " m", " s", " w"]
 
-# Hard blocklist to keep harvested queries away from clinical, phone-lookup, or unrelated noise
 BLOCKED_TERMS = [
     "psychiatry",
     "psychiatric",
@@ -47,7 +45,6 @@ BLOCKED_TERMS = [
     "icd-10"
 ]
 
-# Core domain terms that signal alignment with your niche
 NICHE_TERMS = [
     "self", "improvement", "masculin", "mindset", "discipline", "habit",
     "focus", "finance", "financial", "wealth", "money", "income", "savings",
@@ -83,26 +80,19 @@ def harvest_autocomplete(query):
     results = set()
     q_enc = urllib.parse.quote(query)
 
-    # Layer 1A: Google Suggest
-    g_data = fetch_json(f"https://suggestqueries.google.com/complete/search?client=firefox&q={q_enc}")
-    if isinstance(g_data, list) and len(g_data) > 1:
-        results.update(g_data[1])
-
-    # Layer 1B: YouTube Suggest
-    yt_data = fetch_json(f"https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q={q_enc}")
-    if isinstance(yt_data, list) and len(yt_data) > 1:
-        results.update(yt_data[1])
-
-    # Layer 1C: DuckDuckGo Suggest fallback
-    ddg_data = fetch_json(f"https://duckduckgo.com/ac/?q={q_enc}&type=list")
-    if isinstance(ddg_data, list) and len(ddg_data) > 1:
-        results.update(ddg_data[1])
+    for url in [
+        f"https://suggestqueries.google.com/complete/search?client=firefox&q={q_enc}",
+        f"https://suggestqueries.google.com/complete/search?client=firefox&ds=yt&q={q_enc}",
+        f"https://duckduckgo.com/ac/?q={q_enc}&type=list",
+    ]:
+        data = fetch_json(url)
+        if isinstance(data, list) and len(data) > 1:
+            results.update(data[1])
 
     return [item for item in results if is_niche_relevant(item)]
 
 
 def harvest_marketplace_proof():
-    """Pulls proven commercial patterns via autocomplete/search probes."""
     proof_queries = []
     commercial_probes = [
         "site:gumroad.com/l/ mindset system",
@@ -111,14 +101,12 @@ def harvest_marketplace_proof():
         "site:etsy.com/listing/ personal finance tracker"
     ]
     for probe in commercial_probes:
-        suggestions = harvest_autocomplete(probe)
-        proof_queries.extend(suggestions)
+        proof_queries.extend(harvest_autocomplete(probe))
         time.sleep(0.35)
     return list(set(proof_queries))
 
 
 def harvest_gsc_telemetry():
-    """Pulls non-branded striking-distance queries from Google Search Console API."""
     creds_raw = os.environ.get("GSC_CREDENTIALS_JSON", "").strip()
     site_url = os.environ.get("GSC_SITE_URL", "").strip()
 
@@ -191,10 +179,20 @@ def _parse_json_loose(raw_text):
     return json.loads(cleaned)
 
 
+def _infer_bridge_and_mode(text, idx):
+    low = text.lower()
+    if any(k in low for k in ["gumroad", "digital product", "sell", "pricing", "revenue", "launch", "offer"]):
+        return "revenue_projection", "compression"
+    if any(k in low for k in ["finance", "money", "wealth", "invest", "savings", "debt", "budget", "income"]):
+        return "wealth_ratio", "operator"
+    if any(k in low for k in ["time", "workflow", "routine", "habit", "focus", "dopamine", "schedule"]):
+        return "time_saved", "operator"
+    modes = ["readiness_score", "time_saved", "wealth_ratio", "revenue_projection"]
+    bridges = ["operator", "compression"]
+    return modes[idx % len(modes)], bridges[idx % len(bridges)]
+
+
 def _fallback_utilities_from_queries(raw_candidates):
-    """Builds niche-filtered interactive utility definitions if Groq models are unavailable."""
-    modes = ["readiness_score", "time_saved", "revenue_projection"]
-    bridges = ["compression", "operator"]
     selected = []
     seen_slugs = set()
 
@@ -211,20 +209,26 @@ def _fallback_utilities_from_queries(raw_candidates):
         seen_slugs.add(slug)
 
         idx = len(selected)
-        title = " ".join(w.capitalize() for w in words[:6]) + " Calculator"
+        mode, bridge = _infer_bridge_and_mode(str(q), idx)
+        title = " ".join(w.capitalize() for w in words[:6]) + " Tool"
         selected.append({
             "slug": slug,
             "title": title,
             "target_query": str(q)[:80],
-            "meta_description": f"Interactive browser tool and diagnostic for {str(q)[:95]}.",
+            "meta_description": f"Standalone interactive calculator and action plan for {str(q)[:92]}.",
             "tool_type": "calculator",
             "inputs": [
-                {"id": "inp1", "label": "Current Execution Consistency (1-100)", "min": 1, "max": 100, "default": 50, "weight": 1.2},
-                {"id": "inp2", "label": "Constraint / Friction Level (1-100)", "min": 1, "max": 100, "default": 60, "weight": 1.0},
-                {"id": "inp3", "label": "Weekly Leverage Commitment (1-100)", "min": 1, "max": 100, "default": 55, "weight": 1.1}
+                {"id": "inp1", "label": "Baseline Consistency (1-100)", "min": 1, "max": 100, "default": 50, "weight": 1.2},
+                {"id": "inp2", "label": "Execution Friction / Drag (1-100)", "min": 1, "max": 100, "default": 55, "weight": 1.0},
+                {"id": "inp3", "label": "Weekly Target Commitment (1-100)", "min": 1, "max": 100, "default": 65, "weight": 1.15}
             ],
-            "formula_mode": modes[idx % len(modes)],
-            "bridge_offer": bridges[idx % len(bridges)]
+            "formula_mode": mode,
+            "bridge_offer": bridge,
+            "action_steps": [
+                "Lock one non-negotiable daily block before checking feeds or messages.",
+                "Cut the single lowest-leverage task dragging your weekly execution score.",
+                "Review your numbers every Sunday and adjust targets based on real output."
+            ]
         })
         if len(selected) >= 14:
             break
@@ -233,7 +237,6 @@ def _fallback_utilities_from_queries(raw_candidates):
 
 
 def filter_with_groq(raw_candidates):
-    """Uses GroqCloud to filter fluff and structure interactive niche utilities."""
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
         print("[Groq] Missing GROQ_API_KEY — using niche-filtered fallback.")
@@ -243,35 +246,40 @@ def filter_with_groq(raw_candidates):
     if not filtered_pool:
         filtered_pool = raw_candidates[:120]
 
-    prompt = f"""You are a programmatic SEO architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator systems brand.
+    prompt = f"""You are a programmatic SEO and conversion architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator brand.
 Analyze these raw search queries:
 {json.dumps(filtered_pool, indent=2)}
 
 RULES:
-1. DISCARD generic informational queries answerable in 2 sentences AND discard anything off-topic (medical, clinical psychiatry, phone lookup, unrelated software).
-2. KEEP ONLY high-friction queries that justify an interactive browser calculator, readiness diagnostic, or personal system scorecard within self-improvement, masculinity, mindset, finances, or digital product leverage.
-3. Produce 12 to 16 distinct micro-utilities.
+1. DISCARD generic informational fluff and off-topic queries (medical, psychiatry, phone numbers, unrelated software).
+2. KEEP ONLY high-intent queries where a standalone interactive calculator, diagnostic, or planner delivers immediate practical value and leads naturally to a paid system.
+3. Produce 12 to 16 distinct, standalone micro-utilities.
 
 Return ONLY valid JSON matching this exact structure:
 {{
   "utilities": [
     {{
       "slug": "kebab-case-slug",
-      "title": "Clear Tool Title",
+      "title": "Standalone Tool Title",
       "target_query": "primary query",
       "meta_description": "Under 155 chars description",
       "tool_type": "calculator",
       "inputs": [
-        {{"id": "inp1", "label": "Metric 1", "min": 1, "max": 100, "default": 50, "weight": 1.2}},
-        {{"id": "inp2", "label": "Metric 2", "min": 1, "max": 100, "default": 50, "weight": 1.0}},
-        {{"id": "inp3", "label": "Metric 3", "min": 1, "max": 100, "default": 50, "weight": 1.1}}
+        {{"id": "inp1", "label": "Specific input 1", "min": 1, "max": 100, "default": 50, "weight": 1.2}},
+        {{"id": "inp2", "label": "Specific input 2", "min": 1, "max": 100, "default": 55, "weight": 1.0}},
+        {{"id": "inp3", "label": "Specific input 3", "min": 1, "max": 100, "default": 65, "weight": 1.15}}
       ],
       "formula_mode": "readiness_score",
-      "bridge_offer": "compression"
+      "bridge_offer": "operator",
+      "action_steps": [
+        "Step 1 concrete action",
+        "Step 2 concrete action",
+        "Step 3 concrete action"
+      ]
     }}
   ]
 }}
-Allowed formula_mode values: "revenue_projection", "readiness_score", "time_saved".
+Allowed formula_mode values: "revenue_projection", "wealth_ratio", "time_saved", "readiness_score".
 Allowed bridge_offer values: "compression", "operator".
 """
 
@@ -301,8 +309,21 @@ Allowed bridge_offer values: "compression", "operator".
                 data = json.loads(resp.read().decode("utf-8"))
                 content = data["choices"][0]["message"]["content"]
                 parsed = _parse_json_loose(content)
-                utilities = [u for u in parsed.get("utilities", []) if is_niche_relevant(u.get("title", "") + " " + u.get("target_query", ""))]
+                utilities = [
+                    u for u in parsed.get("utilities", [])
+                    if is_niche_relevant(u.get("title", "") + " " + u.get("target_query", ""))
+                ]
                 if utilities:
+                    for idx, u in enumerate(utilities):
+                        if not u.get("action_steps"):
+                            u["action_steps"] = [
+                                "Set a daily floor you can hit even on low-energy days.",
+                                "Remove distractions during your primary execution block.",
+                                "Track weekly results and double down on what moves the needle."
+                            ]
+                        if not u.get("bridge_offer"):
+                            _, b = _infer_bridge_and_mode(u.get("title", ""), idx)
+                            u["bridge_offer"] = b
                     print(f"[Groq] Succeeded with model: {model_name} ({len(utilities)} utilities)")
                     return utilities
         except urllib.error.HTTPError as e:
@@ -327,12 +348,10 @@ def main():
         for mod in TOOL_MODIFIERS[:4]:
             for suffix in ALPHABET_SWEEP[:4]:
                 q = f"{mod} {topic}{suffix}".strip()
-                hits = harvest_autocomplete(q)
-                all_queries.update(hits)
+                all_queries.update(harvest_autocomplete(q))
                 time.sleep(0.25)
 
-    marketplace_hits = harvest_marketplace_proof()
-    all_queries.update(marketplace_hits)
+    all_queries.update(harvest_marketplace_proof())
 
     gsc_hits = harvest_gsc_telemetry()
     gsc_queries = [item["query"] for item in gsc_hits]
@@ -351,7 +370,7 @@ def main():
     with open("validated_demand.json", "w", encoding="utf-8") as f:
         json.dump(output_payload, f, indent=2)
 
-    print(f"Saved {len(utilities)} validated interactive utilities to validated_demand.json.")
+    print(f"Saved {len(utilities)} validated standalone utilities to validated_demand.json.")
 
 
 if __name__ == "__main__":
