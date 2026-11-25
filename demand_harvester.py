@@ -6,33 +6,41 @@ import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 
-# Core pillars: self-improvement, masculinity, mindset, finances, and solo-operator leverage
+# Unambiguous domain seeds aligned with your exact offers
 SEED_TOPICS = [
-    "self improvement system",
+    "self improvement",
     "masculinity discipline",
-    "mindset self recognition",
-    "personal finance system",
-    "wealth runway tracker",
-    "dopamine focus protocol",
-    "digital product launch",
-    "solo business pricing"
+    "mindset shift",
+    "self recognition",
+    "personal finance",
+    "wealth building",
+    "dopamine detox",
+    "digital product",
+    "gumroad product",
+    "solo business"
 ]
 
-# Transactional & high-friction buyer-intent modifiers
+# Transactional & utility-grade modifiers
 INTENT_MODIFIERS = [
-    "calculator for",
-    "template for",
-    "system for",
-    "tracker for",
-    "checklist for",
-    "scorecard for",
-    "cost of",
-    "worth it"
+    "calculator",
+    "template",
+    "system",
+    "tracker",
+    "checklist",
+    "scorecard",
+    "planner",
+    "audit"
 ]
 
 ALPHABET_SWEEP = ["", " a", " c", " f", " m", " p", " s", " w"]
 
-BLOCKED_TERMS = [
+# Hard blocklist for informational definitions, test prep, vehicle GPS, B2B HR, and clinical noise
+BLOCKED_PHRASES = [
+    "what is ",
+    "who is ",
+    "define ",
+    "definition",
+    "meaning of",
     "psychiatry",
     "psychiatric",
     "phone number",
@@ -43,16 +51,48 @@ BLOCKED_TERMS = [
     "prescription",
     "therapist",
     "insurance claim",
-    "dsm-5",
-    "icd-10"
+    "for act",
+    "act test",
+    "sat test",
+    "vehicle",
+    "gps",
+    "car tracker",
+    "payroll",
+    "hr software",
+    "veterans",
+    "amazon price",
+    "price drop",
+    "coupon",
+    "software demo"
 ]
 
-NICHE_TERMS = [
-    "self", "improvement", "masculin", "mindset", "discipline", "habit",
-    "focus", "finance", "financial", "wealth", "money", "income", "savings",
-    "invest", "debt", "runway", "gumroad", "digital product", "creator",
-    "workflow", "system", "protocol", "scorecard", "calculator", "tracker",
-    "routine", "pricing", "sovereignty", "recognition", "leverage"
+# Multi-word or unambiguous domain anchors (prevents "self-fit" or "car tracker" false positives)
+REQUIRED_DOMAIN_ANCHORS = [
+    "self improvement",
+    "self-improvement",
+    "masculinity",
+    "masculine",
+    "mindset",
+    "self recognition",
+    "self-recognition",
+    "sovereignty",
+    "discipline",
+    "dopamine",
+    "habit",
+    "focus",
+    "personal finance",
+    "wealth",
+    "savings",
+    "net worth",
+    "financial runway",
+    "budget",
+    "debt payoff",
+    "digital product",
+    "gumroad",
+    "solo business",
+    "creator",
+    "side hustle",
+    "monetization"
 ]
 
 GROQ_MODELS = [
@@ -171,16 +211,16 @@ ARCHETYPE_TEMPLATES = {
 
 
 def is_niche_relevant(text):
-    low = str(text).lower()
-    if any(bad in low for bad in BLOCKED_TERMS):
+    low = " " + re.sub(r"\s+", " ", str(text).lower().strip()) + " "
+    if any(bad in low for bad in BLOCKED_PHRASES):
         return False
-    return any(good in low for good in NICHE_TERMS)
+    return any(anchor in low for anchor in REQUIRED_DOMAIN_ANCHORS)
 
 
 def fetch_json(url, headers=None, timeout=10):
     req = urllib.request.Request(
         url,
-        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.0)"}
+        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.1)"}
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -212,7 +252,8 @@ def harvest_marketplace_proof():
         "site:gumroad.com/l/ mindset framework",
         "site:gumroad.com/l/ personal finance tracker",
         "site:gumroad.com/l/ discipline system",
-        "site:etsy.com/listing/ budget runway tracker",
+        "site:gumroad.com/l/ self improvement",
+        "site:etsy.com/listing/ personal finance budget tracker",
         "site:etsy.com/listing/ habit discipline planner"
     ]
     for probe in commercial_probes:
@@ -225,10 +266,9 @@ def harvest_live_community_intent():
     """Fault-tolerant pull of active buyer/user questions from public Reddit & StackExchange JSON."""
     intent_phrases = set()
 
-    # 1. StackExchange Money / Personal Finance & Productivity active questions
     se_urls = [
-        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=runway%20savings%20system&site=money&pagesize=15",
-        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=discipline%20focus%20routine&site=productivity&pagesize=15"
+        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=personal%20finance%20savings%20runway&site=money&pagesize=15",
+        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=discipline%20focus%20habit%20system&site=productivity&pagesize=15"
     ]
     for url in se_urls:
         data = fetch_json(url, timeout=8)
@@ -238,16 +278,15 @@ def harvest_live_community_intent():
                 if title and is_niche_relevant(title):
                     intent_phrases.add(title)
 
-    # 2. Reddit public search JSON (gracefully skips if runner IP is throttled)
     reddit_queries = [
         "https://www.reddit.com/r/selfimprovement/search.json?q=system+OR+framework+OR+tracker&restrict_sr=1&sort=top&t=month&limit=15",
-        "https://www.reddit.com/r/personalFinance/search.json?q=runway+OR+calculator+OR+tracker&restrict_sr=1&sort=top&t=month&limit=15",
+        "https://www.reddit.com/r/personalfinance/search.json?q=budget+OR+savings+OR+net+worth+tracker&restrict_sr=1&sort=top&t=month&limit=15",
         "https://www.reddit.com/r/Entrepreneur/search.json?q=digital+product+pricing+OR+gumroad&restrict_sr=1&sort=top&t=month&limit=15"
     ]
     for r_url in reddit_queries:
         data = fetch_json(
             r_url,
-            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.0 (by /u/fmmedia_bot)"},
+            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.1 (by /u/fmmedia_bot)"},
             timeout=8
         )
         if isinstance(data, dict):
@@ -337,13 +376,13 @@ def _parse_json_loose(raw_text):
 
 def _pick_archetype(text, idx):
     low = text.lower()
-    if any(k in low for k in ["gumroad", "digital product", "sell", "pricing", "revenue", "launch", "offer", "income"]):
+    if any(k in low for k in ["gumroad", "digital product", "sell", "pricing", "revenue", "launch", "offer", "monetization", "side hustle"]):
         return "revenue_calculator"
-    if any(k in low for k in ["finance", "money", "wealth", "invest", "savings", "debt", "budget", "runway", "cost"]):
+    if any(k in low for k in ["personal finance", "wealth", "savings", "net worth", "budget", "debt", "runway"]):
         return "financial_runway"
-    if any(k in low for k in ["time", "workflow", "routine", "focus", "dopamine", "schedule", "productivity"]):
+    if any(k in low for k in ["focus", "dopamine", "habit", "productivity", "workflow", "routine"]):
         return "execution_audit"
-    if any(k in low for k in ["mindset", "sovereignty", "recognition", "masculin", "discipline", "self improvement", "habit"]):
+    if any(k in low for k in ["mindset", "sovereignty", "recognition", "masculin", "discipline", "self improvement", "self-improvement"]):
         return "sovereignty_diagnostic"
     order = ["sovereignty_diagnostic", "revenue_calculator", "financial_runway", "execution_audit"]
     return order[idx % len(order)]
@@ -438,12 +477,12 @@ Analyze these raw search & buyer-intent signals:
 {json.dumps(filtered_pool, indent=2)}
 
 RULES:
-1. DISCARD generic informational fluff and off-topic queries (medical, psychiatry, phone numbers).
+1. DISCARD generic informational definitions ("what is..."), test prep, vehicle GPS trackers, B2B payroll/HR software, and clinical/medical queries.
 2. KEEP ONLY high-intent user/buyer queries that justify a standalone interactive tool across 4 distinct archetypes:
    - "sovereignty_diagnostic" (mindset, self-recognition, masculinity, discipline, emotional control -> bridge_offer: "sovereignty")
    - "financial_runway" (personal finance, burn rate, savings buffer, wealth leverage -> bridge_offer: "sovereignty")
    - "revenue_calculator" (digital products, pricing, Gumroad launches, solo monetization -> bridge_offer: "compression")
-   - "execution_audit" (time wasted, focus, workflow bottlenecks, deep work -> bridge_offer: "compression")
+   - "execution_audit" (time wasted, focus, dopamine control, workflow bottlenecks -> bridge_offer: "compression")
 3. Distribute the 12 to 16 tools evenly across all 4 archetypes so the site has genuine functional variety.
 4. For each tool, write a sharp 1-sentence "direct_answer" that immediately answers the user's underlying question, plus tailored "low", "mid", and "high" action protocols (3 steps each).
 
@@ -471,7 +510,7 @@ Return ONLY valid JSON:
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.0)"
+        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.1)"
     }
 
     for model_name in GROQ_MODELS:
@@ -522,7 +561,8 @@ def main():
     for topic in SEED_TOPICS:
         for mod in INTENT_MODIFIERS[:4]:
             for suffix in ALPHABET_SWEEP[:4]:
-                q = f"{mod} {topic}{suffix}".strip()
+                # Put topic first so autocomplete stays anchored to your niche
+                q = f"{topic} {mod}{suffix}".strip()
                 all_queries.update(harvest_autocomplete(q))
                 time.sleep(0.25)
 
