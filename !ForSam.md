@@ -4,3 +4,6 @@ matrix_compiler.py file created in Gemini chat: [https://gemini.google.com/app/0
 What it does for me: [Open matrix_compiler.py in GitHub Chrome (edit icon) and replace its contents with this compiler. It builds your hub page (/tools/index.html), compiles each interactive utility (/tools/<slug>/index.html) in your dark charcoal & vibrant blue aesthetic with JSON-LD schema and internal cross-links, and regenerates sitemap.xml and robots.txt:]
 
 traffic_harvester.yml filed created in Gemini chat: [https://gemini.google.com/app/08d3d27b91c02dac]
+
+In Secrets, GSC_SITE_URL - [https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/]
+GSC_CREDENTIALS_JSON - [get it from blogger-pipeline-509101-048f2d8c738a.json file]
