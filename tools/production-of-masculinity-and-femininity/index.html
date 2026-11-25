@@ -3,21 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Production Of Masculinity And Femininity Calculator | FM Media Systems</title>
-  <meta name="description" content="Interactive browser tool and diagnostic for production of masculinity and femininity.">
+  <title>Production Of Masculinity And Femininity Tool | FM Media Enterprises</title>
+  <meta name="description" content="Standalone interactive calculator and action plan for production of masculinity and femininity.">
   <link rel="canonical" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/production-of-masculinity-and-femininity/index.html">
-  <meta property="og:title" content="Production Of Masculinity And Femininity Calculator">
-  <meta property="og:description" content="Interactive browser tool and diagnostic for production of masculinity and femininity.">
+  <meta property="og:title" content="Production Of Masculinity And Femininity Tool">
+  <meta property="og:description" content="Standalone interactive calculator and action plan for production of masculinity and femininity.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/production-of-masculinity-and-femininity/index.html">
   <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "name": "Production Of Masculinity And Femininity Calculator",
+  "name": "Production Of Masculinity And Femininity Tool",
   "applicationCategory": "BusinessApplication",
   "operatingSystem": "Web Browser",
-  "description": "Interactive browser tool and diagnostic for production of masculinity and femininity.",
+  "description": "Standalone interactive calculator and action plan for production of masculinity and femininity.",
   "url": "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/production-of-masculinity-and-femininity/index.html",
   "offers": {
     "@type": "Offer",
@@ -34,11 +34,13 @@
     :root {
       --bg: #0d1117;
       --surface: #161b22;
+      --card-deep: #0b0f15;
       --border: #30363d;
       --text: #e6edf3;
       --muted: #8b949e;
       --accent: #2f81f7;
       --accent-hover: #58a6ff;
+      --ok: #3fb950;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -46,83 +48,114 @@
       color: var(--text);
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       line-height: 1.6;
-      padding: 2rem 1rem;
+      padding: 2rem 1rem 3.5rem;
     }
-    .container { max-width: 760px; margin: 0 auto; }
-    .breadcrumb { font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem; }
-    .breadcrumb a { color: var(--accent); text-decoration: none; }
-    h1 { font-size: 1.9rem; line-height: 1.25; margin-bottom: 0.75rem; }
-    .subtitle { color: var(--muted); margin-bottom: 2rem; font-size: 1.05rem; }
-    .tool-card {
+    .container { max-width: 780px; margin: 0 auto; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .top-bar a { color: var(--accent); text-decoration: none; }
+    h1 { font-size: 1.95rem; line-height: 1.22; margin-bottom: 0.65rem; }
+    .subtitle { color: var(--muted); margin-bottom: 1.75rem; font-size: 1.05rem; }
+    .panel {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 12px;
       padding: 1.75rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.5rem;
     }
-    .control-group { margin-bottom: 1.4rem; }
-    .control-header { display: flex; justify-content: space-between; margin-bottom: 0.45rem; font-weight: 500; }
+    .control-group { margin-bottom: 1.35rem; }
+    .control-header { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.45rem; font-weight: 500; }
     .val-badge {
-      background: rgba(47, 129, 247, 0.15);
+      background: rgba(47, 129, 247, 0.16);
       color: var(--accent-hover);
-      padding: 0.1rem 0.6rem;
+      padding: 0.1rem 0.65rem;
       border-radius: 6px;
       font-variant-numeric: tabular-nums;
+      white-space: nowrap;
     }
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--accent);
-      cursor: pointer;
-    }
-    .output-box {
-      background: #090d13;
+    input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    .result-box {
+      background: var(--card-deep);
       border: 1px solid var(--accent);
       border-radius: 10px;
       padding: 1.4rem;
-      margin-top: 1.5rem;
-      text-align: center;
+      margin-top: 1.25rem;
     }
-    .output-label { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
-    .output-metric { font-size: 2.4rem; font-weight: 700; color: var(--accent-hover); margin: 0.35rem 0; }
-    .output-insight { font-size: 0.95rem; color: var(--text); }
+    .result-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .result-metric { font-size: 2.3rem; font-weight: 700; color: var(--accent-hover); margin: 0.25rem 0 0.5rem; }
+    .result-verdict { font-size: 0.98rem; color: var(--text); margin-bottom: 1rem; }
+    .action-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .copy-btn {
+      background: #21262d;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.95rem;
+      border-radius: 7px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .copy-btn:hover { border-color: var(--accent); }
+    .copy-status { font-size: 0.85rem; color: var(--ok); min-height: 1.2em; }
+    .steps-list { padding-left: 1.2rem; display: grid; gap: 0.55rem; color: var(--text); }
     .bridge-box {
-      background: linear-gradient(135deg, #161b22 0%, #0f1c2e 100%);
+      background: linear-gradient(135deg, #161b22 0%, #0e1d33 100%);
       border: 1px solid var(--accent);
       border-radius: 12px;
       padding: 1.75rem;
-      margin-bottom: 2.5rem;
+      margin-bottom: 1.75rem;
     }
-    .bridge-box h2 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+    .bridge-pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--accent-hover);
+      background: rgba(47, 129, 247, 0.14);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.65rem;
+    }
+    .bridge-box h2 { font-size: 1.35rem; margin-bottom: 0.5rem; }
     .bridge-box p { color: var(--muted); margin-bottom: 1.2rem; }
     .cta-btn {
       display: inline-block;
       background: var(--accent);
       color: #ffffff;
       font-weight: 600;
-      padding: 0.75rem 1.35rem;
+      padding: 0.78rem 1.4rem;
       border-radius: 8px;
       text-decoration: none;
     }
     .cta-btn:hover { background: var(--accent-hover); }
-    .cluster-nav { border-top: 1px solid var(--border); padding-top: 1.5rem; }
-    .cluster-nav h3 { font-size: 1rem; color: var(--muted); margin-bottom: 0.75rem; }
-    .cluster-nav ul { list-style: none; display: grid; gap: 0.5rem; }
-    .cluster-nav a { color: var(--accent); text-decoration: none; font-size: 0.95rem; }
+    .more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.65rem; margin-top: 0.75rem; }
+    .mini-link {
+      display: block;
+      background: var(--card-deep);
+      border: 1px solid var(--border);
+      padding: 0.75rem 0.9rem;
+      border-radius: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .mini-link:hover { border-color: var(--accent); }
   </style>
 </head>
 <body>
   <div class="container">
-    <nav class="breadcrumb">
-      <a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/index.html">← All Operator Utilities</a> / <span>production of masculinity and femininity</span>
-    </nav>
-    <h1>Production Of Masculinity And Femininity Calculator</h1>
-    <p class="subtitle">Interactive browser tool and diagnostic for production of masculinity and femininity.</p>
+    <div class="top-bar">
+      <a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/index.html">← All Standalone Tools</a>
+      <span>Focus: production of masculinity and femininity</span>
+    </div>
 
-    <div class="tool-card">
+    <h1>Production Of Masculinity And Femininity Tool</h1>
+    <p class="subtitle">Standalone interactive calculator and action plan for production of masculinity and femininity.</p>
+
+    <section class="panel">
       
         <div class="control-group">
           <div class="control-header">
-            <label for="inp1">Current Execution Consistency (1-100)</label>
+            <label for="inp1">Baseline Consistency (1-100)</label>
             <span class="val-badge" id="val_inp1">50</span>
           </div>
           <input type="range" id="inp1" min="1" max="100" value="50"
@@ -131,49 +164,65 @@
         
         <div class="control-group">
           <div class="control-header">
-            <label for="inp2">Constraint / Friction Level (1-100)</label>
-            <span class="val-badge" id="val_inp2">60</span>
+            <label for="inp2">Execution Friction / Drag (1-100)</label>
+            <span class="val-badge" id="val_inp2">55</span>
           </div>
-          <input type="range" id="inp2" min="1" max="100" value="60"
+          <input type="range" id="inp2" min="1" max="100" value="55"
                  data-weight="1.0" oninput="recalculate()">
         </div>
         
         <div class="control-group">
           <div class="control-header">
-            <label for="inp3">Weekly Leverage Commitment (1-100)</label>
-            <span class="val-badge" id="val_inp3">55</span>
+            <label for="inp3">Weekly Target Commitment (1-100)</label>
+            <span class="val-badge" id="val_inp3">65</span>
           </div>
-          <input type="range" id="inp3" min="1" max="100" value="55"
-                 data-weight="1.1" oninput="recalculate()">
+          <input type="range" id="inp3" min="1" max="100" value="65"
+                 data-weight="1.15" oninput="recalculate()">
         </div>
         
-      <div class="output-box">
-        <div class="output-label" id="outLabel">Calculated Output</div>
-        <div class="output-metric" id="outMetric">--</div>
-        <div class="output-insight" id="outInsight">Adjust the sliders above to run your diagnostic.</div>
+      <div class="result-box">
+        <div class="result-label" id="outLabel">Output Metric</div>
+        <div class="result-metric" id="outMetric">--</div>
+        <div class="result-verdict" id="outVerdict">Move the sliders to calculate your baseline.</div>
+        <div class="action-row">
+          <button type="button" class="copy-btn" onclick="copySummary()">Copy Diagnostic Summary</button>
+          <span class="copy-status" id="copyStatus"></span>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="bridge-box">
-      <h2>Eliminate Execution Friction &amp; Cognitive Drag</h2>
-      <p>Install the exact mental models, calibration protocols, and decision filters used by high-agency solo operators.</p>
-      <a class="cta-btn" href="https://thefinalmindset.gumroad.com/l/operatormindsetkit">Get the Operator Mindset Kit ($97) →</a>
-    </div>
+    <section class="panel">
+      <h2 style="font-size: 1.15rem; margin-bottom: 0.75rem;">Immediate Action Protocol</h2>
+      <ol class="steps-list">
+        <li>Lock one non-negotiable daily block before checking feeds or messages.</li>
+<li>Cut the single lowest-leverage task dragging your weekly execution score.</li>
+<li>Review your numbers every Sunday and adjust targets based on real output.</li>
+      </ol>
+    </section>
 
-    <div class="cluster-nav">
-      <h3>Related Interactive Utilities</h3>
-      <ul>
-        <li><a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/study-self-improvement-basics/index.html">Study Self Improvement Basics Calculator</a></li>
-<li><a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/professional-self-improvement-system/index.html">Professional Self Improvement System Calculator</a></li>
-<li><a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/home-improvement-project-tracker/index.html">Home Improvement Project Tracker Calculator</a></li>
-<li><a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/business-scorecard-software-features/index.html">Business Scorecard Software Features Calculator</a></li>
-<li><a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/business-scorecard-software-reviews/index.html">Business Scorecard Software Reviews Calculator</a></li>
-      </ul>
-    </div>
+    <section class="bridge-box">
+      <span class="bridge-pill">SYSTEM UPGRADE • $197</span>
+      <h2>Build &amp; Launch Without Dragging It Out for Weeks</h2>
+      <p>The Compression System walks you step by step through packaging and shipping a sellable digital product in a single 90-minute sprint.</p>
+      <a class="cta-btn" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/go/compression/">Get The Compression System →</a>
+    </section>
+
+    <section class="panel">
+      <h3 style="font-size: 0.98rem; color: var(--muted);">More Standalone Utilities</h3>
+      <div class="more-grid">
+        <a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/install-self-improvement-system/index.html">Install Self Improvement System Tool →</a>
+<a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/ultra-discipline-mindset-research/index.html">Ultra Discipline Mindset Research Tool →</a>
+<a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/launching-digital-product/index.html">Launching Digital Product Tool →</a>
+<a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/business-scorecard-software-demo/index.html">Business Scorecard Software Demo Tool →</a>
+      </div>
+    </section>
   </div>
 
   <script>
     const MODE = "revenue_projection";
+    const TOOL_TITLE = "Production Of Masculinity And Femininity Tool";
+    let latestSummary = "";
+
     function recalculate() {
       const sliders = document.querySelectorAll('input[type="range"]');
       let weightedSum = 0;
@@ -189,33 +238,57 @@
       });
 
       const ratio = maxPossible > 0 ? (weightedSum / maxPossible) : 0;
-      const metricEl = document.getElementById("outMetric");
       const labelEl = document.getElementById("outLabel");
-      const insightEl = document.getElementById("outInsight");
+      const metricEl = document.getElementById("outMetric");
+      const verdictEl = document.getElementById("outVerdict");
 
       if (MODE === "revenue_projection") {
-        const projected = Math.round(weightedSum * 42);
-        labelEl.textContent = "Estimated Monthly Leverage Potential";
-        metricEl.textContent = "$" + projected.toLocaleString() + " / mo";
-        insightEl.textContent = ratio > 0.65
-          ? "High unit economics detected. Your bottleneck is speed-to-ship, not market demand."
-          : "Increase your price anchor or distribution volume to unlock asymmetric margin.";
+        const monthly = Math.round(weightedSum * 45);
+        labelEl.textContent = "Estimated Monthly Monetization Potential";
+        metricEl.textContent = "$" + monthly.toLocaleString() + " / mo";
+        verdictEl.textContent = ratio >= 0.65
+          ? "Strong upside potential. Packaging and shipping speed is your main lever right now."
+          : "Increase your execution consistency or offer clarity to raise monthly return.";
+      } else if (MODE === "wealth_ratio") {
+        const runwayMonths = Math.max(1, Math.round(ratio * 18));
+        labelEl.textContent = "Estimated Buffer & Leverage Index";
+        metricEl.textContent = runwayMonths + " mos runway index";
+        verdictEl.textContent = runwayMonths >= 10
+          ? "Solid margin buffer. Direct surplus into compounding assets and high-leverage skills."
+          : "Tight margin zone. Trim recurring leakages and build cash buffer before taking big bets.";
       } else if (MODE === "time_saved") {
-        const hours = Math.round(ratio * 28);
-        labelEl.textContent = "Reclaimed Execution Bandwidth";
+        const hours = Math.max(1, Math.round(ratio * 24));
+        labelEl.textContent = "Recoverable Weekly Execution Time";
         metricEl.textContent = hours + " hrs / week";
-        insightEl.textContent = hours >= 15
-          ? "Significant operational drag identified. Automating or compressing these steps frees nearly half a workweek."
-          : "Moderate friction. Consolidating your workflow into a single sprint removes context switching.";
+        verdictEl.textContent = hours >= 12
+          ? "High time recovery window. Batching and cutting low-value loops can free over 10 hours a week."
+          : "Moderate time gain. Protect one uninterrupted block daily to lift output.";
       } else {
         const score = Math.round(ratio * 100);
-        labelEl.textContent = "System Readiness Score";
+        labelEl.textContent = "Execution & System Readiness Score";
         metricEl.textContent = score + " / 100";
-        insightEl.textContent = score >= 75
-          ? "Strong structural alignment. Ready for immediate deployment without further planning."
-          : "Critical constraint detected below 75. Strip non-essential steps before scaling.";
+        verdictEl.textContent = score >= 75
+          ? "High readiness. Execute directly instead of spending more time researching."
+          : "Below optimal threshold. Simplify your current plan and fix the weakest slider first.";
       }
+
+      latestSummary = TOOL_TITLE + " -> " + labelEl.textContent + ": " + metricEl.textContent + " | " + verdictEl.textContent;
     }
+
+    function copySummary() {
+      const statusEl = document.getElementById("copyStatus");
+      if (!navigator.clipboard) {
+        statusEl.textContent = "Select and copy result manually.";
+        return;
+      }
+      navigator.clipboard.writeText(latestSummary).then(() => {
+        statusEl.textContent = "Copied summary to clipboard.";
+        setTimeout(() => { statusEl.textContent = ""; }, 2500);
+      }).catch(() => {
+        statusEl.textContent = "Clipboard permission blocked in browser.";
+      });
+    }
+
     recalculate();
   </script>
 </body>
