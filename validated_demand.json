@@ -1,13 +1,13 @@
 {
-  "updated_at": "2026-11-25T02:36:04.200404Z",
-  "raw_signal_count": 586,
+  "updated_at": "2026-11-25T22:48:03.072066Z",
+  "raw_signal_count": 703,
   "gsc_opportunities": [],
   "utilities": [
     {
-      "slug": "digital-product-selling-website-template",
-      "title": "Digital Product Selling Website Template: Revenue Calculator",
-      "target_query": "digital product selling website template",
-      "meta_description": "Interactive revenue calculator and dynamic action protocol for digital product selling website template.",
+      "slug": "digital-product-passport-framework-and-system",
+      "title": "Digital Product Passport Framework And: Revenue & Pricing Kit",
+      "target_query": "digital product passport framework and system",
+      "meta_description": "Plug-and-play revenue & pricing kit and dynamic diagnostic for digital product passport framework and system.",
       "archetype": "revenue_calculator",
       "formula_mode": "revenue_projection",
       "bridge_offer": "compression",
@@ -40,341 +40,10 @@
           "weight": 1.0
         }
       ],
-      "protocols": {
-        "low": [
-          "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
-          "Switch from passive posting to daily direct-intent distribution targeting active problem queries.",
-          "Set a 7-day ship deadline to get your checkout link live in front of real traffic."
-        ],
-        "mid": [
-          "Raise your front-end offer anchor or bundle a quick-start template to lift average order value.",
-          "Replace manual posting with scheduled multi-channel distribution pointing to one checkout route.",
-          "Track conversion rate per 100 clicks and rewrite your headline around the #1 buyer objection."
-        ],
-        "high": [
-          "Introduce a high-margin $197+ implementation tier or flagship system alongside your entry offer.",
-          "Automate traffic harvesting across search utilities and evergreen distribution loops.",
-          "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'digital product selling website template', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "personal-finance-tracker-apple-numbers",
-      "title": "Personal Finance Tracker Apple Numbers: Runway & Margin Analyzer",
-      "target_query": "personal finance tracker apple numbers",
-      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for personal finance tracker apple numbers.",
-      "archetype": "financial_runway",
-      "formula_mode": "wealth_ratio",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Monthly Core Burn ($)",
-          "min": 500,
-          "max": 15000,
-          "default": 3200,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp2",
-          "label": "Liquid Reserve Buffer ($)",
-          "min": 500,
-          "max": 100000,
-          "default": 15000,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Monthly Savings / Surplus Rate (%)",
-          "min": 0,
-          "max": 80,
-          "default": 22,
-          "unit": "%",
-          "weight": 1.0
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
-          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
-          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
-        ],
-        "mid": [
-          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
-          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
-          "Cap fixed lifestyle overhead while scaling independent income streams."
-        ],
-        "high": [
-          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
-          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
-          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'personal finance tracker apple numbers', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "bpi-wealth-builder-calculator",
-      "title": "Bpi Wealth Builder Calculator: Runway & Margin Analyzer",
-      "target_query": "bpi wealth builder calculator",
-      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for bpi wealth builder calculator.",
-      "archetype": "financial_runway",
-      "formula_mode": "wealth_ratio",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Monthly Core Burn ($)",
-          "min": 500,
-          "max": 15000,
-          "default": 3200,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp2",
-          "label": "Liquid Reserve Buffer ($)",
-          "min": 500,
-          "max": 100000,
-          "default": 15000,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Monthly Savings / Surplus Rate (%)",
-          "min": 0,
-          "max": 80,
-          "default": 22,
-          "unit": "%",
-          "weight": 1.0
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
-          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
-          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
-        ],
-        "mid": [
-          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
-          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
-          "Cap fixed lifestyle overhead while scaling independent income streams."
-        ],
-        "high": [
-          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
-          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
-          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'bpi wealth builder calculator', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "wealth-creating-stocks",
-      "title": "Wealth Creating Stocks: Runway & Margin Analyzer",
-      "target_query": "wealth creating stocks",
-      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for wealth creating stocks.",
-      "archetype": "financial_runway",
-      "formula_mode": "wealth_ratio",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Monthly Core Burn ($)",
-          "min": 500,
-          "max": 15000,
-          "default": 3200,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp2",
-          "label": "Liquid Reserve Buffer ($)",
-          "min": 500,
-          "max": 100000,
-          "default": 15000,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Monthly Savings / Surplus Rate (%)",
-          "min": 0,
-          "max": 80,
-          "default": 22,
-          "unit": "%",
-          "weight": 1.0
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
-          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
-          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
-        ],
-        "mid": [
-          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
-          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
-          "Cap fixed lifestyle overhead while scaling independent income streams."
-        ],
-        "high": [
-          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
-          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
-          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'wealth creating stocks', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "wealth-creation-system",
-      "title": "Wealth Creation System: Runway & Margin Analyzer",
-      "target_query": "wealth creation system",
-      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for wealth creation system.",
-      "archetype": "financial_runway",
-      "formula_mode": "wealth_ratio",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Monthly Core Burn ($)",
-          "min": 500,
-          "max": 15000,
-          "default": 3200,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp2",
-          "label": "Liquid Reserve Buffer ($)",
-          "min": 500,
-          "max": 100000,
-          "default": 15000,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Monthly Savings / Surplus Rate (%)",
-          "min": 0,
-          "max": 80,
-          "default": 22,
-          "unit": "%",
-          "weight": 1.0
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
-          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
-          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
-        ],
-        "mid": [
-          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
-          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
-          "Cap fixed lifestyle overhead while scaling independent income streams."
-        ],
-        "high": [
-          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
-          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
-          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'wealth creation system', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "system-for-self-improvement",
-      "title": "System For Self Improvement: Self-Recognition & Sovereignty Diagnostic",
-      "target_query": "system for self improvement",
-      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for system for self improvement.",
-      "archetype": "sovereignty_diagnostic",
-      "formula_mode": "readiness_score",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Self-Directed Standards vs External Validation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 58,
-          "unit": "/100",
-          "weight": 1.25
-        },
-        {
-          "id": "inp2",
-          "label": "Impulse & Dopamine Control Under Stress (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 52,
-          "unit": "/100",
-          "weight": 1.15
-        },
-        {
-          "id": "inp3",
-          "label": "Daily Follow-Through Without Motivation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 60,
-          "unit": "/100",
-          "weight": 1.2
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
-          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
-          "Replace reactive scrolling with deliberate physical resets and written self-audits."
-        ],
-        "mid": [
-          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
-          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
-          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
-        ],
-        "high": [
-          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
-          "Codify your personal operating principles so decisions require zero emotional deliberation.",
-          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'system for self improvement', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "how-does-gumroad-work",
-      "title": "How Does Gumroad Work: Revenue Calculator",
-      "target_query": "how does gumroad work",
-      "meta_description": "Interactive revenue calculator and dynamic action protocol for how does gumroad work.",
-      "archetype": "revenue_calculator",
-      "formula_mode": "revenue_projection",
-      "bridge_offer": "compression",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Offer Price Point ($)",
-          "min": 10,
-          "max": 500,
-          "default": 47,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp2",
-          "label": "Target Weekly Buyers",
-          "min": 1,
-          "max": 100,
-          "default": 12,
-          "unit": "sales",
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Distribution Consistency (%)",
-          "min": 10,
-          "max": 100,
-          "default": 60,
-          "unit": "%",
-          "weight": 1.0
-        }
+      "kit_items": [
+        "Offer Positioning Sheet: 1-sentence outcome promise + price anchor matrix.",
+        "90-Minute Packaging Checklist: core asset, quick-start template, and checkout page.",
+        "Traffic-to-Checkout Loop: daily intent query targeting + direct Gumroad link."
       ],
       "protocols": {
         "low": [
@@ -393,125 +62,13 @@
           "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
         ]
       },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'how does gumroad work', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "digital-product-tracker",
-      "title": "Digital Product Tracker: Revenue Calculator",
-      "target_query": "digital product tracker",
-      "meta_description": "Interactive revenue calculator and dynamic action protocol for digital product tracker.",
-      "archetype": "revenue_calculator",
-      "formula_mode": "revenue_projection",
-      "bridge_offer": "compression",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Offer Price Point ($)",
-          "min": 10,
-          "max": 500,
-          "default": 47,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp2",
-          "label": "Target Weekly Buyers",
-          "min": 1,
-          "max": 100,
-          "default": 12,
-          "unit": "sales",
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Distribution Consistency (%)",
-          "min": 10,
-          "max": 100,
-          "default": 60,
-          "unit": "%",
-          "weight": 1.0
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
-          "Switch from passive posting to daily direct-intent distribution targeting active problem queries.",
-          "Set a 7-day ship deadline to get your checkout link live in front of real traffic."
-        ],
-        "mid": [
-          "Raise your front-end offer anchor or bundle a quick-start template to lift average order value.",
-          "Replace manual posting with scheduled multi-channel distribution pointing to one checkout route.",
-          "Track conversion rate per 100 clicks and rewrite your headline around the #1 buyer objection."
-        ],
-        "high": [
-          "Introduce a high-margin $197+ implementation tier or flagship system alongside your entry offer.",
-          "Automate traffic harvesting across search utilities and evergreen distribution loops.",
-          "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'digital product tracker', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "digital-product-templates",
-      "title": "Digital Product Templates: Revenue Calculator",
-      "target_query": "digital product templates",
-      "meta_description": "Interactive revenue calculator and dynamic action protocol for digital product templates.",
-      "archetype": "revenue_calculator",
-      "formula_mode": "revenue_projection",
-      "bridge_offer": "compression",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Offer Price Point ($)",
-          "min": 10,
-          "max": 500,
-          "default": 47,
-          "unit": "$",
-          "weight": 1.0
-        },
-        {
-          "id": "inp2",
-          "label": "Target Weekly Buyers",
-          "min": 1,
-          "max": 100,
-          "default": 12,
-          "unit": "sales",
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Distribution Consistency (%)",
-          "min": 10,
-          "max": 100,
-          "default": 60,
-          "unit": "%",
-          "weight": 1.0
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
-          "Switch from passive posting to daily direct-intent distribution targeting active problem queries.",
-          "Set a 7-day ship deadline to get your checkout link live in front of real traffic."
-        ],
-        "mid": [
-          "Raise your front-end offer anchor or bundle a quick-start template to lift average order value.",
-          "Replace manual posting with scheduled multi-channel distribution pointing to one checkout route.",
-          "Track conversion rate per 100 clicks and rewrite your headline around the #1 buyer objection."
-        ],
-        "high": [
-          "Introduce a high-margin $197+ implementation tier or flagship system alongside your entry offer.",
-          "Automate traffic harvesting across search utilities and evergreen distribution loops.",
-          "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'digital product templates', spot your primary bottleneck, and generate a calibrated action protocol."
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'digital product passport framework and system', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
     },
     {
       "slug": "template-digital-product",
-      "title": "Template Digital Product: Revenue Calculator",
+      "title": "Template Digital Product: Revenue & Pricing Kit",
       "target_query": "template digital product",
-      "meta_description": "Interactive revenue calculator and dynamic action protocol for template digital product.",
+      "meta_description": "Plug-and-play revenue & pricing kit and dynamic diagnostic for template digital product.",
       "archetype": "revenue_calculator",
       "formula_mode": "revenue_projection",
       "bridge_offer": "compression",
@@ -544,6 +101,11 @@
           "weight": 1.0
         }
       ],
+      "kit_items": [
+        "Offer Positioning Sheet: 1-sentence outcome promise + price anchor matrix.",
+        "90-Minute Packaging Checklist: core asset, quick-start template, and checkout page.",
+        "Traffic-to-Checkout Loop: daily intent query targeting + direct Gumroad link."
+      ],
       "protocols": {
         "low": [
           "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
@@ -561,181 +123,13 @@
           "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
         ]
       },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'template digital product', spot your primary bottleneck, and generate a calibrated action protocol."
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'template digital product', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
     },
     {
-      "slug": "defect-fix-self-improvement-tracker-xlsx",
-      "title": "Defect Fix Self Improvement Tracker: Self-Recognition & Sovereignty Diagnostic",
-      "target_query": "defect fix self improvement tracker.xlsx",
-      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for defect fix self improvement tracker.xlsx.",
-      "archetype": "sovereignty_diagnostic",
-      "formula_mode": "readiness_score",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Self-Directed Standards vs External Validation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 58,
-          "unit": "/100",
-          "weight": 1.25
-        },
-        {
-          "id": "inp2",
-          "label": "Impulse & Dopamine Control Under Stress (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 52,
-          "unit": "/100",
-          "weight": 1.15
-        },
-        {
-          "id": "inp3",
-          "label": "Daily Follow-Through Without Motivation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 60,
-          "unit": "/100",
-          "weight": 1.2
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
-          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
-          "Replace reactive scrolling with deliberate physical resets and written self-audits."
-        ],
-        "mid": [
-          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
-          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
-          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
-        ],
-        "high": [
-          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
-          "Codify your personal operating principles so decisions require zero emotional deliberation.",
-          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'defect fix self improvement tracker.xlsx', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "what-was-the-shift-in-mindset",
-      "title": "What Was The Shift In: Self-Recognition & Sovereignty Diagnostic",
-      "target_query": "what was the shift in mindset",
-      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for what was the shift in mindset.",
-      "archetype": "sovereignty_diagnostic",
-      "formula_mode": "readiness_score",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Self-Directed Standards vs External Validation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 58,
-          "unit": "/100",
-          "weight": 1.25
-        },
-        {
-          "id": "inp2",
-          "label": "Impulse & Dopamine Control Under Stress (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 52,
-          "unit": "/100",
-          "weight": 1.15
-        },
-        {
-          "id": "inp3",
-          "label": "Daily Follow-Through Without Motivation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 60,
-          "unit": "/100",
-          "weight": 1.2
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
-          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
-          "Replace reactive scrolling with deliberate physical resets and written self-audits."
-        ],
-        "mid": [
-          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
-          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
-          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
-        ],
-        "high": [
-          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
-          "Codify your personal operating principles so decisions require zero emotional deliberation.",
-          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'what was the shift in mindset', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "self-improvement-tracker-app",
-      "title": "Self Improvement Tracker App: Self-Recognition & Sovereignty Diagnostic",
-      "target_query": "self improvement tracker app",
-      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for self improvement tracker app.",
-      "archetype": "sovereignty_diagnostic",
-      "formula_mode": "readiness_score",
-      "bridge_offer": "sovereignty",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Self-Directed Standards vs External Validation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 58,
-          "unit": "/100",
-          "weight": 1.25
-        },
-        {
-          "id": "inp2",
-          "label": "Impulse & Dopamine Control Under Stress (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 52,
-          "unit": "/100",
-          "weight": 1.15
-        },
-        {
-          "id": "inp3",
-          "label": "Daily Follow-Through Without Motivation (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 60,
-          "unit": "/100",
-          "weight": 1.2
-        }
-      ],
-      "protocols": {
-        "low": [
-          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
-          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
-          "Replace reactive scrolling with deliberate physical resets and written self-audits."
-        ],
-        "mid": [
-          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
-          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
-          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
-        ],
-        "high": [
-          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
-          "Codify your personal operating principles so decisions require zero emotional deliberation.",
-          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
-        ]
-      },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'self improvement tracker app', spot your primary bottleneck, and generate a calibrated action protocol."
-    },
-    {
-      "slug": "digital-product-pricing-calculator",
-      "title": "Digital Product Pricing Calculator: Revenue Calculator",
-      "target_query": "digital product pricing calculator",
-      "meta_description": "Interactive revenue calculator and dynamic action protocol for digital product pricing calculator.",
+      "slug": "digital-product-catalogue-template",
+      "title": "Digital Product Catalogue Template: Revenue & Pricing Kit",
+      "target_query": "digital product catalogue template",
+      "meta_description": "Plug-and-play revenue & pricing kit and dynamic diagnostic for digital product catalogue template.",
       "archetype": "revenue_calculator",
       "formula_mode": "revenue_projection",
       "bridge_offer": "compression",
@@ -768,6 +162,11 @@
           "weight": 1.0
         }
       ],
+      "kit_items": [
+        "Offer Positioning Sheet: 1-sentence outcome promise + price anchor matrix.",
+        "90-Minute Packaging Checklist: core asset, quick-start template, and checkout page.",
+        "Traffic-to-Checkout Loop: daily intent query targeting + direct Gumroad link."
+      ],
       "protocols": {
         "low": [
           "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
@@ -785,7 +184,678 @@
           "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
         ]
       },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'digital product pricing calculator', spot your primary bottleneck, and generate a calibrated action protocol."
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'digital product catalogue template', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "personal-finance-tracker-coding-project",
+      "title": "Personal Finance Tracker Coding Project: Runway & Margin Kit",
+      "target_query": "personal finance tracker coding project",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for personal finance tracker coding project.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'personal finance tracker coding project', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "personal-finance-agreement-template",
+      "title": "Personal Finance Agreement Template: Runway & Margin Kit",
+      "target_query": "personal finance agreement template",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for personal finance agreement template.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'personal finance agreement template', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "personal-finance-statement-template",
+      "title": "Personal Finance Statement Template: Runway & Margin Kit",
+      "target_query": "personal finance statement template",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for personal finance statement template.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'personal finance statement template', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "practice-self-improvement-system",
+      "title": "Practice Self Improvement System: Self-Recognition & Sovereignty Kit",
+      "target_query": "practice self improvement system",
+      "meta_description": "Plug-and-play self-recognition & sovereignty kit and dynamic diagnostic for practice self improvement system.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "kit_items": [
+        "Self-Recognition Mirror Audit: separates internal standards from borrowed validation.",
+        "72-Hour Dopamine & Noise Reset: strips reactive feeds and emotional drift.",
+        "Invariant Daily Standard Card: 3 non-negotiable rules executed regardless of mood."
+      ],
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'practice self improvement system', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "personal-finance-filing-system",
+      "title": "Personal Finance Filing System: Runway & Margin Kit",
+      "target_query": "personal finance filing system",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for personal finance filing system.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'personal finance filing system', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "personal-finance-tracker-python",
+      "title": "Personal Finance Tracker Python: Runway & Margin Kit",
+      "target_query": "personal finance tracker python",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for personal finance tracker python.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'personal finance tracker python', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "self-improvement-tracker-pdf",
+      "title": "Self Improvement Tracker Pdf: Self-Recognition & Sovereignty Kit",
+      "target_query": "self improvement tracker pdf",
+      "meta_description": "Plug-and-play self-recognition & sovereignty kit and dynamic diagnostic for self improvement tracker pdf.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "kit_items": [
+        "Self-Recognition Mirror Audit: separates internal standards from borrowed validation.",
+        "72-Hour Dopamine & Noise Reset: strips reactive feeds and emotional drift.",
+        "Invariant Daily Standard Card: 3 non-negotiable rules executed regardless of mood."
+      ],
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'self improvement tracker pdf', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "creating-personal-finance-tracker",
+      "title": "Creating Personal Finance Tracker: Runway & Margin Kit",
+      "target_query": "creating a personal finance tracker",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for creating a personal finance tracker.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'creating a personal finance tracker', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "personal-finance-tracker-free-excel",
+      "title": "Personal Finance Tracker Free Excel: Runway & Margin Kit",
+      "target_query": "personal finance tracker free excel",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for personal finance tracker free excel.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'personal finance tracker free excel', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "personal-finance-accounting-template",
+      "title": "Personal Finance Accounting Template: Runway & Margin Kit",
+      "target_query": "personal finance accounting template",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for personal finance accounting template.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'personal finance accounting template', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
+    },
+    {
+      "slug": "apa-wealth-builder-calculator",
+      "title": "Apa Wealth Builder Calculator: Runway & Margin Kit",
+      "target_query": "apa wealth builder calculator",
+      "meta_description": "Plug-and-play runway & margin kit and dynamic diagnostic for apa wealth builder calculator.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "kit_items": [
+        "Burn-Rate Leak Audit: 15-minute recurring expense and subscription cut sheet.",
+        "Runway Floor Tracker: liquid reserve target vs. fixed monthly overhead ratio.",
+        "Asymmetric Surplus Rule: automatic split between safety buffer and high-leverage bets."
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive asset kit and diagnostic to benchmark 'apa wealth builder calculator', isolate your primary bottleneck, and deploy a ready-to-use execution protocol."
     }
   ]
 }
