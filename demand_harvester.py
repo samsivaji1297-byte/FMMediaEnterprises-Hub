@@ -1,35 +1,73 @@
 import os
+import re
 import json
 import time
 import urllib.parse
 import urllib.request
 from datetime import datetime, timedelta
 
-# Seed modifiers engineered to surface "maximizer" queries (tools, calculators, diagnostics)
-# that AI Overviews cannot compress into a two-sentence summary.
+# Core niche seeds: self-improvement, masculinity, mindset, finances, and solo-operator systems
 SEED_TOPICS = [
-    "digital product",
-    "gumroad product",
-    "solo founder",
-    "notion template",
-    "mindset system",
-    "content workflow",
-    "habit tracker",
-    "personal operating system"
+    "self improvement system",
+    "masculinity framework",
+    "mindset discipline",
+    "personal finance system",
+    "wealth building tracker",
+    "focus and dopamine control",
+    "digital product launch",
+    "solo operator workflow"
 ]
 
 TOOL_MODIFIERS = [
     "calculator for",
-    "checklist for",
-    "template for",
+    "scorecard for",
     "diagnostic for",
-    "pricing calculator",
-    "generator for",
+    "tracker for",
+    "plan for",
     "audit for",
-    "scorecard for"
+    "blueprint for",
+    "ratio calculator"
 ]
 
-ALPHABET_SWEEP = ["", " a", " b", " c", " f", " g", " m", " p", " s", " t"]
+ALPHABET_SWEEP = ["", " a", " b", " c", " d", " f", " m", " s", " w"]
+
+# Hard blocklist to keep harvested queries away from clinical, phone-lookup, or unrelated noise
+BLOCKED_TERMS = [
+    "psychiatry",
+    "psychiatric",
+    "phone number",
+    "caller id",
+    "diagnosis",
+    "medical",
+    "symptom",
+    "prescription",
+    "therapist",
+    "insurance claim",
+    "dsm-5",
+    "icd-10"
+]
+
+# Core domain terms that signal alignment with your niche
+NICHE_TERMS = [
+    "self", "improvement", "masculin", "mindset", "discipline", "habit",
+    "focus", "finance", "financial", "wealth", "money", "income", "savings",
+    "invest", "debt", "gumroad", "digital product", "creator", "workflow",
+    "system", "protocol", "scorecard", "calculator", "tracker", "routine"
+]
+
+GROQ_MODELS = [
+    "openai/gpt-oss-120b",
+    "openai/gpt-oss-20b",
+    "llama-3.3-70b-versatile",
+    "llama-3.1-8b-instant"
+]
+
+
+def is_niche_relevant(text):
+    low = str(text).lower()
+    if any(bad in low for bad in BLOCKED_TERMS):
+        return False
+    return any(good in low for good in NICHE_TERMS)
 
 
 def fetch_json(url, headers=None, timeout=10):
@@ -60,27 +98,27 @@ def harvest_autocomplete(query):
     if isinstance(ddg_data, list) and len(ddg_data) > 1:
         results.update(ddg_data[1])
 
-    return list(results)
+    return [item for item in results if is_niche_relevant(item)]
 
 
 def harvest_marketplace_proof():
-    """Pulls proven commercial patterns via DuckDuckGo Instant/HTML query fallbacks."""
+    """Pulls proven commercial patterns via autocomplete/search probes."""
     proof_queries = []
     commercial_probes = [
-        "site:gumroad.com/l/ system",
-        "site:gumroad.com/l/ protocol",
-        "site:gumroad.com/l/ tracker",
-        "site:etsy.com/listing/ notion operating system"
+        "site:gumroad.com/l/ mindset system",
+        "site:gumroad.com/l/ finance tracker",
+        "site:gumroad.com/l/ habit protocol",
+        "site:etsy.com/listing/ personal finance tracker"
     ]
     for probe in commercial_probes:
         suggestions = harvest_autocomplete(probe)
         proof_queries.extend(suggestions)
-        time.sleep(0.4)
+        time.sleep(0.35)
     return list(set(proof_queries))
 
 
 def harvest_gsc_telemetry():
-    """Pulls non-branded queries in positions 8-25 from Google Search Console API."""
+    """Pulls non-branded striking-distance queries from Google Search Console API."""
     creds_raw = os.environ.get("GSC_CREDENTIALS_JSON", "").strip()
     site_url = os.environ.get("GSC_SITE_URL", "").strip()
 
@@ -124,9 +162,10 @@ def harvest_gsc_telemetry():
         opportunities = []
         for row in response.get("rows", []):
             query_text = row["keys"][0]
+            if not is_niche_relevant(query_text):
+                continue
             impressions = row.get("impressions", 0)
             position = row.get("position", 100)
-            # Striking-distance filter: page 2-3 impressions where a dedicated tool jumps to page 1
             if impressions >= 10 and 7.0 <= position <= 30.0:
                 opportunities.append({
                     "query": query_text,
@@ -134,21 +173,34 @@ def harvest_gsc_telemetry():
                     "position": round(position, 1),
                     "source": "GSC"
                 })
-        print(f"[GSC] Extracted {len(opportunities)} striking-distance queries.")
+        print(f"[GSC] Extracted {len(opportunities)} niche striking-distance queries.")
         return opportunities
     except Exception as e:
         print(f"[GSC] Telemetry check skipped due to error: {e}")
         return []
 
 
+def _parse_json_loose(raw_text):
+    cleaned = raw_text.strip()
+    cleaned = re.sub(r"^```(?:json)?\s*", "", cleaned)
+    cleaned = re.sub(r"\s*```$", "", cleaned)
+    start = cleaned.find("{")
+    end = cleaned.rfind("}")
+    if start != -1 and end != -1 and end > start:
+        cleaned = cleaned[start:end + 1]
+    return json.loads(cleaned)
+
+
 def _fallback_utilities_from_queries(raw_candidates):
-    """Builds interactive utility definitions deterministically if Groq is unreachable or 403."""
+    """Builds niche-filtered interactive utility definitions if Groq models are unavailable."""
     modes = ["readiness_score", "time_saved", "revenue_projection"]
     bridges = ["compression", "operator"]
     selected = []
     seen_slugs = set()
 
     for q in raw_candidates:
+        if not is_niche_relevant(q):
+            continue
         cleaned = "".join(ch if ch.isalnum() or ch == " " else " " for ch in str(q).lower()).strip()
         words = [w for w in cleaned.split() if len(w) > 1]
         if len(words) < 3:
@@ -164,12 +216,12 @@ def _fallback_utilities_from_queries(raw_candidates):
             "slug": slug,
             "title": title,
             "target_query": str(q)[:80],
-            "meta_description": f"Interactive browser calculator and diagnostic for {str(q)[:95]}.",
+            "meta_description": f"Interactive browser tool and diagnostic for {str(q)[:95]}.",
             "tool_type": "calculator",
             "inputs": [
-                {"id": "inp1", "label": "Current Execution Pace (1-100)", "min": 1, "max": 100, "default": 45, "weight": 1.2},
-                {"id": "inp2", "label": "Workflow Bottleneck Severity (1-100)", "min": 1, "max": 100, "default": 60, "weight": 1.0},
-                {"id": "inp3", "label": "Weekly Output Consistency (1-100)", "min": 1, "max": 100, "default": 50, "weight": 1.1}
+                {"id": "inp1", "label": "Current Execution Consistency (1-100)", "min": 1, "max": 100, "default": 50, "weight": 1.2},
+                {"id": "inp2", "label": "Constraint / Friction Level (1-100)", "min": 1, "max": 100, "default": 60, "weight": 1.0},
+                {"id": "inp3", "label": "Weekly Leverage Commitment (1-100)", "min": 1, "max": 100, "default": 55, "weight": 1.1}
             ],
             "formula_mode": modes[idx % len(modes)],
             "bridge_offer": bridges[idx % len(bridges)]
@@ -181,29 +233,46 @@ def _fallback_utilities_from_queries(raw_candidates):
 
 
 def filter_with_groq(raw_candidates):
-    """Uses GroqCloud to filter fluff and structure interactive tools, with safe fallback."""
+    """Uses GroqCloud to filter fluff and structure interactive niche utilities."""
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
-        print("[Groq] Missing GROQ_API_KEY — using deterministic fallback filter.")
+        print("[Groq] Missing GROQ_API_KEY — using niche-filtered fallback.")
         return _fallback_utilities_from_queries(raw_candidates)
 
-    prompt = f"""You are a programmatic SEO architect. Analyze these raw search queries and commercial signals:
-{json.dumps(raw_candidates[:180], indent=2)}
+    filtered_pool = [c for c in raw_candidates if is_niche_relevant(c)][:160]
+    if not filtered_pool:
+        filtered_pool = raw_candidates[:120]
+
+    prompt = f"""You are a programmatic SEO architect for a self-improvement, masculinity, mindset, personal finance, and solo-operator systems brand.
+Analyze these raw search queries:
+{json.dumps(filtered_pool, indent=2)}
 
 RULES:
-1. DISCARD any generic informational query that can be answered in 2 sentences (e.g., "what is a digital product", "how to stay motivated"). AI Overviews absorb those.
-2. KEEP ONLY high-friction "maximizer" queries that justify a standalone interactive browser utility (calculator, diagnostic scorecard, readiness audit, pricing estimator, or scope planner).
-3. Consolidate duplicates into 12 to 18 razor-sharp, distinct micro-utilities aligned with solo creators, digital product builders, and high-agency personal systems.
+1. DISCARD generic informational queries answerable in 2 sentences AND discard anything off-topic (medical, clinical psychiatry, phone lookup, unrelated software).
+2. KEEP ONLY high-friction queries that justify an interactive browser calculator, readiness diagnostic, or personal system scorecard within self-improvement, masculinity, mindset, finances, or digital product leverage.
+3. Produce 12 to 16 distinct micro-utilities.
 
-Return ONLY a valid JSON object with a single key "utilities" containing an array of objects, each with:
-- "slug": URL-safe lowercase hyphenated slug (e.g., "digital-product-pricing-calculator")
-- "title": Clear, high-CTR tool title (e.g., "Digital Product Pricing & Margin Calculator")
-- "target_query": The exact primary search query targeted
-- "meta_description": Under 155 characters, action-oriented
-- "tool_type": One of ["calculator", "diagnostic", "planner"]
-- "inputs": Array of 3 to 4 objects with {{"id": "inp1", "label": "Question or metric label", "min": 1, "max": 100, "default": 50, "weight": 1.0}}
-- "formula_mode": One of ["revenue_projection", "readiness_score", "time_saved"]
-- "bridge_offer": Either "compression" (for digital product/building/monetization tools) or "operator" (for mindset/focus/execution tools)
+Return ONLY valid JSON matching this exact structure:
+{{
+  "utilities": [
+    {{
+      "slug": "kebab-case-slug",
+      "title": "Clear Tool Title",
+      "target_query": "primary query",
+      "meta_description": "Under 155 chars description",
+      "tool_type": "calculator",
+      "inputs": [
+        {{"id": "inp1", "label": "Metric 1", "min": 1, "max": 100, "default": 50, "weight": 1.2}},
+        {{"id": "inp2", "label": "Metric 2", "min": 1, "max": 100, "default": 50, "weight": 1.0}},
+        {{"id": "inp3", "label": "Metric 3", "min": 1, "max": 100, "default": 50, "weight": 1.1}}
+      ],
+      "formula_mode": "readiness_score",
+      "bridge_offer": "compression"
+    }}
+  ]
+}}
+Allowed formula_mode values: "revenue_projection", "readiness_score", "time_saved".
+Allowed bridge_offer values: "compression", "operator".
 """
 
     headers = {
@@ -212,15 +281,14 @@ Return ONLY a valid JSON object with a single key "utilities" containing an arra
         "User-Agent": "Mozilla/5.0 (compatible; FMMediaHarvester/1.0)"
     }
 
-    for model_name in ["openai/gpt-oss-120b", "llama-3.1-8b-instant"]:
+    for model_name in GROQ_MODELS:
         payload = json.dumps({
             "model": model_name,
             "messages": [
-                {"role": "system", "content": "Output strict valid JSON only. No markdown fences."},
+                {"role": "system", "content": "Output raw JSON only. Never wrap in markdown code blocks."},
                 {"role": "user", "content": prompt}
             ],
-            "temperature": 0.2,
-            "response_format": {"type": "json_object"}
+            "temperature": 0.2
         }).encode("utf-8")
 
         req = urllib.request.Request(
@@ -232,25 +300,27 @@ Return ONLY a valid JSON object with a single key "utilities" containing an arra
             with urllib.request.urlopen(req, timeout=45) as resp:
                 data = json.loads(resp.read().decode("utf-8"))
                 content = data["choices"][0]["message"]["content"]
-                parsed = json.loads(content)
-                utilities = parsed.get("utilities", [])
+                parsed = _parse_json_loose(content)
+                utilities = [u for u in parsed.get("utilities", []) if is_niche_relevant(u.get("title", "") + " " + u.get("target_query", ""))]
                 if utilities:
+                    print(f"[Groq] Succeeded with model: {model_name} ({len(utilities)} utilities)")
                     return utilities
         except urllib.error.HTTPError as e:
             err_body = ""
             try:
-                err_body = e.read().decode("utf-8", errors="replace")[:300]
+                err_body = e.read().decode("utf-8", errors="replace")[:250]
             except Exception:
                 pass
             print(f"[Groq] {model_name} failed ({e.code}): {err_body}")
         except Exception as e:
             print(f"[Groq] {model_name} failed: {e}")
 
-    print("[Groq] All model attempts failed — using deterministic fallback filter.")
+    print("[Groq] All model attempts failed — using niche-filtered fallback.")
     return _fallback_utilities_from_queries(raw_candidates)
 
+
 def main():
-    print("Starting multi-layer demand harvest...")
+    print("Starting multi-layer niche demand harvest...")
     all_queries = set()
 
     for topic in SEED_TOPICS:
@@ -268,7 +338,7 @@ def main():
     gsc_queries = [item["query"] for item in gsc_hits]
 
     combined_pool = gsc_queries + list(all_queries)
-    print(f"Total raw signals harvested: {len(combined_pool)}")
+    print(f"Total niche-filtered raw signals harvested: {len(combined_pool)}")
 
     utilities = filter_with_groq(combined_pool)
     output_payload = {
