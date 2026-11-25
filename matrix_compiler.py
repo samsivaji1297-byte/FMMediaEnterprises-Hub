@@ -1,6 +1,7 @@
 import os
 import json
 import html
+import shutil
 from datetime import datetime
 
 DEFAULT_BASE_URL = "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub"
@@ -18,26 +19,26 @@ BASE_URL = resolve_base_url()
 
 OFFER_BRIDGES = {
     "sovereignty": {
-        "badge": "PSYCHOLOGICAL ARCHITECTURE",
+        "badge": "PSYCHOLOGICAL ARCHITECTURE • $27",
         "headline": "Mental Sovereignty Framework: Psychological Architecture for Authentic Self-Recognition",
         "subtext": "Stop outsourcing your standards to external validation. Install the complete self-recognition architecture for unshakeable clarity, discipline, and internal authority.",
-        "cta": "Access Mental Sovereignty Framework →",
+        "cta": "Access Mental Sovereignty Framework ($27) →",
         "url": "https://fmframeworks.gumroad.com/l/mentalsovereigntyframework"
     },
     "compression": {
-        "badge": "90-MINUTE SPRINT SYSTEM",
+        "badge": "90-MINUTE SPRINT SYSTEM • $197",
         "headline": "The Compression System: Build a Sellable Digital Product in 90 Minutes",
         "subtext": "Eliminate weeks of planning drag. Architect, package, and launch a high-margin digital asset in one focused execution sprint.",
-        "cta": "Get The Compression System →",
+        "cta": "Get The Compression System ($197) →",
         "url": f"{BASE_URL}/go/compression/"
     }
 }
 
 ARCHETYPE_LABELS = {
-    "sovereignty_diagnostic": "Mindset & Sovereignty Diagnostic",
-    "financial_runway": "Financial Runway & Margin Analyzer",
-    "revenue_calculator": "Monetization & Revenue Calculator",
-    "execution_audit": "Execution Bandwidth & Focus Audit"
+    "sovereignty_diagnostic": "Mindset & Sovereignty Asset Kit",
+    "financial_runway": "Financial Runway & Margin Kit",
+    "revenue_calculator": "Monetization & Pricing Asset Kit",
+    "execution_audit": "Execution Bandwidth & Focus Kit"
 }
 
 
@@ -49,17 +50,38 @@ def hub_page_url():
     return f"{BASE_URL}/{TOOLS_DIR}/index.html"
 
 
+def cleanup_stale_folders(active_slugs):
+    if not os.path.isdir(TOOLS_DIR):
+        return
+    removed = 0
+    for entry in os.listdir(TOOLS_DIR):
+        full_path = os.path.join(TOOLS_DIR, entry)
+        if os.path.isdir(full_path) and entry not in active_slugs:
+            shutil.rmtree(full_path, ignore_errors=True)
+            removed += 1
+    if removed:
+        print(f"[Cleanup] Removed {removed} stale utility folder(s) from {TOOLS_DIR}/.")
+
+
 def render_utility_page(util, all_utils):
     slug = util["slug"]
     title = html.escape(util["title"])
     desc = html.escape(util["meta_description"])
     target_q = html.escape(util["target_query"])
     archetype = util.get("archetype", "sovereignty_diagnostic")
-    archetype_badge = html.escape(ARCHETYPE_LABELS.get(archetype, "Interactive Utility"))
+    archetype_badge = html.escape(ARCHETYPE_LABELS.get(archetype, "Interactive Asset Kit"))
     direct_answer = html.escape(util.get("direct_answer", desc))
     formula_mode = util.get("formula_mode", "readiness_score")
     bridge = OFFER_BRIDGES.get(util.get("bridge_offer", "sovereignty"), OFFER_BRIDGES["sovereignty"])
     canonical = utility_page_url(slug)
+
+    kit_items = util.get("kit_items") or [
+        "Baseline Audit Sheet: isolates your primary bottleneck in under 5 minutes.",
+        "Execution Checklist: step-by-step daily actions tied to your current tier.",
+        "7-Day Calibration Tracker: measures shipped output instead of busywork."
+    ]
+    kit_html = "\n".join([f"<li>{html.escape(str(item))}</li>" for item in kit_items[:4]])
+    kit_json = json.dumps([str(item) for item in kit_items[:4]])
 
     protocols = util.get("protocols") or {
         "low": [
@@ -119,13 +141,12 @@ def render_utility_page(util, all_utils):
         </div>
         """
 
-    # Cross-link across different archetypes so clicking leads to genuinely distinct tools
     distinct_siblings = [u for u in all_utils if u["slug"] != slug and u.get("archetype") != archetype][:2]
     same_siblings = [u for u in all_utils if u["slug"] != slug and u.get("archetype") == archetype][:2]
     related_list = (distinct_siblings + same_siblings)[:4]
     sibling_links = "\n".join([
         f"""<a class="mini-link" href="{utility_page_url(s["slug"])}">
-          <span class="mini-type">{html.escape(ARCHETYPE_LABELS.get(s.get("archetype", ""), "Utility"))}</span>
+          <span class="mini-type">{html.escape(ARCHETYPE_LABELS.get(s.get("archetype", ""), "Asset Kit"))}</span>
           <strong>{html.escape(s["title"])} →</strong>
         </a>"""
         for s in related_list
@@ -157,7 +178,6 @@ def render_utility_page(util, all_utils):
       --accent: #2f81f7;
       --accent-hover: #58a6ff;
       --ok: #3fb950;
-      --warn: #d29922;
     }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
     body {{
@@ -257,7 +277,7 @@ def render_utility_page(util, all_utils):
       background: rgba(63, 185, 80, 0.15);
       color: var(--ok);
     }}
-    .steps-list {{ padding-left: 1.25rem; display: grid; gap: 0.6rem; color: var(--text); }}
+    .steps-list, .kit-list {{ padding-left: 1.25rem; display: grid; gap: 0.6rem; color: var(--text); }}
     .bridge-box {{
       background: linear-gradient(135deg, #161b22 0%, #0e1d33 100%);
       border: 1px solid var(--accent);
@@ -308,7 +328,7 @@ def render_utility_page(util, all_utils):
 <body>
   <div class="container">
     <div class="top-bar">
-      <a href="{hub_page_url()}">← All Standalone Tools</a>
+      <a href="{hub_page_url()}">← All Standalone Asset Kits</a>
       <span>Query Intent: {target_q}</span>
     </div>
 
@@ -331,7 +351,7 @@ def render_utility_page(util, all_utils):
         <div class="result-metric" id="outMetric">--</div>
         <div class="result-verdict" id="outVerdict">Adjust the sliders above to calibrate your output.</div>
         <div class="action-row">
-          <button type="button" class="copy-btn" onclick="copySummary()">Copy Diagnostic Brief</button>
+          <button type="button" class="copy-btn" onclick="copySummary()">Copy Kit & Diagnostic Brief</button>
           <span class="copy-status" id="copyStatus"></span>
         </div>
       </div>
@@ -345,6 +365,13 @@ def render_utility_page(util, all_utils):
       <ol class="steps-list" id="protocolList"></ol>
     </section>
 
+    <section class="panel">
+      <h2 style="font-size: 1.15rem; margin-bottom: 0.75rem;">Plug-and-Play Asset Kit Components</h2>
+      <ul class="kit-list">
+        {kit_html}
+      </ul>
+    </section>
+
     <section class="bridge-box">
       <span class="bridge-pill">{html.escape(bridge["badge"])}</span>
       <h2>{html.escape(bridge["headline"])}</h2>
@@ -353,7 +380,7 @@ def render_utility_page(util, all_utils):
     </section>
 
     <section class="panel">
-      <h3 style="font-size: 0.98rem; color: var(--muted);">Explore Different Diagnostic & Calculator Tools</h3>
+      <h3 style="font-size: 0.98rem; color: var(--muted);">Explore Different Asset Kits & Diagnostics</h3>
       <div class="more-grid">
         {sibling_links}
       </div>
@@ -364,6 +391,7 @@ def render_utility_page(util, all_utils):
     const MODE = "{formula_mode}";
     const TOOL_TITLE = {json.dumps(util["title"])};
     const PROTOCOLS = {protocols_json};
+    const KIT_ITEMS = {kit_json};
     let latestSummary = "";
 
     function formatBadge(val, unit) {{
@@ -377,7 +405,6 @@ def render_utility_page(util, all_utils):
       sliders.forEach((s, idx) => {{
         const min = parseFloat(s.min);
         const max = parseFloat(s.max);
-        // For burn rate in financial_runway (first slider), invert so high-leverage scale means controlled burn
         const effectiveFactor = (MODE === "wealth_ratio" && idx === 0) ? (1 - factor * 0.7) : factor;
         s.value = Math.round(min + (max - min) * effectiveFactor);
       }});
@@ -390,6 +417,7 @@ def render_utility_page(util, all_utils):
       badgeEl.textContent = badgeText;
       const steps = PROTOCOLS[tierKey] || PROTOCOLS["mid"];
       listEl.innerHTML = steps.map(step => "<li>" + step + "</li>").join("");
+      return steps;
     }}
 
     function recalculate() {{
@@ -495,8 +523,14 @@ def render_utility_page(util, all_utils):
         }}
       }}
 
-      renderProtocol(tier, badgeText);
-      latestSummary = TOOL_TITLE + " -> " + labelEl.textContent + ": " + metricEl.textContent + " [" + badgeText + "] | " + verdictEl.textContent;
+      const activeSteps = renderProtocol(tier, badgeText);
+      latestSummary = [
+        TOOL_TITLE + " [" + badgeText + "]",
+        labelEl.textContent + ": " + metricEl.textContent,
+        "Assessment: " + verdictEl.textContent,
+        "Action Protocol: " + activeSteps.join(" | "),
+        "Asset Kit: " + KIT_ITEMS.join(" | ")
+      ].join("\\n");
     }}
 
     function copySummary() {{
@@ -506,7 +540,7 @@ def render_utility_page(util, all_utils):
         return;
       }}
       navigator.clipboard.writeText(latestSummary).then(() => {{
-        statusEl.textContent = "Copied diagnostic brief to clipboard.";
+        statusEl.textContent = "Copied kit & diagnostic brief to clipboard.";
         setTimeout(() => {{ statusEl.textContent = ""; }}, 2500);
       }}).catch(() => {{
         statusEl.textContent = "Clipboard permission blocked in browser.";
@@ -525,13 +559,13 @@ def render_hub_page(utilities):
         slug = u["slug"]
         title = html.escape(u["title"])
         desc = html.escape(u["meta_description"])
-        arch = html.escape(ARCHETYPE_LABELS.get(u.get("archetype", ""), "Standalone Tool"))
+        arch = html.escape(ARCHETYPE_LABELS.get(u.get("archetype", ""), "Asset Kit"))
         cards += f"""
         <a class="card" href="{utility_page_url(slug)}">
           <span class="pill">{arch}</span>
           <h3>{title}</h3>
           <p>{desc}</p>
-          <span class="tag">Open Standalone Tool →</span>
+          <span class="tag">Open Asset Kit & Tool →</span>
         </a>
         """
 
@@ -540,8 +574,8 @@ def render_hub_page(utilities):
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Standalone Operator Tools & Diagnostics | FM Media Enterprises</title>
-  <meta name="description" content="Interactive calculators, sovereignty diagnostics, runway analyzers, and execution audits for self-improvement, mindset, finances, and solo builders.">
+  <title>Standalone Operator Asset Kits & Diagnostics | FM Media Enterprises</title>
+  <meta name="description" content="Plug-and-play asset kits, calculators, sovereignty diagnostics, and runway analyzers for self-improvement, mindset, finances, and solo builders.">
   <link rel="canonical" href="{hub_page_url()}">
   <style>
     :root {{ --bg: #0d1117; --surface: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #2f81f7; }}
@@ -561,8 +595,8 @@ def render_hub_page(utilities):
 </head>
 <body>
   <div class="container">
-    <h1>Standalone Operator Tools</h1>
-    <p class="lead">Self-contained calculators, financial runway analyzers, and sovereignty diagnostics engineered to solve real bottlenecks and route action into core systems.</p>
+    <h1>Standalone Operator Asset Kits</h1>
+    <p class="lead">Self-contained calculators, financial runway analyzers, and sovereignty kits engineered to solve real bottlenecks and route action into core systems.</p>
     <div class="grid">
       {cards}
     </div>
@@ -617,11 +651,13 @@ def main():
         return
 
     os.makedirs(TOOLS_DIR, exist_ok=True)
+    active_slugs = {u["slug"] for u in utilities}
+    cleanup_stale_folders(active_slugs)
 
     with open(os.path.join(TOOLS_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(render_hub_page(utilities))
 
-    print("\nGenerated standalone utility URLs:")
+    print("\nGenerated standalone asset kit URLs:")
     print(f"  Hub: {hub_page_url()}")
     for util in utilities:
         util_dir = os.path.join(TOOLS_DIR, util["slug"])
@@ -629,10 +665,10 @@ def main():
         out_path = os.path.join(util_dir, "index.html")
         with open(out_path, "w", encoding="utf-8") as f:
             f.write(render_utility_page(util, utilities))
-        print(f"  - [{util.get('archetype', 'tool')}] {utility_page_url(util['slug'])}")
+        print(f"  - [{util.get('archetype', 'kit')}] {utility_page_url(util['slug'])}")
 
     write_sitemap_and_robots(utilities)
-    print(f"\nCompiled {len(utilities)} distinct standalone utilities, hub index, sitemap.xml, and robots.txt.")
+    print(f"\nCompiled {len(utilities)} distinct asset kits, hub index, sitemap.xml, and robots.txt.")
 
 
 if __name__ == "__main__":
