@@ -1,567 +1,791 @@
 {
-  "updated_at": "2026-11-25T01:14:46.572694Z",
-  "raw_signal_count": 208,
+  "updated_at": "2026-11-25T02:07:48.969113Z",
+  "raw_signal_count": 227,
   "gsc_opportunities": [],
   "utilities": [
     {
-      "slug": "install-self-improvement-system",
-      "title": "Install Self Improvement System Tool",
-      "target_query": "install self improvement system",
-      "meta_description": "Standalone interactive calculator and action plan for install self improvement system.",
-      "tool_type": "calculator",
+      "slug": "what-is-masculinity",
+      "title": "What Is Masculinity: Self-Recognition & Sovereignty Diagnostic",
+      "target_query": "what is a masculinity",
+      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for what is a masculinity.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
           "min": 1,
           "max": 100,
-          "default": 55,
-          "weight": 1.0
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
           "min": 1,
           "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
         }
       ],
-      "formula_mode": "readiness_score",
-      "bridge_offer": "operator",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'what is a masculinity', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
-      "slug": "ultra-discipline-mindset-research",
-      "title": "Ultra Discipline Mindset Research Tool",
-      "target_query": "ultra discipline mindset research",
-      "meta_description": "Standalone interactive calculator and action plan for ultra discipline mindset research.",
-      "tool_type": "calculator",
+      "slug": "personal-loan-finance-calculator",
+      "title": "Personal Loan Finance Calculator: Runway & Margin Analyzer",
+      "target_query": "personal loan finance calculator",
+      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for personal loan finance calculator.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
           "weight": 1.0
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
         }
       ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'personal loan finance calculator', spot your primary bottleneck, and generate a calibrated action protocol."
+    },
+    {
+      "slug": "complete-self-improvement-tutorial",
+      "title": "Complete Self Improvement Tutorial: Self-Recognition & Sovereignty Diagnostic",
+      "target_query": "complete self improvement tutorial",
+      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for complete self improvement tutorial.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'complete self improvement tutorial', spot your primary bottleneck, and generate a calibrated action protocol."
+    },
+    {
+      "slug": "tracker-products-and-prices",
+      "title": "Tracker Products And Prices: Execution Bandwidth Audit",
+      "target_query": "tracker products and prices",
+      "meta_description": "Interactive execution bandwidth audit and dynamic action protocol for tracker products and prices.",
+      "archetype": "execution_audit",
       "formula_mode": "time_saved",
       "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
-    },
-    {
-      "slug": "launching-digital-product",
-      "title": "Launching Digital Product Tool",
-      "target_query": "launching a digital product",
-      "meta_description": "Standalone interactive calculator and action plan for launching a digital product.",
-      "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
+          "label": "Weekly Hours Lost to Low-Leverage Tasks",
           "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "max": 40,
+          "default": 14,
+          "unit": "hrs",
+          "weight": 1.0
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
+          "label": "Daily Context Switches / Distractions",
           "min": 1,
-          "max": 100,
-          "default": 55,
+          "max": 30,
+          "default": 10,
+          "unit": "x",
           "weight": 1.0
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "label": "Deep Work Blocks Completed / Week",
+          "min": 0,
+          "max": 14,
+          "default": 4,
+          "unit": "blocks",
+          "weight": 1.0
         }
       ],
-      "formula_mode": "revenue_projection",
-      "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
+      "protocols": {
+        "low": [
+          "Eliminate non-essential notifications and batch communications into two 20-minute windows daily.",
+          "Protect one uninterrupted 90-minute execution block every morning before opening feeds.",
+          "Cut or automate the single repetitive task consuming the most weekly hours."
+        ],
+        "mid": [
+          "Standardize your top recurring workflow into a repeatable checklist or script to remove friction.",
+          "Stack deep-work blocks on your highest-energy days and push admin to low-energy hours.",
+          "Measure output by shipped assets per week rather than hours spent at the screen."
+        ],
+        "high": [
+          "Your execution cadence is tight\u2014delegate or script remaining maintenance steps to free 10+ hrs/wk.",
+          "Compress multi-week projects into single-sprint launches using repeatable templates.",
+          "Protect your recovered bandwidth strictly for high-leverage strategic moves."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'tracker products and prices', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
-      "slug": "production-of-masculinity-and-femininity",
-      "title": "Production Of Masculinity And Femininity Tool",
-      "target_query": "production of masculinity and femininity",
-      "meta_description": "Standalone interactive calculator and action plan for production of masculinity and femininity.",
-      "tool_type": "calculator",
+      "slug": "business-and-personal-finance-software",
+      "title": "Business And Personal Finance Software: Runway & Margin Analyzer",
+      "target_query": "business and personal finance software",
+      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for business and personal finance software.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
           "weight": 1.0
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
         }
       ],
-      "formula_mode": "revenue_projection",
-      "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'business and personal finance software', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
-      "slug": "business-scorecard-software-demo",
-      "title": "Business Scorecard Software Demo Tool",
-      "target_query": "business scorecard software demo",
-      "meta_description": "Standalone interactive calculator and action plan for business scorecard software demo.",
-      "tool_type": "calculator",
+      "slug": "veterans-personal-finance-system",
+      "title": "Veterans Personal Finance System: Runway & Margin Analyzer",
+      "target_query": "veterans personal finance system",
+      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for veterans personal finance system.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
           "weight": 1.0
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
         }
       ],
-      "formula_mode": "readiness_score",
-      "bridge_offer": "operator",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'veterans personal finance system', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
-      "slug": "controlling-your-dopamine-for-motivation-focus",
-      "title": "Controlling Your Dopamine For Motivation Focus Tool",
-      "target_query": "controlling your dopamine for motivation focus",
-      "meta_description": "Standalone interactive calculator and action plan for controlling your dopamine for motivation focus.",
-      "tool_type": "calculator",
+      "slug": "product-price-tracker-site",
+      "title": "Product Price Tracker Site: Runway & Margin Analyzer",
+      "target_query": "product price tracker site",
+      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for product price tracker site.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
           "weight": 1.0
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
         }
       ],
-      "formula_mode": "time_saved",
-      "bridge_offer": "operator",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'product price tracker site', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
       "slug": "review-self-improvement-system",
-      "title": "Review Self Improvement System Tool",
+      "title": "Review Self Improvement System: Self-Recognition & Sovereignty Diagnostic",
       "target_query": "review self improvement system",
-      "meta_description": "Standalone interactive calculator and action plan for review self improvement system.",
-      "tool_type": "calculator",
+      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for review self improvement system.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
           "min": 1,
           "max": 100,
-          "default": 55,
-          "weight": 1.0
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
           "min": 1,
           "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
         }
       ],
-      "formula_mode": "wealth_ratio",
-      "bridge_offer": "operator",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'review self improvement system', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
-      "slug": "self-tracking-devices-for-vehicles",
-      "title": "Self Tracking Devices For Vehicles Tool",
-      "target_query": "self tracking devices for vehicles",
-      "meta_description": "Standalone interactive calculator and action plan for self tracking devices for vehicles.",
-      "tool_type": "calculator",
+      "slug": "online-price-tracker-for-businesses-software",
+      "title": "Online Price Tracker For Businesses: Self-Recognition & Sovereignty Diagnostic",
+      "target_query": "online price tracker for businesses software",
+      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for online price tracker for businesses software.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
           "min": 1,
           "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
           "min": 1,
           "max": 100,
-          "default": 55,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'online price tracker for businesses software', spot your primary bottleneck, and generate a calibrated action protocol."
+    },
+    {
+      "slug": "personal-finance-tracking-sheet",
+      "title": "Personal Finance Tracking Sheet: Runway & Margin Analyzer",
+      "target_query": "personal finance tracking sheet",
+      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for personal finance tracking sheet.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
           "weight": 1.0
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
         }
       ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'personal finance tracking sheet', spot your primary bottleneck, and generate a calibrated action protocol."
+    },
+    {
+      "slug": "calculator-tips-for-act",
+      "title": "Calculator Tips For Act: Runway & Margin Analyzer",
+      "target_query": "calculator tips for act",
+      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for calculator tips for act.",
+      "archetype": "financial_runway",
+      "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'calculator tips for act', spot your primary bottleneck, and generate a calibrated action protocol."
+    },
+    {
+      "slug": "self-improvement-plan-tools",
+      "title": "Self Improvement Plan Tools: Self-Recognition & Sovereignty Diagnostic",
+      "target_query": "self improvement plan tools",
+      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for self improvement plan tools.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'self improvement plan tools', spot your primary bottleneck, and generate a calibrated action protocol."
+    },
+    {
+      "slug": "self-fit-vehicle-tracker",
+      "title": "Self Fit Vehicle Tracker: Self-Recognition & Sovereignty Diagnostic",
+      "target_query": "self fit vehicle tracker",
+      "meta_description": "Interactive self-recognition & sovereignty diagnostic and dynamic action protocol for self fit vehicle tracker.",
+      "archetype": "sovereignty_diagnostic",
+      "formula_mode": "readiness_score",
+      "bridge_offer": "sovereignty",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "protocols": {
+        "low": [
+          "Strip external noise for 72 hours: audit where social comparison or validation dictates your choices.",
+          "Establish one non-negotiable daily rule you execute regardless of mood or energy.",
+          "Replace reactive scrolling with deliberate physical resets and written self-audits."
+        ],
+        "mid": [
+          "Identify the specific pressure trigger where your standards slip and install a pre-committed rule.",
+          "Shift from sporadic intensity to invariant daily execution tracked objectively each evening.",
+          "Audit your inner circle and information inputs to align with sovereign, self-directed standards."
+        ],
+        "high": [
+          "Your internal frame is locked in\u2014channel this stability into high-stakes creative or financial execution.",
+          "Codify your personal operating principles so decisions require zero emotional deliberation.",
+          "Expand your scope: take on larger asymmetric challenges where composure is the primary edge."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'self fit vehicle tracker', spot your primary bottleneck, and generate a calibrated action protocol."
+    },
+    {
+      "slug": "stand-alone-payroll-software-pricing",
+      "title": "Stand Alone Payroll Software Pricing: Revenue Calculator",
+      "target_query": "stand alone payroll software pricing",
+      "meta_description": "Interactive revenue calculator and dynamic action protocol for stand alone payroll software pricing.",
+      "archetype": "revenue_calculator",
       "formula_mode": "revenue_projection",
       "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
-    },
-    {
-      "slug": "how-to-make-personal-finance-tracker",
-      "title": "How To Make Personal Finance Tracker Tool",
-      "target_query": "how to make a personal finance tracker",
-      "meta_description": "Standalone interactive calculator and action plan for how to make a personal finance tracker.",
-      "tool_type": "calculator",
       "inputs": [
         {
           "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
         },
         {
           "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
+          "label": "Target Weekly Buyers",
           "min": 1,
           "max": 100,
-          "default": 55,
+          "default": 12,
+          "unit": "sales",
           "weight": 1.0
         },
         {
           "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
+          "label": "Distribution Consistency (%)",
+          "min": 10,
           "max": 100,
-          "default": 65,
-          "weight": 1.15
-        }
-      ],
-      "formula_mode": "wealth_ratio",
-      "bridge_offer": "operator",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
-    },
-    {
-      "slug": "professional-self-improvement-system",
-      "title": "Professional Self Improvement System Tool",
-      "target_query": "professional self improvement system",
-      "meta_description": "Standalone interactive calculator and action plan for professional self improvement system.",
-      "tool_type": "calculator",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
-        },
-        {
-          "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
+          "default": 60,
+          "unit": "%",
           "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
         }
       ],
-      "formula_mode": "time_saved",
-      "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
-    },
-    {
-      "slug": "ads-tracker-history",
-      "title": "Ads Tracker History Tool",
-      "target_query": "ads b tracker history",
-      "meta_description": "Standalone interactive calculator and action plan for ads b tracker history.",
-      "tool_type": "calculator",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
-        },
-        {
-          "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
-        }
-      ],
-      "formula_mode": "wealth_ratio",
-      "bridge_offer": "operator",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
-    },
-    {
-      "slug": "scorecard-for-business-performance",
-      "title": "Scorecard For Business Performance Tool",
-      "target_query": "scorecard for business performance",
-      "meta_description": "Standalone interactive calculator and action plan for scorecard for business performance.",
-      "tool_type": "calculator",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
-        },
-        {
-          "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
-        }
-      ],
-      "formula_mode": "revenue_projection",
-      "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
-    },
-    {
-      "slug": "digital-product-launch",
-      "title": "Digital Product Launch Tool",
-      "target_query": "digital product launch",
-      "meta_description": "Standalone interactive calculator and action plan for digital product launch.",
-      "tool_type": "calculator",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
-        },
-        {
-          "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
-        }
-      ],
-      "formula_mode": "revenue_projection",
-      "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
-    },
-    {
-      "slug": "self-improvement-build-basics",
-      "title": "Self Improvement Build Basics Tool",
-      "target_query": "self improvement build basics",
-      "meta_description": "Standalone interactive calculator and action plan for self improvement build basics.",
-      "tool_type": "calculator",
-      "inputs": [
-        {
-          "id": "inp1",
-          "label": "Baseline Consistency (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 50,
-          "weight": 1.2
-        },
-        {
-          "id": "inp2",
-          "label": "Execution Friction / Drag (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 55,
-          "weight": 1.0
-        },
-        {
-          "id": "inp3",
-          "label": "Weekly Target Commitment (1-100)",
-          "min": 1,
-          "max": 100,
-          "default": 65,
-          "weight": 1.15
-        }
-      ],
-      "formula_mode": "time_saved",
-      "bridge_offer": "compression",
-      "action_steps": [
-        "Lock one non-negotiable daily block before checking feeds or messages.",
-        "Cut the single lowest-leverage task dragging your weekly execution score.",
-        "Review your numbers every Sunday and adjust targets based on real output."
-      ]
+      "protocols": {
+        "low": [
+          "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
+          "Switch from passive posting to daily direct-intent distribution targeting active problem queries.",
+          "Set a 7-day ship deadline to get your checkout link live in front of real traffic."
+        ],
+        "mid": [
+          "Raise your front-end offer anchor or bundle a quick-start template to lift average order value.",
+          "Replace manual posting with scheduled multi-channel distribution pointing to one checkout route.",
+          "Track conversion rate per 100 clicks and rewrite your headline around the #1 buyer objection."
+        ],
+        "high": [
+          "Introduce a high-margin $197+ implementation tier or flagship system alongside your entry offer.",
+          "Automate traffic harvesting across search utilities and evergreen distribution loops.",
+          "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'stand alone payroll software pricing', spot your primary bottleneck, and generate a calibrated action protocol."
     }
   ]
 }
