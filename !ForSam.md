@@ -6,4 +6,5 @@ What it does for me: [Open matrix_compiler.py in GitHub Chrome (edit icon) and r
 traffic_harvester.yml filed created in Gemini chat: [https://gemini.google.com/app/08d3d27b91c02dac]
 
 In Secrets, GSC_SITE_URL - [https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/]
-GSC_CREDENTIALS_JSON - [get it from blogger-pipeline-509101-048f2d8c738a.json file]
+
+GSC_CREDENTIALS_JSON - [get it from blogger-pipeline-509101-048f2d8c738a.json file], entire file just copy and paste the entire code
