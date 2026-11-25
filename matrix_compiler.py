@@ -3,8 +3,18 @@ import json
 import html
 from datetime import datetime
 
-BASE_URL = os.environ.get("GSC_SITE_URL", "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub").rstrip("/")
+DEFAULT_BASE_URL = "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub"
 TOOLS_DIR = "tools"
+
+
+def resolve_base_url():
+    raw = os.environ.get("GSC_SITE_URL", "").strip().rstrip("/")
+    if not raw or "FMMediaEnterprises-Hub" not in raw:
+        return DEFAULT_BASE_URL
+    return raw
+
+
+BASE_URL = resolve_base_url()
 
 OFFER_BRIDGES = {
     "compression": {
@@ -22,6 +32,14 @@ OFFER_BRIDGES = {
 }
 
 
+def utility_page_url(slug):
+    return f"{BASE_URL}/{TOOLS_DIR}/{slug}/index.html"
+
+
+def hub_page_url():
+    return f"{BASE_URL}/{TOOLS_DIR}/index.html"
+
+
 def render_utility_page(util, all_utils):
     slug = util["slug"]
     title = html.escape(util["title"])
@@ -29,7 +47,7 @@ def render_utility_page(util, all_utils):
     target_q = html.escape(util["target_query"])
     formula_mode = util.get("formula_mode", "readiness_score")
     bridge = OFFER_BRIDGES.get(util.get("bridge_offer", "compression"), OFFER_BRIDGES["compression"])
-    canonical = f"{BASE_URL}/{TOOLS_DIR}/{slug}/"
+    canonical = utility_page_url(slug)
 
     schema_json = json.dumps({
         "@context": "https://schema.org",
@@ -69,10 +87,9 @@ def render_utility_page(util, all_utils):
         </div>
         """
 
-    # Internal link cluster: link to 5 sibling utilities so authority compounds across the hub
     siblings = [u for u in all_utils if u["slug"] != slug][:5]
     sibling_links = "\n".join([
-        f'<li><a href="{BASE_URL}/{TOOLS_DIR}/{s["slug"]}/">{html.escape(s["title"])}</a></li>'
+        f'<li><a href="{utility_page_url(s["slug"])}">{html.escape(s["title"])}</a></li>'
         for s in siblings
     ])
 
@@ -174,7 +191,7 @@ def render_utility_page(util, all_utils):
 <body>
   <div class="container">
     <nav class="breadcrumb">
-      <a href="{BASE_URL}/{TOOLS_DIR}/">← All Operator Utilities</a> / <span>{target_q}</span>
+      <a href="{hub_page_url()}">← All Operator Utilities</a> / <span>{target_q}</span>
     </nav>
     <h1>{title}</h1>
     <p class="subtitle">{desc}</p>
@@ -259,7 +276,7 @@ def render_hub_page(utilities):
         title = html.escape(u["title"])
         desc = html.escape(u["meta_description"])
         cards += f"""
-        <a class="card" href="{BASE_URL}/{TOOLS_DIR}/{slug}/">
+        <a class="card" href="{utility_page_url(slug)}">
           <h3>{title}</h3>
           <p>{desc}</p>
           <span class="tag">Launch Utility →</span>
@@ -272,8 +289,8 @@ def render_hub_page(utilities):
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Operator Micro-Utilities & Calculators | FM Media Enterprises</title>
-  <meta name="description" content="Interactive calculators, readiness diagnostics, and workflow planners for solo digital product builders and high-agency operators.">
-  <link rel="canonical" href="{BASE_URL}/{TOOLS_DIR}/">
+  <meta name="description" content="Interactive calculators, readiness diagnostics, and workflow planners for self-improvement, mindset, finances, and solo product builders.">
+  <link rel="canonical" href="{hub_page_url()}">
   <style>
     :root {{ --bg: #0d1117; --surface: #161b22; --border: #30363d; --text: #e6edf3; --muted: #8b949e; --accent: #2f81f7; }}
     * {{ box-sizing: border-box; margin: 0; padding: 0; }}
@@ -292,7 +309,7 @@ def render_hub_page(utilities):
 <body>
   <div class="container">
     <h1>Operator Micro-Utilities</h1>
-    <p class="lead">Zero-fluff calculators and diagnostic scorecards built for solo creators and digital product operators.</p>
+    <p class="lead">Interactive calculators and diagnostic scorecards for self-improvement, mindset, finances, and high-agency execution.</p>
     <div class="grid">
       {cards}
     </div>
@@ -305,8 +322,8 @@ def write_sitemap_and_robots(utilities):
     today = datetime.utcnow().strftime("%Y-%m-%d")
     urls = [
         f"{BASE_URL}/",
-        f"{BASE_URL}/{TOOLS_DIR}/"
-    ] + [f"{BASE_URL}/{TOOLS_DIR}/{u['slug']}/" for u in utilities]
+        hub_page_url()
+    ] + [utility_page_url(u["slug"]) for u in utilities]
 
     url_entries = "\n".join([
         f"""  <url>
@@ -348,19 +365,21 @@ def main():
 
     os.makedirs(TOOLS_DIR, exist_ok=True)
 
-    # Write central hub page
     with open(os.path.join(TOOLS_DIR, "index.html"), "w", encoding="utf-8") as f:
         f.write(render_hub_page(utilities))
 
-    # Write each micro-utility page
+    print("\nGenerated live utility URLs:")
+    print(f"  Hub: {hub_page_url()}")
     for util in utilities:
         util_dir = os.path.join(TOOLS_DIR, util["slug"])
         os.makedirs(util_dir, exist_ok=True)
-        with open(os.path.join(util_dir, "index.html"), "w", encoding="utf-8") as f:
+        out_path = os.path.join(util_dir, "index.html")
+        with open(out_path, "w", encoding="utf-8") as f:
             f.write(render_utility_page(util, utilities))
+        print(f"  - {utility_page_url(util['slug'])}")
 
     write_sitemap_and_robots(utilities)
-    print(f"Compiled {len(utilities)} interactive micro-utilities, hub index, sitemap.xml, and robots.txt.")
+    print(f"\nCompiled {len(utilities)} interactive micro-utilities, hub index, sitemap.xml, and robots.txt.")
 
 
 if __name__ == "__main__":
