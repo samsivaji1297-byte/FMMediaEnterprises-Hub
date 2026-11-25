@@ -141,11 +141,51 @@ def harvest_gsc_telemetry():
         return []
 
 
+def _fallback_utilities_from_queries(raw_candidates):
+    """Builds interactive utility definitions deterministically if Groq is unreachable or 403."""
+    modes = ["readiness_score", "time_saved", "revenue_projection"]
+    bridges = ["compression", "operator"]
+    selected = []
+    seen_slugs = set()
+
+    for q in raw_candidates:
+        cleaned = "".join(ch if ch.isalnum() or ch == " " else " " for ch in str(q).lower()).strip()
+        words = [w for w in cleaned.split() if len(w) > 1]
+        if len(words) < 3:
+            continue
+        slug = "-".join(words[:6])[:55].strip("-")
+        if not slug or slug in seen_slugs:
+            continue
+        seen_slugs.add(slug)
+
+        idx = len(selected)
+        title = " ".join(w.capitalize() for w in words[:6]) + " Calculator"
+        selected.append({
+            "slug": slug,
+            "title": title,
+            "target_query": str(q)[:80],
+            "meta_description": f"Interactive browser calculator and diagnostic for {str(q)[:95]}.",
+            "tool_type": "calculator",
+            "inputs": [
+                {"id": "inp1", "label": "Current Execution Pace (1-100)", "min": 1, "max": 100, "default": 45, "weight": 1.2},
+                {"id": "inp2", "label": "Workflow Bottleneck Severity (1-100)", "min": 1, "max": 100, "default": 60, "weight": 1.0},
+                {"id": "inp3", "label": "Weekly Output Consistency (1-100)", "min": 1, "max": 100, "default": 50, "weight": 1.1}
+            ],
+            "formula_mode": modes[idx % len(modes)],
+            "bridge_offer": bridges[idx % len(bridges)]
+        })
+        if len(selected) >= 14:
+            break
+
+    return selected
+
+
 def filter_with_groq(raw_candidates):
-    """Uses GroqCloud to discard AI-Overview-compressible fluff and structure interactive tools."""
+    """Uses GroqCloud to filter fluff and structure interactive tools, with safe fallback."""
     api_key = os.environ.get("GROQ_API_KEY", "").strip()
     if not api_key:
-        raise ValueError("Missing GROQ_API_KEY secret.")
+        print("[Groq] Missing GROQ_API_KEY — using deterministic fallback filter.")
+        return _fallback_utilities_from_queries(raw_candidates)
 
     prompt = f"""You are a programmatic SEO architect. Analyze these raw search queries and commercial signals:
 {json.dumps(raw_candidates[:180], indent=2)}
@@ -166,49 +206,48 @@ Return ONLY a valid JSON object with a single key "utilities" containing an arra
 - "bridge_offer": Either "compression" (for digital product/building/monetization tools) or "operator" (for mindset/focus/execution tools)
 """
 
-    payload = json.dumps({
-        "model": "openai/gpt-oss-120b",
-        "messages": [
-            {"role": "system", "content": "Output strict valid JSON only. No markdown fences."},
-            {"role": "user", "content": prompt}
-        ],
-        "temperature": 0.2,
-        "response_format": {"type": "json_object"}
-    }).encode("utf-8")
+    headers = {
+        "Authorization": f"Bearer {api_key}",
+        "Content-Type": "application/json",
+        "User-Agent": "Mozilla/5.0 (compatible; FMMediaHarvester/1.0)"
+    }
 
-    req = urllib.request.Request(
-        "https://api.groq.com/openai/v1/chat/completions",
-        data=payload,
-        headers={
-            "Authorization": f"Bearer {api_key}",
-            "Content-Type": "application/json"
-        }
-    )
+    for model_name in ["openai/gpt-oss-120b", "llama-3.1-8b-instant"]:
+        payload = json.dumps({
+            "model": model_name,
+            "messages": [
+                {"role": "system", "content": "Output strict valid JSON only. No markdown fences."},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.2,
+            "response_format": {"type": "json_object"}
+        }).encode("utf-8")
 
-    try:
-        with urllib.request.urlopen(req, timeout=45) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            content = data["choices"][0]["message"]["content"]
-            parsed = json.loads(content)
-            return parsed.get("utilities", [])
-    except Exception as e:
-        print(f"[Groq] Primary model fallback to llama-3.1-8b-instant due to: {e}")
-        payload_fallback = json.loads(payload.decode("utf-8"))
-        payload_fallback["model"] = "llama-3.1-8b-instant"
-        req_fb = urllib.request.Request(
+        req = urllib.request.Request(
             "https://api.groq.com/openai/v1/chat/completions",
-            data=json.dumps(payload_fallback).encode("utf-8"),
-            headers={
-                "Authorization": f"Bearer {api_key}",
-                "Content-Type": "application/json"
-            }
+            data=payload,
+            headers=headers
         )
-        with urllib.request.urlopen(req_fb, timeout=45) as resp:
-            data = json.loads(resp.read().decode("utf-8"))
-            content = data["choices"][0]["message"]["content"]
-            parsed = json.loads(content)
-            return parsed.get("utilities", [])
+        try:
+            with urllib.request.urlopen(req, timeout=45) as resp:
+                data = json.loads(resp.read().decode("utf-8"))
+                content = data["choices"][0]["message"]["content"]
+                parsed = json.loads(content)
+                utilities = parsed.get("utilities", [])
+                if utilities:
+                    return utilities
+        except urllib.error.HTTPError as e:
+            err_body = ""
+            try:
+                err_body = e.read().decode("utf-8", errors="replace")[:300]
+            except Exception:
+                pass
+            print(f"[Groq] {model_name} failed ({e.code}): {err_body}")
+        except Exception as e:
+            print(f"[Groq] {model_name} failed: {e}")
 
+    print("[Groq] All model attempts failed — using deterministic fallback filter.")
+    return _fallback_utilities_from_queries(raw_candidates)
 
 def main():
     print("Starting multi-layer demand harvest...")
