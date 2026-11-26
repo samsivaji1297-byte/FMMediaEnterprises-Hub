@@ -1,32 +1,32 @@
 {
-  "updated_at": "2026-11-26T00:56:21.744448Z",
-  "raw_signal_count": 426,
+  "updated_at": "2026-11-26T10:38:44.630872Z",
+  "raw_signal_count": 430,
   "gsc_opportunities": [],
   "gsc_page_metrics": {},
   "utilities": [
     {
-      "slug": "mindset-discipline-diagnostic",
-      "title": "Mindset Discipline Diagnostic",
+      "slug": "masculinity-discipline-diagnostic",
+      "title": "Masculinity Discipline Diagnostic",
       "target_query": "masculine discipline",
-      "meta_description": "Assess your current discipline level and identify gaps to achieve mental sovereignty.",
+      "meta_description": "Assess your masculine discipline level and discover steps to strengthen mental sovereignty.",
       "archetype": "sovereignty_diagnostic",
-      "direct_answer": "Your discipline score is 62%, indicating moderate consistency but room for stronger habit formation.",
+      "direct_answer": "Your current masculine discipline score is moderate, indicating room for stronger self\u2011control and purpose\u2011driven actions.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "Write down three daily habits you want to solidify.",
-          "Set a 5\u2011minute timer for each habit each morning.",
-          "Track completion in a simple notebook."
+          "Identify three daily habits that undermine discipline.",
+          "Replace each with a 5\u2011minute focused ritual.",
+          "Track consistency for one week."
         ],
         "mid": [
-          "Create a weekly habit review ritual.",
-          "Introduce accountability by sharing goals with a peer.",
-          "Use a habit\u2011stacking app to automate reminders."
+          "Implement a weekly reflection journal on discipline wins.",
+          "Add a 15\u2011minute morning visualization of your ideal masculine self.",
+          "Introduce a accountability partner for weekly check\u2011ins."
         ],
         "high": [
-          "Design a 90\u2011day mastery plan with progressive difficulty.",
-          "Hire a mindset coach to refine discipline strategies.",
-          "Integrate biofeedback tools to monitor focus during habit execution."
+          "Enroll in the Mental Sovereignty Framework for deep mindset restructuring.",
+          "Integrate advanced breath\u2011control and emotional regulation drills.",
+          "Create a 90\u2011day mastery plan with quarterly reviews."
         ]
       },
       "formula_mode": "readiness_score",
@@ -61,28 +61,28 @@
       ]
     },
     {
-      "slug": "solo-revenue-optimizer",
-      "title": "Solo Revenue Optimizer",
-      "target_query": "how much can you make selling digital products",
-      "meta_description": "Project potential earnings from Gumroad digital product launches and optimize pricing for compression.",
+      "slug": "digital-revenue-calculator",
+      "title": "Digital Revenue Calculator",
+      "target_query": "gumroad revenue",
+      "meta_description": "Estimate monthly earnings from Gumroad digital product sales and discover scaling steps.",
       "archetype": "revenue_calculator",
-      "direct_answer": "A well\u2011priced $27 digital product can generate $2,700 in revenue with 100 sales after a focused launch.",
+      "direct_answer": "Selling 200 units at $27 each with Gumroad\u2019s 8.5% fee yields roughly $4,950 in monthly revenue.",
       "bridge_offer": "compression",
       "protocols": {
         "low": [
-          "Validate product idea with a 50\u2011person survey.",
-          "Set price at $27 and create a simple landing page.",
-          "Run a 7\u2011day email countdown to launch."
+          "Set a realistic sales target (e.g., 50 units/month).",
+          "Create a simple landing page with clear value proposition.",
+          "Run a low\u2011budget Facebook ad to test conversion."
         ],
         "mid": [
-          "Add a $197 upsell (Compression System) after purchase.",
-          "Implement a referral bonus for existing customers.",
-          "Run targeted Facebook ads with a $5\u2011daily budget."
+          "Optimize product pricing using A/B testing.",
+          "Build an email list of 500 engaged subscribers.",
+          "Implement upsell bundles to increase average order value."
         ],
         "high": [
-          "Create a membership tier for recurring revenue.",
-          "Partner with influencers for joint webinars.",
-          "Scale ads to $50\u2011daily and split\u2011test pricing tiers."
+          "Join the Compression System to master high\u2011ticket digital funnels.",
+          "Launch a multi\u2011channel launch sequence (email, ads, affiliates).",
+          "Scale to 5\u2011figure months with automated webinars and retargeting."
         ]
       },
       "formula_mode": "revenue_projection",
@@ -117,28 +117,28 @@
       ]
     },
     {
-      "slug": "personal-finance-runway-planner",
-      "title": "Personal Finance Runway Planner",
-      "target_query": "budget system for personal finance",
-      "meta_description": "Calculate how long your savings will last and plan the runway needed for financial sovereignty.",
+      "slug": "wealth-runway-planner",
+      "title": "Wealth Runway Planner",
+      "target_query": "personal finance runway calculator",
+      "meta_description": "Calculate how many months your current assets will sustain your lifestyle and plan for financial sovereignty.",
       "archetype": "financial_runway",
-      "direct_answer": "Based on your current expenses, your savings provide a 14\u2011month runway before depletion.",
+      "direct_answer": "Based on your inputs, your financial runway is approximately 8 months before cash flow depletion.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "List monthly income and essential expenses.",
+          "List all monthly expenses and income sources.",
           "Subtract expenses from income to find net cash flow.",
-          "Divide total savings by net cash flow to get months of runway."
+          "Divide total liquid assets by net cash flow to get months of runway."
         ],
         "mid": [
-          "Identify three non\u2011essential costs to cut.",
-          "Reallocate savings to an emergency fund with a 6\u2011month target.",
-          "Set up automatic transfers to a high\u2011yield account."
+          "Identify 2 non\u2011essential expenses to cut.",
+          "Create a 3\u2011month emergency buffer plan.",
+          "Set up automatic transfers to a high\u2011yield savings account."
         ],
         "high": [
-          "Create a diversified investment plan to generate passive income.",
-          "Hire a financial strategist to model multi\u2011year runway scenarios.",
-          "Implement tax\u2011efficient wealth\u2011building vehicles to extend runway indefinitely."
+          "Implement the Mental Sovereignty Framework to align spending with purpose.",
+          "Invest surplus cash in diversified income\u2011generating assets.",
+          "Review and adjust runway quarterly with advanced financial modeling."
         ]
       },
       "formula_mode": "wealth_ratio",
@@ -173,28 +173,28 @@
       ]
     },
     {
-      "slug": "focus-waste-audit",
-      "title": "Focus Waste Audit",
-      "target_query": "deep work flow",
-      "meta_description": "Audit your daily workflow to identify time\u2011wasting activities and boost deep\u2011work productivity for compression.",
+      "slug": "focus-audit",
+      "title": "Focus Execution Audit",
+      "target_query": "dopamine detox reddit",
+      "meta_description": "Audit your daily dopamine triggers and design a detox plan to boost productivity and mental sovereignty.",
       "archetype": "execution_audit",
-      "direct_answer": "You lose an average of 2.5 hours per day to shallow work, leaving only 1.5 hours for deep work.",
+      "direct_answer": "Your current dopamine load is high, with frequent social media checks disrupting deep work cycles.",
       "bridge_offer": "compression",
       "protocols": {
         "low": [
-          "Track all activities for one workday using a timer.",
-          "Categorize tasks as deep or shallow.",
-          "Eliminate at least two shallow tasks."
+          "Track all phone notifications for 3 days.",
+          "Set a daily 1\u2011hour \u201cno\u2011screen\u201d block.",
+          "Replace scrolling with a brief walk or stretch."
         ],
         "mid": [
-          "Schedule two 90\u2011minute deep\u2011work blocks each day.",
-          "Use website blockers during deep\u2011work periods.",
-          "Review daily logs to refine focus periods."
+          "Implement a 30\u2011minute Pomodoro schedule for focused tasks.",
+          "Use a website blocker to limit distracting sites.",
+          "Schedule a weekly dopamine\u2011reset day with no digital devices."
         ],
         "high": [
-          "Implement a weekly deep\u2011work sprint planning session.",
-          "Hire a virtual assistant to handle routine admin tasks.",
-          "Integrate AI\u2011driven task prioritization software."
+          "Enroll in the Compression System for advanced focus engineering.",
+          "Adopt a structured deep\u2011work routine with weekly reviews.",
+          "Scale detox practices into a personal performance coaching program."
         ]
       },
       "formula_mode": "time_saved",
@@ -229,28 +229,28 @@
       ]
     },
     {
-      "slug": "masculinity-identity-scorecard",
-      "title": "Masculinity Identity Scorecard",
-      "target_query": "how does gumroad digital product look",
-      "meta_description": "Score your personal masculinity narrative and see how it aligns with modern self\u2011sovereignty.",
+      "slug": "self-recognition-scorecard",
+      "title": "Self\u2011Recognition Scorecard",
+      "target_query": "self recognition test",
+      "meta_description": "Quickly gauge your self\u2011recognition ability and learn how to boost personal sovereignty.",
       "archetype": "sovereignty_diagnostic",
-      "direct_answer": "Your current masculinity narrative aligns 48% with contemporary empowered masculinity frameworks.",
+      "direct_answer": "Your self\u2011recognition rating is 62%, showing decent awareness but gaps in emotional labeling.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "List five traits you associate with positive masculinity.",
-          "Rate each trait on a 1\u201110 personal alignment scale.",
-          "Identify the two lowest\u2011scoring traits."
+          "Complete a daily 3\u2011minute body\u2011scan meditation.",
+          "Write down one emotion you felt each evening.",
+          "Review notes weekly to spot patterns."
         ],
         "mid": [
-          "Read a curated article on modern masculinity each week.",
-          "Practice one new trait in daily interactions.",
-          "Journal reflections on changes in perception."
+          "Practice the \u201cName\u2011It\u2011To\u2011Tame\u2011It\u201d technique for intense feelings.",
+          "Use a mood\u2011tracking app to log triggers.",
+          "Schedule a bi\u2011weekly deep\u2011dive session with a mindset coach."
         ],
         "high": [
-          "Enroll in a 6\u2011week masculinity mastery program.",
-          "Partner with a mentor to model advanced traits.",
-          "Create a personal manifesto that integrates learned principles."
+          "Join the Mental Sovereignty Framework for systematic self\u2011recognition training.",
+          "Implement advanced neuro\u2011feedback exercises.",
+          "Design a personal sovereignty roadmap with quarterly milestones."
         ]
       },
       "formula_mode": "readiness_score",
@@ -285,28 +285,28 @@
       ]
     },
     {
-      "slug": "gumroad-price-optimizer",
-      "title": "Gumroad Price Optimizer",
-      "target_query": "gumroad sales",
-      "meta_description": "Analyze your Gumroad product pricing to maximize conversions and revenue for the Compression offer.",
+      "slug": "product-price-analyzer",
+      "title": "Product Price Analyzer",
+      "target_query": "deep work price",
+      "meta_description": "Calculate optimal pricing for knowledge products like Deep Work and maximize revenue on Gumroad.",
       "archetype": "revenue_calculator",
-      "direct_answer": "A price point of $27 yields the highest conversion rate (3.8%) for low\u2011ticket digital products on Gumroad.",
+      "direct_answer": "A price point of $27 balances perceived value and conversion for a self\u2011improvement ebook.",
       "bridge_offer": "compression",
       "protocols": {
         "low": [
-          "Set product price at $27 and add a clear value proposition.",
-          "Include a 30\u2011day money\u2011back guarantee.",
-          "Collect email leads via a simple opt\u2011in form."
+          "Research competitor pricing for similar productivity guides.",
+          "Set an introductory price of $27.",
+          "Collect feedback on perceived value after first sales."
         ],
         "mid": [
-          "Test $22 and $32 price points using A/B split testing.",
-          "Add a limited\u2011time bonus PDF to increase perceived value.",
-          "Track conversion metrics in Gumroad analytics."
+          "Introduce a premium bundle with worksheets for $47.",
+          "Run a limited\u2011time discount to test price elasticity.",
+          "Analyze conversion rates and adjust pricing tiers."
         ],
         "high": [
-          "Introduce tiered pricing: $27 basic, $47 premium with extra modules.",
-          "Leverage scarcity by limiting the number of bonus slots.",
-          "Automate post\u2011purchase upsell funnels to the Compression System."
+          "Apply the Compression System to create a tiered membership model.",
+          "Integrate recurring subscriptions for ongoing content.",
+          "Automate upsell sequences to increase lifetime customer value."
         ]
       },
       "formula_mode": "revenue_projection",
@@ -341,28 +341,28 @@
       ]
     },
     {
-      "slug": "wealth-leverage-calculator",
-      "title": "Wealth Leverage Calculator",
-      "target_query": "wealth building techniques through investing",
-      "meta_description": "Estimate the compound growth of your investments and the leverage needed for wealth sovereignty.",
+      "slug": "wealth-builder-analyzer",
+      "title": "Wealth Builder Analyzer",
+      "target_query": "wealth building techniques pdf",
+      "meta_description": "Analyze which wealth\u2011building techniques match your profile and prioritize actions for sovereign financial growth.",
       "archetype": "financial_runway",
-      "direct_answer": "Investing $5,000 monthly at a 7% annual return yields approximately $1.2\u202fM in 20 years.",
+      "direct_answer": "Your profile aligns best with real\u2011estate cash\u2011flow and dividend investing as primary wealth\u2011building methods.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "Choose a low\u2011cost index fund.",
-          "Set up automatic $500 monthly contributions.",
-          "Monitor portfolio quarterly."
+          "Read one introductory article on each recommended technique.",
+          "Allocate $100 to a low\u2011cost index fund to test dividend investing.",
+          "Research local rental markets for potential cash\u2011flow properties."
         ],
         "mid": [
-          "Add a diversified mix of REITs and dividend stocks.",
-          "Increase contributions by 10% annually.",
-          "Rebalance portfolio semi\u2011annually."
+          "Create a simple 5\u2011year wealth projection spreadsheet.",
+          "Set up automatic monthly contributions to chosen investments.",
+          "Join a community of investors for mentorship."
         ],
         "high": [
-          "Incorporate leveraged ETFs with risk controls.",
-          "Engage a wealth advisor for tax\u2011loss harvesting.",
-          "Allocate a portion to alternative assets like private equity."
+          "Enroll in the Mental Sovereignty Framework for strategic wealth planning.",
+          "Hire a financial architect to design a multi\u2011asset portfolio.",
+          "Implement tax\u2011efficient structures and scale investments annually."
         ]
       },
       "formula_mode": "wealth_ratio",
@@ -397,28 +397,28 @@
       ]
     },
     {
-      "slug": "dopamine-control-planner",
-      "title": "Dopamine Control Planner",
-      "target_query": "dopamine detox full book pdf",
-      "meta_description": "Plan a structured dopamine detox to reduce distraction and improve execution efficiency for compression.",
+      "slug": "workflow-efficiency-audit",
+      "title": "Workflow Efficiency Audit",
+      "target_query": "digital product launch system",
+      "meta_description": "Evaluate bottlenecks in your digital product launch workflow and get steps to streamline for higher revenue.",
       "archetype": "execution_audit",
-      "direct_answer": "A 14\u2011day dopamine detox, limiting high\u2011stimulus media, can increase focus by up to 40%.",
+      "direct_answer": "Your launch process loses ~30% efficiency due to manual asset handling and lack of automation.",
       "bridge_offer": "compression",
       "protocols": {
         "low": [
-          "Identify top three dopamine triggers (e.g., social media).",
-          "Set a daily limit of 30 minutes for each trigger.",
-          "Replace each trigger with a 10\u2011minute mindfulness break."
+          "Map each step of your current launch process.",
+          "Identify one repetitive task to automate with Zapier.",
+          "Create a checklist to ensure all steps are completed."
         ],
         "mid": [
-          "Create a 7\u2011day schedule with no\u2011screen evenings after 7\u202fPM.",
-          "Introduce a morning cold\u2011shower routine to reset reward pathways.",
-          "Track mood and productivity in a simple spreadsheet."
+          "Integrate a project management tool (e.g., Notion) for launch timelines.",
+          "Set up automated email sequences for pre\u2011launch hype.",
+          "Delegate graphic design to a freelance specialist."
         ],
         "high": [
-          "Extend detox to 21 days with a strict no\u2011entertainment policy.",
-          "Engage a neuro\u2011coach for personalized stimulus management.",
-          "Use a wearable device to monitor dopamine\u2011related biomarkers."
+          "Implement the Compression System\u2019s end\u2011to\u2011end launch framework.",
+          "Build a repeatable SOP library for all product types.",
+          "Scale launches to multiple products per quarter with team automation."
         ]
       },
       "formula_mode": "time_saved",
@@ -453,28 +453,28 @@
       ]
     },
     {
-      "slug": "emotional-control-analyzer",
-      "title": "Emotional Control Analyzer",
-      "target_query": "dopamine detox how long",
-      "meta_description": "Measure your dopamine regulation and get a plan to boost emotional control for sovereignty.",
+      "slug": "mindset-shift-diagnostic",
+      "title": "Mindset Shift Diagnostic",
+      "target_query": "mindset shift from employee to entrepreneur",
+      "meta_description": "Evaluate your readiness to transition from employee mindset to entrepreneurial sovereignty.",
       "archetype": "sovereignty_diagnostic",
-      "direct_answer": "A 7\u2011day structured dopamine detox will noticeably improve focus and emotional stability.",
+      "direct_answer": "You exhibit a 48% entrepreneurial mindset, indicating foundational readiness but significant limiting beliefs remain.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "Eliminate social media after 8\u202fPM for three days.",
-          "Replace screen time with a 10\u2011minute walk.",
-          "Log cravings and mood shifts daily."
+          "List three limiting beliefs about entrepreneurship.",
+          "Replace each with an empowering affirmation.",
+          "Read the affirmations each morning for 7 days."
         ],
         "mid": [
-          "Add a 30\u2011minute meditation session each morning.",
-          "Introduce a no\u2011snack window of 12\u202fhours.",
-          "Use a simple app to track dopamine\u2011triggering activities."
+          "Create a simple side\u2011project prototype.",
+          "Allocate 2 hours weekly to develop it.",
+          "Seek feedback from a peer entrepreneur."
         ],
         "high": [
-          "Implement a 21\u2011day full dopamine reset with diet changes.",
-          "Work with a neuro\u2011coach to fine\u2011tune stimulus response.",
-          "Integrate neurofeedback sessions to monitor progress."
+          "Enroll in the Mental Sovereignty Framework to rewire core beliefs.",
+          "Participate in a 30\u2011day entrepreneurial immersion challenge.",
+          "Launch a minimum viable product with guided mentorship."
         ]
       },
       "formula_mode": "readiness_score",
@@ -509,10 +509,10 @@
       ]
     },
     {
-      "slug": "gumroad-store-best-practices",
-      "title": "Gumroad Store Best Practices: Revenue Calculator",
-      "target_query": "gumroad store best practices",
-      "meta_description": "Interactive revenue calculator and dynamic action protocol for gumroad store best practices.",
+      "slug": "gumroad-sign-in-as-customer",
+      "title": "Gumroad Sign In As Customer: Revenue Calculator",
+      "target_query": "gumroad sign in as customer",
+      "meta_description": "Interactive revenue calculator and dynamic action protocol for gumroad sign in as customer.",
       "archetype": "revenue_calculator",
       "formula_mode": "revenue_projection",
       "bridge_offer": "compression",
@@ -562,34 +562,16 @@
           "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
         ]
       },
-      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'gumroad store best practices', spot your primary bottleneck, and generate a calibrated action protocol."
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'gumroad sign in as customer', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
-      "slug": "wealth-building-scorecard",
-      "title": "Wealth Building Scorecard",
-      "target_query": "wealth building system",
-      "meta_description": "Score your current wealth\u2011building system and discover gaps to achieve financial sovereignty.",
+      "slug": "wealth-creation-calculator-india",
+      "title": "Wealth Creation Calculator India: Runway & Margin Analyzer",
+      "target_query": "wealth creation calculator india",
+      "meta_description": "Interactive runway & margin analyzer and dynamic action protocol for wealth creation calculator india.",
       "archetype": "financial_runway",
-      "direct_answer": "Your wealth\u2011building score is 55%, indicating solid basics but lacking diversified income streams.",
-      "bridge_offer": "sovereignty",
-      "protocols": {
-        "low": [
-          "List all current income sources.",
-          "Assign a stability rating (1\u20115) to each.",
-          "Identify one low\u2011rating source to improve."
-        ],
-        "mid": [
-          "Add a side\u2011hustle that leverages existing skills.",
-          "Allocate 15% of monthly income to a diversified investment portfolio.",
-          "Set quarterly review dates to assess progress."
-        ],
-        "high": [
-          "Create a passive\u2011income engine using digital products.",
-          "Partner with a financial architect to design multi\u2011asset strategies.",
-          "Implement automated wealth\u2011tracking dashboards."
-        ]
-      },
       "formula_mode": "wealth_ratio",
+      "bridge_offer": "sovereignty",
       "inputs": [
         {
           "id": "inp1",
@@ -618,31 +600,49 @@
           "unit": "%",
           "weight": 1.0
         }
-      ]
+      ],
+      "protocols": {
+        "low": [
+          "Audit recurring subscriptions and low-ROI spending within 24 hours to cut monthly burn by 15%.",
+          "Build an immediate 3-month liquid floor before taking on volatile risks or lifestyle upgrades.",
+          "Ring-fence a fixed percentage of every incoming dollar into an untouched reserve account."
+        ],
+        "mid": [
+          "Push your liquid buffer past 6 months of core expenses to eliminate defensive decision-making.",
+          "Separate operating cash from compounding capital so surplus automatically builds asymmetric upside.",
+          "Cap fixed lifestyle overhead while scaling independent income streams."
+        ],
+        "high": [
+          "Your runway gives you high strategic leverage\u2014deploy excess capital into cash-flowing assets.",
+          "Shift focus from defensive budgeting to asymmetric skill and ownership bets.",
+          "Review asset allocation quarterly to prevent idle cash drag while preserving your core floor."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'wealth creation calculator india', spot your primary bottleneck, and generate a calibrated action protocol."
     },
     {
-      "slug": "deep-work-timer-tool",
-      "title": "Deep Work Timer Tool",
-      "target_query": "deep work timer",
-      "meta_description": "A simple timer to structure uninterrupted deep\u2011work sessions and measure productivity gains for compression.",
+      "slug": "time-blocking-planner",
+      "title": "Time\u2011Blocking Planner",
+      "target_query": "deep work time blocking",
+      "meta_description": "Plan daily time\u2011blocking for deep work sessions to eliminate shallow work and increase output.",
       "archetype": "execution_audit",
-      "direct_answer": "Setting a 90\u2011minute timer with 15\u2011minute breaks maximizes deep\u2011work output without burnout.",
+      "direct_answer": "Scheduling two 90\u2011minute deep\u2011work blocks each morning can boost focused output by up to 40%.",
       "bridge_offer": "compression",
       "protocols": {
         "low": [
-          "Start a 90\u2011minute timer and work on a single task.",
-          "Take a 15\u2011minute break to stretch and hydrate.",
-          "Repeat for two cycles daily."
+          "Identify your top three priority tasks for the day.",
+          "Reserve two 90\u2011minute slots in the morning calendar.",
+          "Turn off all notifications during those blocks."
         ],
         "mid": [
-          "Integrate the timer with a task\u2011management app.",
-          "Log completed work after each session.",
-          "Adjust session length based on energy levels."
+          "Batch similar shallow tasks into a single 30\u2011minute slot.",
+          "Use a timer (e.g., Pomodoro) to enforce focus intervals.",
+          "Review daily output and adjust block lengths weekly."
         ],
         "high": [
-          "Combine timer with Pomodoro\u2011style analytics for trend insights.",
-          "Automate break activities (e.g., guided meditation).",
-          "Scale to multiple concurrent deep\u2011work teams using shared calendars."
+          "Adopt the Compression System\u2019s advanced scheduling matrix.",
+          "Integrate AI\u2011driven task prioritization tools.",
+          "Scale the system to manage multiple projects with synchronized blocks."
         ]
       },
       "formula_mode": "time_saved",

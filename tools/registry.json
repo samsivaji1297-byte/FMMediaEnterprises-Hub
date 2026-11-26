@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-26T00:56:21.793990Z",
-  "count": 12,
+  "updated_at": "2026-11-26T10:38:44.685126Z",
+  "count": 15,
   "utilities": [
     {
       "slug": "mindset-discipline-diagnostic",
@@ -685,6 +685,177 @@
         }
       ],
       "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "masculinity-discipline-diagnostic",
+      "title": "Masculinity Discipline Diagnostic",
+      "target_query": "masculine discipline",
+      "meta_description": "Assess your masculine discipline level and discover steps to strengthen mental sovereignty.",
+      "archetype": "sovereignty_diagnostic",
+      "direct_answer": "Your current masculine discipline score is moderate, indicating room for stronger self\u2011control and purpose\u2011driven actions.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "Identify three daily habits that undermine discipline.",
+          "Replace each with a 5\u2011minute focused ritual.",
+          "Track consistency for one week."
+        ],
+        "mid": [
+          "Implement a weekly reflection journal on discipline wins.",
+          "Add a 15\u2011minute morning visualization of your ideal masculine self.",
+          "Introduce a accountability partner for weekly check\u2011ins."
+        ],
+        "high": [
+          "Enroll in the Mental Sovereignty Framework for deep mindset restructuring.",
+          "Integrate advanced breath\u2011control and emotional regulation drills.",
+          "Create a 90\u2011day mastery plan with quarterly reviews."
+        ]
+      },
+      "formula_mode": "readiness_score",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "created_at": "2026-11-26T10:38:44.685073Z"
+    },
+    {
+      "slug": "digital-revenue-calculator",
+      "title": "Digital Revenue Calculator",
+      "target_query": "gumroad revenue",
+      "meta_description": "Estimate monthly earnings from Gumroad digital product sales and discover scaling steps.",
+      "archetype": "revenue_calculator",
+      "direct_answer": "Selling 200 units at $27 each with Gumroad\u2019s 8.5% fee yields roughly $4,950 in monthly revenue.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Set a realistic sales target (e.g., 50 units/month).",
+          "Create a simple landing page with clear value proposition.",
+          "Run a low\u2011budget Facebook ad to test conversion."
+        ],
+        "mid": [
+          "Optimize product pricing using A/B testing.",
+          "Build an email list of 500 engaged subscribers.",
+          "Implement upsell bundles to increase average order value."
+        ],
+        "high": [
+          "Join the Compression System to master high\u2011ticket digital funnels.",
+          "Launch a multi\u2011channel launch sequence (email, ads, affiliates).",
+          "Scale to 5\u2011figure months with automated webinars and retargeting."
+        ]
+      },
+      "formula_mode": "revenue_projection",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T10:38:44.685073Z"
+    },
+    {
+      "slug": "wealth-runway-planner",
+      "title": "Wealth Runway Planner",
+      "target_query": "personal finance runway calculator",
+      "meta_description": "Calculate how many months your current assets will sustain your lifestyle and plan for financial sovereignty.",
+      "archetype": "financial_runway",
+      "direct_answer": "Based on your inputs, your financial runway is approximately 8 months before cash flow depletion.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "List all monthly expenses and income sources.",
+          "Subtract expenses from income to find net cash flow.",
+          "Divide total liquid assets by net cash flow to get months of runway."
+        ],
+        "mid": [
+          "Identify 2 non\u2011essential expenses to cut.",
+          "Create a 3\u2011month emergency buffer plan.",
+          "Set up automatic transfers to a high\u2011yield savings account."
+        ],
+        "high": [
+          "Implement the Mental Sovereignty Framework to align spending with purpose.",
+          "Invest surplus cash in diversified income\u2011generating assets.",
+          "Review and adjust runway quarterly with advanced financial modeling."
+        ]
+      },
+      "formula_mode": "wealth_ratio",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T10:38:44.685073Z"
     }
   ]
 }
