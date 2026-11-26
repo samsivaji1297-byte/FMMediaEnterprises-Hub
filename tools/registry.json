@@ -1,0 +1,690 @@
+{
+  "updated_at": "2026-11-26T00:56:21.793990Z",
+  "count": 12,
+  "utilities": [
+    {
+      "slug": "mindset-discipline-diagnostic",
+      "title": "Mindset Discipline Diagnostic",
+      "target_query": "masculine discipline",
+      "meta_description": "Assess your current discipline level and identify gaps to achieve mental sovereignty.",
+      "archetype": "sovereignty_diagnostic",
+      "direct_answer": "Your discipline score is 62%, indicating moderate consistency but room for stronger habit formation.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "Write down three daily habits you want to solidify.",
+          "Set a 5\u2011minute timer for each habit each morning.",
+          "Track completion in a simple notebook."
+        ],
+        "mid": [
+          "Create a weekly habit review ritual.",
+          "Introduce accountability by sharing goals with a peer.",
+          "Use a habit\u2011stacking app to automate reminders."
+        ],
+        "high": [
+          "Design a 90\u2011day mastery plan with progressive difficulty.",
+          "Hire a mindset coach to refine discipline strategies.",
+          "Integrate biofeedback tools to monitor focus during habit execution."
+        ]
+      },
+      "formula_mode": "readiness_score",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "solo-revenue-optimizer",
+      "title": "Solo Revenue Optimizer",
+      "target_query": "how much can you make selling digital products",
+      "meta_description": "Project potential earnings from Gumroad digital product launches and optimize pricing for compression.",
+      "archetype": "revenue_calculator",
+      "direct_answer": "A well\u2011priced $27 digital product can generate $2,700 in revenue with 100 sales after a focused launch.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Validate product idea with a 50\u2011person survey.",
+          "Set price at $27 and create a simple landing page.",
+          "Run a 7\u2011day email countdown to launch."
+        ],
+        "mid": [
+          "Add a $197 upsell (Compression System) after purchase.",
+          "Implement a referral bonus for existing customers.",
+          "Run targeted Facebook ads with a $5\u2011daily budget."
+        ],
+        "high": [
+          "Create a membership tier for recurring revenue.",
+          "Partner with influencers for joint webinars.",
+          "Scale ads to $50\u2011daily and split\u2011test pricing tiers."
+        ]
+      },
+      "formula_mode": "revenue_projection",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "personal-finance-runway-planner",
+      "title": "Personal Finance Runway Planner",
+      "target_query": "budget system for personal finance",
+      "meta_description": "Calculate how long your savings will last and plan the runway needed for financial sovereignty.",
+      "archetype": "financial_runway",
+      "direct_answer": "Based on your current expenses, your savings provide a 14\u2011month runway before depletion.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "List monthly income and essential expenses.",
+          "Subtract expenses from income to find net cash flow.",
+          "Divide total savings by net cash flow to get months of runway."
+        ],
+        "mid": [
+          "Identify three non\u2011essential costs to cut.",
+          "Reallocate savings to an emergency fund with a 6\u2011month target.",
+          "Set up automatic transfers to a high\u2011yield account."
+        ],
+        "high": [
+          "Create a diversified investment plan to generate passive income.",
+          "Hire a financial strategist to model multi\u2011year runway scenarios.",
+          "Implement tax\u2011efficient wealth\u2011building vehicles to extend runway indefinitely."
+        ]
+      },
+      "formula_mode": "wealth_ratio",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "focus-waste-audit",
+      "title": "Focus Waste Audit",
+      "target_query": "deep work flow",
+      "meta_description": "Audit your daily workflow to identify time\u2011wasting activities and boost deep\u2011work productivity for compression.",
+      "archetype": "execution_audit",
+      "direct_answer": "You lose an average of 2.5 hours per day to shallow work, leaving only 1.5 hours for deep work.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Track all activities for one workday using a timer.",
+          "Categorize tasks as deep or shallow.",
+          "Eliminate at least two shallow tasks."
+        ],
+        "mid": [
+          "Schedule two 90\u2011minute deep\u2011work blocks each day.",
+          "Use website blockers during deep\u2011work periods.",
+          "Review daily logs to refine focus periods."
+        ],
+        "high": [
+          "Implement a weekly deep\u2011work sprint planning session.",
+          "Hire a virtual assistant to handle routine admin tasks.",
+          "Integrate AI\u2011driven task prioritization software."
+        ]
+      },
+      "formula_mode": "time_saved",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Weekly Hours Lost to Low-Leverage Tasks",
+          "min": 1,
+          "max": 40,
+          "default": 14,
+          "unit": "hrs",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Daily Context Switches / Distractions",
+          "min": 1,
+          "max": 30,
+          "default": 10,
+          "unit": "x",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Deep Work Blocks Completed / Week",
+          "min": 0,
+          "max": 14,
+          "default": 4,
+          "unit": "blocks",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "masculinity-identity-scorecard",
+      "title": "Masculinity Identity Scorecard",
+      "target_query": "how does gumroad digital product look",
+      "meta_description": "Score your personal masculinity narrative and see how it aligns with modern self\u2011sovereignty.",
+      "archetype": "sovereignty_diagnostic",
+      "direct_answer": "Your current masculinity narrative aligns 48% with contemporary empowered masculinity frameworks.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "List five traits you associate with positive masculinity.",
+          "Rate each trait on a 1\u201110 personal alignment scale.",
+          "Identify the two lowest\u2011scoring traits."
+        ],
+        "mid": [
+          "Read a curated article on modern masculinity each week.",
+          "Practice one new trait in daily interactions.",
+          "Journal reflections on changes in perception."
+        ],
+        "high": [
+          "Enroll in a 6\u2011week masculinity mastery program.",
+          "Partner with a mentor to model advanced traits.",
+          "Create a personal manifesto that integrates learned principles."
+        ]
+      },
+      "formula_mode": "readiness_score",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "gumroad-price-optimizer",
+      "title": "Gumroad Price Optimizer",
+      "target_query": "gumroad sales",
+      "meta_description": "Analyze your Gumroad product pricing to maximize conversions and revenue for the Compression offer.",
+      "archetype": "revenue_calculator",
+      "direct_answer": "A price point of $27 yields the highest conversion rate (3.8%) for low\u2011ticket digital products on Gumroad.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Set product price at $27 and add a clear value proposition.",
+          "Include a 30\u2011day money\u2011back guarantee.",
+          "Collect email leads via a simple opt\u2011in form."
+        ],
+        "mid": [
+          "Test $22 and $32 price points using A/B split testing.",
+          "Add a limited\u2011time bonus PDF to increase perceived value.",
+          "Track conversion metrics in Gumroad analytics."
+        ],
+        "high": [
+          "Introduce tiered pricing: $27 basic, $47 premium with extra modules.",
+          "Leverage scarcity by limiting the number of bonus slots.",
+          "Automate post\u2011purchase upsell funnels to the Compression System."
+        ]
+      },
+      "formula_mode": "revenue_projection",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "wealth-leverage-calculator",
+      "title": "Wealth Leverage Calculator",
+      "target_query": "wealth building techniques through investing",
+      "meta_description": "Estimate the compound growth of your investments and the leverage needed for wealth sovereignty.",
+      "archetype": "financial_runway",
+      "direct_answer": "Investing $5,000 monthly at a 7% annual return yields approximately $1.2\u202fM in 20 years.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "Choose a low\u2011cost index fund.",
+          "Set up automatic $500 monthly contributions.",
+          "Monitor portfolio quarterly."
+        ],
+        "mid": [
+          "Add a diversified mix of REITs and dividend stocks.",
+          "Increase contributions by 10% annually.",
+          "Rebalance portfolio semi\u2011annually."
+        ],
+        "high": [
+          "Incorporate leveraged ETFs with risk controls.",
+          "Engage a wealth advisor for tax\u2011loss harvesting.",
+          "Allocate a portion to alternative assets like private equity."
+        ]
+      },
+      "formula_mode": "wealth_ratio",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "dopamine-control-planner",
+      "title": "Dopamine Control Planner",
+      "target_query": "dopamine detox full book pdf",
+      "meta_description": "Plan a structured dopamine detox to reduce distraction and improve execution efficiency for compression.",
+      "archetype": "execution_audit",
+      "direct_answer": "A 14\u2011day dopamine detox, limiting high\u2011stimulus media, can increase focus by up to 40%.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Identify top three dopamine triggers (e.g., social media).",
+          "Set a daily limit of 30 minutes for each trigger.",
+          "Replace each trigger with a 10\u2011minute mindfulness break."
+        ],
+        "mid": [
+          "Create a 7\u2011day schedule with no\u2011screen evenings after 7\u202fPM.",
+          "Introduce a morning cold\u2011shower routine to reset reward pathways.",
+          "Track mood and productivity in a simple spreadsheet."
+        ],
+        "high": [
+          "Extend detox to 21 days with a strict no\u2011entertainment policy.",
+          "Engage a neuro\u2011coach for personalized stimulus management.",
+          "Use a wearable device to monitor dopamine\u2011related biomarkers."
+        ]
+      },
+      "formula_mode": "time_saved",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Weekly Hours Lost to Low-Leverage Tasks",
+          "min": 1,
+          "max": 40,
+          "default": 14,
+          "unit": "hrs",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Daily Context Switches / Distractions",
+          "min": 1,
+          "max": 30,
+          "default": 10,
+          "unit": "x",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Deep Work Blocks Completed / Week",
+          "min": 0,
+          "max": 14,
+          "default": 4,
+          "unit": "blocks",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "emotional-control-analyzer",
+      "title": "Emotional Control Analyzer",
+      "target_query": "dopamine detox how long",
+      "meta_description": "Measure your dopamine regulation and get a plan to boost emotional control for sovereignty.",
+      "archetype": "sovereignty_diagnostic",
+      "direct_answer": "A 7\u2011day structured dopamine detox will noticeably improve focus and emotional stability.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "Eliminate social media after 8\u202fPM for three days.",
+          "Replace screen time with a 10\u2011minute walk.",
+          "Log cravings and mood shifts daily."
+        ],
+        "mid": [
+          "Add a 30\u2011minute meditation session each morning.",
+          "Introduce a no\u2011snack window of 12\u202fhours.",
+          "Use a simple app to track dopamine\u2011triggering activities."
+        ],
+        "high": [
+          "Implement a 21\u2011day full dopamine reset with diet changes.",
+          "Work with a neuro\u2011coach to fine\u2011tune stimulus response.",
+          "Integrate neurofeedback sessions to monitor progress."
+        ]
+      },
+      "formula_mode": "readiness_score",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "gumroad-store-best-practices",
+      "title": "Gumroad Store Best Practices: Revenue Calculator",
+      "target_query": "gumroad store best practices",
+      "meta_description": "Interactive revenue calculator and dynamic action protocol for gumroad store best practices.",
+      "archetype": "revenue_calculator",
+      "formula_mode": "revenue_projection",
+      "bridge_offer": "compression",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "protocols": {
+        "low": [
+          "Validate buyer demand first: list one clear outcome-driven offer before building extra modules.",
+          "Switch from passive posting to daily direct-intent distribution targeting active problem queries.",
+          "Set a 7-day ship deadline to get your checkout link live in front of real traffic."
+        ],
+        "mid": [
+          "Raise your front-end offer anchor or bundle a quick-start template to lift average order value.",
+          "Replace manual posting with scheduled multi-channel distribution pointing to one checkout route.",
+          "Track conversion rate per 100 clicks and rewrite your headline around the #1 buyer objection."
+        ],
+        "high": [
+          "Introduce a high-margin $197+ implementation tier or flagship system alongside your entry offer.",
+          "Automate traffic harvesting across search utilities and evergreen distribution loops.",
+          "Reinvest surplus cashflow into scalable acquisition assets while keeping overhead near zero."
+        ]
+      },
+      "direct_answer": "Use this interactive diagnostic to benchmark your current baseline for 'gumroad store best practices', spot your primary bottleneck, and generate a calibrated action protocol.",
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "wealth-building-scorecard",
+      "title": "Wealth Building Scorecard",
+      "target_query": "wealth building system",
+      "meta_description": "Score your current wealth\u2011building system and discover gaps to achieve financial sovereignty.",
+      "archetype": "financial_runway",
+      "direct_answer": "Your wealth\u2011building score is 55%, indicating solid basics but lacking diversified income streams.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "List all current income sources.",
+          "Assign a stability rating (1\u20115) to each.",
+          "Identify one low\u2011rating source to improve."
+        ],
+        "mid": [
+          "Add a side\u2011hustle that leverages existing skills.",
+          "Allocate 15% of monthly income to a diversified investment portfolio.",
+          "Set quarterly review dates to assess progress."
+        ],
+        "high": [
+          "Create a passive\u2011income engine using digital products.",
+          "Partner with a financial architect to design multi\u2011asset strategies.",
+          "Implement automated wealth\u2011tracking dashboards."
+        ]
+      },
+      "formula_mode": "wealth_ratio",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    },
+    {
+      "slug": "deep-work-timer-tool",
+      "title": "Deep Work Timer Tool",
+      "target_query": "deep work timer",
+      "meta_description": "A simple timer to structure uninterrupted deep\u2011work sessions and measure productivity gains for compression.",
+      "archetype": "execution_audit",
+      "direct_answer": "Setting a 90\u2011minute timer with 15\u2011minute breaks maximizes deep\u2011work output without burnout.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Start a 90\u2011minute timer and work on a single task.",
+          "Take a 15\u2011minute break to stretch and hydrate.",
+          "Repeat for two cycles daily."
+        ],
+        "mid": [
+          "Integrate the timer with a task\u2011management app.",
+          "Log completed work after each session.",
+          "Adjust session length based on energy levels."
+        ],
+        "high": [
+          "Combine timer with Pomodoro\u2011style analytics for trend insights.",
+          "Automate break activities (e.g., guided meditation).",
+          "Scale to multiple concurrent deep\u2011work teams using shared calendars."
+        ]
+      },
+      "formula_mode": "time_saved",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Weekly Hours Lost to Low-Leverage Tasks",
+          "min": 1,
+          "max": 40,
+          "default": 14,
+          "unit": "hrs",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Daily Context Switches / Distractions",
+          "min": 1,
+          "max": 30,
+          "default": 10,
+          "unit": "x",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Deep Work Blocks Completed / Week",
+          "min": 0,
+          "max": 14,
+          "default": 4,
+          "unit": "blocks",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-26T00:56:21.793959Z"
+    }
+  ]
+}
