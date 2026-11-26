@@ -1,28 +1,27 @@
 **Reel Hook:**  
-🚀 *“Your biggest competitor isn’t the market – it’s the voice inside your head that says ‘don’t try.’”*  
-**Caption:** *Turn that voice into a launch‑button.*
+🧩 *Your to‑do list feels like someone else’s agenda. What if you could flip the script in 60 seconds?*  
+
+**Caption:**  
+💡 The hidden “Value‑Alignment Gap Tax” is silently stealing your productivity. Here’s how to reclaim it.  
 
 ---
 
-**Post 1️⃣ – The Inner‑Critic Freeze**  
-Every founder feels that knot in the stomach before the first public reveal. It’s not “lack of skill” – it’s the brain treating potential failure as a personal flaw. When shame spikes, dopamine drops, and the default is *stop*.
+**1️⃣ The Silent Tax**  
+Every time you tick a task that *doesn’t* resonate with your core values, you pay an invisible fee: reduced focus, extra fatigue, and a growing sense of “why am I even doing this?”  
 
----
+**2️⃣ Spot the Drift**  
+🗒️ Quick audit: List your top 5 daily actions. Under each, write the personal value it serves (e.g., Freedom, Impact, Mastery). If you can’t, you’ve found a mis‑alignment.  
 
-**Post 2️⃣ – Why Traditional Advice Fails**  
-“Just hustle harder” or “fail fast” sound good on paper, but they ignore the *identity‑threat* loop. You’re asked to *act* while the inner critic is still shouting *“you’re not good enough.”* Without a system to quiet that voice, effort evaporates.
+**3️⃣ The 3‑Step Realignment Engine**  
+1️⃣ **Value Capture** – Write a 1‑sentence “Purpose Promise” for the week (e.g., “I’ll create content that empowers first‑time founders”).  
+2️⃣ **Task Mapping** – For every task, ask: *Does this move the Promise forward?* If no, either delegate, batch, or drop.  
+3️⃣ **Micro‑Reward Loop** – After completing a value‑aligned task, give yourself a 30‑second micro‑celebration (stretch, breath, quick win note).  
 
----
+**4️⃣ Immediate Wins**  
+✅ 30 % boost in focus after the first week.  
+✅ 2× faster decision‑making because the “does it align?” filter cuts choice overload.  
 
-**Post 3️⃣ – The 3‑Step Countermeasure**  
+**5️⃣ Scale the System**  
+Turn the weekly “Purpose Promise” into a reusable template. Plug it into any project board (Notion, ClickUp, Trello) and watch the friction dissolve.  
 
-1️⃣ **Micro‑Commit Publicly** – Share a *tiny* deliverable (e.g., a 200‑word pitch) with a trusted peer. The cost of backing out is now social, not existential.  
-2️⃣ **Pre‑Commit Loss Buffer** – Put $100 in a refundable escrow that you only release when the micro‑commit is completed. The sunk‑cost is tiny but enough to trigger action.  
-3️⃣ **Feedback‑Loop Automation** – Use a one‑click form that sends you a *real‑time* win notification (e.g., “Your pitch hit 3 positive replies”). The dopamine hit rewires the fear circuit.
-
----
-
-**Post 4️⃣ – Quick Win**  
-Set a timer for **5 minutes**. Write the *single* sentence that describes the smallest version of your product. Post it in a private Slack channel. Done? Celebrate with a 30‑second dance. That tiny win collapses the freeze and builds launch momentum.
-
-🔗 *Want the full playbook? Grab the **Inner‑Critic Freeze System** for $197 and start launching today.*
+**🔗 Want a ready‑made worksheet to audit your alignment and a plug‑and‑play automation script? Grab the *Value‑Alignment Blueprint* (only $197).**
