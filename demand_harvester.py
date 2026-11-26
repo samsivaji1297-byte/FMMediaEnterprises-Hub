@@ -374,7 +374,7 @@ def is_niche_relevant(text):
 def fetch_json_with_status(url, headers=None, timeout=10):
     req = urllib.request.Request(
         url,
-        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.2)"}
+        headers=headers or {"User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.3)"}
     )
     try:
         with urllib.request.urlopen(req, timeout=timeout) as resp:
@@ -436,7 +436,8 @@ def harvest_live_community_intent():
 
     se_urls = [
         "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=personal%20finance%20savings%20runway&site=money&pagesize=15",
-        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=discipline%20focus%20habit%20system&site=productivity&pagesize=15"
+        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=solo%20business%20pricing%20digital%20product&site=freelancing&pagesize=15",
+        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=monetization%20product%20launch&site=startups&pagesize=15"
     ]
     for url in se_urls:
         data, status, err = fetch_json_with_status(url, timeout=8)
@@ -462,7 +463,7 @@ def harvest_live_community_intent():
     for r_url in reddit_queries:
         data, status, err = fetch_json_with_status(
             r_url,
-            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.2 (by /u/fmmedia_bot)"},
+            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.3 (by /u/fmmedia_bot)"},
             timeout=8
         )
         if err or not isinstance(data, dict):
@@ -496,7 +497,7 @@ def harvest_gsc_telemetry():
 
     if not creds_raw or not site_url:
         print("[GSC] GSC_CREDENTIALS_JSON or GSC_SITE_URL not configured — skipping first-party telemetry.")
-        return []
+        return [], {}
 
     try:
         from google.oauth2 import service_account
@@ -512,7 +513,7 @@ def harvest_gsc_telemetry():
         end_date = (now_utc - timedelta(days=3)).strftime("%Y-%m-%d")
         start_date = (now_utc - timedelta(days=33)).strftime("%Y-%m-%d")
 
-        request_body = {
+        query_body = {
             "startDate": start_date,
             "endDate": end_date,
             "dimensions": ["query"],
@@ -531,8 +532,8 @@ def harvest_gsc_telemetry():
             "dataState": "final"
         }
 
-        response = service.searchanalytics().query(siteUrl=site_url, body=request_body).execute()
-        rows = response.get("rows", [])
+        query_resp = service.searchanalytics().query(siteUrl=site_url, body=query_body).execute()
+        rows = query_resp.get("rows", [])
         niche_matched = 0
         opportunities = []
 
@@ -551,17 +552,34 @@ def harvest_gsc_telemetry():
                     "source": "GSC"
                 })
 
-        if len(rows) == 0:
-            print(f"[GSC] Auth succeeded for {site_url}, but API returned 0 non-branded rows ({start_date} to {end_date}).")
+        page_body = {
+            "startDate": start_date,
+            "endDate": end_date,
+            "dimensions": ["page"],
+            "rowLimit": 1000,
+            "dataState": "final"
+        }
+        page_resp = service.searchanalytics().query(siteUrl=site_url, body=page_body).execute()
+        page_metrics = {}
+        for row in page_resp.get("rows", []):
+            page_url = row["keys"][0]
+            page_metrics[page_url] = {
+                "clicks": int(row.get("clicks", 0)),
+                "impressions": int(row.get("impressions", 0)),
+                "position": round(float(row.get("position", 0.0)), 1)
+            }
+
+        if len(rows) == 0 and len(page_metrics) == 0:
+            print(f"[GSC] Auth succeeded for {site_url}, but API returned 0 query/page rows ({start_date} to {end_date}).")
         else:
             print(
-                f"[GSC] API returned {len(rows)} raw rows -> {niche_matched} niche-relevant -> "
-                f"{len(opportunities)} striking-distance queries (impressions>=10, pos 7.0-30.0)."
+                f"[GSC] Query rows: {len(rows)} raw -> {niche_matched} niche-relevant -> "
+                f"{len(opportunities)} striking-distance | Page rows tracked: {len(page_metrics)}."
             )
-        return opportunities
+        return opportunities, page_metrics
     except Exception as e:
         print(f"[GSC] Telemetry check skipped safely due to error: {e}")
-        return []
+        return [], {}
 
 
 def _parse_json_loose(raw_text):
@@ -621,6 +639,7 @@ def _pick_archetype(text, idx):
 def _sanitize_slug(raw_slug, fallback_text):
     candidate = raw_slug or fallback_text or "diagnostic-tool"
     slug = re.sub(r"[^a-z0-9]+", "-", str(candidate).lower()).strip("-")
+    slug = re.sub(r"^how-to-", "", slug).strip("-")
     return slug[:60].strip("-") or "diagnostic-tool"
 
 
@@ -681,6 +700,8 @@ def _enrich_utility(raw_util, idx):
 def _build_query_utility(query, idx, forced_archetype=None):
     cleaned = "".join(ch if ch.isalnum() or ch == " " else " " for ch in str(query).lower()).strip()
     words = [w for w in cleaned.split() if len(w) > 1]
+    if words[:2] == ["how", "to"]:
+        words = words[2:]
     if len(words) < 2:
         return None
     slug = "-".join(words[:6])[:55].strip("-")
@@ -726,7 +747,6 @@ def balance_utilities(primary_utilities, raw_candidates, target_total=14, max_pe
     for u in primary_utilities:
         _try_add(u)
 
-    # Top up underrepresented archetypes from harvested niche candidates
     for arch in ARCHETYPE_ORDER:
         if len(buckets[arch]) >= 3:
             continue
@@ -741,7 +761,6 @@ def balance_utilities(primary_utilities, raw_candidates, target_total=14, max_pe
             if candidate_util:
                 _try_add(candidate_util, target_bucket=arch)
 
-    # Guarantee minimum balanced coverage using curated pillar blueprints if any bucket is still short
     for idx, blueprint in enumerate(CURATED_EVERGREEN_UTILITIES):
         arch = blueprint["archetype"]
         if len(buckets[arch]) >= 3:
@@ -749,7 +768,6 @@ def balance_utilities(primary_utilities, raw_candidates, target_total=14, max_pe
         enriched = _enrich_utility(blueprint, idx)
         _try_add(enriched, target_bucket=arch)
 
-    # Interleave round-robin across archetypes so output is balanced across both offers
     balanced = []
     pos = 0
     while len(balanced) < target_total:
@@ -857,13 +875,13 @@ Analyze these raw search & buyer-intent signals:
 {json.dumps(filtered_pool, indent=2)}
 
 RULES:
-1. DISCARD generic informational definitions ("what is..."), accounting/tax/invoice/contract forms, Excel/spreadsheet/Python templates, vehicle GPS trackers, B2B payroll/HR software, and clinical/medical queries.
+1. DISCARD generic informational definitions ("what is...", "how to..."), accounting/tax/invoice/contract forms, Excel/spreadsheet/Python templates, vehicle GPS trackers, B2B payroll/HR software, and clinical/medical queries.
 2. KEEP ONLY high-intent user/buyer queries that justify a standalone interactive tool across 4 distinct archetypes:
    - "sovereignty_diagnostic" (mindset, self-recognition, masculinity, discipline, emotional control -> bridge_offer: "sovereignty")
    - "financial_runway" (personal finance, burn rate, savings buffer, wealth leverage -> bridge_offer: "sovereignty")
    - "revenue_calculator" (digital products, pricing, Gumroad launches, solo monetization -> bridge_offer: "compression")
    - "execution_audit" (time wasted, focus, dopamine control, workflow bottlenecks -> bridge_offer: "compression")
-3. Distribute 12 to 16 tools EVENLY across all 4 archetypes (3 to 4 per archetype — do NOT let any single archetype dominate).
+3. Distribute 12 to 16 tools EVENLY across all 4 archetypes (3 to 4 per archetype — do NOT let any single archetype dominate). Use clean tool-style slugs (calculator, scorecard, audit, diagnostic, analyzer, planner) and never start a slug with "how-to-".
 4. For each tool, write a sharp 1-sentence "direct_answer" that immediately answers the user's underlying question, plus tailored "low", "mid", and "high" action protocols (3 steps each).
 
 Return ONLY valid JSON:
@@ -890,7 +908,7 @@ Return ONLY valid JSON:
     headers = {
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
-        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.2)"
+        "User-Agent": "Mozilla/5.0 (compatible; FMMediaIntentHarvester/2.3)"
     }
 
     models_to_try = _resolve_groq_models(headers)
@@ -976,7 +994,7 @@ def main():
     all_queries.update(harvest_marketplace_proof())
     all_queries.update(harvest_live_community_intent())
 
-    gsc_hits = harvest_gsc_telemetry()
+    gsc_hits, gsc_page_metrics = harvest_gsc_telemetry()
     gsc_queries = [item["query"] for item in gsc_hits]
 
     combined_pool = gsc_queries + list(all_queries)
@@ -987,6 +1005,7 @@ def main():
         "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "raw_signal_count": len(combined_pool),
         "gsc_opportunities": gsc_hits,
+        "gsc_page_metrics": gsc_page_metrics,
         "utilities": utilities
     }
 
