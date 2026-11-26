@@ -2,10 +2,12 @@ import os
 import json
 import html
 import shutil
-from datetime import datetime
+from datetime import datetime, timezone
 
 DEFAULT_BASE_URL = "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub"
 TOOLS_DIR = "tools"
+REGISTRY_PATH = os.path.join(TOOLS_DIR, "registry.json")
+MAX_REGISTRY_UTILITIES = 48
 
 
 def resolve_base_url():
@@ -48,6 +50,66 @@ def utility_page_url(slug):
 
 def hub_page_url():
     return f"{BASE_URL}/{TOOLS_DIR}/index.html"
+
+
+def load_persistent_registry():
+    if not os.path.exists(REGISTRY_PATH):
+        return []
+    try:
+        with open(REGISTRY_PATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        if isinstance(data, list):
+            return [u for u in data if isinstance(u, dict) and u.get("slug")]
+        if isinstance(data, dict) and isinstance(data.get("utilities"), list):
+            return [u for u in data["utilities"] if isinstance(u, dict) and u.get("slug")]
+    except Exception as e:
+        print(f"[Registry] Failed to read {REGISTRY_PATH}; starting fresh from validated_demand.json: {e}")
+    return []
+
+
+def merge_utilities_persistently(existing_utils, fresh_utils, max_total=MAX_REGISTRY_UTILITIES):
+    """Preserves previously published URLs so GSC-indexed slugs never become 404s on weekly rebuilds."""
+    merged_by_slug = {}
+    ordered_slugs = []
+
+    for u in existing_utils:
+        slug = str(u.get("slug", "")).strip()
+        if not slug:
+            continue
+        if slug not in merged_by_slug:
+            ordered_slugs.append(slug)
+        merged_by_slug[slug] = dict(u)
+
+    added_count = 0
+    updated_count = 0
+    for u in fresh_utils:
+        slug = str(u.get("slug", "")).strip()
+        if not slug:
+            continue
+        if slug in merged_by_slug:
+            merged_by_slug[slug] = dict(u)
+            updated_count += 1
+        elif len(ordered_slugs) < max_total:
+            ordered_slugs.append(slug)
+            merged_by_slug[slug] = dict(u)
+            added_count += 1
+
+    merged = [merged_by_slug[s] for s in ordered_slugs]
+    print(
+        f"[Registry] Active utility catalog: {len(merged)} "
+        f"(preserved: {len(existing_utils)}, updated: {updated_count}, newly added: {added_count}, cap: {max_total})."
+    )
+    return merged
+
+
+def save_persistent_registry(utilities):
+    payload = {
+        "updated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "count": len(utilities),
+        "utilities": utilities
+    }
+    with open(REGISTRY_PATH, "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
 
 
 def cleanup_stale_folders(active_slugs):
@@ -606,7 +668,7 @@ def render_hub_page(utilities):
 
 
 def write_sitemap_and_robots(utilities):
-    today = datetime.utcnow().strftime("%Y-%m-%d")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     urls = [
         f"{BASE_URL}/",
         hub_page_url()
@@ -645,12 +707,16 @@ def main():
     with open("validated_demand.json", "r", encoding="utf-8") as f:
         data = json.load(f)
 
-    utilities = data.get("utilities", [])
-    if not utilities:
+    fresh_utilities = data.get("utilities", [])
+    if not fresh_utilities:
         print("No utilities found in validated_demand.json.")
         return
 
     os.makedirs(TOOLS_DIR, exist_ok=True)
+    existing_utilities = load_persistent_registry()
+    utilities = merge_utilities_persistently(existing_utilities, fresh_utilities)
+    save_persistent_registry(utilities)
+
     active_slugs = {u["slug"] for u in utilities}
     cleanup_stale_folders(active_slugs)
 
