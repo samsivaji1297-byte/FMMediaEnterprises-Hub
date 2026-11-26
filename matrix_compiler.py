@@ -7,7 +7,9 @@ from datetime import datetime, timezone
 DEFAULT_BASE_URL = "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub"
 TOOLS_DIR = "tools"
 REGISTRY_PATH = os.path.join(TOOLS_DIR, "registry.json")
-MAX_REGISTRY_UTILITIES = 48
+MAX_REGISTRY_UTILITIES = 100
+MAX_NEW_PER_RUN = 3
+PRUNE_AFTER_DAYS = 35
 
 
 def resolve_base_url():
@@ -63,43 +65,96 @@ def load_persistent_registry():
         if isinstance(data, dict) and isinstance(data.get("utilities"), list):
             return [u for u in data["utilities"] if isinstance(u, dict) and u.get("slug")]
     except Exception as e:
-        print(f"[Registry] Failed to read {REGISTRY_PATH}; starting fresh from validated_demand.json: {e}")
+        print(f"[Registry] Failed to read {REGISTRY_PATH}; rebuilding from validated_demand.json: {e}")
     return []
 
 
-def merge_utilities_persistently(existing_utils, fresh_utils, max_total=MAX_REGISTRY_UTILITIES):
-    """Preserves previously published URLs so GSC-indexed slugs never become 404s on weekly rebuilds."""
-    merged_by_slug = {}
-    ordered_slugs = []
+def _find_page_metrics(slug, gsc_page_metrics):
+    if not isinstance(gsc_page_metrics, dict):
+        return None
+    for page_url, metrics in gsc_page_metrics.items():
+        if f"/{TOOLS_DIR}/{slug}/" in page_url or page_url.rstrip("/").endswith(f"/{TOOLS_DIR}/{slug}"):
+            return metrics
+    return None
+
+
+def merge_and_prune_utilities(existing_utils, fresh_utils, gsc_page_metrics):
+    """
+    Daily-safe persistence:
+    - Pins winners permanently (GSC clicks > 0 or impressions >= 10).
+    - Protects all new URLs for PRUNE_AFTER_DAYS (35 days) and never prunes while site GSC is cold.
+    - Prunes unpinned pages >= 35 days old with 0 clicks and < 5 impressions once GSC is active.
+    - Adds up to MAX_NEW_PER_RUN (3) new utilities per daily run after initial bootstrap.
+    """
+    now = datetime.now(timezone.utc)
+    now_iso = now.isoformat().replace("+00:00", "Z")
+    gsc_active = isinstance(gsc_page_metrics, dict) and len(gsc_page_metrics) > 0
+    effective_new_cap = MAX_REGISTRY_UTILITIES if len(existing_utils) == 0 else MAX_NEW_PER_RUN
+
+    kept = []
+    seen_slugs = set()
+    pruned_slugs = []
 
     for u in existing_utils:
         slug = str(u.get("slug", "")).strip()
-        if not slug:
+        if not slug or slug in seen_slugs:
             continue
-        if slug not in merged_by_slug:
-            ordered_slugs.append(slug)
-        merged_by_slug[slug] = dict(u)
+        item = dict(u)
+        created_str = item.get("created_at") or now_iso
+        item["created_at"] = created_str
 
+        try:
+            created_dt = datetime.fromisoformat(created_str.replace("Z", "+00:00"))
+        except Exception:
+            created_dt = now
+        age_days = max(0, (now - created_dt).days)
+
+        metrics = _find_page_metrics(slug, gsc_page_metrics)
+        clicks = int((metrics or {}).get("clicks", 0))
+        impressions = int((metrics or {}).get("impressions", 0))
+        if clicks > 0 or impressions >= 10:
+            item["pinned"] = True
+
+        if (not item.get("pinned")) and gsc_active and age_days >= PRUNE_AFTER_DAYS and clicks == 0 and impressions < 5:
+            pruned_slugs.append(slug)
+            continue
+
+        seen_slugs.add(slug)
+        kept.append(item)
+
+    by_slug = {u["slug"]: u for u in kept}
     added_count = 0
     updated_count = 0
+
     for u in fresh_utils:
         slug = str(u.get("slug", "")).strip()
         if not slug:
             continue
-        if slug in merged_by_slug:
-            merged_by_slug[slug] = dict(u)
+        if slug in by_slug:
+            existing_item = by_slug[slug]
+            updated = dict(u)
+            updated["created_at"] = existing_item["created_at"]
+            if existing_item.get("pinned"):
+                updated["pinned"] = True
+            by_slug[slug] = updated
             updated_count += 1
-        elif len(ordered_slugs) < max_total:
-            ordered_slugs.append(slug)
-            merged_by_slug[slug] = dict(u)
+        elif len(by_slug) < MAX_REGISTRY_UTILITIES and added_count < effective_new_cap:
+            new_item = dict(u)
+            new_item["created_at"] = now_iso
+            by_slug[slug] = new_item
+            kept.append(new_item)
             added_count += 1
 
-    merged = [merged_by_slug[s] for s in ordered_slugs]
+    final_list = [by_slug[u["slug"]] for u in kept]
+    pinned_count = sum(1 for u in final_list if u.get("pinned"))
     print(
-        f"[Registry] Active utility catalog: {len(merged)} "
-        f"(preserved: {len(existing_utils)}, updated: {updated_count}, newly added: {added_count}, cap: {max_total})."
+        f"[Registry] Catalog: {len(final_list)} active | pinned winners: {pinned_count} | "
+        f"updated: {updated_count} | newly added: {added_count} (cap/run={effective_new_cap}) | "
+        f"pruned: {len(pruned_slugs)} (gsc_active={gsc_active}, grace={PRUNE_AFTER_DAYS}d)"
     )
-    return merged
+    if pruned_slugs:
+        print(f"[Registry] Pruned zero-visibility URLs (>={PRUNE_AFTER_DAYS}d): {pruned_slugs}")
+    return final_list
 
 
 def save_persistent_registry(utilities):
@@ -122,7 +177,7 @@ def cleanup_stale_folders(active_slugs):
             shutil.rmtree(full_path, ignore_errors=True)
             removed += 1
     if removed:
-        print(f"[Cleanup] Removed {removed} stale utility folder(s) from {TOOLS_DIR}/.")
+        print(f"[Cleanup] Removed {removed} pruned/stale utility folder(s) from {TOOLS_DIR}/.")
 
 
 def render_utility_page(util, all_utils):
@@ -712,9 +767,10 @@ def main():
         print("No utilities found in validated_demand.json.")
         return
 
+    gsc_page_metrics = data.get("gsc_page_metrics", {})
     os.makedirs(TOOLS_DIR, exist_ok=True)
     existing_utilities = load_persistent_registry()
-    utilities = merge_utilities_persistently(existing_utilities, fresh_utilities)
+    utilities = merge_and_prune_utilities(existing_utilities, fresh_utilities, gsc_page_metrics)
     save_persistent_registry(utilities)
 
     active_slugs = {u["slug"] for u in utilities}
