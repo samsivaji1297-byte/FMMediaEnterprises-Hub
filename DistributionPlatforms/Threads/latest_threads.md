@@ -1,27 +1,22 @@
-**Reel Hook:**  
-🧩 *Your to‑do list feels like someone else’s agenda. What if you could flip the script in 60 seconds?*  
+**Reel Hook:** “What if every hour you work *immediately* shows up in your bank account?”  
+**Caption:** “Turn the invisible lag into a live revenue feed. 👇”
 
-**Caption:**  
-💡 The hidden “Value‑Alignment Gap Tax” is silently stealing your productivity. Here’s how to reclaim it.  
+**Post 1 – The Lag Is a Leak**  
+You spend 8 hours building a client deliverable, but the invoice sits in draft for days. That lag isn’t just annoying—it’s a revenue leak that drains motivation.  
 
----
+**Post 2 – The Brain’s Discount Switch**  
+Our brains apply a 90‑day discount curve to future money. The farther the payout, the less drive we feel today. That’s why “busy work” feels endless.  
 
-**1️⃣ The Silent Tax**  
-Every time you tick a task that *doesn’t* resonate with your core values, you pay an invisible fee: reduced focus, extra fatigue, and a growing sense of “why am I even doing this?”  
+**Post 3 – Plug the Leak with a Real‑Time Engine**  
+✅ Capture task start/stop in seconds  
+✅ Auto‑assign a dollar value per minute (outcome‑based)  
+✅ Sync to a live dashboard that updates your “earned‑so‑far” balance  
 
-**2️⃣ Spot the Drift**  
-🗒️ Quick audit: List your top 5 daily actions. Under each, write the personal value it serves (e.g., Freedom, Impact, Mastery). If you can’t, you’ve found a mis‑alignment.  
+**Post 4 – Quick Win Blueprint**  
+1️⃣ Choose a task‑tracker API (e.g., Toggl).  
+2️⃣ Map each project to a revenue rate you’ve pre‑negotiated.  
+3️⃣ Use Zapier/Webhooks to push minutes → Google Sheet → Stripe “virtual invoice”.  
 
-**3️⃣ The 3‑Step Realignment Engine**  
-1️⃣ **Value Capture** – Write a 1‑sentence “Purpose Promise” for the week (e.g., “I’ll create content that empowers first‑time founders”).  
-2️⃣ **Task Mapping** – For every task, ask: *Does this move the Promise forward?* If no, either delegate, batch, or drop.  
-3️⃣ **Micro‑Reward Loop** – After completing a value‑aligned task, give yourself a 30‑second micro‑celebration (stretch, breath, quick win note).  
+Result: Every minute you log instantly adds to a visible earnings counter. No more waiting for the invoice cycle.  
 
-**4️⃣ Immediate Wins**  
-✅ 30 % boost in focus after the first week.  
-✅ 2× faster decision‑making because the “does it align?” filter cuts choice overload.  
-
-**5️⃣ Scale the System**  
-Turn the weekly “Purpose Promise” into a reusable template. Plug it into any project board (Notion, ClickUp, Trello) and watch the friction dissolve.  
-
-**🔗 Want a ready‑made worksheet to audit your alignment and a plug‑and‑play automation script? Grab the *Value‑Alignment Blueprint* (only $197).**
+💡 **Your next step:** Grab the free template and start seeing minutes turn into money today.
