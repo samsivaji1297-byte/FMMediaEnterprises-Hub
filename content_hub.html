@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+html_code = r'''<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -43,11 +43,16 @@
     .btn-x { background: #1d9bf0; color: #fff; }
     .btn-x:hover:not(:disabled) { background: #1a8cd8; }
     .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; background: var(--card-bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); flex-wrap: wrap; }
-    .tab-btn { flex: 1; min-width: 120px; padding: 8px 12px; background: transparent; border: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
+    .tab-btn { flex: 1; min-width: 140px; padding: 8px 12px; background: transparent; border: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
     .tab-btn.active { background: var(--secondary); color: var(--text-heading); border: 1px solid var(--border); }
     .content-box { font-size: 0.85rem; line-height: 1.55; color: var(--text); white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: var(--secondary); padding: 12px; border-radius: 6px; border: 1px solid var(--border); max-height: 450px; overflow-y: auto; margin-top: 8px; }
     .pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(31, 111, 235, 0.18); color: #58a6ff; border: 1px solid rgba(31, 111, 235, 0.4); }
     .pill-offer { background: rgba(217, 119, 6, 0.2); color: #fbbf24; border-color: rgba(217, 119, 6, 0.45); }
+    .pill-ok { background: rgba(35, 134, 54, 0.22); color: #3fb950; border-color: rgba(63, 185, 80, 0.4); }
+    .pill-warn { background: rgba(248, 81, 73, 0.2); color: #ff7b72; border-color: rgba(248, 81, 73, 0.45); }
+    .x-post-card { background: var(--secondary); border: 1px solid var(--border); border-radius: 6px; padding: 12px; margin-top: 10px; }
+    .x-post-header { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+    .x-post-textarea { width: 100%; min-height: 92px; height: auto; resize: vertical; background: var(--bg); border: 1px solid var(--border); color: var(--text-heading); border-radius: 6px; padding: 10px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 0.85rem; line-height: 1.5; }
   </style>
 </head>
 <body>
@@ -103,10 +108,9 @@
     <div class="tab-bar">
       <button id="tab-batch" class="tab-btn active" onclick="switchTab('batch')">Authority Feeders (Rich Copy)</button>
       <button id="tab-x" class="tab-btn" onclick="switchTab('x')">X/Threads Hook</button>
-      <button id="tab-repo" class="tab-btn" onclick="switchTab('repo')">Repo File Viewer</button>
     </div>
 
-    <!-- Tab Content: Multi-Channel Batch -->
+    <!-- Tab Content: Long-Form Authority Feeders -->
     <div id="section-batch" class="deck-container">
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
@@ -142,18 +146,11 @@
       </div>
 
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #bc8cff;">X.COM / THREADS (PURE PLAIN TEXT)</span>
-          <button onclick="copyPlainText('threadsContent', this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy Plain Text</button>
-        </div>
-        <div id="threadsContent" class="content-box">Awaiting generation batch...</div>
-      </div>
-
-      <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #3fb950;">BLOGGER PROGRAMMATIC SEO (HTML / RICH)</span>
-          <div style="display: flex; gap: 6px;">
-            <button onclick="copyPlainText('bloggerContent', this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy Markdown/HTML</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #3fb950;">BLOGGER PROGRAMMATIC SEO (COMPOSE RICH TEXT / HTML VIEW)</span>
+          <div style="display: flex; gap: 6px; flex-wrap: wrap;">
+            <button onclick="copyPlainText('bloggerContent', this)" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Plain MD</button>
+            <button onclick="copyHtmlSource('bloggerContent', this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy HTML Source</button>
             <button onclick="copyRichText('bloggerContent', this)" class="btn btn-rich" style="padding: 4px 10px; font-size: 0.75rem;">✨ Copy Rich Text</button>
           </div>
         </div>
@@ -161,30 +158,19 @@
       </div>
     </div>
 
-    <!-- Tab Content: X / Threads Teardown -->
+    <!-- Tab Content: Unified X / Threads Split Post Deck -->
     <div id="section-x" class="deck-container" style="display: none;">
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span id="xDedicatedHeader" style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-RETENTION TOOL HOOK</span>
-          <button onclick="copyPlainText('xDedicatedContent', this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy Plain Text</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+            <span id="xDedicatedHeader" style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS SPLIT THREAD (≤ 280 CHARS / BOX)</span>
+            <span id="xThreadStatsBadge" class="pill">0 Posts</span>
+          </div>
+          <button onclick="copyAllXPosts(this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy Full Thread</button>
         </div>
-        <div id="xDedicatedContent" class="content-box">Awaiting generation...</div>
-      </div>
-    </div>
-
-    <!-- Tab Content: Static Repo File Viewer -->
-    <div id="section-repo" class="deck-container" style="display: none;">
-      <div class="card">
-        <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
-          <button class="btn btn-secondary" style="flex:1;" onclick="fetchRepoAsset('Substack')">Substack Asset</button>
-          <button class="btn btn-secondary" style="flex:1;" onclick="fetchRepoAsset('Threads')">Threads Asset</button>
-          <button class="btn btn-secondary" style="flex:1;" onclick="fetchRepoAsset('Blogger')">Blogger Asset</button>
+        <div id="xPostsContainer">
+          <div class="content-box">Generate a full batch or click the X/Threads Hook button above. Posts will automatically split into character-safe copy boxes here...</div>
         </div>
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #38bdf8;" id="repo-platform-tag">SELECT REPO ASSET</span>
-          <button onclick="copyPlainText('repoAssetBody', this)" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy File</button>
-        </div>
-        <div id="repoAssetBody" class="content-box">Select a platform above to fetch the latest compiled markdown asset directly from your repository...</div>
       </div>
     </div>
   </div>
@@ -193,6 +179,7 @@
     const BASE_SITE_URL = "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub";
     const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
     const GROQ_MODEL = "openai/gpt-oss-120b";
+    const X_MAX_CHARS = 280;
 
     const GUMROAD_OFFERS = [
       {
@@ -208,34 +195,21 @@
         title: "The 90-Minute Protocol",
         displayLabel: "The 90-Minute Protocol ($27)",
         price: "$27",
-        url: "https://fmframeworks.gumroad.com/l/90-minute-protocol",
+        url: "https://fmframeworks.gumroad.com/l/90MProtocol",
         description: "Tactical deep-work sprint protocol built to convert scattered daily hours into one high-output 90-minute execution block."
       },
       {
-        id: "operator-mindset-kit",
-        title: "Operator Mindset Kit",
-        displayLabel: "Operator Mindset Kit ($97)",
+        id: "mental-sovereignty-framework",
+        title: "Mental Sovereignty Framework",
+        displayLabel: "Mental Sovereignty Framework ($97)",
         price: "$97",
-        url: "https://fmframeworks.gumroad.com/l/operator-mindset-kit",
-        description: "Decision heuristics, stress-proof mental models, and execution standards for solo operators operating under high cognitive load."
-      },
-      {
-        id: "ghost-protocol",
-        title: "Ghost Protocol",
-        displayLabel: "Ghost Protocol ($247)",
-        price: "$247",
-        url: "https://fmframeworks.gumroad.com/l/ghost-protocol",
-        description: "Silent distribution and asymmetric leverage architecture for building compounding inbound demand without performative social noise."
+        url: "https://fmframeworks.gumroad.com/l/mentalsovereigntyframework",
+        description: "Mental Sovereignty Framework: Psychological Architecture for Authentic Self-Recognition. Decision heuristics, stress-proof mental models, and cognitive architecture for solo operators."
       }
     ];
 
     let registryTools = [];
-
-    const relativePaths = {
-      'Substack': './Substack/latest_substack.md',
-      'Threads': './Threads/latest_threads.md',
-      'Blogger': './Blogger/latest_blogger.md'
-    };
+    let currentXPosts = [];
 
     document.addEventListener("DOMContentLoaded", () => {
       const savedKey = localStorage.getItem("GROQ_API_KEY");
@@ -334,14 +308,14 @@
         genBtn.textContent = "🔥 Generate Authority Feeder Batch";
         genBtn.className = "btn btn-primary";
         genXBtn.textContent = "🎯 X/Threads Free Tool Hook";
-        xHeader.textContent = "X.COM / THREADS HIGH-RETENTION TOOL HOOK";
+        xHeader.textContent = "X.COM / THREADS FREE TOOL THREAD (≤ 280 CHARS / BOX)";
       } else {
         modeBadge.textContent = "Mode B: Direct Offer";
         modeBadge.className = "pill pill-offer";
         genBtn.textContent = "💰 Generate Direct Offer Batch";
         genBtn.className = "btn btn-offer";
         genXBtn.textContent = "🎯 X/Threads Direct Offer Hook";
-        xHeader.textContent = "X.COM / THREADS HIGH-CONVICTION OFFER HOOK";
+        xHeader.textContent = "X.COM / THREADS HIGH-CONVICTION OFFER THREAD (≤ 280 CHARS / BOX)";
       }
     }
 
@@ -416,28 +390,12 @@
     }
 
     function switchTab(tabName) {
-      ['batch', 'x', 'repo'].forEach(t => {
+      ['batch', 'x'].forEach(t => {
         document.getElementById(`tab-${t}`).classList.remove('active');
         document.getElementById(`section-${t}`).style.display = 'none';
       });
       document.getElementById(`tab-${tabName}`).classList.add('active');
       document.getElementById(`section-${tabName}`).style.display = 'block';
-      if (tabName === 'repo') fetchRepoAsset('Substack');
-    }
-
-    async function fetchRepoAsset(platform) {
-      const display = document.getElementById('repoAssetBody');
-      const tag = document.getElementById('repo-platform-tag');
-      display.textContent = `Fetching latest ${platform} asset from repository...`;
-      tag.textContent = platform.toUpperCase() + " (REPO FILE)";
-
-      try {
-        const response = await fetch(`${relativePaths[platform]}?t=${Date.now()}`);
-        if (!response.ok) throw new Error("Asset file not found in directory.");
-        display.textContent = await response.text();
-      } catch (err) {
-        display.textContent = `Error: ${err.message}. (Verify file exists at ${relativePaths[platform]})`;
-      }
     }
 
     async function callGroqAPI(apiKey, prompt, batchLabel) {
@@ -468,7 +426,7 @@
             detail += ` — ${errBody.error.message}`;
           }
         } catch (_) {
-          // Ignore JSON parse error on non-JSON failure response
+          // Non-JSON error response
         }
         if (res.status === 401) {
           throw new Error(`${batchLabel} failed (401 Unauthorized): Verify your Groq API key.`);
@@ -500,25 +458,27 @@
 
       const prompt = target.mode === "mode_b"
         ? `
-You are an elite direct-response copywriter writing high-conviction posts for X and Threads.
-STRATEGY (MODE B - DIRECT GUMROAD OFFER): Write a bottom-of-funnel, high-conviction framework breakdown exposing why ad-hoc tactics fail and positioning our paid system as the definitive operating architecture.
+You are an elite direct-response copywriter writing high-conviction threads for X and Threads.
+STRATEGY (MODE B - DIRECT GUMROAD OFFER): Write a bottom-of-funnel, high-conviction 5-to-6 post thread exposing why ad-hoc tactics fail and positioning our paid system as the definitive operating architecture.
 PRODUCT TO LINK: ${target.displayLabel} -> ${target.url}
-RULES:
+STRICT FORMATTING RULES:
+- Separate every individual post with a line containing ONLY: ---POST---
+- EVERY single post MUST be strictly under 250 characters (to fit comfortably inside X's 280-char limit).
 - PURE PLAIN TEXT ONLY. Zero markdown syntax, no hashtags, no bolding, no asterisks, no markdown links.
-- Use short, punchy lines with wide line spacing.
-- End with a direct call to action and the raw checkout URL on its own line: ${target.url}
+- In the final post, include a direct call to action and the raw checkout URL on its own line: ${target.url}
 
 CONTEXT & ANGLE:
 ${payload}
 `
         : `
-You are an elite copywriter writing high-retention posts for X and Threads.
-STRATEGY (MODE A - FREE CALCULATOR BRIDGE): Do NOT pitch a paid product directly (algorithms suppress checkout links). Give a sharp, tactical insight about the problem and send readers to use our free, zero-signup interactive calculator.
+You are an elite copywriter writing high-retention threads for X and Threads.
+STRATEGY (MODE A - FREE CALCULATOR BRIDGE): Do NOT pitch a paid product directly. Write a sharp 5-to-6 post diagnostic thread about the problem and send readers to use our free, zero-signup interactive calculator.
 FREE TOOL TO LINK: ${target.title} -> ${target.url}
-RULES:
+STRICT FORMATTING RULES:
+- Separate every individual post with a line containing ONLY: ---POST---
+- EVERY single post MUST be strictly under 250 characters (to fit comfortably inside X's 280-char limit).
 - PURE PLAIN TEXT ONLY. Zero markdown syntax, no hashtags, no bolding, no asterisks, no markdown links.
-- Use short, punchy lines with wide line spacing.
-- End with the raw URL on its own line: ${target.url}
+- In the final post, include the raw URL on its own line: ${target.url}
 
 CONTEXT & ANGLE:
 ${payload}
@@ -526,7 +486,7 @@ ${payload}
 
       try {
         const content = await callGroqAPI(apiKey, prompt, "X/Threads Hook");
-        document.getElementById("xDedicatedContent").innerText = content.trim();
+        renderXThreadBoxes(content);
         switchTab('x');
       } catch (err) {
         console.error(err);
@@ -594,32 +554,37 @@ You are an elite bottom-of-funnel conversion strategist and systems writer. Writ
 TARGET PRODUCT: ${target.displayLabel}
 EXACT CHECKOUT URL: ${target.url}
 FUNNEL LOGIC: Bottom-of-Funnel Direct Offer. Write with decisive authority about the hidden cost of un-systemized execution and link directly to the checkout URL.
-LINK FORMATTING RULES:
-- For LinkedIn and Blogger (Rich Copy / Markdown): Use "# Title", "## Section Heading", "**bold**", "- item", and clickable Markdown links: [${target.title}](${target.url})
-- For X/Threads: PURE PLAIN TEXT ONLY. NO markdown, NO hashtags, NO asterisks, NO brackets. End with the raw checkout URL: ${target.url}
+LINK & FORMATTING RULES:
+- For LinkedIn and Blogger: Output clean Markdown starting directly with "# Title" on line 1 (NO YAML frontmatter like title:/tags:/status:), "## Section Heading", "> **Framework Thesis:** ...", "**bold**", "- item", and clickable Markdown links [${target.title}](${target.url}).
+- For X/Threads: Write a 5-to-6 post thread. Separate each post with a line containing ONLY "---POST---". Keep EVERY individual post strictly under 250 characters. PURE PLAIN TEXT ONLY (NO markdown, NO hashtags, NO asterisks, NO brackets). Put the raw checkout URL ${target.url} in the final post.
 
 ===LINKEDIN_START===
 [Write an authoritative LinkedIn Article / long-form dispatch breaking down the core framework using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) checkout links.]
 ===LINKEDIN_END===
 
 ===THREADS_START===
-[Write a punchy X/Threads framework teardown. PURE PLAIN TEXT. NO markdown, NO hashtags, NO asterisks, NO brackets. End with raw URL: ${target.url}]
+[Write 5-6 short plain-text posts separated by ---POST--- lines, each strictly under 250 characters, ending with the raw checkout URL: ${target.url}]
 ===THREADS_END===
 
 ===BLOGGER_START===
----
-title: "[High-Conviction Bottom-of-Funnel Title for ${target.title}]"
-tags: [Systems, Execution, Framework]
-status: publish
----
-# [Repeat Title as H1]
+# [High-Conviction Bottom-of-Funnel Title for ${target.title}]
+
 > **Framework Thesis:** [2-sentence decisive breakdown of why this system solves the bottleneck]
+
 ## Why Ad-Hoc Tactics Fail Under Pressure
+[Write 2-3 crisp paragraphs with **bold** takeaways and - bullet points.]
+
 ## Inside the Architecture of [${target.title}](${target.url})
+[Write 2-3 paragraphs explaining the core mechanics and why this framework works.]
+
 ---
+
 Get immediate access to [${target.title}](${target.url}) (${target.price}) and deploy the full operating system today.
+
 ---
+
 ## Frequently Asked Questions
+[Include 3 sharp Q&As.]
 ===BLOGGER_END===
 
 SOURCE CONTEXT & ANGLE:
@@ -632,34 +597,37 @@ You are an elite search-engine authority strategist. Write authoritative, practi
 TARGET FREE CALCULATOR: ${target.title}
 EXACT CALCULATOR URL: ${target.url}
 FUNNEL LOGIC: Never pitch a paid product in the article. Position the calculator as a free, zero-signup diagnostic tool so readers click through to run their numbers.
-FORMATTING FOR RICH TEXT PARSER (LinkedIn):
-- Use "# Title" for the main headline on line 1.
-- Use "## Section Heading" for subheadings.
-- Use "**bold text**" for emphasis and "- item" for bullet points.
-- Use clickable Markdown links: [${target.title}](${target.url}) so our Rich Text Copy button turns them into instant live hyperlinks.
+LINK & FORMATTING RULES:
+- For LinkedIn and Blogger: Output clean Markdown starting directly with "# Title" on line 1 (NO YAML frontmatter like title:/tags:/status:), "## Section Heading", "> **Diagnostic Takeaway:** ...", "**bold**", "- item", and clickable Markdown links [${target.title}](${target.url}).
+- For X/Threads: Write a 5-to-6 post thread. Separate each post with a line containing ONLY "---POST---". Keep EVERY individual post strictly under 250 characters. PURE PLAIN TEXT ONLY (NO markdown, NO hashtags, NO asterisks, NO brackets). End with the raw calculator URL ${target.url}.
 
 ===LINKEDIN_START===
 [Write an authoritative LinkedIn Article / long-form dispatch using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) links.]
 ===LINKEDIN_END===
 
 ===THREADS_START===
-[Write a punchy X/Threads post. PURE PLAIN TEXT. NO markdown, NO hashtags, NO asterisks, NO brackets. End with raw URL: ${target.url}]
+[Write 5-6 short plain-text posts separated by ---POST--- lines, each strictly under 250 characters, ending with raw URL: ${target.url}]
 ===THREADS_END===
 
 ===BLOGGER_START===
----
-title: "[High-CTR Search Intent Title for ${target.title}]"
-tags: [Systems, Calculator, Operator]
-status: publish
----
-# [Repeat Title as H1]
+# [High-CTR Search Intent Title for ${target.title}]
+
 > **Diagnostic Takeaway:** [2-sentence direct answer optimized for Google Featured Snippets]
+
 ## Why Most Operators Miscalculate This
+[Write 2-3 crisp paragraphs with **bold** takeaways and - bullet points.]
+
 ## The 3 Variables That Drive the Outcome
+[Write 2-3 paragraphs breaking down the mechanics.]
+
 ---
-Test your live baseline using the free <a href="${target.url}" target="_blank" rel="noopener"><strong>${target.title}</strong></a> (no signup required).
+
+Test your live baseline using the free [${target.title}](${target.url}) (no signup required).
+
 ---
+
 ## Frequently Asked Questions
+[Include 3 sharp Q&As.]
 ===BLOGGER_END===
 
 SOURCE CONTEXT & ANGLE:
@@ -693,8 +661,11 @@ ${payload}
         document.getElementById("mediumContent").innerText = extractSection(batch1Content, "MEDIUM");
         document.getElementById("substackContent").innerText = extractSection(batch1Content, "SUBSTACK");
         document.getElementById("linkedinContent").innerText = extractSection(batch2Content, "LINKEDIN");
-        document.getElementById("threadsContent").innerText = extractSection(batch2Content, "THREADS");
         document.getElementById("bloggerContent").innerText = extractSection(batch2Content, "BLOGGER");
+
+        const threadsRaw = extractSection(batch2Content, "THREADS");
+        renderXThreadBoxes(threadsRaw);
+
         switchTab('batch');
       } catch (err) {
         console.error(err);
@@ -719,6 +690,163 @@ ${payload}
       return extracted.trim() || "Section not found.";
     }
 
+    function splitIntoThreadPosts(rawText, maxChars = X_MAX_CHARS) {
+      const cleaned = String(rawText || "").replace(/\r\n/g, "\n").trim();
+      if (!cleaned || cleaned === "Section not found.") return [];
+
+      let segments;
+      if (/^---POST---$/m.test(cleaned)) {
+        segments = cleaned.split(/\n?^---POST---$\n?/m);
+      } else if (/^---$/m.test(cleaned)) {
+        segments = cleaned.split(/\n?^---$\n?/m);
+      } else if (/^\d+\/\s+/m.test(cleaned)) {
+        segments = cleaned.split(/\n(?=\d+\/\s+)/);
+      } else {
+        segments = cleaned.split(/\n{2,}/);
+      }
+
+      const finalPosts = [];
+      for (const seg of segments) {
+        const chunk = seg.trim();
+        if (!chunk) continue;
+
+        if (chunk.length <= maxChars) {
+          finalPosts.push(chunk);
+          continue;
+        }
+
+        // Deterministic sentence/word fallback splitter to enforce <= 280 chars per box
+        const lines = chunk.split("\n");
+        let buffer = "";
+        for (const line of lines) {
+          const trimmedLine = line.trim();
+          if (!trimmedLine) continue;
+
+          if ((buffer ? buffer + "\n" + trimmedLine : trimmedLine).length <= maxChars) {
+            buffer = buffer ? buffer + "\n" + trimmedLine : trimmedLine;
+            continue;
+          }
+
+          if (buffer) {
+            finalPosts.push(buffer);
+            buffer = "";
+          }
+
+          if (trimmedLine.length <= maxChars) {
+            buffer = trimmedLine;
+            continue;
+          }
+
+          // Split oversized single line by words without breaking URLs
+          const words = trimmedLine.split(/\s+/);
+          let wordBuf = "";
+          for (const w of words) {
+            const candidate = wordBuf ? wordBuf + " " + w : w;
+            if (candidate.length <= maxChars) {
+              wordBuf = candidate;
+            } else {
+              if (wordBuf) finalPosts.push(wordBuf);
+              wordBuf = w;
+            }
+          }
+          if (wordBuf) buffer = wordBuf;
+        }
+        if (buffer) finalPosts.push(buffer);
+      }
+
+      return finalPosts;
+    }
+
+    function updateXThreadStats() {
+      const badge = document.getElementById("xThreadStatsBadge");
+      const overLimit = currentXPosts.filter(p => p.length > X_MAX_CHARS).length;
+      if (currentXPosts.length === 0) {
+        badge.textContent = "0 Posts";
+        badge.className = "pill";
+      } else if (overLimit > 0) {
+        badge.textContent = `${currentXPosts.length} Posts • ${overLimit} over ${X_MAX_CHARS}`;
+        badge.className = "pill pill-warn";
+      } else {
+        badge.textContent = `${currentXPosts.length} Posts • All ≤ ${X_MAX_CHARS} chars`;
+        badge.className = "pill pill-ok";
+      }
+    }
+
+    function renderXThreadBoxes(rawText) {
+      const container = document.getElementById("xPostsContainer");
+      currentXPosts = splitIntoThreadPosts(rawText, X_MAX_CHARS);
+
+      if (currentXPosts.length === 0) {
+        container.innerHTML = `<div class="content-box">${rawText ? "Section not found." : "No posts generated."}</div>`;
+        updateXThreadStats();
+        return;
+      }
+
+      container.innerHTML = "";
+      currentXPosts.forEach((postText, idx) => {
+        const card = document.createElement("div");
+        card.className = "x-post-card";
+
+        const header = document.createElement("div");
+        header.className = "x-post-header";
+
+        const leftGroup = document.createElement("div");
+        leftGroup.style.display = "flex";
+        leftGroup.style.alignItems = "center";
+        leftGroup.style.gap = "8px";
+
+        const titleSpan = document.createElement("span");
+        titleSpan.style.fontSize = "0.78rem";
+        titleSpan.style.fontWeight = "700";
+        titleSpan.style.color = "#58a6ff";
+        titleSpan.textContent = `POST ${idx + 1} / ${currentXPosts.length}`;
+
+        const countPill = document.createElement("span");
+        const isOk = postText.length <= X_MAX_CHARS;
+        countPill.className = `pill ${isOk ? "pill-ok" : "pill-warn"}`;
+        countPill.textContent = `${postText.length} / ${X_MAX_CHARS} chars`;
+
+        leftGroup.appendChild(titleSpan);
+        leftGroup.appendChild(countPill);
+
+        const copyBtn = document.createElement("button");
+        copyBtn.className = "btn btn-secondary";
+        copyBtn.style.padding = "4px 10px";
+        copyBtn.style.fontSize = "0.75rem";
+        copyBtn.textContent = `Copy Post ${idx + 1}`;
+
+        const textarea = document.createElement("textarea");
+        textarea.className = "x-post-textarea";
+        textarea.value = postText;
+
+        textarea.addEventListener("input", () => {
+          currentXPosts[idx] = textarea.value;
+          const len = textarea.value.length;
+          countPill.className = `pill ${len <= X_MAX_CHARS ? "pill-ok" : "pill-warn"}`;
+          countPill.textContent = `${len} / ${X_MAX_CHARS} chars`;
+          updateXThreadStats();
+        });
+
+        copyBtn.addEventListener("click", () => {
+          navigator.clipboard.writeText(textarea.value).then(() => flashButton(copyBtn, "✓ Copied!"));
+        });
+
+        header.appendChild(leftGroup);
+        header.appendChild(copyBtn);
+        card.appendChild(header);
+        card.appendChild(textarea);
+        container.appendChild(card);
+      });
+
+      updateXThreadStats();
+    }
+
+    function copyAllXPosts(btn) {
+      if (!currentXPosts.length) return;
+      const joined = currentXPosts.join("\n\n");
+      navigator.clipboard.writeText(joined).then(() => flashButton(btn, "✓ Thread Copied!"));
+    }
+
     function flashButton(btn, msg) {
       if (!btn) return;
       const orig = btn.innerText;
@@ -731,49 +859,110 @@ ${payload}
       navigator.clipboard.writeText(text).then(() => flashButton(btn, "✓ Copied!"));
     }
 
+    function stripLeadingYamlFrontmatter(md) {
+      return String(md || "").replace(/^\s*---\r?\n(?=[\s\S]*?:)[\s\S]*?\r?\n---\r?\n*/, "");
+    }
+
     function markdownToHtml(md) {
-      const formatInline = (str) => str
-        .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2">$1</a>')
-        .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-        .replace(/\*([^*]+)\*/g, '<em>$1</em>');
+      const cleanedMd = stripLeadingYamlFrontmatter(md);
 
-      const lines = md.split(/\r?\n/);
-      let html = [];
-      let inList = false;
+      const escapeHtml = (s) => s
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
 
-      for (let rawLine of lines) {
+      const formatInline = (rawStr) => {
+        // Preserve safe <a href="https://...">...</a> tags if present before escaping
+        const preservedLinks = [];
+        const tokenized = rawStr.replace(
+          /<a\s+href="(https?:\/\/[^"]+)"[^>]*>(<strong>)?([\s\S]*?)(<\/strong>)?<\/a>/gi,
+          (_, href, hasStrong, label) => {
+            const idx = preservedLinks.length;
+            const safeLabel = escapeHtml(label.replace(/<[^>]+>/g, ""));
+            const inner = hasStrong ? `<strong>${safeLabel}</strong>` : safeLabel;
+            preservedLinks.push(`<a href="${escapeHtml(href)}" target="_blank" rel="noopener">${inner}</a>`);
+            return `%%HTML_LINK_${idx}%%`;
+          }
+        );
+
+        let formatted = escapeHtml(tokenized)
+          .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+          .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+          .replace(/(^|[^*])\*([^*\n]+)\*(?!\*)/g, '$1<em>$2</em>')
+          .replace(/`([^`]+)`/g, '<code>$1</code>');
+
+        formatted = formatted.replace(/%%HTML_LINK_(\d+)%%/g, (_, idx) => preservedLinks[Number(idx)] || "");
+        return formatted;
+      };
+
+      const lines = cleanedMd.split(/\r?\n/);
+      const html = [];
+      let listType = null;
+
+      const closeList = () => {
+        if (listType) {
+          html.push(`</${listType}>`);
+          listType = null;
+        }
+      };
+
+      for (const rawLine of lines) {
         const line = rawLine.trim();
         if (!line) {
-          if (inList) { html.push("</ul>"); inList = false; }
+          closeList();
           continue;
         }
-        if (line.startsWith("### ")) {
-          if (inList) { html.push("</ul>"); inList = false; }
+        if (/^---+$/.test(line) || /^\*\*\*+$/.test(line)) {
+          closeList();
+          html.push("<hr>");
+        } else if (line.startsWith("### ")) {
+          closeList();
           html.push(`<h3>${formatInline(line.slice(4))}</h3>`);
         } else if (line.startsWith("## ")) {
-          if (inList) { html.push("</ul>"); inList = false; }
+          closeList();
           html.push(`<h2>${formatInline(line.slice(3))}</h2>`);
         } else if (line.startsWith("# ")) {
-          if (inList) { html.push("</ul>"); inList = false; }
+          closeList();
           html.push(`<h1>${formatInline(line.slice(2))}</h1>`);
+        } else if (line.startsWith("> ")) {
+          closeList();
+          html.push(`<blockquote><p>${formatInline(line.slice(2))}</p></blockquote>`);
         } else if (line.startsWith("- ") || line.startsWith("* ")) {
-          if (!inList) { html.push("<ul>"); inList = true; }
+          if (listType !== "ul") {
+            closeList();
+            html.push("<ul>");
+            listType = "ul";
+          }
           html.push(`<li>${formatInline(line.slice(2))}</li>`);
+        } else if (/^\d+\.\s+/.test(line)) {
+          if (listType !== "ol") {
+            closeList();
+            html.push("<ol>");
+            listType = "ol";
+          }
+          html.push(`<li>${formatInline(line.replace(/^\d+\.\s+/, ""))}</li>`);
         } else {
-          if (inList) { html.push("</ul>"); inList = false; }
+          closeList();
           html.push(`<p>${formatInline(line)}</p>`);
         }
       }
-      if (inList) html.push("</ul>");
+      closeList();
       return html.join("\n");
+    }
+
+    function copyHtmlSource(elementId, btn) {
+      const rawText = document.getElementById(elementId).innerText;
+      const htmlContent = markdownToHtml(rawText);
+      navigator.clipboard.writeText(htmlContent).then(() => flashButton(btn, "✓ HTML Copied!"));
     }
 
     async function copyRichText(elementId, btn) {
       const rawText = document.getElementById(elementId).innerText;
       const htmlContent = markdownToHtml(rawText);
-      const plainFallback = rawText
+      const plainFallback = stripLeadingYamlFrontmatter(rawText)
         .replace(/^#{1,3}\s+/gm, '')
+        .replace(/^>\s+/gm, '')
         .replace(/\*\*([^*]+)\*\*/g, '$1')
         .replace(/\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g, '$1 ($2)');
 
@@ -809,4 +998,16 @@ ${payload}
     }
   </script>
 </body>
-</html>
+</html>'''
+
+# Quick structural validation
+assert html_code.startswith("<!DOCTYPE html>")
+assert html_code.endswith("</html>")
+assert "Ghost Protocol" not in html_code
+assert "Repo File Viewer" not in html_code
+assert "fetchRepoAsset" not in html_code
+assert "https://fmframeworks.gumroad.com/l/90MProtocol" in html_code
+assert "https://fmframeworks.gumroad.com/l/mentalsovereigntyframework" in html_code
+assert "Mental Sovereignty Framework ($97)" in html_code
+assert "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/go/compression/" in html_code
+print("Validation passed! Total bytes:", len(html_code), "Lines:", len(html_code.splitlines()))
