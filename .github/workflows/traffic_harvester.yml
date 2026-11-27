@@ -43,3 +43,32 @@ jobs:
           git add validated_demand.json tools/ sitemap.xml robots.txt
           git diff --staged --quiet || git commit -m "chore: harvest demand & compile micro-utilities"
           git push
+
+      - name: Ping IndexNow with Active Tool URLs
+        run: |
+          python - << 'EOF'
+          import json, urllib.request, xml.etree.ElementTree as ET
+
+          KEY = "0102a26b71c84e3f8bb059307ded41fd"
+          HOST = "samsivaji1297-byte.github.io"
+          KEY_LOCATION = f"https://{HOST}/FMMediaEnterprises-Hub/{KEY}.txt"
+
+          tree = ET.parse("sitemap.xml")
+          ns = {"s": "http://www.sitemaps.org/schemas/sitemap/0.9"}
+          urls = [loc.text for loc in tree.findall(".//s:loc", ns)]
+
+          payload = json.dumps({
+              "host": HOST,
+              "key": KEY,
+              "keyLocation": KEY_LOCATION,
+              "urlList": urls
+          }).encode("utf-8")
+
+          req = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=payload,
+              headers={"Content-Type": "application/json; charset=utf-8"}
+          )
+          with urllib.request.urlopen(req) as resp:
+              print("IndexNow status:", resp.status)
+          EOF
