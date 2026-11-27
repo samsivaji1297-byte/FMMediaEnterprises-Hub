@@ -1,4 +1,4 @@
-html_code = r'''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -998,16 +998,4 @@ ${payload}
     }
   </script>
 </body>
-</html>'''
-
-# Quick structural validation
-assert html_code.startswith("<!DOCTYPE html>")
-assert html_code.endswith("</html>")
-assert "Ghost Protocol" not in html_code
-assert "Repo File Viewer" not in html_code
-assert "fetchRepoAsset" not in html_code
-assert "https://fmframeworks.gumroad.com/l/90MProtocol" in html_code
-assert "https://fmframeworks.gumroad.com/l/mentalsovereigntyframework" in html_code
-assert "Mental Sovereignty Framework ($97)" in html_code
-assert "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/go/compression/" in html_code
-print("Validation passed! Total bytes:", len(html_code), "Lines:", len(html_code.splitlines()))
+</html>
