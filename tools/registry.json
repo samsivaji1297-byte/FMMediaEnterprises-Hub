@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-27T01:08:32.152458Z",
-  "count": 18,
+  "updated_at": "2026-11-27T10:41:08.331777Z",
+  "count": 21,
   "utilities": [
     {
       "slug": "mindset-discipline-diagnostic",
@@ -119,26 +119,26 @@
     {
       "slug": "personal-finance-runway-planner",
       "title": "Personal Finance Runway Planner",
-      "target_query": "budget system for personal finance",
-      "meta_description": "Calculate how long your savings will last and plan the runway needed for financial sovereignty.",
+      "target_query": "personal finance organization",
+      "meta_description": "Map your financial runway, identify cash\u2011flow gaps, and plan for sustainable wealth growth.",
       "archetype": "financial_runway",
-      "direct_answer": "Based on your current expenses, your savings provide a 14\u2011month runway before depletion.",
+      "direct_answer": "Your financial runway is the period your current assets can sustain your lifestyle without additional income.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "List monthly income and essential expenses.",
-          "Subtract expenses from income to find net cash flow.",
-          "Divide total savings by net cash flow to get months of runway."
+          "List all monthly income sources.",
+          "Add fixed expenses and calculate net cash flow.",
+          "Determine how many months your savings cover the net cash flow."
         ],
         "mid": [
-          "Identify three non\u2011essential costs to cut.",
-          "Reallocate savings to an emergency fund with a 6\u2011month target.",
-          "Set up automatic transfers to a high\u2011yield account."
+          "Create a 3\u2011month expense forecast with variable costs.",
+          "Identify one expense to reduce by 10% each month.",
+          "Set up an automatic transfer to a high\u2011yield savings account."
         ],
         "high": [
-          "Create a diversified investment plan to generate passive income.",
-          "Hire a financial strategist to model multi\u2011year runway scenarios.",
-          "Implement tax\u2011efficient wealth\u2011building vehicles to extend runway indefinitely."
+          "Implement the Sovereignty Framework\u2019s wealth\u2011leverage module.",
+          "Invest surplus cash into diversified low\u2011risk assets.",
+          "Schedule quarterly runway reviews with a financial coach."
         ]
       },
       "formula_mode": "wealth_ratio",
@@ -688,27 +688,27 @@
     },
     {
       "slug": "masculinity-discipline-diagnostic",
-      "title": "Masculinity Discipline Diagnostic",
-      "target_query": "masculine discipline",
-      "meta_description": "Assess your masculine discipline level and discover steps to strengthen mental sovereignty.",
+      "title": "Masculine Discipline Diagnostic",
+      "target_query": "masculinity rules",
+      "meta_description": "Assess your masculine discipline level and discover steps to strengthen personal authority.",
       "archetype": "sovereignty_diagnostic",
-      "direct_answer": "Your current masculine discipline score is moderate, indicating room for stronger self\u2011control and purpose\u2011driven actions.",
+      "direct_answer": "Your masculine discipline can be measured by consistency in habits, emotional regulation, and purpose\u2011driven actions.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "Identify three daily habits that undermine discipline.",
-          "Replace each with a 5\u2011minute focused ritual.",
-          "Track consistency for one week."
+          "List your daily routines and note missed commitments.",
+          "Set a single micro\u2011habit to improve (e.g., 5\u2011min morning stretch).",
+          "Track adherence for 5 consecutive days."
         ],
         "mid": [
-          "Implement a weekly reflection journal on discipline wins.",
-          "Add a 15\u2011minute morning visualization of your ideal masculine self.",
-          "Introduce a accountability partner for weekly check\u2011ins."
+          "Create a weekly purpose statement aligned with core values.",
+          "Implement a 15\u2011minute daily reflection on emotional triggers.",
+          "Add a progressive physical challenge (push\u2011ups, pull\u2011ups) each week."
         ],
         "high": [
-          "Enroll in the Mental Sovereignty Framework for deep mindset restructuring.",
-          "Integrate advanced breath\u2011control and emotional regulation drills.",
-          "Create a 90\u2011day mastery plan with quarterly reviews."
+          "Join the Sovereignty Framework\u2019s masculine mastery module.",
+          "Schedule bi\u2011weekly accountability sessions with a mentor.",
+          "Integrate advanced breathwork and cold\u2011exposure protocols."
         ]
       },
       "formula_mode": "readiness_score",
@@ -860,26 +860,26 @@
     {
       "slug": "mindset-shift-diagnostic",
       "title": "Mindset Shift Diagnostic",
-      "target_query": "mindset shift from employee to entrepreneur",
-      "meta_description": "Assess whether your current mindset supports a successful transition from employee to entrepreneur.",
+      "target_query": "mindset shift techniques",
+      "meta_description": "Identify the core mindset blocks holding you back and get a clear path to mental sovereignty.",
       "archetype": "sovereignty_diagnostic",
-      "direct_answer": "Your mindset is 45% aligned with entrepreneurial success; you need stronger growth\u2011orientation and risk tolerance.",
+      "direct_answer": "Your current mindset is limited by specific cognitive patterns that can be reprogrammed with targeted practices.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "Identify three daily thoughts that reinforce employee mindset.",
-          "Replace each with a growth\u2011focused affirmation.",
-          "Track the new affirmations for 7 days."
+          "Write down three recurring negative thoughts.",
+          "Replace each with a positive affirmation.",
+          "Repeat the affirmations twice daily for 7 days."
         ],
         "mid": [
-          "Complete a 15\u2011minute journaling exercise on personal values vs. business goals.",
-          "Set one micro\u2011goal that challenges your comfort zone each week.",
-          "Review progress weekly and adjust the goal difficulty."
+          "Complete a 5\u2011minute daily visualization of your ideal self.",
+          "Track thought patterns in a journal for 14 days.",
+          "Implement a weekly 30\u2011minute deep\u2011work session focused on growth goals."
         ],
         "high": [
-          "Enroll in a 4\u2011week mastermind to practice entrepreneurial decision\u2011making.",
-          "Implement a quarterly personal\u2011KPIs dashboard.",
-          "Scale by launching a low\u2011risk side project and iterate based on feedback."
+          "Enroll in the Mental Sovereignty Framework program.",
+          "Integrate weekly mindset coaching calls.",
+          "Apply advanced neuro\u2011feedback techniques for sustained transformation."
         ]
       },
       "formula_mode": "readiness_score",
@@ -1027,6 +1027,177 @@
         }
       ],
       "created_at": "2026-11-27T01:08:32.152357Z"
+    },
+    {
+      "slug": "digital-product-profit-calculator",
+      "title": "Digital Product Profit Calculator",
+      "target_query": "digital product profit calculator",
+      "meta_description": "Estimate net profit for any digital product launch, factoring platform fees and marketing spend.",
+      "archetype": "revenue_calculator",
+      "direct_answer": "Your profit equals revenue minus platform fees, transaction costs, and marketing expenses.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Enter product price and expected sales volume.",
+          "Subtract Gumroad\u2019s 8.5% + $0.30 fee per sale.",
+          "Subtract estimated ad spend (e.g., $200)."
+        ],
+        "mid": [
+          "Add upsell or bundle pricing to increase average order value.",
+          "Include email marketing automation costs.",
+          "Re\u2011calculate profit and identify breakeven point."
+        ],
+        "high": [
+          "Apply the Compression System\u2019s pricing architecture.",
+          "Launch a multi\u2011channel funnel with retargeting.",
+          "Scale profit by optimizing conversion rates with CRO testing."
+        ]
+      },
+      "formula_mode": "revenue_projection",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-27T10:41:08.331689Z"
+    },
+    {
+      "slug": "dopamine-detox-audit",
+      "title": "Dopamine Detox Audit",
+      "target_query": "free dopamine detox plan",
+      "meta_description": "Audit your daily dopamine triggers and receive a structured 7\u2011day detox plan.",
+      "archetype": "execution_audit",
+      "direct_answer": "A dopamine detox involves removing high\u2011stimulus activities for a set period to reset reward pathways.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "List all high\u2011stimulus apps (social, games, streaming).",
+          "Schedule 2 hours of screen\u2011free time each day.",
+          "Track cravings in a simple journal."
+        ],
+        "mid": [
+          "Replace screen time with a focused activity (reading, exercise).",
+          "Implement a 30\u2011minute morning meditation.",
+          "Review daily journal to identify patterns."
+        ],
+        "high": [
+          "Enroll in the Compression System\u2019s execution mastery module.",
+          "Apply advanced habit\u2011stacking techniques.",
+          "Integrate weekly deep\u2011work sprints to sustain focus."
+        ]
+      },
+      "formula_mode": "time_saved",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Weekly Hours Lost to Low-Leverage Tasks",
+          "min": 1,
+          "max": 40,
+          "default": 14,
+          "unit": "hrs",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Daily Context Switches / Distractions",
+          "min": 1,
+          "max": 30,
+          "default": 10,
+          "unit": "x",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Deep Work Blocks Completed / Week",
+          "min": 0,
+          "max": 14,
+          "default": 4,
+          "unit": "blocks",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-27T10:41:08.331689Z"
+    },
+    {
+      "slug": "gumroad-pricing-analyzer",
+      "title": "Gumroad Pricing Analyzer",
+      "target_query": "how much does gumroad take",
+      "meta_description": "Break down Gumroad\u2019s fee structure and find the optimal price point for maximum net revenue.",
+      "archetype": "revenue_calculator",
+      "direct_answer": "Gumroad charges 8.5% of the sale plus $0.30 per transaction, with lower rates for higher volume sellers.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Select a base price for your product.",
+          "Calculate net after 8.5% + $0.30 fee.",
+          "Compare net to your cost baseline."
+        ],
+        "mid": [
+          "Test three price tiers (e.g., $19, $29, $39).",
+          "Project sales volume for each tier.",
+          "Choose the tier with highest projected net profit."
+        ],
+        "high": [
+          "Implement the Compression System\u2019s tiered pricing framework.",
+          "Add limited\u2011time bonuses to increase perceived value.",
+          "Run weekly A/B tests to refine the optimal price."
+        ]
+      },
+      "formula_mode": "revenue_projection",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-27T10:41:08.331689Z"
     }
   ]
 }

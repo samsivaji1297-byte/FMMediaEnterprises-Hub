@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gumroad Pricing Analyzer | FM Media Enterprises</title>
+  <meta name="description" content="Break down Gumroad’s fee structure and find the optimal price point for maximum net revenue.">
+  <link rel="canonical" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/gumroad-pricing-analyzer/index.html">
+  <meta property="og:title" content="Gumroad Pricing Analyzer">
+  <meta property="og:description" content="Break down Gumroad’s fee structure and find the optimal price point for maximum net revenue.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/gumroad-pricing-analyzer/index.html">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Gumroad Pricing Analyzer",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web Browser",
+  "description": "Break down Gumroad\u2019s fee structure and find the optimal price point for maximum net revenue.",
+  "url": "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/gumroad-pricing-analyzer/index.html",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "FM Media Enterprises"
+  }
+}
+  </script>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --card-deep: #0b0f15;
+      --border: #30363d;
+      --text: #e6edf3;
+      --muted: #8b949e;
+      --accent: #2f81f7;
+      --accent-hover: #58a6ff;
+      --ok: #3fb950;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.6;
+      padding: 2rem 1rem 3.5rem;
+    }
+    .container { max-width: 780px; margin: 0 auto; }
+    .top-bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; font-size: 0.85rem; color: var(--muted); margin-bottom: 1rem; }
+    .top-bar a { color: var(--accent); text-decoration: none; }
+    .type-pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent-hover);
+      background: rgba(47, 129, 247, 0.14);
+      border: 1px solid rgba(47, 129, 247, 0.35);
+      padding: 0.2rem 0.65rem;
+      border-radius: 999px;
+      margin-bottom: 0.75rem;
+    }
+    h1 { font-size: 1.9rem; line-height: 1.24; margin-bottom: 0.75rem; }
+    .answer-box {
+      background: var(--surface);
+      border-left: 3px solid var(--accent);
+      padding: 0.95rem 1.15rem;
+      border-radius: 0 8px 8px 0;
+      color: var(--text);
+      font-size: 0.98rem;
+      margin-bottom: 1.6rem;
+    }
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .preset-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.4rem; align-items: center; }
+    .preset-label { font-size: 0.82rem; color: var(--muted); margin-right: 0.25rem; }
+    .preset-btn {
+      background: var(--card-deep);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .preset-btn:hover { border-color: var(--accent); color: var(--accent-hover); }
+    .control-group { margin-bottom: 1.35rem; }
+    .control-header { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 0.45rem; font-weight: 500; }
+    .val-badge {
+      background: rgba(47, 129, 247, 0.16);
+      color: var(--accent-hover);
+      padding: 0.1rem 0.65rem;
+      border-radius: 6px;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    input[type="range"] { width: 100%; accent-color: var(--accent); cursor: pointer; }
+    .result-box {
+      background: var(--card-deep);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      padding: 1.4rem;
+      margin-top: 1.25rem;
+    }
+    .result-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); }
+    .result-metric { font-size: 2.3rem; font-weight: 700; color: var(--accent-hover); margin: 0.25rem 0 0.45rem; }
+    .result-verdict { font-size: 0.98rem; color: var(--text); margin-bottom: 1rem; }
+    .action-row { display: flex; gap: 0.75rem; flex-wrap: wrap; align-items: center; }
+    .copy-btn {
+      background: #21262d;
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 0.5rem 0.95rem;
+      border-radius: 7px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .copy-btn:hover { border-color: var(--accent); }
+    .copy-status { font-size: 0.85rem; color: var(--ok); min-height: 1.2em; }
+    .protocol-header { display: flex; justify-content: space-between; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.85rem; }
+    .tier-badge {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 0.2rem 0.6rem;
+      border-radius: 6px;
+      background: rgba(63, 185, 80, 0.15);
+      color: var(--ok);
+    }
+    .steps-list, .kit-list { padding-left: 1.25rem; display: grid; gap: 0.6rem; color: var(--text); }
+    .bridge-box {
+      background: linear-gradient(135deg, #161b22 0%, #0e1d33 100%);
+      border: 1px solid var(--accent);
+      border-radius: 12px;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+    }
+    .bridge-pill {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      color: var(--accent-hover);
+      background: rgba(47, 129, 247, 0.14);
+      padding: 0.2rem 0.6rem;
+      border-radius: 999px;
+      margin-bottom: 0.65rem;
+    }
+    .bridge-box h2 { font-size: 1.32rem; margin-bottom: 0.5rem; line-height: 1.3; }
+    .bridge-box p { color: var(--muted); margin-bottom: 1.2rem; }
+    .cta-btn {
+      display: inline-block;
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+      padding: 0.78rem 1.4rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+    .cta-btn:hover { background: var(--accent-hover); }
+    .more-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0.75rem; margin-top: 0.85rem; }
+    .mini-link {
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+      background: var(--card-deep);
+      border: 1px solid var(--border);
+      padding: 0.85rem 0.95rem;
+      border-radius: 8px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .mini-link:hover { border-color: var(--accent); }
+    .mini-type { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="top-bar">
+      <a href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/index.html">← All Standalone Asset Kits</a>
+      <span>Query Intent: how much does gumroad take</span>
+    </div>
+
+    <span class="type-pill">Monetization &amp; Pricing Asset Kit</span>
+    <h1>Gumroad Pricing Analyzer</h1>
+    <div class="answer-box">Gumroad charges 8.5% of the sale plus $0.30 per transaction, with lower rates for higher volume sellers.</div>
+
+    <section class="panel">
+      <div class="preset-row">
+        <span class="preset-label">Quick Scenario:</span>
+        <button type="button" class="preset-btn" onclick="applyPreset(0.28)">Bottlenecked Baseline</button>
+        <button type="button" class="preset-btn" onclick="applyPreset(0.58)">Stabilizing Operator</button>
+        <button type="button" class="preset-btn" onclick="applyPreset(0.88)">High-Leverage Scale</button>
+      </div>
+
+      
+        <div class="control-group">
+          <div class="control-header">
+            <label for="inp1">Offer Price Point ($)</label>
+            <span class="val-badge" id="val_inp1" data-unit="$">47</span>
+          </div>
+          <input type="range" id="inp1" min="10" max="500" value="47"
+                 data-weight="1.0" data-unit="$" oninput="recalculate()">
+        </div>
+        
+        <div class="control-group">
+          <div class="control-header">
+            <label for="inp2">Target Weekly Buyers</label>
+            <span class="val-badge" id="val_inp2" data-unit="sales">12</span>
+          </div>
+          <input type="range" id="inp2" min="1" max="100" value="12"
+                 data-weight="1.0" data-unit="sales" oninput="recalculate()">
+        </div>
+        
+        <div class="control-group">
+          <div class="control-header">
+            <label for="inp3">Distribution Consistency (%)</label>
+            <span class="val-badge" id="val_inp3" data-unit="%">60</span>
+          </div>
+          <input type="range" id="inp3" min="10" max="100" value="60"
+                 data-weight="1.0" data-unit="%" oninput="recalculate()">
+        </div>
+        
+
+      <div class="result-box">
+        <div class="result-label" id="outLabel">Calculated Output</div>
+        <div class="result-metric" id="outMetric">--</div>
+        <div class="result-verdict" id="outVerdict">Adjust the sliders above to calibrate your output.</div>
+        <div class="action-row">
+          <button type="button" class="copy-btn" onclick="copySummary()">Copy Kit & Diagnostic Brief</button>
+          <span class="copy-status" id="copyStatus"></span>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="protocol-header">
+        <h2 style="font-size: 1.15rem;">Dynamic Action Protocol</h2>
+        <span class="tier-badge" id="tierBadge">CALIBRATING</span>
+      </div>
+      <ol class="steps-list" id="protocolList"></ol>
+    </section>
+
+    <section class="panel">
+      <h2 style="font-size: 1.15rem; margin-bottom: 0.75rem;">Plug-and-Play Asset Kit Components</h2>
+      <ul class="kit-list">
+        <li>Baseline Audit Sheet: isolates your primary bottleneck in under 5 minutes.</li>
+<li>Execution Checklist: step-by-step daily actions tied to your current tier.</li>
+<li>7-Day Calibration Tracker: measures shipped output instead of busywork.</li>
+      </ul>
+    </section>
+
+    <section class="bridge-box">
+      <span class="bridge-pill">90-MINUTE SPRINT SYSTEM • $197</span>
+      <h2>The Compression System: Build a Sellable Digital Product in 90 Minutes</h2>
+      <p>Eliminate weeks of planning drag. Architect, package, and launch a high-margin digital asset in one focused execution sprint.</p>
+      <a class="cta-btn" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/go/compression/">Get The Compression System ($197) →</a>
+    </section>
+
+    <section class="panel">
+      <h3 style="font-size: 0.98rem; color: var(--muted);">Explore Different Asset Kits & Diagnostics</h3>
+      <div class="more-grid">
+        <a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/mindset-discipline-diagnostic/index.html">
+          <span class="mini-type">Mindset &amp; Sovereignty Asset Kit</span>
+          <strong>Mindset Discipline Diagnostic →</strong>
+        </a>
+<a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/personal-finance-runway-planner/index.html">
+          <span class="mini-type">Financial Runway &amp; Margin Kit</span>
+          <strong>Personal Finance Runway Planner →</strong>
+        </a>
+<a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/solo-revenue-optimizer/index.html">
+          <span class="mini-type">Monetization &amp; Pricing Asset Kit</span>
+          <strong>Solo Revenue Optimizer →</strong>
+        </a>
+<a class="mini-link" href="https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/tools/gumroad-price-optimizer/index.html">
+          <span class="mini-type">Monetization &amp; Pricing Asset Kit</span>
+          <strong>Gumroad Price Optimizer →</strong>
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    const MODE = "revenue_projection";
+    const TOOL_TITLE = "Gumroad Pricing Analyzer";
+    const PROTOCOLS = {"low": ["Select a base price for your product.", "Calculate net after 8.5% + $0.30 fee.", "Compare net to your cost baseline."], "mid": ["Test three price tiers (e.g., $19, $29, $39).", "Project sales volume for each tier.", "Choose the tier with highest projected net profit."], "high": ["Implement the Compression System\u2019s tiered pricing framework.", "Add limited\u2011time bonuses to increase perceived value.", "Run weekly A/B tests to refine the optimal price."]};
+    const KIT_ITEMS = ["Baseline Audit Sheet: isolates your primary bottleneck in under 5 minutes.", "Execution Checklist: step-by-step daily actions tied to your current tier.", "7-Day Calibration Tracker: measures shipped output instead of busywork."];
+    let latestSummary = "";
+
+    function formatBadge(val, unit) {
+      if (unit === "$") return "$" + Number(val).toLocaleString();
+      if (unit) return val + " " + unit;
+      return String(val);
+    }
+
+    function applyPreset(factor) {
+      const sliders = document.querySelectorAll('input[type="range"]');
+      sliders.forEach((s, idx) => {
+        const min = parseFloat(s.min);
+        const max = parseFloat(s.max);
+        const effectiveFactor = (MODE === "wealth_ratio" && idx === 0) ? (1 - factor * 0.7) : factor;
+        s.value = Math.round(min + (max - min) * effectiveFactor);
+      });
+      recalculate();
+    }
+
+    function renderProtocol(tierKey, badgeText) {
+      const badgeEl = document.getElementById("tierBadge");
+      const listEl = document.getElementById("protocolList");
+      badgeEl.textContent = badgeText;
+      const steps = PROTOCOLS[tierKey] || PROTOCOLS["mid"];
+      listEl.innerHTML = steps.map(step => "<li>" + step + "</li>").join("");
+      return steps;
+    }
+
+    function recalculate() {
+      const sliders = Array.from(document.querySelectorAll('input[type="range"]'));
+      const vals = sliders.map(s => {
+        const val = parseFloat(s.value);
+        const unit = s.dataset.unit || "";
+        document.getElementById("val_" + s.id).textContent = formatBadge(val, unit);
+        return val;
+      });
+
+      const labelEl = document.getElementById("outLabel");
+      const metricEl = document.getElementById("outMetric");
+      const verdictEl = document.getElementById("outVerdict");
+      let tier = "mid";
+      let badgeText = "TIER 2 • STABILIZING";
+
+      if (MODE === "revenue_projection") {
+        const price = vals[0] || 47;
+        const weeklyBuyers = vals[1] || 10;
+        const consistency = (vals[2] || 60) / 100;
+        const monthly = Math.round(price * weeklyBuyers * 4.33 * consistency);
+        labelEl.textContent = "Projected Monthly Digital Revenue";
+        metricEl.textContent = "$" + monthly.toLocaleString() + " / mo";
+        if (monthly < 1500) {
+          tier = "low";
+          badgeText = "TIER 1 • VALIDATION PHASE";
+          verdictEl.textContent = "Early traction zone. Focus on shipping a sharper offer and increasing weekly buyer traffic.";
+        } else if (monthly < 6000) {
+          tier = "mid";
+          badgeText = "TIER 2 • MOMENTUM PHASE";
+          verdictEl.textContent = "Solid unit economics. Raising price anchor or distribution cadence unlocks the next jump.";
+        } else {
+          tier = "high";
+          badgeText = "TIER 3 • HIGH-LEVERAGE SCALE";
+          verdictEl.textContent = "Strong revenue velocity. Your bottleneck is packaging higher-ticket tiers and automating distribution.";
+        }
+      } else if (MODE === "wealth_ratio") {
+        const burn = Math.max(500, vals[0] || 3000);
+        const reserve = vals[1] || 12000;
+        const surplusPct = vals[2] || 20;
+        const runwayMonths = +(reserve / burn).toFixed(1);
+        labelEl.textContent = "Liquid Runway & Surplus Margin";
+        metricEl.textContent = runwayMonths + " mos (" + surplusPct + "% surplus)";
+        if (runwayMonths < 3 || surplusPct < 10) {
+          tier = "low";
+          badgeText = "TIER 1 • TIGHT BUFFER";
+          verdictEl.textContent = "Vulnerable margin zone. Cut fixed burn first to build a protective cash floor.";
+        } else if (runwayMonths < 8 || surplusPct < 25) {
+          tier = "mid";
+          badgeText = "TIER 2 • PROTECTED FLOOR";
+          verdictEl.textContent = "Controlled baseline. Expand your surplus rate to accelerate compounding capital.";
+        } else {
+          tier = "high";
+          badgeText = "TIER 3 • SOVEREIGN RUNWAY";
+          verdictEl.textContent = "High financial insulation. Deploy surplus into asymmetric assets and owned systems.";
+        }
+      } else if (MODE === "time_saved") {
+        const lostHrs = vals[0] || 12;
+        const switches = vals[1] || 10;
+        const deepBlocks = vals[2] || 4;
+        const reclaimable = Math.max(1, Math.round(lostHrs * 0.65 + switches * 0.25));
+        labelEl.textContent = "Recoverable Weekly Execution Bandwidth";
+        metricEl.textContent = reclaimable + " hrs / week";
+        if (deepBlocks <= 2 || lostHrs >= 22) {
+          tier = "low";
+          badgeText = "TIER 1 • HIGH FRICTION DRAG";
+          verdictEl.textContent = "Heavy context switching is draining output. Cut low-value loops before adding new goals.";
+        } else if (deepBlocks <= 6) {
+          tier = "mid";
+          badgeText = "TIER 2 • MODERATE DRAG";
+          verdictEl.textContent = "Consistent baseline, but batching admin and automating workflows frees substantial hours.";
+        } else {
+          tier = "high";
+          badgeText = "TIER 3 • HIGH-OUTPUT CADENCE";
+          verdictEl.textContent = "Strong focus discipline. Reinvest reclaimed bandwidth into shipping high-leverage assets.";
+        }
+      } else {
+        let weightedSum = 0;
+        let maxPossible = 0;
+        sliders.forEach(s => {
+          const val = parseFloat(s.value);
+          const max = parseFloat(s.max);
+          const w = parseFloat(s.dataset.weight || "1");
+          weightedSum += val * w;
+          maxPossible += max * w;
+        });
+        const score = maxPossible > 0 ? Math.round((weightedSum / maxPossible) * 100) : 0;
+        labelEl.textContent = "Internal Authority & Execution Score";
+        metricEl.textContent = score + " / 100";
+        if (score < 45) {
+          tier = "low";
+          badgeText = "TIER 1 • REACTIVE DRIFT";
+          verdictEl.textContent = "High external drag detected. Strip distractions and lock one non-negotiable daily standard.";
+        } else if (score < 75) {
+          tier = "mid";
+          badgeText = "TIER 2 • BUILDING AUTONOMY";
+          verdictEl.textContent = "Solid foundation. Tighten impulse control under stress to lock in invariant execution.";
+        } else {
+          tier = "high";
+          badgeText = "TIER 3 • SOVEREIGN EXECUTION";
+          verdictEl.textContent = "High internal clarity. Stop over-researching and deploy directly into asymmetric execution.";
+        }
+      }
+
+      const activeSteps = renderProtocol(tier, badgeText);
+      latestSummary = [
+        TOOL_TITLE + " [" + badgeText + "]",
+        labelEl.textContent + ": " + metricEl.textContent,
+        "Assessment: " + verdictEl.textContent,
+        "Action Protocol: " + activeSteps.join(" | "),
+        "Asset Kit: " + KIT_ITEMS.join(" | ")
+      ].join("\n");
+    }
+
+    function copySummary() {
+      const statusEl = document.getElementById("copyStatus");
+      if (!navigator.clipboard) {
+        statusEl.textContent = "Select and copy result manually.";
+        return;
+      }
+      navigator.clipboard.writeText(latestSummary).then(() => {
+        statusEl.textContent = "Copied kit & diagnostic brief to clipboard.";
+        setTimeout(() => { statusEl.textContent = ""; }, 2500);
+      }).catch(() => {
+        statusEl.textContent = "Clipboard permission blocked in browser.";
+      });
+    }
+
+    recalculate();
+  </script>
+</body>
+</html>
