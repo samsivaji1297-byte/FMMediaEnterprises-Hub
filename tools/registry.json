@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-26T10:38:44.685126Z",
-  "count": 15,
+  "updated_at": "2026-11-27T01:08:32.152458Z",
+  "count": 18,
   "utilities": [
     {
       "slug": "mindset-discipline-diagnostic",
@@ -856,6 +856,177 @@
         }
       ],
       "created_at": "2026-11-26T10:38:44.685073Z"
+    },
+    {
+      "slug": "mindset-shift-diagnostic",
+      "title": "Mindset Shift Diagnostic",
+      "target_query": "mindset shift from employee to entrepreneur",
+      "meta_description": "Assess whether your current mindset supports a successful transition from employee to entrepreneur.",
+      "archetype": "sovereignty_diagnostic",
+      "direct_answer": "Your mindset is 45% aligned with entrepreneurial success; you need stronger growth\u2011orientation and risk tolerance.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "Identify three daily thoughts that reinforce employee mindset.",
+          "Replace each with a growth\u2011focused affirmation.",
+          "Track the new affirmations for 7 days."
+        ],
+        "mid": [
+          "Complete a 15\u2011minute journaling exercise on personal values vs. business goals.",
+          "Set one micro\u2011goal that challenges your comfort zone each week.",
+          "Review progress weekly and adjust the goal difficulty."
+        ],
+        "high": [
+          "Enroll in a 4\u2011week mastermind to practice entrepreneurial decision\u2011making.",
+          "Implement a quarterly personal\u2011KPIs dashboard.",
+          "Scale by launching a low\u2011risk side project and iterate based on feedback."
+        ]
+      },
+      "formula_mode": "readiness_score",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "created_at": "2026-11-27T01:08:32.152357Z"
+    },
+    {
+      "slug": "gumroad-fee-calculator",
+      "title": "Gumroad Fee Calculator",
+      "target_query": "how much does gumroad take",
+      "meta_description": "Instantly see how Gumroad fees affect your product pricing and profit margins.",
+      "archetype": "revenue_calculator",
+      "direct_answer": "Gumroad charges 8.5% + $0.30 per transaction for accounts under $10K monthly volume.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Enter product price and expected sales volume.",
+          "Calculate net profit after fees.",
+          "Adjust price to meet a 30% net margin."
+        ],
+        "mid": [
+          "Model tiered pricing (basic, premium).",
+          "Include fee impact for each tier.",
+          "Select the tier structure that maximizes overall profit."
+        ],
+        "high": [
+          "Integrate a subscription model to reduce per\u2011sale fees.",
+          "Run A/B tests on pricing and bundle offers.",
+          "Scale by automating email upsells after purchase."
+        ]
+      },
+      "formula_mode": "revenue_projection",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-27T01:08:32.152357Z"
+    },
+    {
+      "slug": "personal-finance-runway-calculator",
+      "title": "Personal Finance Runway Calculator",
+      "target_query": "financial runway calculator",
+      "meta_description": "Calculate how many months you can sustain your lifestyle before needing additional income.",
+      "archetype": "financial_runway",
+      "direct_answer": "Based on your inputs, you have a 7\u2011month financial runway.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "List monthly essential expenses.",
+          "Sum your liquid cash reserves.",
+          "Divide reserves by expenses to get months of runway."
+        ],
+        "mid": [
+          "Add discretionary spending to the expense list.",
+          "Create a 3\u2011month cash buffer target.",
+          "Automate a 10% income transfer to a high\u2011yield savings account."
+        ],
+        "high": [
+          "Model multiple income\u2011shock scenarios (\u201120%, \u201150%).",
+          "Build a diversified side\u2011income portfolio to cover 30% of expenses.",
+          "Review and adjust runway quarterly with a financial coach."
+        ]
+      },
+      "formula_mode": "wealth_ratio",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Monthly Core Burn ($)",
+          "min": 500,
+          "max": 15000,
+          "default": 3200,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Liquid Reserve Buffer ($)",
+          "min": 500,
+          "max": 100000,
+          "default": 15000,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Monthly Savings / Surplus Rate (%)",
+          "min": 0,
+          "max": 80,
+          "default": 22,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-27T01:08:32.152357Z"
     }
   ]
 }
