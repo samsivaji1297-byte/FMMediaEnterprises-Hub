@@ -1,5 +1,5 @@
-# SEO Research Signal: income control vs effort disconnect
-**Generated:** 2026-11-26 18:48:23 UTC
+# SEO Research Signal: paralyzed by choice productivity tools
+**Generated:** 2026-11-27 18:39:43 UTC
 **Engine:** DuckDuckGo Dual-Layer Scraper (Web + Forum Hybrid)
 ---
 
