@@ -31,19 +31,23 @@
     select:focus, textarea:focus { outline: 1px solid var(--badge-bg); border-color: var(--badge-bg); }
     input[type="password"] { background: var(--secondary); border: 1px solid var(--border); color: var(--text-heading); padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; }
     .btn { padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; border: 1px solid transparent; text-align: center; transition: background 0.15s ease; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
     .btn-primary { background: var(--accent); color: #fff; }
-    .btn-primary:hover { background: var(--accent-hover); }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); }
+    .btn-offer { background: #b45309; color: #fff; }
+    .btn-offer:hover:not(:disabled) { background: #d97706; }
     .btn-rich { background: #1f6feb; color: #fff; }
-    .btn-rich:hover { background: #388bfd; }
+    .btn-rich:hover:not(:disabled) { background: #388bfd; }
     .btn-secondary { background: var(--secondary); color: var(--text); border-color: var(--border); }
-    .btn-secondary:hover { background: var(--secondary-hover); }
+    .btn-secondary:hover:not(:disabled) { background: var(--secondary-hover); }
     .btn-x { background: #1d9bf0; color: #fff; }
-    .btn-x:hover { background: #1a8cd8; }
+    .btn-x:hover:not(:disabled) { background: #1a8cd8; }
     .tab-bar { display: flex; gap: 8px; margin-bottom: 16px; background: var(--card-bg); padding: 4px; border-radius: 8px; border: 1px solid var(--border); flex-wrap: wrap; }
     .tab-btn { flex: 1; min-width: 120px; padding: 8px 12px; background: transparent; border: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
     .tab-btn.active { background: var(--secondary); color: var(--text-heading); border: 1px solid var(--border); }
     .content-box { font-size: 0.85rem; line-height: 1.55; color: var(--text); white-space: pre-wrap; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; background: var(--secondary); padding: 12px; border-radius: 6px; border: 1px solid var(--border); max-height: 450px; overflow-y: auto; margin-top: 8px; }
     .pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(31, 111, 235, 0.18); color: #58a6ff; border: 1px solid rgba(31, 111, 235, 0.4); }
+    .pill-offer { background: rgba(217, 119, 6, 0.2); color: #fbbf24; border-color: rgba(217, 119, 6, 0.45); }
   </style>
 </head>
 <body>
@@ -61,25 +65,34 @@
       </div>
     </header>
 
-    <!-- Target Tool Selector + Signal Capture -->
+    <!-- Funnel Mode + Target Selector + Signal Capture -->
     <section class="card">
+      <label for="funnelModeSelector">
+        <span>0. Funnel Mode</span>
+        <span id="funnelModeBadge" class="pill">Mode A: Free Bridge</span>
+      </label>
+      <select id="funnelModeSelector" onchange="onFunnelModeChanged()" style="margin-bottom: 12px;">
+        <option value="mode_a">Mode A: Free Calculator Bridge (Diagnostic Feeder)</option>
+        <option value="mode_b">Mode B: Direct Gumroad Offer (Bottom-of-Funnel)</option>
+      </select>
+
       <label for="toolSelector">
-        <span>1. Target Calculator Bridge (from tools/registry.json)</span>
+        <span id="targetSelectorLabel">1. Target Calculator Bridge (from tools/registry.json)</span>
         <span id="toolCountBadge" class="pill">Syncing...</span>
       </label>
       <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
         <select id="toolSelector" onchange="onToolSelected()" style="flex: 1; min-width: 240px;">
           <option value="">Loading live tools from registry.json...</option>
         </select>
-        <a id="openToolLink" href="./tools/" target="_blank" class="btn btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">Open Live Tool ↗</a>
+        <a id="openToolLink" href="./tools/" target="_blank" rel="noopener" class="btn btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">Open Live Tool ↗</a>
       </div>
 
       <label for="rawPayload">
-        <span>2. Angle / Raw Signal Notes (Auto-filled from calculator)</span>
-        <span style="color: var(--muted); font-weight: normal; font-size: 0.75rem;">Groq LPU (openai/gpt-oss-120b)</span>
+        <span>2. Angle / Raw Signal Notes (Auto-filled from target)</span>
+        <span style="color: var(--muted); font-weight: normal; font-size: 0.75rem;">Groq LPU (openai/gpt-oss-120b &bull; 2x Parallel)</span>
       </label>
-      <textarea id="rawPayload" placeholder="Auto-populated from selected calculator—or paste extra notes, forum pain points, or specific angles here..."></textarea>
-      
+      <textarea id="rawPayload" placeholder="Auto-populated from selected target—or paste extra notes, forum pain points, or specific angles here..."></textarea>
+
       <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
         <button onclick="generateContentBatch()" id="generateBtn" class="btn btn-primary" style="flex: 1; min-width: 200px;">🔥 Generate Authority Feeder Batch</button>
         <button onclick="generateXHighIntentThread()" id="generateXBtn" class="btn btn-x" style="flex: 1; min-width: 200px;">🎯 X/Threads Free Tool Hook</button>
@@ -103,7 +116,7 @@
             <button onclick="copyRichText('mediumContent', this)" class="btn btn-rich" style="padding: 4px 10px; font-size: 0.75rem;">✨ Copy Rich Text</button>
           </div>
         </div>
-        <div id="mediumContent" class="content-box">Select a calculator above and click "Generate Authority Feeder Batch"...</div>
+        <div id="mediumContent" class="content-box">Select a target above and click Generate...</div>
       </div>
 
       <div class="card">
@@ -137,9 +150,12 @@
       </div>
 
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #3fb950;">BLOGGER PROGRAMMATIC SEO (HTML ANCHORS)</span>
-          <button onclick="copyPlainText('bloggerContent', this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy Markdown/HTML</button>
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: 8px;">
+          <span style="font-size: 0.8rem; font-weight: bold; color: #3fb950;">BLOGGER PROGRAMMATIC SEO (HTML / RICH)</span>
+          <div style="display: flex; gap: 6px;">
+            <button onclick="copyPlainText('bloggerContent', this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy Markdown/HTML</button>
+            <button onclick="copyRichText('bloggerContent', this)" class="btn btn-rich" style="padding: 4px 10px; font-size: 0.75rem;">✨ Copy Rich Text</button>
+          </div>
         </div>
         <div id="bloggerContent" class="content-box">Awaiting generation batch...</div>
       </div>
@@ -149,7 +165,7 @@
     <div id="section-x" class="deck-container" style="display: none;">
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-RETENTION TOOL HOOK</span>
+          <span id="xDedicatedHeader" style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-RETENTION TOOL HOOK</span>
           <button onclick="copyPlainText('xDedicatedContent', this)" class="btn btn-secondary" style="padding: 4px 10px; font-size: 0.75rem;">Copy Plain Text</button>
         </div>
         <div id="xDedicatedContent" class="content-box">Awaiting generation...</div>
@@ -175,6 +191,44 @@
 
   <script>
     const BASE_SITE_URL = "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub";
+    const GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions";
+    const GROQ_MODEL = "openai/gpt-oss-120b";
+
+    const GUMROAD_OFFERS = [
+      {
+        id: "compression-system",
+        title: "The Compression System",
+        displayLabel: "The Compression System ($197)",
+        price: "$197",
+        url: "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/go/compression/",
+        description: "Flagship execution compression system engineered to eliminate operational drag, compress decision cycles, and ship high-leverage assets fast."
+      },
+      {
+        id: "90-minute-protocol",
+        title: "The 90-Minute Protocol",
+        displayLabel: "The 90-Minute Protocol ($27)",
+        price: "$27",
+        url: "https://fmframeworks.gumroad.com/l/90-minute-protocol",
+        description: "Tactical deep-work sprint protocol built to convert scattered daily hours into one high-output 90-minute execution block."
+      },
+      {
+        id: "operator-mindset-kit",
+        title: "Operator Mindset Kit",
+        displayLabel: "Operator Mindset Kit ($97)",
+        price: "$97",
+        url: "https://fmframeworks.gumroad.com/l/operator-mindset-kit",
+        description: "Decision heuristics, stress-proof mental models, and execution standards for solo operators operating under high cognitive load."
+      },
+      {
+        id: "ghost-protocol",
+        title: "Ghost Protocol",
+        displayLabel: "Ghost Protocol ($247)",
+        price: "$247",
+        url: "https://fmframeworks.gumroad.com/l/ghost-protocol",
+        description: "Silent distribution and asymmetric leverage architecture for building compounding inbound demand without performative social noise."
+      }
+    ];
+
     let registryTools = [];
 
     const relativePaths = {
@@ -186,56 +240,151 @@
     document.addEventListener("DOMContentLoaded", () => {
       const savedKey = localStorage.getItem("GROQ_API_KEY");
       if (savedKey) document.getElementById("groqApiKey").value = savedKey;
+
+      const savedMode = localStorage.getItem("FUNNEL_MODE");
+      if (savedMode === "mode_a" || savedMode === "mode_b") {
+        document.getElementById("funnelModeSelector").value = savedMode;
+      }
+
       loadToolRegistry();
     });
 
+    function getFunnelMode() {
+      return document.getElementById("funnelModeSelector").value || "mode_a";
+    }
+
     async function loadToolRegistry() {
-      const select = document.getElementById("toolSelector");
       const badge = document.getElementById("toolCountBadge");
       const status = document.getElementById("repo-status");
 
       try {
         const res = await fetch(`./tools/registry.json?t=${Date.now()}`);
-        if (!res.ok) throw new Error("Could not load tools/registry.json");
+        if (!res.ok) throw new Error(`HTTP ${res.status} loading tools/registry.json`);
         const data = await res.json();
 
         let rawList = Array.isArray(data) ? data : (data.tools || data.utilities || Object.values(data));
         registryTools = rawList.filter(item => item && item.slug);
         registryTools.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
 
-        select.innerHTML = "";
-        registryTools.forEach((tool, idx) => {
-          const opt = document.createElement("option");
-          opt.value = idx;
-          const pinTag = tool.pinned ? "★ " : "";
-          const arch = tool.archetype ? ` [${tool.archetype}]` : "";
-          opt.textContent = `${pinTag}${tool.title || tool.slug}${arch}`;
-          select.appendChild(opt);
-        });
-
-        badge.textContent = `${registryTools.length} Active Tools`;
         status.textContent = `Registry Synced: ${registryTools.length} calculators ready`;
-        onToolSelected();
       } catch (err) {
-        select.innerHTML = `<option value="">Fallback: General Hub (${BASE_SITE_URL}/tools/)</option>`;
+        registryTools = [];
         badge.textContent = "Offline / Fallback";
         status.textContent = `Registry notice: ${err.message}`;
       }
+
+      onFunnelModeChanged();
+    }
+
+    function populateTargetDropdown() {
+      const mode = getFunnelMode();
+      const select = document.getElementById("toolSelector");
+      const label = document.getElementById("targetSelectorLabel");
+      const badge = document.getElementById("toolCountBadge");
+      const openLink = document.getElementById("openToolLink");
+
+      select.innerHTML = "";
+
+      if (mode === "mode_a") {
+        label.textContent = "1. Target Calculator Bridge (from tools/registry.json)";
+        openLink.textContent = "Open Live Tool ↗";
+        badge.className = "pill";
+
+        if (registryTools.length === 0) {
+          select.innerHTML = `<option value="">Fallback: General Hub (${BASE_SITE_URL}/tools/)</option>`;
+          badge.textContent = "Offline / Fallback";
+        } else {
+          registryTools.forEach((tool, idx) => {
+            const opt = document.createElement("option");
+            opt.value = idx;
+            const pinTag = tool.pinned ? "★ " : "";
+            const arch = tool.archetype ? ` [${tool.archetype}]` : "";
+            opt.textContent = `${pinTag}${tool.title || tool.slug}${arch}`;
+            select.appendChild(opt);
+          });
+          badge.textContent = `${registryTools.length} Active Tools`;
+        }
+      } else {
+        label.textContent = "1. Target Gumroad Offer (Direct Checkout)";
+        openLink.textContent = "Open Offer Page ↗";
+        badge.className = "pill pill-offer";
+        badge.textContent = `${GUMROAD_OFFERS.length} Direct Offers`;
+
+        GUMROAD_OFFERS.forEach((offer, idx) => {
+          const opt = document.createElement("option");
+          opt.value = idx;
+          opt.textContent = `${offer.displayLabel} — ${offer.url}`;
+          select.appendChild(opt);
+        });
+      }
+
+      onToolSelected();
+    }
+
+    function updateModeUI() {
+      const mode = getFunnelMode();
+      const modeBadge = document.getElementById("funnelModeBadge");
+      const genBtn = document.getElementById("generateBtn");
+      const genXBtn = document.getElementById("generateXBtn");
+      const xHeader = document.getElementById("xDedicatedHeader");
+
+      if (mode === "mode_a") {
+        modeBadge.textContent = "Mode A: Free Bridge";
+        modeBadge.className = "pill";
+        genBtn.textContent = "🔥 Generate Authority Feeder Batch";
+        genBtn.className = "btn btn-primary";
+        genXBtn.textContent = "🎯 X/Threads Free Tool Hook";
+        xHeader.textContent = "X.COM / THREADS HIGH-RETENTION TOOL HOOK";
+      } else {
+        modeBadge.textContent = "Mode B: Direct Offer";
+        modeBadge.className = "pill pill-offer";
+        genBtn.textContent = "💰 Generate Direct Offer Batch";
+        genBtn.className = "btn btn-offer";
+        genXBtn.textContent = "🎯 X/Threads Direct Offer Hook";
+        xHeader.textContent = "X.COM / THREADS HIGH-CONVICTION OFFER HOOK";
+      }
+    }
+
+    function onFunnelModeChanged() {
+      localStorage.setItem("FUNNEL_MODE", getFunnelMode());
+      updateModeUI();
+      populateTargetDropdown();
     }
 
     function getSelectedToolContext() {
+      const mode = getFunnelMode();
       const idx = document.getElementById("toolSelector").value;
+
+      if (mode === "mode_b") {
+        const offer = GUMROAD_OFFERS[idx] || GUMROAD_OFFERS[0];
+        return {
+          mode: "mode_b",
+          title: offer.title,
+          displayLabel: offer.displayLabel,
+          price: offer.price,
+          url: offer.url,
+          description: offer.description,
+          archetype: "direct-gumroad-offer"
+        };
+      }
+
       const tool = registryTools[idx];
       if (!tool) {
         return {
+          mode: "mode_a",
           title: "Sovereign Operator Diagnostic & Calculator Hub",
+          displayLabel: "Sovereign Operator Diagnostic & Calculator Hub",
+          price: "Free",
           url: `${BASE_SITE_URL}/tools/`,
           description: "Free interactive calculators for solo revenue, financial runway, focus audits, and execution leverage.",
           archetype: "general"
         };
       }
       return {
+        mode: "mode_a",
         title: tool.title || tool.slug,
+        displayLabel: tool.title || tool.slug,
+        price: "Free",
         url: `${BASE_SITE_URL}/tools/${tool.slug}/`,
         description: tool.description || tool.subtitle || `Interactive ${tool.title || tool.slug} utility`,
         archetype: tool.archetype || "utility"
@@ -247,7 +396,11 @@
       document.getElementById("openToolLink").href = ctx.url;
       const payloadBox = document.getElementById("rawPayload");
       if (!payloadBox.value.trim() || payloadBox.dataset.autoFilled === "true") {
-        payloadBox.value = `TARGET CALCULATOR: ${ctx.title}\nLIVE URL: ${ctx.url}\nARCHETYPE: ${ctx.archetype}\nCORE PURPOSE: ${ctx.description}`;
+        if (ctx.mode === "mode_b") {
+          payloadBox.value = `TARGET OFFER: ${ctx.displayLabel}\nCHECKOUT URL: ${ctx.url}\nFUNNEL MODE: Bottom-of-Funnel Direct Offer\nCORE VALUE PROPOSITION: ${ctx.description}`;
+        } else {
+          payloadBox.value = `TARGET CALCULATOR: ${ctx.title}\nLIVE URL: ${ctx.url}\nARCHETYPE: ${ctx.archetype}\nCORE PURPOSE: ${ctx.description}`;
+        }
         payloadBox.dataset.autoFilled = "true";
       }
     }
@@ -287,86 +440,215 @@
       }
     }
 
+    async function callGroqAPI(apiKey, prompt, batchLabel) {
+      let res;
+      try {
+        res = await fetch(GROQ_API_URL, {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${apiKey}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: GROQ_MODEL,
+            messages: [{ role: "user", content: prompt }],
+            temperature: 0.7,
+            max_tokens: 4096
+          })
+        });
+      } catch (networkErr) {
+        throw new Error(`${batchLabel} network error: ${networkErr.message}`);
+      }
+
+      if (!res.ok) {
+        let detail = `HTTP ${res.status}`;
+        try {
+          const errBody = await res.json();
+          if (errBody && errBody.error && errBody.error.message) {
+            detail += ` — ${errBody.error.message}`;
+          }
+        } catch (_) {
+          // Ignore JSON parse error on non-JSON failure response
+        }
+        if (res.status === 401) {
+          throw new Error(`${batchLabel} failed (401 Unauthorized): Verify your Groq API key.`);
+        }
+        if (res.status === 429) {
+          throw new Error(`${batchLabel} hit Groq rate limit (429): Wait a few seconds and retry.`);
+        }
+        throw new Error(`${batchLabel} failed: ${detail}`);
+      }
+
+      const data = await res.json();
+      const content = data?.choices?.[0]?.message?.content;
+      if (!content) {
+        throw new Error(`${batchLabel} returned an empty response from Groq.`);
+      }
+      return content;
+    }
+
     async function generateXHighIntentThread() {
       const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
       const payload = document.getElementById("rawPayload").value.trim();
-      const tool = getSelectedToolContext();
+      const target = getSelectedToolContext();
       if (!apiKey) { alert("Groq API Key required."); return; }
 
       const btn = document.getElementById("generateXBtn");
+      const idleLabel = target.mode === "mode_b" ? "🎯 X/Threads Direct Offer Hook" : "🎯 X/Threads Free Tool Hook";
       btn.innerText = "⚡ Generating...";
       btn.disabled = true;
 
-      const prompt = `
-You are an elite copywriter writing high-retention posts for X and Threads.
-STRATEGY: Do NOT pitch a paid product directly (algorithms suppress checkout links). Give a sharp, tactical insight about the problem and send readers to use our free, zero-signup interactive calculator.
-FREE TOOL TO LINK: ${tool.title} -> ${tool.url}
+      const prompt = target.mode === "mode_b"
+        ? `
+You are an elite direct-response copywriter writing high-conviction posts for X and Threads.
+STRATEGY (MODE B - DIRECT GUMROAD OFFER): Write a bottom-of-funnel, high-conviction framework breakdown exposing why ad-hoc tactics fail and positioning our paid system as the definitive operating architecture.
+PRODUCT TO LINK: ${target.displayLabel} -> ${target.url}
 RULES:
 - PURE PLAIN TEXT ONLY. Zero markdown syntax, no hashtags, no bolding, no asterisks, no markdown links.
 - Use short, punchy lines with wide line spacing.
-- End with the raw URL on its own line: ${tool.url}
+- End with a direct call to action and the raw checkout URL on its own line: ${target.url}
+
+CONTEXT & ANGLE:
+${payload}
+`
+        : `
+You are an elite copywriter writing high-retention posts for X and Threads.
+STRATEGY (MODE A - FREE CALCULATOR BRIDGE): Do NOT pitch a paid product directly (algorithms suppress checkout links). Give a sharp, tactical insight about the problem and send readers to use our free, zero-signup interactive calculator.
+FREE TOOL TO LINK: ${target.title} -> ${target.url}
+RULES:
+- PURE PLAIN TEXT ONLY. Zero markdown syntax, no hashtags, no bolding, no asterisks, no markdown links.
+- Use short, punchy lines with wide line spacing.
+- End with the raw URL on its own line: ${target.url}
 
 CONTEXT & ANGLE:
 ${payload}
 `;
 
       try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ model: "openai/gpt-oss-120b", messages: [{ role: "user", content: prompt }], temperature: 0.7 })
-        });
-        const data = await res.json();
-        document.getElementById("xDedicatedContent").innerText = data.choices[0].message.content.trim();
+        const content = await callGroqAPI(apiKey, prompt, "X/Threads Hook");
+        document.getElementById("xDedicatedContent").innerText = content.trim();
         switchTab('x');
       } catch (err) {
+        console.error(err);
         alert("Error: " + err.message);
       } finally {
-        btn.innerText = "🎯 X/Threads Free Tool Hook";
+        btn.innerText = idleLabel;
         btn.disabled = false;
       }
     }
 
-    async function generateContentBatch() {
-      const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
-      const payload = document.getElementById("rawPayload").value.trim();
-      const tool = getSelectedToolContext();
-      if (!apiKey) { alert("Groq API Key required."); return; }
-
-      const btn = document.getElementById("generateBtn");
-      btn.innerText = "⚡ Generating Feeder Batch...";
-      btn.disabled = true;
-
-      const prompt = `
-You are an elite search-engine authority strategist. Write authoritative, practical "How-To / Diagnostic" feeder content for high-domain-authority platforms (Medium, Substack, LinkedIn, Blogger) that ranks on Google Search and funnels readers to our free interactive calculator.
-TARGET FREE CALCULATOR: ${tool.title}
-EXACT CALCULATOR URL: ${tool.url}
-FUNNEL LOGIC: Never pitch a paid product in the article. Position the calculator as a free, zero-signup diagnostic tool so readers click through to run their numbers.
-FORMATTING FOR RICH TEXT PARSER (Medium, Substack, LinkedIn):
+    function buildBatch1Prompt(target, payload) {
+      if (target.mode === "mode_b") {
+        return `
+You are an elite bottom-of-funnel conversion strategist and systems writer. Write high-conviction, bottom-of-funnel framework breakdowns for Medium and Substack that dismantle surface-level advice, show the exact structural mechanics of the system, and drive readers directly to purchase.
+TARGET PRODUCT: ${target.displayLabel}
+EXACT CHECKOUT URL: ${target.url}
+FUNNEL LOGIC: Bottom-of-Funnel Direct Offer. Do NOT hedge or send readers to a free tool. Build conviction around the cost of broken execution and link directly to checkout.
+FORMATTING FOR RICH TEXT PARSER (Medium, Substack):
 - Use "# Title" for the main headline on line 1.
 - Use "## Section Heading" for subheadings.
 - Use "**bold text**" for emphasis and "- item" for bullet points.
-- Use clickable Markdown links: [${tool.title}](${tool.url}) so our Rich Text Copy button turns them into instant live hyperlinks.
+- Use clickable Markdown links: [${target.title}](${target.url}) mid-article and in the closing CTA so our Rich Text Copy button turns them into instant live hyperlinks.
 
 ===MEDIUM_START===
-[Write a 600-800 word SEO-targeted field guide for Medium using # Title, ## Subheadings, **bold**, - bullets, and clickable [${tool.title}](${tool.url}) links mid-article and at the end.]
+[Write a 600-800 word high-conviction framework breakdown for Medium using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) checkout links mid-article and at the end.]
 ===MEDIUM_END===
 
 ===SUBSTACK_START===
-[Write a crisp 450-650 word diagnostic essay for Substack using # Title, ## Subheadings, **bold**, - bullets, and clickable [${tool.title}](${tool.url}) links.]
+[Write a crisp 450-650 word bottom-of-funnel operator essay for Substack using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) checkout links.]
 ===SUBSTACK_END===
 
+SOURCE CONTEXT & ANGLE:
+${payload}
+`;
+      }
+
+      return `
+You are an elite search-engine authority strategist. Write authoritative, practical "How-To / Diagnostic" feeder content for Medium and Substack that ranks on Google Search and funnels readers to our free interactive calculator.
+TARGET FREE CALCULATOR: ${target.title}
+EXACT CALCULATOR URL: ${target.url}
+FUNNEL LOGIC: Never pitch a paid product in the article. Position the calculator as a free, zero-signup diagnostic tool so readers click through to run their numbers.
+FORMATTING FOR RICH TEXT PARSER (Medium, Substack):
+- Use "# Title" for the main headline on line 1.
+- Use "## Section Heading" for subheadings.
+- Use "**bold text**" for emphasis and "- item" for bullet points.
+- Use clickable Markdown links: [${target.title}](${target.url}) so our Rich Text Copy button turns them into instant live hyperlinks.
+
+===MEDIUM_START===
+[Write a 600-800 word SEO-targeted field guide for Medium using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) links mid-article and at the end.]
+===MEDIUM_END===
+
+===SUBSTACK_START===
+[Write a crisp 450-650 word diagnostic essay for Substack using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) links.]
+===SUBSTACK_END===
+
+SOURCE CONTEXT & ANGLE:
+${payload}
+`;
+    }
+
+    function buildBatch2Prompt(target, payload) {
+      if (target.mode === "mode_b") {
+        return `
+You are an elite bottom-of-funnel conversion strategist and systems writer. Write high-conviction framework breakdowns for LinkedIn, X/Threads, and Blogger that convert operators directly to the checkout URL.
+TARGET PRODUCT: ${target.displayLabel}
+EXACT CHECKOUT URL: ${target.url}
+FUNNEL LOGIC: Bottom-of-Funnel Direct Offer. Write with decisive authority about the hidden cost of un-systemized execution and link directly to the checkout URL.
+LINK FORMATTING RULES:
+- For LinkedIn and Blogger (Rich Copy / Markdown): Use "# Title", "## Section Heading", "**bold**", "- item", and clickable Markdown links: [${target.title}](${target.url})
+- For X/Threads: PURE PLAIN TEXT ONLY. NO markdown, NO hashtags, NO asterisks, NO brackets. End with the raw checkout URL: ${target.url}
+
 ===LINKEDIN_START===
-[Write an authoritative LinkedIn Article / long-form dispatch using # Title, ## Subheadings, **bold**, - bullets, and clickable [${tool.title}](${tool.url}) links.]
+[Write an authoritative LinkedIn Article / long-form dispatch breaking down the core framework using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) checkout links.]
 ===LINKEDIN_END===
 
 ===THREADS_START===
-[Write a punchy X/Threads post. PURE PLAIN TEXT. NO markdown, NO hashtags, NO asterisks, NO brackets. End with raw URL: ${tool.url}]
+[Write a punchy X/Threads framework teardown. PURE PLAIN TEXT. NO markdown, NO hashtags, NO asterisks, NO brackets. End with raw URL: ${target.url}]
 ===THREADS_END===
 
 ===BLOGGER_START===
 ---
-title: "[High-CTR Search Intent Title for ${tool.title}]"
+title: "[High-Conviction Bottom-of-Funnel Title for ${target.title}]"
+tags: [Systems, Execution, Framework]
+status: publish
+---
+# [Repeat Title as H1]
+> **Framework Thesis:** [2-sentence decisive breakdown of why this system solves the bottleneck]
+## Why Ad-Hoc Tactics Fail Under Pressure
+## Inside the Architecture of [${target.title}](${target.url})
+---
+Get immediate access to [${target.title}](${target.url}) (${target.price}) and deploy the full operating system today.
+---
+## Frequently Asked Questions
+===BLOGGER_END===
+
+SOURCE CONTEXT & ANGLE:
+${payload}
+`;
+      }
+
+      return `
+You are an elite search-engine authority strategist. Write authoritative, practical "How-To / Diagnostic" feeder content for LinkedIn, X/Threads, and Blogger that funnels readers to our free interactive calculator.
+TARGET FREE CALCULATOR: ${target.title}
+EXACT CALCULATOR URL: ${target.url}
+FUNNEL LOGIC: Never pitch a paid product in the article. Position the calculator as a free, zero-signup diagnostic tool so readers click through to run their numbers.
+FORMATTING FOR RICH TEXT PARSER (LinkedIn):
+- Use "# Title" for the main headline on line 1.
+- Use "## Section Heading" for subheadings.
+- Use "**bold text**" for emphasis and "- item" for bullet points.
+- Use clickable Markdown links: [${target.title}](${target.url}) so our Rich Text Copy button turns them into instant live hyperlinks.
+
+===LINKEDIN_START===
+[Write an authoritative LinkedIn Article / long-form dispatch using # Title, ## Subheadings, **bold**, - bullets, and clickable [${target.title}](${target.url}) links.]
+===LINKEDIN_END===
+
+===THREADS_START===
+[Write a punchy X/Threads post. PURE PLAIN TEXT. NO markdown, NO hashtags, NO asterisks, NO brackets. End with raw URL: ${target.url}]
+===THREADS_END===
+
+===BLOGGER_START===
+---
+title: "[High-CTR Search Intent Title for ${target.title}]"
 tags: [Systems, Calculator, Operator]
 status: publish
 ---
@@ -375,7 +657,7 @@ status: publish
 ## Why Most Operators Miscalculate This
 ## The 3 Variables That Drive the Outcome
 ---
-Test your live baseline using the free <a href="${tool.url}" target="_blank" rel="noopener"><strong>${tool.title}</strong></a> (no signup required).
+Test your live baseline using the free <a href="${target.url}" target="_blank" rel="noopener"><strong>${target.title}</strong></a> (no signup required).
 ---
 ## Frequently Asked Questions
 ===BLOGGER_END===
@@ -383,34 +665,58 @@ Test your live baseline using the free <a href="${tool.url}" target="_blank" rel
 SOURCE CONTEXT & ANGLE:
 ${payload}
 `;
+    }
+
+    async function generateContentBatch() {
+      const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
+      const payload = document.getElementById("rawPayload").value.trim();
+      const target = getSelectedToolContext();
+      if (!apiKey) { alert("Groq API Key required."); return; }
+
+      const btn = document.getElementById("generateBtn");
+      const idleLabel = target.mode === "mode_b"
+        ? "💰 Generate Direct Offer Batch"
+        : "🔥 Generate Authority Feeder Batch";
+
+      btn.innerText = "⚡ Running 2 Parallel Batches...";
+      btn.disabled = true;
+
+      const batch1Prompt = buildBatch1Prompt(target, payload);
+      const batch2Prompt = buildBatch2Prompt(target, payload);
 
       try {
-        const res = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-          method: "POST",
-          headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
-          body: JSON.stringify({ model: "openai/gpt-oss-120b", messages: [{ role: "user", content: prompt }], temperature: 0.7 })
-        });
-        const data = await res.json();
-        const content = data.choices[0].message.content;
+        const [batch1Content, batch2Content] = await Promise.all([
+          callGroqAPI(apiKey, batch1Prompt, "Batch 1 (Medium + Substack)"),
+          callGroqAPI(apiKey, batch2Prompt, "Batch 2 (LinkedIn + Threads + Blogger)")
+        ]);
 
-        document.getElementById("mediumContent").innerText = extractSection(content, "MEDIUM");
-        document.getElementById("substackContent").innerText = extractSection(content, "SUBSTACK");
-        document.getElementById("linkedinContent").innerText = extractSection(content, "LINKEDIN");
-        document.getElementById("threadsContent").innerText = extractSection(content, "THREADS");
-        document.getElementById("bloggerContent").innerText = extractSection(content, "BLOGGER");
+        document.getElementById("mediumContent").innerText = extractSection(batch1Content, "MEDIUM");
+        document.getElementById("substackContent").innerText = extractSection(batch1Content, "SUBSTACK");
+        document.getElementById("linkedinContent").innerText = extractSection(batch2Content, "LINKEDIN");
+        document.getElementById("threadsContent").innerText = extractSection(batch2Content, "THREADS");
+        document.getElementById("bloggerContent").innerText = extractSection(batch2Content, "BLOGGER");
         switchTab('batch');
       } catch (err) {
+        console.error(err);
         alert("Error: " + err.message);
       } finally {
-        btn.innerText = "🔥 Generate Authority Feeder Batch";
+        btn.innerText = idleLabel;
         btn.disabled = false;
       }
     }
 
     function extractSection(text, tag) {
-      const regex = new RegExp(`===\\s*${tag}_START\\s*===\\s*([\\s\\S]*?)\\s*===\\s*${tag}_END\\s*===`, 'i');
-      const match = text.match(regex);
-      return match ? match[1].trim() : "Section not found.";
+      if (!text || typeof text !== "string") return "Section not found.";
+      const startRegex = new RegExp(`===\\s*${tag}_START\\s*===\\s*`, 'i');
+      const startMatch = startRegex.exec(text);
+      if (!startMatch) return "Section not found.";
+
+      const afterStart = text.slice(startMatch.index + startMatch[0].length);
+      const endRegex = new RegExp(`===\\s*(?:${tag}_END|[A-Z0-9_]+_START)\\s*===`, 'i');
+      const endMatch = endRegex.exec(afterStart);
+
+      const extracted = endMatch ? afterStart.slice(0, endMatch.index) : afterStart;
+      return extracted.trim() || "Section not found.";
     }
 
     function flashButton(btn, msg) {
