@@ -22,12 +22,13 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { background-color: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 16px; min-height: 100vh; }
     .main-wrapper { max-width: 1000px; margin: 0 auto; width: 100%; }
-    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+    header { display: flex; justify-content: space-between; align-items: center; padding-bottom: 12px; margin-bottom: 16px; border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
     h1 { font-size: 1.25rem; color: var(--text-heading); letter-spacing: -0.5px; }
     .card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3); }
-    .card label { font-size: 0.85rem; font-weight: 600; color: var(--text-heading); display: flex; justify-content: space-between; margin-bottom: 8px; }
-    textarea { width: 100%; height: 100px; background: var(--secondary); border: 1px solid var(--border); color: var(--text-heading); border-radius: 6px; padding: 10px; font-family: inherit; font-size: 0.9rem; resize: vertical; }
-    textarea:focus { outline: 1px solid var(--accent); border-color: var(--accent); }
+    .card label { font-size: 0.85rem; font-weight: 600; color: var(--text-heading); display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+    select, textarea { width: 100%; background: var(--secondary); border: 1px solid var(--border); color: var(--text-heading); border-radius: 6px; padding: 10px; font-family: inherit; font-size: 0.9rem; }
+    textarea { height: 95px; resize: vertical; }
+    select:focus, textarea:focus { outline: 1px solid var(--badge-bg); border-color: var(--badge-bg); }
     input[type="password"] { background: var(--secondary); border: 1px solid var(--border); color: var(--text-heading); padding: 6px 10px; border-radius: 6px; font-size: 0.85rem; }
     .btn { padding: 8px 14px; border-radius: 6px; font-weight: 600; font-size: 0.85rem; cursor: pointer; border: 1px solid transparent; text-align: center; }
     .btn-primary { background: var(--accent); color: #fff; }
@@ -40,6 +41,7 @@
     .tab-btn { flex: 1; min-width: 120px; padding: 8px 12px; background: transparent; border: none; color: var(--muted); font-size: 0.85rem; font-weight: 600; border-radius: 6px; cursor: pointer; text-align: center; }
     .tab-btn.active { background: var(--secondary); color: var(--text-heading); border: 1px solid var(--border); }
     .content-box { font-size: 0.85rem; line-height: 1.5; color: var(--text); white-space: pre-wrap; font-family: monospace; background: var(--secondary); padding: 12px; border-radius: 6px; border: 1px solid var(--border); max-height: 450px; overflow-y: auto; margin-top: 8px; }
+    .pill { font-size: 0.72rem; padding: 2px 8px; border-radius: 999px; background: rgba(31, 111, 235, 0.18); color: #58a6ff; border: 1px solid rgba(31, 111, 235, 0.4); }
   </style>
 </head>
 <body>
@@ -49,7 +51,7 @@
     <header>
       <div>
         <h1>⚡ COMMANDHUB OS</h1>
-        <div style="font-size: 0.75rem; color: var(--muted);" id="repo-status">Status: Autonomous Mode Ready</div>
+        <div style="font-size: 0.75rem; color: var(--muted);" id="repo-status">Loading tools/registry.json...</div>
       </div>
       <div style="display: flex; gap: 8px; align-items: center;">
         <input type="password" id="groqApiKey" placeholder="Groq API Key (gsk_...)" style="width: 160px;">
@@ -57,24 +59,35 @@
       </div>
     </header>
 
-    <!-- Universal Signal Capture -->
+    <!-- Target Tool Selector + Signal Capture -->
     <section class="card">
-      <label for="rawPayload">
-        <span>Universal Signal Ingestion Payload</span>
-        <span style="color: var(--muted); font-weight: normal; font-size: 0.75rem;">Groq LPU Engine (openai/gpt-oss-120b)</span>
+      <label for="toolSelector">
+        <span>1. Target Calculator Bridge (from tools/registry.json)</span>
+        <span id="toolCountBadge" class="pill">Syncing...</span>
       </label>
-      <textarea id="rawPayload" placeholder="Paste raw research, forum thread, or mental dump here..."></textarea>
+      <div style="display: flex; gap: 8px; margin-bottom: 12px; flex-wrap: wrap;">
+        <select id="toolSelector" onchange="onToolSelected()" style="flex: 1; min-width: 240px;">
+          <option value="">Loading live tools from registry.json...</option>
+        </select>
+        <a id="openToolLink" href="./tools/" target="_blank" class="btn btn-secondary" style="text-decoration: none; display: inline-flex; align-items: center;">Open Live Tool ↗</a>
+      </div>
+
+      <label for="rawPayload">
+        <span>2. Angle / Raw Signal Notes (Optional if tool selected)</span>
+        <span style="color: var(--muted); font-weight: normal; font-size: 0.75rem;">Groq LPU (openai/gpt-oss-120b)</span>
+      </label>
+      <textarea id="rawPayload" placeholder="Auto-populated from selected calculator—or paste extra notes, forum pain points, or specific angles here..."></textarea>
       
       <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
-        <button onclick="generateContentBatch()" id="generateBtn" class="btn btn-primary" style="flex: 1; min-width: 200px;">🔥 Generate Multi-Channel Batch</button>
-        <button onclick="generateXHighIntentThread()" id="generateXBtn" class="btn btn-x" style="flex: 1; min-width: 200px;">🎯 X/Threads $197 Teardown</button>
+        <button onclick="generateContentBatch()" id="generateBtn" class="btn btn-primary" style="flex: 1; min-width: 200px;">🔥 Generate Authority Feeder Batch</button>
+        <button onclick="generateXHighIntentThread()" id="generateXBtn" class="btn btn-x" style="flex: 1; min-width: 200px;">🎯 X/Threads Free Tool Hook</button>
       </div>
     </section>
 
     <!-- Navigation Tabs -->
     <div class="tab-bar">
-      <button id="tab-batch" class="tab-btn active" onclick="switchTab('batch')">Multi-Channel Outputs</button>
-      <button id="tab-x" class="tab-btn" onclick="switchTab('x')">X/Threads Teardowns</button>
+      <button id="tab-batch" class="tab-btn active" onclick="switchTab('batch')">Authority Feeders (Medium / Substack / LI)</button>
+      <button id="tab-x" class="tab-btn" onclick="switchTab('x')">X/Threads Hook</button>
       <button id="tab-repo" class="tab-btn" onclick="switchTab('repo')">Repo File Viewer</button>
     </div>
 
@@ -82,15 +95,15 @@
     <div id="section-batch" class="deck-container">
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #e3b341;">MEDIUM ARTICLE (ZERO HASHTAGS)</span>
+          <span style="font-size: 0.8rem; font-weight: bold; color: #e3b341;">MEDIUM SEO FEEDER ARTICLE (ZERO HASHTAGS)</span>
           <button onclick="copyToClipboard('mediumContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
         </div>
-        <div id="mediumContent" class="content-box">Awaiting generation batch...</div>
+        <div id="mediumContent" class="content-box">Select a calculator above and click "Generate Authority Feeder Batch"...</div>
       </div>
 
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #f0883e;">SUBSTACK ESSAY (CLEAN MOBILE FORMAT)</span>
+          <span style="font-size: 0.8rem; font-weight: bold; color: #f0883e;">SUBSTACK DIAGNOSTIC ESSAY</span>
           <button onclick="copyToClipboard('substackContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
         </div>
         <div id="substackContent" class="content-box">Awaiting generation batch...</div>
@@ -98,7 +111,7 @@
 
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #58a6ff;">LINKEDIN DISPATCH</span>
+          <span style="font-size: 0.8rem; font-weight: bold; color: #58a6ff;">LINKEDIN ARTICLE / DISPATCH</span>
           <button onclick="copyToClipboard('linkedinContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
         </div>
         <div id="linkedinContent" class="content-box">Awaiting generation batch...</div>
@@ -106,7 +119,7 @@
 
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #bc8cff;">X.COM / THREADS (STANDARD)</span>
+          <span style="font-size: 0.8rem; font-weight: bold; color: #bc8cff;">X.COM / THREADS (FREE TOOL LINK)</span>
           <button onclick="copyToClipboard('threadsContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
         </div>
         <div id="threadsContent" class="content-box">Awaiting generation batch...</div>
@@ -125,10 +138,10 @@
     <div id="section-x" class="deck-container" style="display: none;">
       <div class="card">
         <div style="display: flex; justify-content: space-between; align-items: center;">
-          <span style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-INTENT SALES TEARDOWN ($197 VECTOR)</span>
+          <span style="font-size: 0.8rem; font-weight: bold; color: #1d9bf0;">X.COM / THREADS HIGH-RETENTION TOOL HOOK</span>
           <button onclick="copyToClipboard('xDedicatedContent')" class="btn btn-secondary" style="padding: 4px 8px; font-size: 0.75rem;">Copy</button>
         </div>
-        <div id="xDedicatedContent" class="content-box">Awaiting high-intent teardown generation...</div>
+        <div id="xDedicatedContent" class="content-box">Awaiting generation...</div>
       </div>
     </div>
 
@@ -150,6 +163,9 @@
   </div>
 
   <script>
+    const BASE_SITE_URL = "https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub";
+    let registryTools = [];
+
     const relativePaths = {
       'Substack': './Substack/latest_substack.md',
       'Threads': './Threads/latest_threads.md',
@@ -159,6 +175,78 @@
     document.addEventListener("DOMContentLoaded", () => {
       const savedKey = localStorage.getItem("GROQ_API_KEY");
       if (savedKey) document.getElementById("groqApiKey").value = savedKey;
+      loadToolRegistry();
+    });
+
+    async function loadToolRegistry() {
+      const select = document.getElementById("toolSelector");
+      const badge = document.getElementById("toolCountBadge");
+      const status = document.getElementById("repo-status");
+
+      try {
+        const res = await fetch(`./tools/registry.json?t=${Date.now()}`);
+        if (!res.ok) throw new Error("Could not load tools/registry.json");
+        const data = await res.json();
+
+        // Support either { tools: [...] } or { slug: {...} } or array format
+        let rawList = Array.isArray(data) ? data : (data.tools || data.utilities || Object.values(data));
+        registryTools = rawList.filter(item => item && item.slug);
+
+        // Sort pinned winners first, then newest
+        registryTools.sort((a, b) => (b.pinned ? 1 : 0) - (a.pinned ? 1 : 0));
+
+        select.innerHTML = "";
+        registryTools.forEach((tool, idx) => {
+          const opt = document.createElement("option");
+          opt.value = idx;
+          const pinTag = tool.pinned ? "★ " : "";
+          const arch = tool.archetype ? ` [${tool.archetype}]` : "";
+          opt.textContent = `${pinTag}${tool.title || tool.slug}${arch}`;
+          select.appendChild(opt);
+        });
+
+        badge.textContent = `${registryTools.length} Active Tools`;
+        status.textContent = `Registry Synced: ${registryTools.length} calculators ready`;
+        onToolSelected();
+      } catch (err) {
+        select.innerHTML = `<option value="">Fallback: General Hub (${BASE_SITE_URL}/tools/)</option>`;
+        badge.textContent = "Offline / Fallback";
+        status.textContent = `Registry notice: ${err.message}`;
+      }
+    }
+
+    function getSelectedToolContext() {
+      const idx = document.getElementById("toolSelector").value;
+      const tool = registryTools[idx];
+      if (!tool) {
+        return {
+          title: "Sovereign Operator Diagnostic & Calculator Hub",
+          url: `${BASE_SITE_URL}/tools/`,
+          description: "Free interactive calculators for solo revenue, financial runway, focus audits, and execution leverage.",
+          archetype: "general"
+        };
+      }
+      return {
+        title: tool.title || tool.slug,
+        url: `${BASE_SITE_URL}/tools/${tool.slug}/`,
+        description: tool.description || tool.subtitle || `Interactive ${tool.title || tool.slug} utility`,
+        archetype: tool.archetype || "utility",
+        sliders: tool.sliders || []
+      };
+    }
+
+    function onToolSelected() {
+      const ctx = getSelectedToolContext();
+      document.getElementById("openToolLink").href = ctx.url;
+      const payloadBox = document.getElementById("rawPayload");
+      if (!payloadBox.value.trim() || payloadBox.dataset.autoFilled === "true") {
+        payloadBox.value = `TARGET CALCULATOR: ${ctx.title}\nLIVE URL: ${ctx.url}\nARCHETYPE: ${ctx.archetype}\nCORE PURPOSE: ${ctx.description}`;
+        payloadBox.dataset.autoFilled = "true";
+      }
+    }
+
+    document.getElementById("rawPayload").addEventListener("input", function() {
+      this.dataset.autoFilled = "false";
     });
 
     function saveApiKey() {
@@ -168,25 +256,13 @@
     }
 
     function switchTab(tabName) {
-      document.getElementById('tab-batch').classList.remove('active');
-      document.getElementById('tab-x').classList.remove('active');
-      document.getElementById('tab-repo').classList.remove('active');
-      
-      document.getElementById('section-batch').style.display = 'none';
-      document.getElementById('section-x').style.display = 'none';
-      document.getElementById('section-repo').style.display = 'none';
-
-      if (tabName === 'batch') {
-        document.getElementById('tab-batch').classList.add('active');
-        document.getElementById('section-batch').style.display = 'block';
-      } else if (tabName === 'x') {
-        document.getElementById('tab-x').classList.add('active');
-        document.getElementById('section-x').style.display = 'block';
-      } else if (tabName === 'repo') {
-        document.getElementById('tab-repo').classList.add('active');
-        document.getElementById('section-repo').style.display = 'block';
-        fetchRepoAsset('Substack');
-      }
+      ['batch', 'x', 'repo'].forEach(t => {
+        document.getElementById(`tab-${t}`).classList.remove('active');
+        document.getElementById(`section-${t}`).style.display = 'none';
+      });
+      document.getElementById(`tab-${tabName}`).classList.add('active');
+      document.getElementById(`section-${tabName}`).style.display = 'block';
+      if (tabName === 'repo') fetchRepoAsset('Substack');
     }
 
     async function fetchRepoAsset(platform) {
@@ -195,14 +271,10 @@
       display.textContent = `Fetching latest ${platform} asset from repository...`;
       tag.textContent = platform.toUpperCase() + " (REPO FILE)";
 
-      const fileUrl = `${relativePaths[platform]}?t=${new Date().getTime()}`;
-
       try {
-        const response = await fetch(fileUrl);
+        const response = await fetch(`${relativePaths[platform]}?t=${Date.now()}`);
         if (!response.ok) throw new Error("Asset file not found in directory.");
-        const text = await response.text();
-        display.textContent = text;
-        document.getElementById('repo-status').textContent = `Fetched ${platform}: ${new Date().toLocaleTimeString()}`;
+        display.textContent = await response.text();
       } catch (err) {
         display.textContent = `Error: ${err.message}. (Verify file exists at ${relativePaths[platform]})`;
       }
@@ -211,17 +283,23 @@
     async function generateXHighIntentThread() {
       const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
       const payload = document.getElementById("rawPayload").value.trim();
-      if (!apiKey || !payload) { alert("API Key and Payload required."); return; }
+      const tool = getSelectedToolContext();
+      if (!apiKey) { alert("Groq API Key required."); return; }
 
       const btn = document.getElementById("generateXBtn");
       btn.innerText = "⚡ Generating...";
       btn.disabled = true;
 
       const prompt = `
-You are an elite copywriter converting high-agency operators on X/Threads into high-ticket buyers.
-MONETIZATION: Compression System ($197) - https://fmframeworks.gumroad.com/l/CompressionSystem
-RULES: ZERO markdown syntax. No hashtags, no bolding, no italics, no markdown links. Use plain text with wide line breaks and raw URL.
-RAW RESEARCH:
+You are an elite copywriter writing high-retention posts for X and Threads.
+STRATEGY: Do NOT pitch a paid product directly (algorithms suppress checkout links). Instead, give a sharp, tactical insight about the problem and send readers to use our free, zero-signup interactive calculator.
+FREE TOOL TO LINK: ${tool.title} -> ${tool.url}
+RULES:
+- PURE PLAIN TEXT ONLY. Zero markdown syntax, no hashtags, no bolding, no asterisks, no markdown links.
+- Use short, punchy lines with wide line spacing.
+- End with the raw URL on its own line: ${tool.url}
+
+CONTEXT & ANGLE:
 ${payload}
 `;
 
@@ -237,7 +315,7 @@ ${payload}
       } catch (err) {
         alert("Error: " + err.message);
       } finally {
-        btn.innerText = "🎯 X/Threads $197 Teardown";
+        btn.innerText = "🎯 X/Threads Free Tool Hook";
         btn.disabled = false;
       }
     }
@@ -245,52 +323,60 @@ ${payload}
     async function generateContentBatch() {
       const apiKey = document.getElementById("groqApiKey").value.trim() || localStorage.getItem("GROQ_API_KEY");
       const payload = document.getElementById("rawPayload").value.trim();
-      if (!apiKey || !payload) { alert("API Key and Payload required."); return; }
+      const tool = getSelectedToolContext();
+      if (!apiKey) { alert("Groq API Key required."); return; }
 
       const btn = document.getElementById("generateBtn");
-      btn.innerText = "⚡ Generating Batch...";
+      btn.innerText = "⚡ Generating Feeder Batch...";
       btn.disabled = true;
 
       const prompt = `
-You are an elite programmatic SEO and multi-channel content engine.
-MONETIZATION: Compression System ($197) - <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>
+You are an elite search-engine authority strategist. Your job is to write authoritative, practical "How-To / Diagnostic" feeder content for high-domain-authority platforms (Medium, Substack, LinkedIn, Blogger) that ranks on Google Search and funnels readers to our free interactive calculator.
+TARGET FREE CALCULATOR: ${tool.title}
+EXACT CALCULATOR URL: ${tool.url}
+FUNNEL LOGIC: Never pitch a paid product in the article. Position the calculator as a free, zero-signup diagnostic tool so readers click through to run their numbers (the calculator page itself handles the monetization bridge).
 
 ===MEDIUM_START===
-[Insert Medium article. Use BOLD UPPERCASE for headers. NO markdown hashtags (#). Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
+[Write a 600-800 word SEO-targeted field guide for Medium.
+- Title line: High-intent search query title (e.g., "How to Calculate..." or "The Exact Math Behind...").
+- Use BOLD UPPERCASE for section headers. NO markdown hashtags (#).
+- Break down the 3 core variables/levers people get wrong on this topic.
+- Include the exact raw URL ${tool.url} twice: once mid-article ("Run your own numbers with the free ${tool.title}: ${tool.url}") and once at the end.]
 ===MEDIUM_END===
 
 ===SUBSTACK_START===
-[Insert Substack essay (400-600 words). BOLD UPPERCASE headers. NO hashtags (#). Include link to <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener">Compression System</a>.]
+[Write a crisp 450-650 word diagnostic essay for Substack.
+- Sharp curiosity/problem headline on line 1.
+- BOLD UPPERCASE headers. NO hashtags (#).
+- Practical breakdown + clear callout linking directly to ${tool.url} so readers can benchmark their baseline.]
 ===SUBSTACK_END===
 
 ===LINKEDIN_START===
-[Insert LinkedIn post with high executive authority, zero fluff]
+[Write an authoritative LinkedIn Article / long-form post.
+- Zero fluff, strong hook, 3 tactical takeaways, and a clear link to try the free ${tool.title} at ${tool.url}.]
 ===LINKEDIN_END===
 
 ===THREADS_START===
-[Insert X/Threads posts. PURE PLAIN TEXT. NO markdown. End with raw URL: https://fmframeworks.gumroad.com/l/CompressionSystem]
+[Write a punchy X/Threads post. PURE PLAIN TEXT. NO markdown, NO hashtags, NO asterisks. End with raw URL: ${tool.url}]
 ===THREADS_END===
 
 ===BLOGGER_START===
 ---
-title: "[High-CTR Search Intent Title]"
-tags: [Productivity, Systems, Operator]
+title: "[High-CTR Search Intent Title for ${tool.title}]"
+tags: [Systems, Calculator, Operator]
 status: publish
 ---
 # [Repeat Title as H1]
-> **Executive Summary:** [2-sentence answer for Google Snippets]
-## Core Mechanism
-## Comparative Breakdown
-| Dimension | Traditional | Sovereign |
-| :--- | :--- | :--- |
-| **Execution** | Manual friction | Automated pipeline |
+> **Diagnostic Takeaway:** [2-sentence direct answer optimized for Google Featured Snippets]
+## Why Most Operators Miscalculate This
+## The 3 Variables That Drive the Outcome
 ---
-Secure the <a href="https://fmframeworks.gumroad.com/l/CompressionSystem" target="_blank" rel="noopener"><strong>Compression System</strong></a>.
+Test your live baseline using the free <a href="${tool.url}" target="_blank" rel="noopener"><strong>${tool.title}</strong></a> (no signup required).
 ---
-## FAQs
+## Frequently Asked Questions
 ===BLOGGER_END===
 
-RAW RESEARCH PAYLOAD:
+SOURCE CONTEXT & ANGLE:
 ${payload}
 `;
 
@@ -312,7 +398,7 @@ ${payload}
       } catch (err) {
         alert("Error: " + err.message);
       } finally {
-        btn.innerText = "🔥 Generate Multi-Channel Batch";
+        btn.innerText = "🔥 Generate Authority Feeder Batch";
         btn.disabled = false;
       }
     }
