@@ -8,3 +8,6 @@ traffic_harvester.yml filed created in Gemini chat: [https://gemini.google.com/a
 In Secrets, GSC_SITE_URL - [https://samsivaji1297-byte.github.io/FMMediaEnterprises-Hub/]
 
 GSC_CREDENTIALS_JSON - [get it from blogger-pipeline-509101-048f2d8c738a.json file], entire file just copy and paste the entire code
+
+
+content_hub.html that sits at the base repo, latest code base came from this Gemini Chat: [https://gemini.google.com/app/8e64b06e15613a2c] - [Strategic Upgrades of Automation Engine]
