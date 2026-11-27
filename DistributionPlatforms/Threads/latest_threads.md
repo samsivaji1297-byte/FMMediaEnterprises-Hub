@@ -1,22 +1,31 @@
-**Reel Hook:** “What if every hour you work *immediately* shows up in your bank account?”  
-**Caption:** “Turn the invisible lag into a live revenue feed. 👇”
+**Hook:**  
+🧠 Your brain is stuck in a “tool‑choice maze.”  
+🚀 Break out with ONE system that *does it all*.
 
-**Post 1 – The Lag Is a Leak**  
-You spend 8 hours building a client deliverable, but the invoice sits in draft for days. That lag isn’t just annoying—it’s a revenue leak that drains motivation.  
+**Caption:**  
+Stop swapping apps. Deploy a single‑click engine and reclaim 3‑5 hours every week.
 
-**Post 2 – The Brain’s Discount Switch**  
-Our brains apply a 90‑day discount curve to future money. The farther the payout, the less drive we feel today. That’s why “busy work” feels endless.  
+---
 
-**Post 3 – Plug the Leak with a Real‑Time Engine**  
-✅ Capture task start/stop in seconds  
-✅ Auto‑assign a dollar value per minute (outcome‑based)  
-✅ Sync to a live dashboard that updates your “earned‑so‑far” balance  
+**Post 1️⃣ – The Choice Trap**  
+Every week I added a new “must‑have” app: Notion for notes, ClickUp for tasks, Zapier for automations, Toggl for time. The result? A 7‑step login ritual that kills momentum before the day even starts. #ToolFatigue #DecisionOverload
 
-**Post 4 – Quick Win Blueprint**  
-1️⃣ Choose a task‑tracker API (e.g., Toggl).  
-2️⃣ Map each project to a revenue rate you’ve pre‑negotiated.  
-3️⃣ Use Zapier/Webhooks to push minutes → Google Sheet → Stripe “virtual invoice”.  
+---
 
-Result: Every minute you log instantly adds to a visible earnings counter. No more waiting for the invoice cycle.  
+**Post 2️⃣ – The Hidden Cost**  
+Research shows each additional app adds ~15 minutes of “switch cost” *per* task. Multiply that by 10 tasks a day and you lose **2.5 hours** before any real work. That’s the **Integration‑Fatigue Tax**. #ProductivityMath
 
-💡 **Your next step:** Grab the free template and start seeing minutes turn into money today.
+---
+
+**Post 3️⃣ – The One‑Click Fix**  
+Enter a **Zero‑Choice Stack**: a programmable hub that houses notes, tasks, automations, and timers *in one UI* and syncs automatically via API‑driven templates. No onboarding, no plugins—just paste a single URL and you’re live. #ZeroChoice
+
+---
+
+**Post 4️⃣ – Immediate ROI**  
+✅ Set up in 5 minutes  
+✅ Save 3 hours/week (≈ $250 value for a solo‑founder)  
+✅ Scale without adding more tools  
+
+Ready to ditch the maze? Grab the **Compression System** and watch your workflow collapse. 👇  
+https://fmframeworks.gumroad.com/l/CompressionSystem
