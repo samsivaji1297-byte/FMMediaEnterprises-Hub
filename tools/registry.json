@@ -1,6 +1,6 @@
 {
-  "updated_at": "2026-11-27T10:41:08.331777Z",
-  "count": 21,
+  "updated_at": "2026-11-28T00:16:12.373670Z",
+  "count": 24,
   "utilities": [
     {
       "slug": "mindset-discipline-diagnostic",
@@ -119,26 +119,26 @@
     {
       "slug": "personal-finance-runway-planner",
       "title": "Personal Finance Runway Planner",
-      "target_query": "personal finance organization",
-      "meta_description": "Map your financial runway, identify cash\u2011flow gaps, and plan for sustainable wealth growth.",
+      "target_query": "personal finance audit",
+      "meta_description": "Calculate how long your savings will sustain you and plan the runway to financial freedom.",
       "archetype": "financial_runway",
-      "direct_answer": "Your financial runway is the period your current assets can sustain your lifestyle without additional income.",
+      "direct_answer": "Your current runway is X months based on expenses and cash reserves.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "List all monthly income sources.",
-          "Add fixed expenses and calculate net cash flow.",
-          "Determine how many months your savings cover the net cash flow."
+          "List monthly essential expenses.",
+          "Sum total cash savings.",
+          "Divide savings by expenses to get months of runway."
         ],
         "mid": [
-          "Create a 3\u2011month expense forecast with variable costs.",
-          "Identify one expense to reduce by 10% each month.",
-          "Set up an automatic transfer to a high\u2011yield savings account."
+          "Add discretionary spending and debt payments to the expense list.",
+          "Create a 3\u2011month buffer target.",
+          "Adjust one discretionary item to meet the buffer."
         ],
         "high": [
-          "Implement the Sovereignty Framework\u2019s wealth\u2011leverage module.",
-          "Invest surplus cash into diversified low\u2011risk assets.",
-          "Schedule quarterly runway reviews with a financial coach."
+          "Implement the Wealth Buffer Blueprint from the Sovereignty Framework.",
+          "Automate savings to hit a 12\u2011month runway.",
+          "Invest surplus cash using the framework\u2019s leverage strategy."
         ]
       },
       "formula_mode": "wealth_ratio",
@@ -348,25 +348,25 @@
       "slug": "wealth-leverage-calculator",
       "title": "Wealth Leverage Calculator",
       "target_query": "wealth building techniques through investing",
-      "meta_description": "Estimate the compound growth of your investments and the leverage needed for wealth sovereignty.",
+      "meta_description": "Estimate potential returns from various investment strategies to accelerate wealth building.",
       "archetype": "financial_runway",
-      "direct_answer": "Investing $5,000 monthly at a 7% annual return yields approximately $1.2\u202fM in 20 years.",
+      "direct_answer": "Investing $X at Y% annual return could grow to $Z in 5 years.",
       "bridge_offer": "sovereignty",
       "protocols": {
         "low": [
-          "Choose a low\u2011cost index fund.",
-          "Set up automatic $500 monthly contributions.",
-          "Monitor portfolio quarterly."
+          "Enter current investable capital.",
+          "Select a single low\u2011risk investment option.",
+          "View projected 5\u2011year growth."
         ],
         "mid": [
-          "Add a diversified mix of REITs and dividend stocks.",
-          "Increase contributions by 10% annually.",
-          "Rebalance portfolio semi\u2011annually."
+          "Add a diversified portfolio mix (stocks, bonds, real estate).",
+          "Adjust risk tolerance slider.",
+          "Compare three scenario outcomes."
         ],
         "high": [
-          "Incorporate leveraged ETFs with risk controls.",
-          "Engage a wealth advisor for tax\u2011loss harvesting.",
-          "Allocate a portion to alternative assets like private equity."
+          "Apply the Compression System\u2019s investment acceleration module.",
+          "Implement quarterly rebalancing automation.",
+          "Scale with leveraged assets as guided in the program."
         ]
       },
       "formula_mode": "wealth_ratio",
@@ -1198,6 +1198,177 @@
         }
       ],
       "created_at": "2026-11-27T10:41:08.331689Z"
+    },
+    {
+      "slug": "mindset-diagnostic",
+      "title": "Mindset Diagnostic Scorecard",
+      "target_query": "mindset shift",
+      "meta_description": "Quickly assess your current mindset and identify gaps for personal sovereignty.",
+      "archetype": "sovereignty_diagnostic",
+      "direct_answer": "Your mindset score reveals where you\u2019re thriving and where you need focused growth.",
+      "bridge_offer": "sovereignty",
+      "protocols": {
+        "low": [
+          "Write down three recurring thought patterns.",
+          "Rate each pattern on a 1\u20115 impact scale.",
+          "Choose one low\u2011impact pattern to reframe today."
+        ],
+        "mid": [
+          "Complete the 10\u2011question mindset questionnaire.",
+          "Identify top two limiting beliefs.",
+          "Implement a daily affirmation routine targeting those beliefs."
+        ],
+        "high": [
+          "Enroll in the Mental Sovereignty Framework.",
+          "Follow the 30\u2011day mindset mastery plan.",
+          "Track progress with weekly reflection videos."
+        ]
+      },
+      "formula_mode": "readiness_score",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Self-Directed Standards vs External Validation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 58,
+          "unit": "/100",
+          "weight": 1.25
+        },
+        {
+          "id": "inp2",
+          "label": "Impulse & Dopamine Control Under Stress (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 52,
+          "unit": "/100",
+          "weight": 1.15
+        },
+        {
+          "id": "inp3",
+          "label": "Daily Follow-Through Without Motivation (1-100)",
+          "min": 1,
+          "max": 100,
+          "default": 60,
+          "unit": "/100",
+          "weight": 1.2
+        }
+      ],
+      "created_at": "2026-11-28T00:16:12.373578Z"
+    },
+    {
+      "slug": "gumroad-revenue-calculator",
+      "title": "Gumroad Revenue Calculator",
+      "target_query": "gumroad fees 2025",
+      "meta_description": "Estimate net earnings from Gumroad sales after fees and taxes to price digital products profitably.",
+      "archetype": "revenue_calculator",
+      "direct_answer": "After Gumroad\u2019s 8.5% fee and a 2% processing charge, you keep roughly X% of each sale.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Enter product price.",
+          "Select default fee percentages.",
+          "View net revenue per sale."
+        ],
+        "mid": [
+          "Add expected sales volume.",
+          "Include optional subscription fee.",
+          "Calculate monthly net profit."
+        ],
+        "high": [
+          "Integrate the Compression System\u2019s pricing engine.",
+          "Run A/B price tests automatically.",
+          "Scale with upsell bundles as recommended."
+        ]
+      },
+      "formula_mode": "revenue_projection",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Offer Price Point ($)",
+          "min": 10,
+          "max": 500,
+          "default": 47,
+          "unit": "$",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Target Weekly Buyers",
+          "min": 1,
+          "max": 100,
+          "default": 12,
+          "unit": "sales",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Distribution Consistency (%)",
+          "min": 10,
+          "max": 100,
+          "default": 60,
+          "unit": "%",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-28T00:16:12.373578Z"
+    },
+    {
+      "slug": "launch-efficiency-audit",
+      "title": "Launch Efficiency Audit",
+      "target_query": "digital product automation",
+      "meta_description": "Audit your product launch workflow to pinpoint bottlenecks and boost launch speed.",
+      "archetype": "execution_audit",
+      "direct_answer": "Your launch process currently loses X minutes per step due to manual handoffs.",
+      "bridge_offer": "compression",
+      "protocols": {
+        "low": [
+          "Map out each launch step on paper.",
+          "Identify any manual tasks.",
+          "Replace one manual task with a free automation tool."
+        ],
+        "mid": [
+          "Use the audit checklist to score each step.",
+          "Implement Zapier integrations for two repetitive actions.",
+          "Measure time saved after automation."
+        ],
+        "high": [
+          "Adopt the Compression System\u2019s end\u2011to\u2011end launch framework.",
+          "Integrate AI\u2011driven content creation and scheduling.",
+          "Scale to weekly product releases with zero manual effort."
+        ]
+      },
+      "formula_mode": "time_saved",
+      "inputs": [
+        {
+          "id": "inp1",
+          "label": "Weekly Hours Lost to Low-Leverage Tasks",
+          "min": 1,
+          "max": 40,
+          "default": 14,
+          "unit": "hrs",
+          "weight": 1.0
+        },
+        {
+          "id": "inp2",
+          "label": "Daily Context Switches / Distractions",
+          "min": 1,
+          "max": 30,
+          "default": 10,
+          "unit": "x",
+          "weight": 1.0
+        },
+        {
+          "id": "inp3",
+          "label": "Deep Work Blocks Completed / Week",
+          "min": 0,
+          "max": 14,
+          "default": 4,
+          "unit": "blocks",
+          "weight": 1.0
+        }
+      ],
+      "created_at": "2026-11-28T00:16:12.373578Z"
     }
   ]
 }
