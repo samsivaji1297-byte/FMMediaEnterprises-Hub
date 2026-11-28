@@ -10,4 +10,4 @@ In Secrets, GSC_SITE_URL - [https://samsivaji1297-byte.github.io/FMMediaEnterpri
 GSC_CREDENTIALS_JSON - [get it from blogger-pipeline-509101-048f2d8c738a.json file], entire file just copy and paste the entire code
 
 
-content_hub.html that sits at the base repo, latest code base came from this Gemini Chat: [https://gemini.google.com/app/8e64b06e15613a2c] - [Strategic Upgrades of Automation Engine]
+content_hub.html that sits at the base repo, latest code base came from this Gemini Chat: [https://gemini.google.com/app/8e64b06e15613a2c] - [Strategic Upgrades of Automation Engine], with a lot of the upgrades, and latest code base sitting inside of AI Google Studio called: [Further Upgrades for content_hub.html], link: [https://aistudio.google.com/prompts/1G0OUZpshif4U-8qysYrlEn7t845uZADy]
