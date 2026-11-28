@@ -427,69 +427,98 @@ def harvest_marketplace_proof():
     return list(set(proof_queries))
 
 
-def harvest_live_community_intent():
-    """Fault-tolerant pull of active buyer/user questions from public Reddit & StackExchange JSON with diagnostics."""
-    intent_phrases = set()
-    se_raw_count = 0
-    se_kept_count = 0
-    se_failures = []
-
-    se_urls = [
-        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=personal%20finance%20savings%20runway&site=money&pagesize=15",
-        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=solo%20business%20pricing%20digital%20product&site=freelancing&pagesize=15",
-        "https://api.stackexchange.com/2.3/search/excerpts?order=desc&sort=votes&q=monetization%20product%20launch&site=startups&pagesize=15"
+AUTOCOMPLETE_ARCHETYPE_PROBES = {
+    "revenue_calculator": [
+        "gumroad fee",
+        "digital product pricing",
+        "how to calculate digital product",
+        "calculator for gumroad",
+        "solo business monetization calculator",
+        "creator side hustle pricing"
+    ],
+    "financial_runway": [
+        "solo founder runway",
+        "months of runway",
+        "how to calculate financial runway",
+        "calculator for personal finance",
+        "personal finance months of runway",
+        "savings financial runway calculator",
+        "wealth building budget calculator"
+    ],
+    "execution_audit": [
+        "burnout recovery audit",
+        "dopamine detox tracker",
+        "focus score audit",
+        "execution checklist",
+        "deep work execution checklist",
+        "habit discipline burnout audit",
+        "how to calculate deep work focus"
+    ],
+    "sovereignty_diagnostic": [
+        "mental sovereignty mindset",
+        "self recognition mindset",
+        "masculinity discipline checklist",
+        "self improvement discipline scorecard",
+        "mindset shift self improvement",
+        "how to measure self discipline",
+        "calculator for habit discipline"
     ]
-    for url in se_urls:
-        data, status, err = fetch_json_with_status(url, timeout=8)
-        if err or not isinstance(data, dict):
-            se_failures.append(err or f"HTTP {status} non-dict")
-            continue
-        items = data.get("items", [])
-        se_raw_count += len(items)
-        for item in items:
-            title = item.get("title", "")
-            if title and is_niche_relevant(title):
-                intent_phrases.add(title)
-                se_kept_count += 1
+}
 
-    reddit_raw_count = 0
-    reddit_kept_count = 0
-    reddit_failures = []
-    reddit_queries = [
-        "https://www.reddit.com/r/selfimprovement/search.json?q=system+OR+framework+OR+scorecard&restrict_sr=1&sort=top&t=month&limit=15",
-        "https://www.reddit.com/r/personalfinance/search.json?q=savings+runway+OR+net+worth+OR+budget&restrict_sr=1&sort=top&t=month&limit=15",
-        "https://www.reddit.com/r/Entrepreneur/search.json?q=digital+product+pricing+OR+gumroad&restrict_sr=1&sort=top&t=month&limit=15"
-    ]
-    for r_url in reddit_queries:
-        data, status, err = fetch_json_with_status(
-            r_url,
-            headers={"User-Agent": "python:fmmedia.intent.harvester:v2.3 (by /u/fmmedia_bot)"},
-            timeout=8
+
+def harvest_google_autocomplete():
+    """Lightweight unauthenticated Google Autocomplete signal pull across all 4 core archetypes."""
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/131.0.0.0 Safari/537.36"
         )
-        if err or not isinstance(data, dict):
-            reddit_failures.append(err or f"HTTP {status} non-dict")
-            time.sleep(0.35)
-            continue
-        children = data.get("data", {}).get("children", [])
-        reddit_raw_count += len(children)
-        for child in children:
-            title = child.get("data", {}).get("title", "")
-            if title and is_niche_relevant(title):
-                intent_phrases.add(title)
-                reddit_kept_count += 1
-        time.sleep(0.35)
+    }
+    raw_count = 0
+    probe_count = 0
+    failures = []
+    deduped = []
+    seen_lower = set()
+
+    for archetype, probes in AUTOCOMPLETE_ARCHETYPE_PROBES.items():
+        for probe in probes:
+            probe_count += 1
+            q_enc = urllib.parse.quote(probe)
+            url = f"https://suggestqueries.google.com/complete/search?client=firefox&q={q_enc}"
+            data, status, err = fetch_json_with_status(url, headers=headers, timeout=5)
+            if err:
+                failures.append(f"{archetype}:'{probe}' -> {err}")
+                time.sleep(0.15)
+                continue
+
+            if not (isinstance(data, list) and len(data) > 1 and isinstance(data[1], list)):
+                failures.append(f"{archetype}:'{probe}' -> HTTP {status} unexpected payload")
+                time.sleep(0.15)
+                continue
+
+            for item in data[1]:
+                suggestion = re.sub(r"\s+", " ", str(item)).strip()
+                if not suggestion:
+                    continue
+                raw_count += 1
+                key = suggestion.lower()
+                if key in seen_lower:
+                    continue
+                if is_niche_relevant(suggestion):
+                    seen_lower.add(key)
+                    deduped.append(suggestion)
+
+            time.sleep(0.15)
 
     print(
-        f"[Intent] Pulled {len(intent_phrases)} live community signals "
-        f"(StackExchange: {se_kept_count}/{se_raw_count} kept; Reddit: {reddit_kept_count}/{reddit_raw_count} kept)."
+        f"[Intent] Pulled {len(deduped)} live Google Autocomplete queries "
+        f"({raw_count} raw suggestions across {probe_count} archetype probes)."
     )
-    if se_failures:
-        print(f"[Intent] StackExchange notices: {' | '.join(se_failures[:2])}")
-    if reddit_failures:
-        print(f"[Intent] Reddit notices (normal when runner IP is rate-limited): {' | '.join(reddit_failures[:2])}")
+    if failures:
+        print(f"[Intent] Google Autocomplete notices: {' | '.join(failures[:3])}")
 
-    return list(intent_phrases)
-
+    return deduped
 
 def harvest_gsc_telemetry():
     creds_raw = os.environ.get("GSC_CREDENTIALS_JSON", "").strip()
@@ -992,7 +1021,7 @@ def main():
                 time.sleep(0.25)
 
     all_queries.update(harvest_marketplace_proof())
-    all_queries.update(harvest_live_community_intent())
+    all_queries.update(harvest_google_autocomplete())
 
     gsc_hits, gsc_page_metrics = harvest_gsc_telemetry()
     gsc_queries = [item["query"] for item in gsc_hits]
